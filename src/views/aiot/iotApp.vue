@@ -23,7 +23,7 @@ export default {
     }
   },
   mounted() {
-    this.wechat = new Wechat()
+    // this.wechat = new Wechat()
   },
   methods: {
     onClickLeft() {
