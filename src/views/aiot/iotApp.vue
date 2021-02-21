@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import { Wechat } from '@/utils/wechat'
 import { Toast } from 'vant'
 
 export default {
