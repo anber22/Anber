@@ -5,7 +5,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 /* 引入pages*/
-const Index = () => import('../../src/views/index/index')
 const Tabbar = () => import('../../src/views/tabbar/tabbar')
 // const Profile = () => import('../pages/Profile/profile')
 // const Patient = () => import('../pages/Patient/Patient')
