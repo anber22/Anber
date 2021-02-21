@@ -5,7 +5,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 /* 引入pages*/
-const Index = () => import('../../src/views/Index')
+const Index = () => import('../../src/views/index/index')
+const Tabbar = () => import('../../src/views/tabbar/tabbar')
 // const Profile = () => import('../pages/Profile/profile')
 // const Patient = () => import('../pages/Patient/Patient')
 
@@ -16,10 +17,33 @@ export default new VueRouter({
   routes: [
     {
       path: '/',
-      component: Index,
+      component: Tabbar,
       meta: {
         showFooter: true
-      }
+      },
+      redirect: '/index',
+      children: [
+        {
+          path: '/index',
+          component: () => import('../../src/views/index/index'),
+          meta: {
+            showFooter: true
+          }
+        },
+        {
+          path: '/home',
+          component: () => import('../../src/views/home/home'),
+          meta: {
+            showFooter: true
+          }
+        }, {
+          path: '/personalCenter',
+          component: () => import('../../src/views/personalCenter/personalCenter'),
+          meta: {
+            showFooter: true
+          }
+        }
+      ]
     },
     {
       path: '/iotApp',
