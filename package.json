@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "vant": "^2.12.6",
-    "vue-router": "^3.5.1"
+    "vue-router": "^3.5.1",
+    "vuex": "^3.6.2"
   }
 }
