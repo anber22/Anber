@@ -33,7 +33,7 @@ export default {
     }
   },
   mounted() {
-    this.getEquipCountings()
+    // this.getEquipCountings()
   },
   methods: {
     getEquipCountings() {
@@ -58,7 +58,7 @@ export default {
   border-radius:5px;
   margin-top: 5%;
   display: inline-block;
-  background-image: url('/src/assets/index/equipCount.png');
+  background-image: url('/src/assets/index/equip-count.png');
   background-repeat:no-repeat ;
 background-size: contain;
 }
@@ -71,7 +71,7 @@ background-size: contain;
   margin-top: 5%;
   display: inline-block;
   margin-left: 2.7%;
-    background-image: url('/src/assets/index/equipCount.png');
+    background-image: url('/src/assets/index/equip-count.png');
   background-repeat:no-repeat ;
 background-size: contain;
 }
