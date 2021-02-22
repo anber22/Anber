@@ -52,10 +52,17 @@
       </div>
     </div>
     <!-- end -->
+    <div class="gauge-rapper">
+      <div class="inner">
+        <Gauge :data="gaugeData" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import Gauge from '@/components/echarts/gauge/Gauge'
+
 import Api from '../../../src/api/index'
 import EquipList from '@/components/index/equipList/EquipList'
 import Warning from '@/components/index/Warning/Warning'
@@ -64,10 +71,14 @@ import Config from '/config.json'
 export default {
   components: {
     EquipList,
-    Warning
+    Warning,
+    Gauge
   },
   data() {
     return {
+      gaugeData: {
+        chartId: 'gaugeId'
+      },
       equipCountings: '',
       branchesCountings: '',
       equipList: []
@@ -230,4 +241,15 @@ export default {
   height: 100%;
 }
 
+.gauge-rapper{
+  position : relative;
+  background: rgba(16, 23, 32, 1);
+  width: 100%;
+  padding-bottom : 60%;
+  display: inline-block;
+}
+.inner{
+  position : absolute;
+  top : 0; left : 0; right : 0; bottom : 0;
+}
 </style>
