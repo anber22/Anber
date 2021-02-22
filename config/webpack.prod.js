@@ -8,7 +8,7 @@ module.exports = merge(base, {
   plugins: [
     new CleanWebpackPlugin({
       cleanStaleWebpackAssets: true,
-      cleanOnceBeforeBuildPatterns: ['**/*']
+      cleanOnceBeforeBuildPatterns: [path.resolve(__dirname, "../dist")],
     })
   ]
 })

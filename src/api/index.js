@@ -21,6 +21,13 @@ class Index {
       method: 'get'
     })
   }
+  //  网点总数
+  async branchesCountings(param) {
+    return await request({
+      url: `/apis/place/countings`,
+      method: 'get'
+    })
+  }
 }
 export default new Index()
 
