@@ -15,12 +15,17 @@ module.exports = {
     index: path.resolve(__dirname, '../src/index.js')
   },
   output: {
-    filename: '[name].[chunkhash:8].js',
+    filename: 'js/[name].[chunkhash:8].js',
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/'
   },
   module: {
     rules: [
+      {
+        test:/\.js$/, //用正则匹配文件，用require或者import引入的都会匹配到
+        loader:"babel-loader", //加载器名，就是上一步安装的loader
+        exclude:/node_modules/ //排除node_modules目录，我们不加载node模块中的js哦~
+    },
       {
         test: /\.css$/,
         use: ['style-loader', 'vue-style-loader', 'css-loader']
