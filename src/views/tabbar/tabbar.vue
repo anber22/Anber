@@ -16,7 +16,6 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
@@ -30,7 +29,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .title {
   font-size: 50px;
 }

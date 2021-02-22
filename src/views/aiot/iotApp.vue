@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import { Wechat } from '@/utils/wechat'
 import { Toast } from 'vant'
 
 export default {
@@ -24,7 +23,7 @@ export default {
     }
   },
   mounted() {
-    this.wechat = new Wechat()
+    // this.wechat = new Wechat()
   },
   methods: {
     onClickLeft() {

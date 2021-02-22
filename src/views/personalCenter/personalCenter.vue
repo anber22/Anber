@@ -24,8 +24,8 @@ export default {
 }
 </script>
 
-<style scoped>
-.title {
-  font-size: 50px;
-}
+<style>
+  .title {
+    font-size: 50px;
+  }
 </style>

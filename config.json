@@ -1,0 +1,254 @@
+{
+  "router": {
+    "desc":"路由",
+    "routes": {
+      "desc":"页面路由",
+      "Dashboard": {
+        "desc":"主页",
+        "permissions": ["1", "2", "4"]
+      },
+      "Index":{
+        "desc":"主页",
+        "permissions": ["0"]
+      },
+      "AiotApp": {
+        "desc":"智慧物联",
+        "permissions": ["0"]
+      },
+      "iotApp": {
+        "desc":"物联应用",
+        "permissions": ["0"]
+      },
+      "equipResourc": {
+        "desc":"设备资源",
+        "permissions": ["9"]
+      },
+      "placeResourc": {
+        "desc":"网点资源",
+        "permissions": ["0"]
+      },
+      "WisdomVisual":{
+        "desc":"智慧视觉",
+        "permissions": ["0"]
+      },
+      "Video": {
+        "desc":"智慧视觉",
+        "permissions": ["0"]
+      },
+      "Analysis": {
+        "desc":"研判分析",
+        "permissions": ["0"]
+      },
+      "analysis": {
+        "desc":"隐患分析",
+        "permissions": ["0"]
+      },
+      "statistics": {
+        "desc":"隐患统计",
+        "permissions": ["0"]
+      },
+      "Management": {
+        "desc":"运维管理",
+        "permissions": ["0"]
+      },
+      "departmentManage": {
+        "desc":"辖区管理",
+        "permissions": ["0"]
+      },
+      "unitManage": {
+        "desc":"单位管理",
+        "permissions": ["0"]
+      },
+      "roleManage": {
+        "desc":"角色管理",
+        "permissions": ["0"]
+      },
+      "unitManage": {
+        "desc":"账号管理",
+        "permissions": ["0"]
+      },
+      "System": {
+        "desc":"系统设置",
+        "permissions": ["0"]
+      },
+      "departmentManage": {
+        "desc":"参数设置",
+        "permissions": ["0"]
+      },
+              
+      "equipmentBrand": {
+        "desc":"设备品牌",
+        "permissions": ["0"]
+      },
+      "internetOfThingsPlatform": {
+        "desc":"物流网平台",
+        "permissions": ["0"]
+      },
+      "simOperators": {
+        "desc":"SIM卡运营商",
+        "permissions": ["0"]
+      },
+      "nodeTypes": {
+        "desc":"网点类型",
+        "permissions": ["0"]
+      },
+      "pushLevelSetting": {
+        "desc":"推送等级设置",
+        "permissions": ["0"]
+      },
+      "pushManage": {
+        "desc":"推送管理",
+        "permissions": ["0"]
+      },
+      "feedbackManage": {
+        "desc":"反馈管理",
+        "permissions": ["0"]
+      },
+      "logManage": {
+        "desc":"日志管理",
+        "permissions": ["0"]
+      }
+    },
+    "components": {
+      "desc":"组件路由",
+      "Search": {
+        "desc":"内容组件",
+        "permissions": ["0"]
+      },
+      "Content-Menu": {
+        "permissions": ["0"]
+      },
+      "Search-Query-Button": {
+        "permissions": ["0"]
+      },
+      "Search-equip-Input": {
+        "permissions": ["0"]
+      }
+    }
+  },
+  "css":{
+    "desc":"css样式对应注释size==》大小；color==》颜色；position==》定位 ",
+    "size":{
+      "width":"宽度",
+      "height":"高度",
+      "fontsize":"字体大小"
+    },
+    "color":{
+      "color":"字体颜色",
+      "backgroundColor":"背景颜色"
+    },
+    "position":{
+
+    }
+  },
+  "equipList":[
+    {
+      "id":"1",
+      "name":"智慧视觉系统",
+      "imgUrl":"/src/assets/images/index/wisdom-visual.png"
+    },{
+      "id":"2",
+      "name":"环境监测系统",
+      "imgUrl":"/src/assets/images/index/environmental-monitoring.png"
+    },{
+      "id":"3",
+      "name":"塔机监测系统",
+      "imgUrl":"/src/assets/images/index/crane-monitoring.png"
+    },{
+      "id":"4",
+      "name":"烟温监测系统",
+      "imgUrl":"/src/assets/images/index/smoke-temperature-monitoring.png"
+    }
+  ],
+  "diyComponent":{
+    "desc":"自定义组件",
+    "equipCard":{
+      "desc":"设备卡片"
+
+    },
+    "equipDetailCard":{
+      "desc":"设备实时数据卡片"
+    },
+    "equipInfoCard":{
+      "desc":"设备基础信息卡片"
+    },
+    "equipStatus":{
+      "desc":"设备状态卡片"
+    },
+    "equipTabs":{
+      "desc":"设备类型tab"
+    },
+    "search":{
+      "desc":"搜索表单",
+      "lable":{
+        "content":[
+          "设备查询","类别","设备状态","所属辖区","网点类型"
+        ],
+        "css":"color:black"
+      },
+      "input":{
+        "css" :""
+      },
+      "select":{
+        "css":"width20%"
+      }
+    },
+    "table":{
+      "desc":"表格"
+    }
+  },
+  "weatherComponent": {
+    "desc": "天气组件用到的appid和appsecret，每个账户每天有500次免费的次数限制，此处一个账户用完自动使用下一个账户的appid和appsecret，但治标不治本，可去官网付费http://www.tianqiapi.com/",
+    "weatherParam": [{
+      "appid": "48767544",
+      "appsecret": "rNE2MfsY"
+    }, {
+      "appid": "62859223",
+      "appsecret": "D0QScND4"
+    }, {
+      "appid": "96234482",
+      "appsecret": "MROV9nVi"
+    }, {
+      "appid": "48519982",
+      "appsecret": "4HK1rAPo"
+    }, {
+      "appid": "97851442",
+      "appsecret": "5RGxtEoF"
+    }, {
+      "appid": "87152337",
+      "appsecret": "dxv9gjut"
+    }]
+  },
+  "url": "",
+  "indexTitle": {
+    "desc" : "title：首页标题配置项、isShow：是否显示标题、lable：标题文本、css：标题样式",
+    "isShow": true,
+    "lable": "物联网监管平台",
+    "css": {
+      "color": "black",
+      "fontSize": "29px"
+    }
+  },
+  "desc": "header字段说明：系统头部配置",
+  "header": {
+    "desc": "logo：头部左边logo图片文件名、css：头部标题样式",
+    "logo": "logo",
+    "css": {
+      "font-weight": "500",
+      "color": "#FFFFFF"
+    }
+  },
+  "indexView": {
+    "topLeftView": {
+      "component": "test1",
+      "dataObject": {
+        "title": "topLeftView动态标题",
+        "css": {
+          "color": "#333",
+          "fontSize": "29px",
+          "marginLeft": "100px"
+        }
+      }
+    }
+  }
+}

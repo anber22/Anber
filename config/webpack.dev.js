@@ -1,12 +1,12 @@
-const { merge } = require("webpack-merge");
-const base = require("./webpack.common.js");
-const webpack = require("webpack");
+const { merge } = require('webpack-merge')
+const base = require('./webpack.common.js')
+const webpack = require('webpack')
 
 module.exports = merge(base, {
-  mode: "development",
-  devtool: "source-map",
+  mode: 'development',
+  devtool: 'source-map',
   devServer: {
-    publicPath: "/",
+    publicPath: '/',
     // index: 'index.html',
     // historyApiFallback: {
     //   rewrites: [
@@ -14,11 +14,11 @@ module.exports = merge(base, {
     //   ]
     // },
     historyApiFallback: true,
-    compress: true, //启用压缩,
+    compress: true, // 启用压缩,
     // host: "0.0.0.0",
-    port: 1207, //端口
-    open: true, //自动打开浏览器
-    hot: true,
+    port: 1207, // 端口
+    open: true, // 自动打开浏览器
+    hot: true
     // proxy: {
     //   //设置代理
     //   "/dev_api": {
@@ -28,5 +28,5 @@ module.exports = merge(base, {
     //   },
     // },
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
-});
+  plugins: [new webpack.HotModuleReplacementPlugin()]
+})

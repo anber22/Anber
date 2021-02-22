@@ -38,7 +38,8 @@ export default {
         pointer: {
           itemStyle: {
             color: 'rgba(7, 219, 255, 1)'
-          }
+          },
+          offsetCenter: [0, '-10%']
         },
         axisTick: {
           distance: 4,
@@ -140,7 +141,7 @@ export default {
         ],
         zlevel: 3
       }, {
-        name: '内侧扇形1',
+        name: '扇形蒙层',
         type: 'gauge',
         // 起始角度。圆心 正右手侧为0度，正上方为90度，正左手侧为180度。
         startAngle: 180,
@@ -193,6 +194,241 @@ export default {
           { name: '数量', value: 'n' }
         ],
         zlevel: 5
+      }, {
+        name: '内层扇形1',
+        type: 'gauge',
+        // 起始角度。圆心 正右手侧为0度，正上方为90度，正左手侧为180度。
+        startAngle: 180,
+        // 结束角度。
+        endAngle: 0,
+        center: ['50%', '60%'], // 默认全局居中
+        // 半径
+        radius: '40%',
+        // 仪表盘轴线相关配置。
+        axisLine: { // 坐标轴线
+          show: true,
+          lineStyle: { // 属性lineStyle控制线条样式
+            width: 5,
+            color: [
+              [1, 'rgba(0, 192, 255, 0.15)']
+            ],
+            shadowColor: 'rgba(0, 192, 255, 1)',
+            shadowBlur: 20,
+            shadowOffsetX: 0,
+            shadowOffsetY: 2
+          }
+        },
+        // 分隔线样式。
+        splitLine: {
+          show: false
+        },
+        // 刻度样式
+        axisTick: {
+          show: false
+        },
+        // 刻度标签。
+        axisLabel: {
+          show: false
+        },
+        // 仪表盘指针。
+        pointer: {
+          show: false
+        },
+        // 仪表盘标题。
+        title: {
+          show: false
+        },
+        // 仪表盘详情，用于显示数据。
+        detail: {
+          show: false,
+          offsetCenter: [0, '-10%'],
+          formatter: '',
+          textStyle: {
+            fontSize: 0
+          }
+        },
+        data: [
+          { value: 100 }
+        ],
+        zlevel: 3
+      }, {
+        name: '内层扇形2',
+        type: 'gauge',
+        // 起始角度。圆心 正右手侧为0度，正上方为90度，正左手侧为180度。
+        startAngle: 180,
+        // 结束角度。
+        endAngle: 0,
+        center: ['50%', '60%'], // 默认全局居中
+        // 半径
+        radius: '30%',
+        // 仪表盘轴线相关配置。
+        axisLine: { // 坐标轴线
+          show: true,
+          lineStyle: { // 属性lineStyle控制线条样式
+            width: 5,
+            color: [
+              [1, 'rgba(0, 192, 255, 0.15)']
+            ],
+            shadowColor: 'rgba(0, 192, 255, 1)',
+            shadowBlur: 20,
+            shadowOffsetX: 0,
+            shadowOffsetY: 2
+          }
+        },
+        // 分隔线样式。
+        splitLine: {
+          show: false
+        },
+        // 刻度样式
+        axisTick: {
+          show: false
+        },
+        // 刻度标签。
+        axisLabel: {
+          show: false
+        },
+        // 仪表盘指针。
+        pointer: {
+          show: false
+        },
+        // 仪表盘标题。
+        title: {
+          show: false
+        },
+        // 仪表盘详情，用于显示数据。
+        detail: {
+          show: false,
+          offsetCenter: [0, '-10%'],
+          formatter: '',
+          textStyle: {
+            fontSize: 0
+          }
+        },
+        data: [
+          { value: 100 }
+        ],
+        zlevel: 3
+      }, {
+        name: '内层扇形3',
+        type: 'gauge',
+        // 起始角度。圆心 正右手侧为0度，正上方为90度，正左手侧为180度。
+        startAngle: 180,
+        // 结束角度。
+        endAngle: 0,
+        center: ['50%', '60%'], // 默认全局居中
+        // 半径
+        radius: '20%',
+        // 仪表盘轴线相关配置。
+        axisLine: { // 坐标轴线
+          show: true,
+          lineStyle: { // 属性lineStyle控制线条样式
+            width: 5,
+            color: [
+              [1, 'rgba(0, 192, 255, 0.15)']
+            ],
+            shadowColor: 'rgba(0, 192, 255, 1)',
+            shadowBlur: 20,
+            shadowOffsetX: 0,
+            shadowOffsetY: 2
+          }
+        },
+        // 分隔线样式。
+        splitLine: {
+          show: false
+        },
+        // 刻度样式
+        axisTick: {
+          show: false
+        },
+        // 刻度标签。
+        axisLabel: {
+          show: false
+        },
+        // 仪表盘指针。
+        pointer: {
+          show: false
+        },
+        // 仪表盘标题。
+        title: {
+          show: false
+        },
+        // 仪表盘详情，用于显示数据。
+        detail: {
+          show: false,
+          offsetCenter: [0, '-10%'],
+          formatter: '',
+          textStyle: {
+            fontSize: 0
+          }
+        },
+        data: [
+          { value: 100 }
+        ],
+        zlevel: 3
+      }, {
+        name: '内层扇形3',
+        type: 'gauge',
+        // 起始角度。圆心 正右手侧为0度，正上方为90度，正左手侧为180度。
+        startAngle: 180,
+        // 结束角度。
+        endAngle: 0,
+        splitNumber: 1,
+        center: ['50%', '63%'], // 默认全局居中
+        // 半径
+        radius: '119%',
+        // 仪表盘轴线相关配置。
+        axisLine: { // 坐标轴线
+          show: false,
+          lineStyle: { // 属性lineStyle控制线条样式
+            width: 10,
+            color: [
+              [1, 'rgba(0, 192, 255, 0.15)']
+            ],
+            shadowColor: 'rgba(0, 192, 255, 1)',
+            shadowBlur: 20,
+            shadowOffsetX: 0,
+            shadowOffsetY: 2
+          }
+        },
+        // 分隔线样式。
+        splitLine: {
+          show: false
+        },
+        // 刻度样式
+        axisTick: {
+          show: true,
+          splitNumber: 1,
+          length: 13,
+          lineStyle: {
+            color: 'rgba(7, 219, 255, 1)',
+            width: 5
+          }
+        },
+        // 刻度标签。
+        axisLabel: {
+          show: false
+        },
+        // 仪表盘指针。
+        pointer: {
+          show: false
+        },
+        // 仪表盘标题。
+        title: {
+          show: false
+        },
+        // 仪表盘详情，用于显示数据。
+        detail: {
+          show: false,
+          offsetCenter: [0, '-10%'],
+          formatter: '',
+          textStyle: {
+            fontSize: 0
+          }
+        },
+        data: [
+          { value: 100 }
+        ],
+        zlevel: 3
       }]
     }
 

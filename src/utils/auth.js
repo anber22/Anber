@@ -1,13 +1,13 @@
 import Cookies from 'js-cookie'
 
-const TokenKey = 'token'
+const TokenKey = 'aiot-token'
 
 export function getToken() {
   return Cookies.get(TokenKey)
 }
 
-export function setToken(token) {
-  return Cookies.set(TokenKey, token)
+export function setToken(token, data) {
+  return Cookies.set(TokenKey, token, { expires: data })
 }
 
 export function removeToken() {
