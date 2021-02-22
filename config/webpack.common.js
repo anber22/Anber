@@ -17,7 +17,7 @@ module.exports = {
   output: {
     filename: '[name].[chunkhash:8].js',
     path: path.resolve(__dirname, '../dist'),
-    publicPath: '/'
+    publicPath: ''
   },
   module: {
     rules: [
@@ -31,8 +31,8 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              limit: 50000, // 50kb以内转换成base64
-              publicPath: "/", // 外部引入时的路径前缀
+              limit: 244000, // 50kb以内转换成base64
+              // publicPath: "@/", // 外部引入时的路径前缀
               // outputPath: "assets/", // 导出的指定路径
               name: '[name].[hash:8].[ext]' // 文件名
             }
