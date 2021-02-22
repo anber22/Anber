@@ -1,6 +1,7 @@
 <template>
   <div>
     index
+    <img src="/src/assets/png/3474.jpg">
   </div>
 </template>
 

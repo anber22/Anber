@@ -13,6 +13,8 @@ const Tabbar = () => import('../../src/views/tabbar/tabbar')
 Vue.use(VueRouter)
 
 export default new VueRouter({
+  mode: 'history',
+  base: '/mobile',
   routes: [
     {
       path: '/',

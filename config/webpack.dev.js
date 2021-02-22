@@ -1,12 +1,12 @@
-const { merge } = require('webpack-merge')
-const base = require('./webpack.common.js')
-const webpack = require('webpack')
+const { merge } = require("webpack-merge");
+const base = require("./webpack.common.js");
+const webpack = require("webpack");
 
 module.exports = merge(base, {
-  mode: 'development',
-  devtool: 'source-map',
+  mode: "development",
+  devtool: "source-map",
   devServer: {
-    publicPath: '/',
+    publicPath: "/",
     // index: 'index.html',
     // historyApiFallback: {
     //   rewrites: [
@@ -29,4 +29,4 @@ module.exports = merge(base, {
     // },
   },
   plugins: [new webpack.HotModuleReplacementPlugin()]
-})
+});
