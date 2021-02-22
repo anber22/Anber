@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="tabbar-box">
     <router-view />
     <van-tabbar route>
       <van-tabbar-item replace to="/home" icon="home-o">
@@ -35,3 +35,14 @@ export default {
   font-size: 50px;
 }
 </style>
+<style>
+.tabbar-box .van-tabbar-item--active{
+  color: rgba(6, 240, 254, 1) !important;
+  background: rgba(16, 25, 32, 1);
+}
+.tabbar-box .van-tabbar-item{
+  color: rgba(147, 158, 191, 1);
+  background: rgba(16, 25, 32, 1);
+}
+</style>
+
