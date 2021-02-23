@@ -23,7 +23,7 @@ export default {
         startAngle: 180,
         endAngle: 0,
         radius: '100%',
-        center: ['50%', '60%'],
+        center: ['50%', '65%'],
         // 仪表盘轴线相关配置。
         axisLine: { // 顶部的轴
           lineStyle: {
@@ -64,7 +64,7 @@ export default {
         },
         detail: {
           valueAnimation: true,
-          // formatter: '{value} km/h',
+          offsetCenter: [0, '30%'],
           formatter: [
             '{a|设备在线率：}',
             '{b|{value}%}'
@@ -94,9 +94,9 @@ export default {
         startAngle: 180,
         // 结束角度。
         endAngle: 0,
-        center: ['50%', '60%'], // 默认全局居中
+        center: ['50%', '65%'], // 默认全局居中
         // 半径
-        radius: '106%',
+        radius: '105%',
         // 仪表盘轴线相关配置。
         axisLine: { // 坐标轴线
           show: true,
@@ -147,7 +147,7 @@ export default {
         startAngle: 180,
         // 结束角度。
         endAngle: 0,
-        center: ['50%', '60%'], // 默认全局居中
+        center: ['50%', '65%'], // 默认全局居中
         // 半径
         radius: '100%',
         // 仪表盘轴线相关配置。
@@ -201,7 +201,7 @@ export default {
         startAngle: 180,
         // 结束角度。
         endAngle: 0,
-        center: ['50%', '60%'], // 默认全局居中
+        center: ['50%', '65%'], // 默认全局居中
         // 半径
         radius: '40%',
         // 仪表盘轴线相关配置。
@@ -258,7 +258,7 @@ export default {
         startAngle: 180,
         // 结束角度。
         endAngle: 0,
-        center: ['50%', '60%'], // 默认全局居中
+        center: ['50%', '65%'], // 默认全局居中
         // 半径
         radius: '30%',
         // 仪表盘轴线相关配置。
@@ -315,7 +315,7 @@ export default {
         startAngle: 180,
         // 结束角度。
         endAngle: 0,
-        center: ['50%', '60%'], // 默认全局居中
+        center: ['50%', '65%'], // 默认全局居中
         // 半径
         radius: '20%',
         // 仪表盘轴线相关配置。
@@ -366,16 +366,16 @@ export default {
         ],
         zlevel: 3
       }, {
-        name: '内层扇形3',
+        name: '仪表盘底部2个大的刻度线',
         type: 'gauge',
         // 起始角度。圆心 正右手侧为0度，正上方为90度，正左手侧为180度。
         startAngle: 180,
         // 结束角度。
         endAngle: 0,
         splitNumber: 1,
-        center: ['50%', '63%'], // 默认全局居中
+        center: ['50%', '68%'], // 默认全局居中
         // 半径
-        radius: '119%',
+        radius: '120%',
         // 仪表盘轴线相关配置。
         axisLine: { // 坐标轴线
           show: false,
