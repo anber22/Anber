@@ -28,6 +28,13 @@
       </div>
     </div>
     <!-- end -->
+    <!-- 设备在线率 start -->
+    <div class="gauge-content">
+      <div class="inside-content">
+        <Gauge :data="gaugeData" />
+      </div>
+    </div>
+    <!-- end -->
     <!-- 实时预警 start -->
     <div class="title-box">
       <div class="inside-content">
@@ -58,21 +65,50 @@
       </div>
     </div>
     <!-- end -->
+
+    <!-- 辖区统计 start  -->
+    <div class="title-box">
+      <div class="inside-content">
+        <div class="title-style" />
+        <div class="title-name">
+          辖区统计
+        </div>
+      </div>
+    </div>
+    <DepartCount :data="departCountData" />
+    <div class="maxPie-content">
+      <div class="inside-content">
+        <MaxPie v-if="maxPieDataFlag" :data="maxPieData" @activeType="activeType" />
+      </div>
+    </div>
+    <div class="max-line-content">
+      <div class="inside-content">
+        <MaxLine v-if="lineDataFlag" :data="lineData" />
+      </div>
+    </div>
+    <!-- end -->
   </div>
 </template>
 
 <script>
 import Gauge from '@/components/echarts/gauge/Gauge'
-
+import MaxPie from '@/components/echarts/maxPie/MaxPie'
+import MaxLine from '@/components/echarts/line/Line'
 import Api from '../../../src/api/index'
 import EquipList from '@/components/index/equipList/EquipList'
 import Warning from '@/components/index/Warning/Warning'
 import Config from '/config.json'
+
+import DepartCount from '@/components/index/departCount/DepartCount'
+
 export default {
   components: {
     EquipList,
     Warning,
-    Gauge
+    Gauge,
+    MaxPie,
+    MaxLine,
+    DepartCount
   },
   data() {
     return {
@@ -81,7 +117,29 @@ export default {
       },
       equipCountings: '',
       branchesCountings: '',
-      equipList: []
+      equipList: [],
+      maxPieData: {
+        chartId: 'maxPieChartId',
+        data: []
+      },
+      maxPieDataFlag: false,
+      lineData: {
+        chartId: 'lineChartId', // 饼图的id
+        title: '隐患分析（近15天)',
+        xAxis: {
+          data: []
+        },
+        yAxis: {
+          splitLineColor: 'rgba(192, 203, 220, 0.3)'
+        },
+        series: {
+          data: [],
+          smooth: true
+        }
+      },
+      lineDataFlag: false,
+      departCountList: [],
+      departCountData: {}
     }
   },
   mounted() {
@@ -91,6 +149,8 @@ export default {
     this.getEquipCountings()
     this.getBranchesCountings()
     this.getEquipList()
+    this.getTroubleAnalysis('12345')
+    this.getDepartCounting()
   },
   methods: {
     /**
@@ -115,7 +175,6 @@ export default {
     async getEquipList() {
       const res = await Api.applicationlist()
       this.equipList = [...res.data]
-
       const arryNew = []
       // 过滤 config 的equipList ，拿出对应的imgUrl
       this.equipList.forEach(item => {
@@ -129,6 +188,62 @@ export default {
       })
       console.log(arryNew)
       this.equipList = arryNew
+    },
+    /**
+     * 辖区统计选中的辖区ID，并筛选当前辖区的数据出来
+     */
+    activeType(type) {
+      this.lineDataFlag = false
+      const countObj = this.departCountList.filter(item => {
+        return type === item.departId
+      })
+      this.departCountData = {
+        online: countObj[0].data.online,
+        outline: countObj[0].data.outline,
+        trouble: countObj[0].data.trouble
+      }
+      this.getTroubleAnalysis(type)
+    },
+    /**
+     * 获取辖区统计数据
+     */
+    async getDepartCounting() {
+      const res = await Api.departCounting()
+      if (res.code === 200) {
+        this.departCountList = [...res.data]
+        const dataArr = [...res.data]
+        dataArr.forEach(item => {
+          this.maxPieData.data.push({
+            value: item.data.trouble,
+            name: item.departName,
+            type: item.departId,
+            count: item.data.count
+          })
+        })
+        this.departCountData = {
+          online: dataArr[0].data.online,
+          outline: dataArr[0].data.outline,
+          trouble: dataArr[0].data.trouble
+        }
+        this.maxPieDataFlag = true
+      }
+    },
+    /**
+     * 15天隐患分析
+     */
+    async getTroubleAnalysis(id) {
+      const departId = id
+      const res = await Api.troubleAnalysis(departId)
+      this.lineData.xAxis.data = []
+      this.lineData.series.data = []
+      if (res.code === 200) {
+        const dataArr = [...res.data.list]
+        dataArr.forEach(item => {
+          this.lineData.xAxis.data.push(item.date.substring(4, 6) + '.' + item.date.substring(6, 8))
+          this.lineData.series.data.push(item.count)
+        })
+        this.lineDataFlag = true
+      }
     }
 
   }
@@ -138,7 +253,7 @@ export default {
 <style >
 .index{
   width: 92%;
-  height: 2000px;
+  height: auto;
   padding: 0px 4% 0px 4%;
   background-color: rgba(16, 23, 32, 1);
 }
@@ -164,7 +279,6 @@ export default {
 .warning-box{
   width: 100%;
   position : relative;
-  /* background: #ccc; */
   padding-bottom : 12.75%;
   padding-right: 0px;
 
@@ -226,7 +340,6 @@ export default {
 .equipList-box{
  width: 100%;
   position : relative;
-  /* background: #ccc; */
   padding-bottom : 120.75%;
   padding-right: 0px;
 
@@ -236,15 +349,22 @@ export default {
   height: 100%;
 }
 
-.gauge-rapper{
+.gauge-content{
   position : relative;
-  background: rgba(16, 23, 32, 1);
   width: 100%;
-  padding-bottom : 60%;
+  padding-bottom : 66%;
   display: inline-block;
 }
-.inner{
-  position : absolute;
-  top : 0; left : 0; right : 0; bottom : 0;
+.maxPie-content{
+  position : relative;
+  width: 100%;
+  padding-bottom : 70%;
+  display: inline-block;
+}
+.max-line-content{
+  position : relative;
+  width: 100%;
+  padding-bottom : 56%;
+  display: inline-block;
 }
 </style>

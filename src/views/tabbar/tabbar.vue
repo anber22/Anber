@@ -1,7 +1,7 @@
 <template>
   <div class="tabbar-box">
     <router-view />
-    <van-tabbar route>
+    <van-tabbar route class="van-tabbar-box">
       <van-tabbar-item replace to="/home" icon="home-o">
         首页
       </van-tabbar-item>
@@ -42,6 +42,9 @@ export default {
 .tabbar-box .van-tabbar-item{
   color: rgba(147, 158, 191, 1);
   background: rgba(16, 25, 32, 1);
+}
+.van-tabbar-box{
+  z-index: 10
 }
 </style>
 

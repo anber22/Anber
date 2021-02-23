@@ -28,6 +28,20 @@ class Index {
       method: 'get'
     })
   }
+  // 首页左上角辖区统计
+  async departCounting() {
+    return await request({
+      url: `/apis/depart/equip/status/counting`,
+      method: 'get'
+    })
+  }
+  // 隐患分析近15天
+  async troubleAnalysis(param) {
+    return await request({
+      url: `/apis/equip/heartbeat/trouble/latest/counting?departId=${param}`,
+      method: 'get'
+    })
+  }
 }
 export default new Index()
 
