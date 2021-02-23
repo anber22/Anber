@@ -35,7 +35,7 @@
 </template>
 
 <script>
-
+import Socket from '../../../utils/socket'
 export default {
   components: {
 
@@ -72,6 +72,9 @@ export default {
   },
   mounted() {
     setInterval(this.startPlay, 2000)
+    setTimeout(() => {
+      Socket.initSocket('equipCount')
+    }, 1000)
   },
   destroyed() { // 页面销毁时清除定时器
     clearInterval(this.timer)
