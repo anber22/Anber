@@ -1,24 +1,30 @@
 <template>
   <div class="index">
     <!-- 顶部设备网点数量统计 start -->
-    <div class="equip-count">
-      <div class="inside-content">
-        <div class="count-title">
-          设备总数
-        </div>
-        <div class="count-value">
-          {{ equipCountings }}
-        </div>
+    <Adaptive class="equip-count" :data="['47.9%','18.67%']">
+      <div class="count-title">
+        设备总数
       </div>
-    </div>
-    <div class="branches-count">
-      <div class="inside-content">
-        <div class="count-title">
-          网点数
-        </div>
-        <div class="count-value">
-          {{ branchesCountings }}
-        </div>
+      <div class="count-value">
+        {{ equipCountings }}
+      </div>
+    </Adaptive>
+    <!-- <div class="equip-count">
+      <div class="inside-content" />
+    </div> -->
+    <Adaptive class="branches-count" :data="['47.9%','18.67%']">
+      <div class="count-title">
+        网点数
+      </div>
+      <div class="count-value">
+        {{ branchesCountings }}
+      </div>
+    </Adaptive>
+    <!-- end -->
+    <!-- 仪表盘 start -->
+    <div class="gauge-rapper">
+      <div class="inner">
+        <Gauge :data="gaugeData" />
       </div>
     </div>
     <!-- end -->
@@ -52,11 +58,6 @@
       </div>
     </div>
     <!-- end -->
-    <div class="gauge-rapper">
-      <div class="inner">
-        <Gauge :data="gaugeData" />
-      </div>
-    </div>
   </div>
 </template>
 
@@ -67,7 +68,6 @@ import Api from '../../../src/api/index'
 import EquipList from '@/components/index/equipList/EquipList'
 import Warning from '@/components/index/Warning/Warning'
 import Config from '/config.json'
-
 export default {
   components: {
     EquipList,
@@ -85,6 +85,9 @@ export default {
     }
   },
   mounted() {
+    // setTimeout(() => {
+    //   this.socket()
+    // }, 1000)
     this.getEquipCountings()
     this.getBranchesCountings()
     this.getEquipList()
@@ -127,6 +130,7 @@ export default {
       console.log(arryNew)
       this.equipList = arryNew
     }
+
   }
 }
 </script>
@@ -139,10 +143,6 @@ export default {
   background-color: rgba(16, 23, 32, 1);
 }
 .equip-count{
-  width: 47.9%;
-  position : relative;
-  /* background: #ccc; */
-  padding-bottom : 18.67%;
   border-radius:5px;
   margin-top: 5%;
   padding-right: 0px;
@@ -152,17 +152,12 @@ export default {
   background-size: cover;
 }
 .branches-count{
-  width: 47.9%;
-  position : relative;
-  /* background: #ccc; */
-  padding-bottom : 18.67%;
   padding-right: 0px;
-
   border-radius:5px;
   margin-top: 5%;
   display: inline-block;
   margin-left: 2.7%;
-    background-image: url('/src/assets/images/index/branches-count.png');
+  background-image: url('/src/assets/images/index/branches-count.png');
   background-repeat:no-repeat ;
   background-size: cover;
 }
