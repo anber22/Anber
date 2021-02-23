@@ -9,9 +9,6 @@
         {{ equipCountings }}
       </div>
     </Adaptive>
-    <!-- <div class="equip-count">
-      <div class="inside-content" />
-    </div> -->
     <Adaptive class="branches-count" :data="['47.9%','18.67%']">
       <div class="count-title">
         网点数
@@ -21,77 +18,54 @@
       </div>
     </Adaptive>
     <!-- end -->
-    <!-- 仪表盘 start -->
-    <div class="gauge-rapper">
-      <div class="inner">
-        <Gauge :data="gaugeData" />
-      </div>
-    </div>
-    <!-- end -->
     <!-- 设备在线率 start -->
-    <div class="gauge-content">
-      <div class="inside-content">
-        <Gauge :data="gaugeData" />
-      </div>
-    </div>
+    <Adaptive :data="['100%','66%']">
+      <Gauge :data="gaugeData" />
+    </Adaptive>
     <!-- end -->
     <!-- 实时预警 start -->
-    <div class="title-box">
-      <div class="inside-content">
-        <div class="title-style" />
-        <div class="title-name">
-          实时预警
-        </div>
+    <Adaptive :data="['100%','5.57%']" class="title-box">
+      <div class="title-style" />
+      <div class="title-name">
+        实时预警
       </div>
-    </div>
-    <div class="warning-box">
-      <div class="inside-content">
-        <Warning class="warning" />
-      </div>
-    </div>
+    </Adaptive>
+    <Adaptive :data="['100%','12.75%']" class="warning-box">
+      <Warning class="warning" />
+    </Adaptive>
     <!-- end -->
     <!-- 应用列表 start -->
-    <div class="title-box">
-      <div class="inside-content">
-        <div class="title-style" />
-        <div class="title-name">
-          应用列表
-        </div>
+    <Adaptive :data="['100%','5.57%']" class="title-box">
+      <div class="title-style" />
+      <div class="title-name">
+        应用列表
       </div>
-    </div>
-    <div class="equipList-box">
-      <div class="inside-content">
-        <EquipList :data="equipList" class="equipList" />
-      </div>
-    </div>
+    </Adaptive>
+    <Adaptive :data="['100%','120.75%']" class="equipList-box">
+      <EquipList :data="equipList" class="equipList" />
+    </Adaptive>
     <!-- end -->
 
     <!-- 辖区统计 start  -->
-    <div class="title-box">
-      <div class="inside-content">
-        <div class="title-style" />
-        <div class="title-name">
-          辖区统计
-        </div>
+    <Adaptive :data="['100%','5.57%']" class="title-box">
+      <div class="title-style" />
+      <div class="title-name">
+        辖区统计
       </div>
-    </div>
+    </Adaptive>
     <DepartCount :data="departCountData" />
-    <div class="maxPie-content">
-      <div class="inside-content">
-        <MaxPie v-if="maxPieDataFlag" :data="maxPieData" @activeType="activeType" />
-      </div>
-    </div>
-    <div class="max-line-content">
-      <div class="inside-content">
-        <MaxLine v-if="lineDataFlag" :data="lineData" />
-      </div>
-    </div>
+    <Adaptive :data="['100%','70%']">
+      <MaxPie v-if="maxPieDataFlag" :data="maxPieData" @activeType="activeType" />
+    </Adaptive>
+    <Adaptive :data="['100%','56%']">
+      <MaxLine v-if="lineDataFlag" :data="lineData" />
+    </Adaptive>
     <!-- end -->
-    <div class="eventsList-content">
-      <div class="inside-content">
-        <Events :data="eventData" @systemType="getSystemType" />
-      </div>
-    </div>
+    <!-- 事件数故障数统计分析 start  -->
+    <Adaptive :data="['100%','104%']">
+      <Events :data="eventData" @systemType="getSystemType" />
+    </Adaptive>
+    <!-- end -->
   </div>
 </template>
 
@@ -342,19 +316,8 @@ export default {
   background-size: cover;
 }
 .warning-box{
-  width: 100%;
-  position : relative;
-  padding-bottom : 12.75%;
   padding-right: 0px;
-
   margin-top: 8%;
-}
-.inside-content{
-  position : absolute;
-  top : 0;
-  left : 0;
-  right : 0;
-  bottom : 0;
 }
 .count-title{
   width: 100%;
@@ -377,9 +340,6 @@ export default {
 }
 /* 标题  start*/
 .title-box{
-  width: 100%;
-  position : relative;
-  padding-bottom : 5.57%;
   margin-top: 8%;
   margin-bottom: 2%;
 }
@@ -388,7 +348,6 @@ export default {
   height: 100%;
   background:-webkit-gradient(linear, 100% 100%, 0% 100%,from(#008EFF), to(#1DF2FF));
   display: inline-block;
-
   border-top-right-radius: 6px;
   border-bottom-left-radius: 6px;
 }
@@ -403,39 +362,10 @@ export default {
 }
 /* end */
 .equipList-box{
- width: 100%;
-  position : relative;
-  padding-bottom : 120.75%;
   padding-right: 0px;
-
 }
 .equipList{
   width: 100%;
   height: 100%;
-}
-
-.gauge-content{
-  position : relative;
-  width: 100%;
-  padding-bottom : 66%;
-  display: inline-block;
-}
-.maxPie-content{
-  position : relative;
-  width: 100%;
-  padding-bottom : 70%;
-  display: inline-block;
-}
-.max-line-content{
-  position : relative;
-  width: 100%;
-  padding-bottom : 56%;
-  display: inline-block;
-}
-.eventsList-content{
-  position : relative;
-  width: 100%;
-  padding-bottom : 104%;
-  display: inline-block;
 }
 </style>
