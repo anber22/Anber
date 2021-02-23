@@ -80,6 +80,11 @@
       </div>
     </div>
     <!-- end -->
+    <div class="eventsList-content">
+      <div class="inside-content">
+        <Events :data="eventData" @systemType="getSystemType" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -92,6 +97,7 @@ import EquipList from '@/components/index/equipList/EquipList'
 import Warning from '@/components/index/Warning/Warning'
 import Config from '/config.json'
 import DepartCount from '@/components/index/departCount/DepartCount'
+import Events from '@/components/index/events/Events'
 
 export default {
   components: {
@@ -100,7 +106,8 @@ export default {
     Gauge,
     MaxPie,
     MaxLine,
-    DepartCount
+    DepartCount,
+    Events
   },
   data() {
     return {
@@ -131,15 +138,46 @@ export default {
       },
       lineDataFlag: false,
       departCountList: [],
-      departCountData: {}
+      departCountData: {},
+      eventData: {
+        cityList: [
+          {
+            value: 1,
+            label: '智慧视觉统计统'
+          },
+          {
+            value: 2,
+            label: '环境监测统计统'
+          },
+          {
+            value: 3,
+            label: '塔机监测统计'
+          }
+        ],
+        analysisTimelineData: {
+          chartId: 'analysisTimelineChartId', // 饼图的id
+          xAxis: {
+            data: []
+          },
+          yAxis: {
+            splitLineColor: 'rgba(255, 255, 255, 0.05)'
+          },
+          series: {
+            data: [],
+            data2: [],
+            smooth: true
+          }
+        },
+        analysisTimelineFlag: false
+      }
     }
   },
   mounted() {
     this.getEquipCountings()
     this.getBranchesCountings()
     this.getEquipList()
-    this.getTroubleAnalysis('12345')
     this.getDepartCounting()
+    this.getAnalysisTimeline(1) // 近15日统计 system为1
   },
   methods: {
     /**
@@ -209,6 +247,8 @@ export default {
             count: item.data.count
           })
         })
+        // 使用当前第一个辖区id去获取该辖区隐患分析数据---折线图数据
+        this.getTroubleAnalysis(dataArr[0].departId)
         this.departCountData = {
           online: dataArr[0].data.online,
           outline: dataArr[0].data.outline,
@@ -233,12 +273,37 @@ export default {
         })
         this.lineDataFlag = true
       }
+    },
+    /**
+     * 近15日事件统计
+     */
+    async getAnalysisTimeline(system) {
+      this.eventData.analysisTimelineData.xAxis.data = []
+      this.eventData.analysisTimelineData.series.data = []
+      this.eventData.analysisTimelineData.series.data2 = []
+      const res = await Api.analysisTimeline(system)
+      if (res.code === 200) {
+        const day = [...res.data.list]
+        day.forEach((item) => {
+          this.eventData.analysisTimelineData.xAxis.data.push(item.date.substring(4, 6) + '.' + item.date.substring(6, 8))
+          this.eventData.analysisTimelineData.series.data.push(item.eventCount)
+          this.eventData.analysisTimelineData.series.data2.push(item.errorCount)
+        })
+        this.eventData.analysisTimelineFlag = true
+      }
+    },
+    /**
+     * 从近15日事件统计Event组件传过来的选定的子系统，用于重新渲染图表数据
+     */
+    getSystemType(value) {
+      this.eventData.analysisTimelineFlag = false
+      this.getAnalysisTimeline(value)
     }
   }
 }
 </script>
 
-<style >
+<style scoped>
 .index{
   width: 92%;
   height: auto;
@@ -360,6 +425,12 @@ export default {
   position : relative;
   width: 100%;
   padding-bottom : 56%;
+  display: inline-block;
+}
+.eventsList-content{
+  position : relative;
+  width: 100%;
+  padding-bottom : 104%;
   display: inline-block;
 }
 </style>

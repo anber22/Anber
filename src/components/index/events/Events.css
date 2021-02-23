@@ -1,0 +1,95 @@
+.events-content{
+  position : relative;
+  width: 100%;
+  display: inline-block;
+}
+.inside-content{
+  position : absolute;
+  top : 0;
+  left : 0;
+  right : 0;
+  bottom : 0;
+}
+.title>img{
+  width: 12px;
+  height: auto;
+}
+.systemOption{
+  color: #A3D5FF;
+}
+.analysisTimeline{
+  width: 100%;
+  height: 50%;
+  margin-top: 10px;
+}
+.count-content{
+  width: 40%;
+  float: right;
+  top: 2px;
+  position: relative;
+}
+.eventCounting{
+  color: rgba(254, 255, 255, 1);
+  font-size: 10px;
+  margin-left: 30px;
+}
+.eventCounting{
+  position: relative;
+}
+.eventCounting::after{
+  position: absolute;
+  content: '';
+  width: 7px;
+  height: 1px;
+  top: 7px;
+  left: -14px;
+  background: rgba(40, 255, 187, 1);
+}
+.errorCounting::after{
+  background: rgba(24, 186, 250, 1);
+}
+/* 标题  start*/
+.title-box{
+  width: 100%;
+  height: 20px;
+  position : relative;
+  padding-bottom : 5.57%;
+  margin-top: 8%;
+  margin-bottom: 2%;
+}
+.title-box::after{
+  display: block;
+  content: '';
+  clear: both;
+  overflow: hidden;
+}
+.title-style{
+  width: 1.2%;
+  height: 100%;
+  background:-webkit-gradient(linear, 100% 100%, 0% 100%,from(#008EFF), to(#1DF2FF));
+  display: inline-block;
+
+  border-top-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+.title-name{
+  width: auto;
+  height: 100%;
+  display: inline-block;
+  font-size: 20px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #B9CEE9;
+  position: relative;
+}
+/* end */
+/* 下拉框样式开始 */
+.system-select{
+  position: absolute;
+  color: rgba(185, 206, 233, 1);  
+  font-size: 20px;
+  border: none;
+  background: none;
+  top: 2px;
+}
+/* end */
