@@ -4,11 +4,6 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 
 module.exports = {
-  performance: {
-    hints: 'error', 
-    maxAssetSize: 300000, // 整数类型（以字节为单位）
-    maxEntrypointSize: 500000 // 整数类型（以字节为单位）
-  },
   resolve: {
     extensions: ['.js', '.vue', '.scss', '.css'], // 后缀名自动补全
     alias: {
@@ -37,9 +32,10 @@ module.exports = {
             loader: 'url-loader',
             options: {
               limit: 244000, // 50kb以内转换成base64
-              publicPath: "/img", // 外部引入时的路径前缀
+              // publicPath: "/img", // 外部引入时的路径前缀
               // outputPath: "assets/", // 导出的指定路径
-              name: 'img/[name].[hash:8].[ext]' // 文件名
+              name: '[name].[hash:8].[ext]', // 文件名
+              exclude: /node_modules/
             }
           }
         ]
@@ -52,6 +48,21 @@ module.exports = {
       {
         test: /\.vue$/,
         use: ['vue-loader']
+      },
+      {
+        test: /\.(html)$/,
+        loader: 'html-loader',
+        options: {
+          sources: {
+            list: [
+              {
+                tag: 'img',
+                attribute: 'data-src',
+                type: 'src'
+              }
+            ]
+          }
+        }
       }
     ]
   },
