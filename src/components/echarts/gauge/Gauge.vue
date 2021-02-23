@@ -366,7 +366,7 @@ export default {
         ],
         zlevel: 3
       }, {
-        name: '内层扇形3',
+        name: '仪表盘底部2个大的刻度线',
         type: 'gauge',
         // 起始角度。圆心 正右手侧为0度，正上方为90度，正左手侧为180度。
         startAngle: 180,
