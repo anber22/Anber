@@ -42,6 +42,13 @@ class Index {
       method: 'get'
     })
   }
+  // 监测分析（全部）
+  async monitorAnalysis(param) {
+    return await request({
+      url: `/apis/equip/system/${param}/heartbeat/analysis/latest`,
+      method: 'get'
+    })
+  }
 }
 export default new Index()
 

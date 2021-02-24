@@ -46,7 +46,6 @@ export default {
     init() {
       this.departName = this.data.data[0].name
       this.count = this.data.data[0].value
-      console.log(this.data.data, 'data.data')
       var myChart = this.$echarts.init(document.getElementById(this.data.chartId))
       var option = {
         tooltip: {

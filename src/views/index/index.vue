@@ -61,6 +61,11 @@
       <MaxLine v-if="lineDataFlag" :data="lineData" />
     </Adaptive>
     <!-- end -->
+    <!-- 监测分析，近一月/近一年/全部 -->
+    <Adaptive :data="['100%','110%']">
+      <MonitorAnalysis :data="monitorAnalysisData" />
+    </Adaptive>
+    <!-- end -->
     <!-- 事件数故障数统计分析 start  -->
     <Adaptive :data="['100%','104%']">
       <Events :data="eventData" @systemType="getSystemType" />
@@ -80,6 +85,7 @@ import Config from '/config.json'
 
 import DepartCount from '@/components/index/departCount/DepartCount'
 import Events from '@/components/index/events/Events'
+import MonitorAnalysis from '@/components/index/monitorAnalysis/MonitorAnalysis'
 
 export default {
   components: {
@@ -89,7 +95,8 @@ export default {
     MaxPie,
     MaxLine,
     DepartCount,
-    Events
+    Events,
+    MonitorAnalysis
   },
   data() {
     return {
@@ -122,7 +129,7 @@ export default {
       departCountList: [],
       departCountData: {},
       eventData: {
-        cityList: [
+        equitType: [
           {
             value: 1,
             label: '智慧视觉统计统'
@@ -151,7 +158,44 @@ export default {
           }
         },
         analysisTimelineFlag: false
+      },
+      monitorAnalysisData: {
+        equipType: [
+          {
+            value: 1,
+            label: '智慧视觉统计统'
+          },
+          {
+            value: 2,
+            label: '环境监测统计统'
+          },
+          {
+            value: 3,
+            label: '塔机监测统计'
+          }
+        ],
+        dateType: [
+          {
+            value: 1,
+            label: '近1月'
+          },
+          {
+            value: 2,
+            label: '近1年'
+          },
+          {
+            value: 3,
+            label: '全部'
+          }
+        ],
+        pieData: {
+          chartId: 'monitorAnalysisChartId', // 饼图的id
+          data: [],
+          title: ''
+        },
+        monitorAnalysisFlag: false
       }
+
     }
   },
   mounted() {
@@ -162,7 +206,6 @@ export default {
     this.getBranchesCountings()
     this.getEquipList()
     this.getDepartCounting()
-    this.getAnalysisTimeline(1) // 近15日统计 system为1
   },
   methods: {
     /**
@@ -198,7 +241,8 @@ export default {
           }
         })
       })
-      console.log(arryNew)
+      this.getAnalysisTimeline(arryNew[0].id) // 用应用列表里的第一个子系统获取15天事件和故障数统计数据
+      this.getMonitorAnalysis(arryNew[0].id) // 用应用列表里的第一个子系统获取监测分析数据
       this.equipList = arryNew
     },
     /**
@@ -245,8 +289,7 @@ export default {
     /**
      * 15天隐患分析
      */
-    async getTroubleAnalysis(id) {
-      const departId = id
+    async getTroubleAnalysis(departId) {
       const res = await Api.troubleAnalysis(departId)
       this.lineData.xAxis.data = []
       this.lineData.series.data = []
@@ -283,6 +326,26 @@ export default {
     getSystemType(value) {
       this.eventData.analysisTimelineFlag = false
       this.getAnalysisTimeline(value)
+    },
+    /**
+     * 监测分析（全部）
+     */
+    async getMonitorAnalysis(system) {
+      const res = await Api.monitorAnalysis(system)
+      this.monitorAnalysisData.pieData.data = []
+      this.monitorAnalysisData.pieData.title = ''
+      if (res.code === 200) {
+        const dataArr = [...res.data.event]
+        dataArr.forEach(item => {
+          this.monitorAnalysisData.pieData.data.push({
+            value: item.eventCount,
+            name: item.eventName,
+            precent: item.eventPrecent
+          })
+        })
+        this.monitorAnalysisData.pieData.title = res.data.count
+        this.monitorAnalysisData.monitorAnalysisFlag = true
+      }
     }
 
   }

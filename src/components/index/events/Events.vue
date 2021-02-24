@@ -4,15 +4,17 @@
     <div class="title-box">
       <div class="title-style" />
       <div class="title-name">
-        <Select v-model="systemType" size="small" class="system-select" @on-change="onChangeSystemType">
-          <Option v-for="item in data.cityList" :key="item.value" class="systemOption" :value="item.value">
-            {{ item.label }}
-          </Option>
-        </Select>
-      </div>
-      <div class="count-content">
-        <span class="eventCounting">事件数</span>
-        <span class="eventCounting errorCounting">故障数</span>
+        <div style="margin-left: 4px">
+          <Select v-model="systemType" size="small" class="system-select" @on-change="onChangeSystemType">
+            <Option v-for="item in data.equitType" :key="item.value" class="systemOption" :value="item.value">
+              {{ item.label }}
+            </Option>
+          </Select>
+        </div>
+        <div>
+          <span class="eventCounting">事件数</span>
+          <span class="eventCounting errorCounting">故障数</span>
+        </div>
       </div>
     </div>
     <div class="">
