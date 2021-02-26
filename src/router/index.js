@@ -50,6 +50,20 @@ export default new VueRouter({
       meta: {
         showFooter: true
       }
+    },
+    {
+      path: '/video',
+      component: () => import('@/views/video/video'),
+      meta: {
+        showFooter: true
+      }
+    },
+    {
+      path: '/videoPlayer',
+      component: () => import('@/views/videoPlayer/videoPlayer'),
+      meta: {
+        showFooter: true
+      }
     }
     // {
     //   path: '/profile',

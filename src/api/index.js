@@ -45,7 +45,21 @@ class Index {
   // 监测分析（全部）
   async monitorAnalysis(param) {
     return await request({
-      url: `/apis/equip/system/${param}/heartbeat/analysis/latest`,
+      url: `/apis/heartbeat/system/${param}/heartbeat/analysis/latest`,
+      method: 'get'
+    })
+  }
+  // 监测分析（1月）
+  async monitorAnalysisMonth(param) {
+    return await request({
+      url: `/apis/heartbeat/system/${param}/analysis/latest/month/1`,
+      method: 'get'
+    })
+  }
+  // 监测分析（1年）
+  async monitorAnalysisYear(param) {
+    return await request({
+      url: `/apis/heartbeat/system/${param}/analysis/latest/year/1`,
       method: 'get'
     })
   }

@@ -42,6 +42,9 @@ export default {
           var dotHtml2 = '<span style="display:inline-block;margin-right:5px;margin-bottom: 4px;width:13px;height:2px;background-color:rgba(24, 186, 250, 1)"></span>'
           result += dotHtml + '事件数 ' + params[0].data + '</br>' + dotHtml2 + '故障数 ' + params[1].data
           return result
+        },
+        textStyle: {
+          color: 'rgba(111, 133, 162, 1)'
         }
       },
       legend: {
@@ -117,11 +120,11 @@ export default {
             x2: 0,
             y2: 1,
             colorStops: [{
-              offset: 0, color: 'rgba(40, 255, 187, 0.1)' // 0% 处的颜色
+              offset: 0, color: 'rgba(40, 255, 187, 0.2)' // 0% 处的颜色
             }, {
-              offset: 0.2, color: 'rgba(40, 255, 187, 0.25)' // 20% 处的颜色
+              offset: 0.2, color: 'rgba(40, 255, 187, 0.4)' // 20% 处的颜色
             }, {
-              offset: 0.5, color: 'rgba(40, 255, 187, 0.1)' // 50% 处的颜色
+              offset: 0.5, color: 'rgba(40, 255, 187, 0.2)' // 50% 处的颜色
             }, {
               offset: 1, color: 'transparent' // 100% 处的颜色
             }]
@@ -148,11 +151,11 @@ export default {
             x2: 0,
             y2: 1,
             colorStops: [{
-              offset: 0, color: 'rgba(24, 186, 250, 0.1)' // 0% 处的颜色
+              offset: 0, color: 'rgba(24, 186, 250, 0.2)' // 0% 处的颜色
             }, {
-              offset: 0.1, color: 'rgba(24, 186, 250, 0.25)' // 20% 处的颜色
+              offset: 0.1, color: 'rgba(24, 186, 250, 0.4)' // 20% 处的颜色
             }, {
-              offset: 0.5, color: 'rgba(24, 186, 250, 0.1)' // 50% 处的颜色
+              offset: 0.5, color: 'rgba(24, 186, 250, 0.2)' // 50% 处的颜色
             }, {
               offset: 1, color: 'transparent' // 100% 处的颜色
             }]

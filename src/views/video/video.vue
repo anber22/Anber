@@ -1,25 +1,144 @@
 <template>
-  <div>
-
+  <div class="video-view">
+    <van-search v-model="searchValue" class="search-item" background="rgba(16, 23, 32, 1)" placeholder="请输入搜索关键词" />
+    <div class="video-content">
+      <van-collapse v-model="activeName" accordion :border="false" @change="changePlace">
+        <van-collapse-item v-for="(item, index) in placeList" :key="index" :title="item.placeName" :name="item.placeId">
+          <div v-if="item.equips">
+            <Video v-for="(iitem, iindex) in item.equips" :key="iindex" :data="iitem" :placename="item.placeName" />
+          </div>
+        </van-collapse-item>
+      </van-collapse>
+    </div>
   </div>
 </template>
 
 <script>
+import Video from '@/components/video/Video'
+import videoApi from '@/api/video'
 export default {
+  components: {
+    Video
+  },
   data() {
     return {
-
+      activeName: null,
+      placeList: [],
+      searchValue: null
     }
   },
-  methods: {
-
+  mounted() {
+    this.getVideoPlaceList(1) // 获取网点列表，智慧视觉传对应的智慧视觉子系统的id
   },
-  components: {
-
+  methods: {
+    // 设备类型关联的场所列表
+    async getVideoPlaceList(type) {
+      const res = await videoApi.videoPlaceList(type)
+      if (res.code === 200) {
+        this.placeList = [...res.data]
+        this.activeName = this.placeList[0].placeId
+        this.getVideoPlaceEquipList(this.placeList[0].placeId, 11) // 默认展开第一列（获取第一列数据）
+      }
+    },
+    // 切换面板时触发,用选中的placeId获取该网点下的设备列表
+    changePlace(id) {
+      if (id) {
+        this.placeList.forEach((item, index) => {
+          if (!Reflect.has(item, 'equips') && id === item.placeId) {
+            this.getVideoPlaceEquipList(id, 11)
+            return true
+          }
+        })
+      }
+    },
+    // 获取场所关联的设备列表
+    async getVideoPlaceEquipList(id, type) {
+      const param = {
+        id: id,
+        type: type
+      }
+      const res = await videoApi.videoPlaceEquipList(param)
+      if (res.code === 200) {
+        for (const i in this.placeList) {
+          if (param.id === this.placeList[i].placeId) {
+            // Reflect.set(this.placeList[i], 'equips', res.data)
+            this.$set(this.placeList[i], 'equips', res.data)
+          }
+        }
+        console.log('placeList', this.placeList)
+      }
+    }
   }
 }
 </script>
 
+<style scoped>
+.video-view{
+  width: 100%;
+  height: auto;
+  background-color: rgba(16, 23, 32, 1);
+  color: #fff
+}
+.video-content{
+  width: 92%;
+  height: 100%;
+  margin: 0 auto;
+}
+</style>
 <style>
+.video-view .van-search__content{
+  background-color: rgba(26, 33, 43, 1);
+  padding-left: 15px;
+}
+.video-view .van-search{
+  padding: 20px 16px 0
+}
+.video-view .van-field__left-icon .van-icon{
+  font-size: 24px
+}
+.video-view input::-webkit-input-placeholder {
+  color: rgba(55, 63, 74, 1);
+}
+.video-view  input::-moz-input-placeholder {
+  color: rgba(55, 63, 74, 1);
+}
+.video-view  input::-ms-input-placeholder {
+  color: rgba(55, 63, 74, 1);
+}
+.video-view .search-item input:focus {
+  color: rgba(139, 163, 194, 1) !important
+}
+/* 手风琴样式修改 */
 
+.video-view .van-cell{
+  background-color: transparent;
+  color: #8BA3C2;
+  font-size: 15px;
+  padding: 10px 0px;
+}
+/* 展开的样式 */
+.video-view .van-collapse-item__content{
+  background-color: transparent;
+  color: #8BA3C2;
+  font-size: 15px;
+  padding: 0
+}
+/* 隐藏item下边框 */
+.video-view .van-cell::after{
+  border-bottom: 1px solid #283444;
+  left: 0;
+  right: 0
+}
+/* 隐藏item上边框 */
+.video-view .van-collapse-item--border::after{
+  border: none
+}
+/* content设置padding */
+.video-view .van-collapse-item__wrapper{
+  padding-top: 20px;
+}
+/* input失去焦点时文字颜色 */
+.video-view .van-field__control{
+  color: #8BA3C2
+}
 </style>

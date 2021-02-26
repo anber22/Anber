@@ -4,12 +4,15 @@
     <div class="title-box">
       <div class="title-style" />
       <div class="title-name">
-        <div style="margin-left: 4px">
-          <Select v-model="systemType" size="small" class="system-select" @on-change="onChangeSystemType">
+        <div style="margin-left: 4px;width: 52%">
+          <!-- <Select v-model="systemType" size="small" class="system-select" @on-change="onChangeSystemType">
             <Option v-for="item in data.equitType" :key="item.value" class="systemOption" :value="item.value">
               {{ item.label }}
             </Option>
-          </Select>
+          </Select> -->
+          <van-dropdown-menu class="dropdown-select" :overlay="false" :z-index="200" active-color="#B9CEE9">
+            <van-dropdown-item v-model="systemType" :options="data.equitType" @change="onChangeSystemType" />
+          </van-dropdown-menu>
         </div>
         <div>
           <span class="eventCounting">事件数</span>
@@ -58,36 +61,47 @@ export default {
 
 <style scoped src="./Events.css"></style>
 <style>
-/* .events-content .title .ivu-icon-ios-arrow-down:before{
-  content: "\F33D";
-  color: #A3EFFF
+/* 修改下拉框样式 */
+.events-content .van-dropdown-menu__bar{
+  background-color: #101720 !important;
+  height: auto;
 }
-.events-content .title .ivu-icon-ios-arrow-down{
-  font-size: 24px
+/* 标题和选中项文字样式 */
+.events-content .van-dropdown-menu__title{
+  color: rgba(185, 206, 233, 1);
+  font-size: 20px
 }
-.events-content .title .ivu-select-selection{
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  color: #A3EFFF;
+/* 标题左对齐 */
+.events-content .van-dropdown-menu__item{
+  justify-content: left
 }
-.events-content .ivu-select .ivu-select-dropdown{
-  background: rgba(13, 35, 63, 1);
-  border: 1px solid #2A5286;
+/* option样式 */
+.events-content .van-cell{
+  background-color: #101720;
+  width: 100%;
+  font-size: 18px;
+  color: rgba(128, 146, 161, 1);
+  text-align: center;
+  padding: 6px 10px;
 }
-.events-content .systemOption{
-  color: rgba(128, 146, 161, 1)
+/* 关掉icon */
+.events-content .van-cell__value{
+  display: none
 }
-.events-content .ivu-select-item-focus{
-  background: rgba(1, 255, 252, 0.16)
+/* 关掉option下边框 */
+.events-content .van-cell::after{
+  display: none
 }
-.events-content .ivu-select-item-selected, .events-content .ivu-select-item-selected:hover{
-  color: rgba(1, 255, 252, 1);
-  background: rgba(1, 255, 252, 0.16)
-} */
-
-select:focus,select:active,select:hover{
-  outline:none;
+/* 下拉框 */
+.events-content .van-popup--top{
+  width: 80%;
+  border: 1px rgba(42, 82, 134, 1) solid;
+  left: 25px;
+  background-color: transparent
 }
-
+/* 整个下拉框的宽高 */
+.events-content .van-dropdown-item{
+  width: 188px;
+  height: 137px;
+}
 </style>

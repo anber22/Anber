@@ -63,7 +63,7 @@
     <!-- end -->
     <!-- 监测分析，近一月/近一年/全部 -->
     <Adaptive :data="['100%','110%']">
-      <MonitorAnalysis :data="monitorAnalysisData" />
+      <MonitorAnalysis :data="monitorAnalysisData" @timeType="getDateType" @systemType="getMonitorSystemType" />
     </Adaptive>
     <!-- end -->
     <!-- 事件数故障数统计分析 start  -->
@@ -132,15 +132,15 @@ export default {
         equitType: [
           {
             value: 1,
-            label: '智慧视觉统计统'
+            text: '智慧视觉统计'
           },
           {
             value: 2,
-            label: '环境监测统计统'
+            text: '环境监测统计统'
           },
           {
             value: 3,
-            label: '塔机监测统计'
+            text: '塔机监测统计'
           }
         ],
         analysisTimelineData: {
@@ -163,29 +163,29 @@ export default {
         equipType: [
           {
             value: 1,
-            label: '智慧视觉统计统'
+            text: '智慧视觉统计统'
           },
           {
             value: 2,
-            label: '环境监测统计统'
+            text: '环境监测统计统'
           },
           {
             value: 3,
-            label: '塔机监测统计'
+            text: '塔机监测统计'
           }
         ],
         dateType: [
           {
             value: 1,
-            label: '近1月'
+            text: '近1月'
           },
           {
             value: 2,
-            label: '近1年'
+            text: '近1年'
           },
           {
             value: 3,
-            label: '全部'
+            text: '全部'
           }
         ],
         pieData: {
@@ -194,8 +194,23 @@ export default {
           title: ''
         },
         monitorAnalysisFlag: false
-      }
+      },
+      analysisDateType: 1, // 监测分析当前选中的时间类型 默认近1月
+      analysisSystemType: 1 // 监测分析当前选中的系统类型 默认智慧视觉
 
+    }
+  },
+  computed: {
+    changeDateType() {
+      return function(type, system) {
+        if (type === 3) {
+          return Api.monitorAnalysis(system)
+        } else if (type === 1) {
+          return Api.monitorAnalysisMonth(system)
+        } else {
+          return Api.monitorAnalysisYear(system)
+        }
+      }
     }
   },
   mounted() {
@@ -242,7 +257,7 @@ export default {
         })
       })
       this.getAnalysisTimeline(arryNew[0].id) // 用应用列表里的第一个子系统获取15天事件和故障数统计数据
-      this.getMonitorAnalysis(arryNew[0].id) // 用应用列表里的第一个子系统获取监测分析数据
+      this.getMonitorAnalysis(arryNew[0].id, 0) // 用应用列表里的第一个子系统获取监测分析1月内数据
       this.equipList = arryNew
     },
     /**
@@ -328,10 +343,11 @@ export default {
       this.getAnalysisTimeline(value)
     },
     /**
-     * 监测分析（全部）
+     * 监测分析 type:1 (1月)、type:2 (1年)、type: 2（全部）
      */
-    async getMonitorAnalysis(system) {
-      const res = await Api.monitorAnalysis(system)
+    async getMonitorAnalysis(system, type) {
+      const apiUrl = this.changeDateType(type, system)
+      const res = await apiUrl
       this.monitorAnalysisData.pieData.data = []
       this.monitorAnalysisData.pieData.title = ''
       if (res.code === 200) {
@@ -339,15 +355,30 @@ export default {
         dataArr.forEach(item => {
           this.monitorAnalysisData.pieData.data.push({
             value: item.eventCount,
-            name: item.eventName,
+            name: item.name,
             precent: item.eventPrecent
           })
         })
         this.monitorAnalysisData.pieData.title = res.data.count
         this.monitorAnalysisData.monitorAnalysisFlag = true
       }
+    },
+    /**
+     * 监测分析切换日期
+     */
+    getDateType(value) {
+      this.analysisDateType = value
+      this.monitorAnalysisData.monitorAnalysisFlag = false
+      this.getMonitorAnalysis(this.analysisSystemType, value)
+    },
+    /**
+     * 监测分析切换系统类型
+     */
+    getMonitorSystemType(value) {
+      this.analysisSystemType = value
+      this.monitorAnalysisData.monitorAnalysisFlag = false
+      this.getMonitorAnalysis(value, this.analysisDateType)
     }
-
   }
 }
 </script>
