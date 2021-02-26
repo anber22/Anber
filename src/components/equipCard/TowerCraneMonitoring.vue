@@ -1,0 +1,352 @@
+<template>
+  <div class="towerCraneMonitoring">
+    <Adaptive :data="['100%','60.9%']">
+      <div class="towerCraneMonitoring-header">
+        <div class="towerCraneMonitoring-title">
+          YD234环境监测
+        </div>
+        <div class="towerCraneMonitoring-state">
+          <div class="towerCraneMonitoring-hidden-trouble">
+            两个隐患
+            <van-icon name="arrow" color="#ffff" class="towerCraneMonitoring-hidden-trouble-icon" />
+          </div>
+          <div class="towerCraneMonitoring-state-box">
+            <EquipStatus :data="equipStatus" />
+          </div>
+        </div>
+      </div>
+      <div class="towerCraneMonitoring-content">
+        <div class="towerCraneMonitoring-content-row">
+          <div class="towerCraneMonitoring-content-row-name">
+            设备类型:
+          </div>
+          <div class="towerCraneMonitoring-content-row-value">
+            环境监测
+          </div>
+        </div>
+        <div class="towerCraneMonitoring-content-row">
+          <div class="towerCraneMonitoring-content-row-name">
+            IMEI码:
+          </div>
+          <div class="towerCraneMonitoring-content-row-value">
+            FX328798798249182
+          </div>
+        </div>
+        <div class="towerCraneMonitoring-content-row">
+          <div class="towerCraneMonitoring-content-row-name">
+            安装位置:
+          </div>
+          <div class="towerCraneMonitoring-content-row-value">
+            惠景合园1#、2#交界处
+          </div>
+        </div>
+        <div class="towerCraneMonitoring-content-row">
+          <div class="towerCraneMonitoring-content-row-name">
+            所属辖区:
+          </div>
+          <div class="towerCraneMonitoring-content-row-value">
+            前山社区
+          </div>
+        </div>
+        <div class="towerCraneMonitoring-content-row">
+          <div class="towerCraneMonitoring-content-row-name">
+            所属网点:
+          </div>
+          <div class="towerCraneMonitoring-content-row-value address-font">
+            港湾一号
+            <img src="/src/assets/images/equip/address.png" alt="" class="address-icon">
+          </div>
+        </div>
+        <div class="towerCraneMonitoring-content-row">
+          <div class="towerCraneMonitoring-content-row-name-real-time-data">
+            实时数据
+            <img src="/src/assets/images/equip/refresh.png" alt="" class="refresh-img">
+
+            <img v-show="!isShowMore" src="/src/assets/images/equip/down.png" alt="" class="isShowIcon" @click="showMore">
+            <img v-show="isShowMore" src="/src/assets/images/equip/up.png" alt="" class="isShowIcon" @click="showMore">
+          </div>
+        </div>
+      </div>
+    </Adaptive>
+    <div class="tEquipDetialCard-for-box">
+      <EquipDetialCard v-for="item in filterData(equipDetialCardList) " :key="item.index" :data="item" class="tEquipDetialCard-box" />
+    </div>
+  </div>
+
+  <!-- <Adaptive :data="['37%','36%']" class="towerCraneMonitoring-content-img">
+      <img src="/src/assets/images/equip/camera-bg-img.png" alt="" class="camera-bg-img">
+    </Adaptive> -->
+</template>
+
+<script>
+import EquipStatus from '/src/components/equipStatus/EquipStatus'
+import EquipDetialCard from '/src/components/equipDetialCard/EquipDetialCard'
+export default {
+  components: {
+    EquipStatus,
+    EquipDetialCard
+  },
+
+  data() {
+    return {
+      isShowMore: false,
+      equipDetialCardList: [{
+        width: '30.3%',
+        name: '回旋角度',
+        value: '2.10°',
+        icon: '/src/assets/images/equip/angle.png',
+        iconWidth: '11px',
+        iconHeight: '10px'
+      }, {
+        width: '30.3%',
+
+        name: '幅度',
+        value: '2.35mm',
+        icon: '/src/assets/images/equip/amplitude.png',
+        iconWidth: '13px',
+        iconHeight: '13px'
+      }, {
+        width: '30.3%',
+
+        name: '吊钩倾斜角度',
+        value: '0.26m',
+        icon: '/src/assets/images/equip/hook-angle.png',
+        iconWidth: '11px',
+        iconHeight: '14px'
+
+      }, {
+        width: '30.3%',
+
+        name: '吊重',
+        value: '1.32t',
+        icon: '/src/assets/images/equip/hoisting.png',
+        iconWidth: '14px',
+        iconHeight: '14px'
+      }, {
+        width: '30.3%',
+
+        name: '安全吊重',
+        value: '2.10t',
+        icon: '/src/assets/images/equip/safe.png',
+        iconWidth: '10px',
+        iconHeight: '12px'
+      }, {
+        width: '30.3%',
+
+        name: '力矩百分比',
+        value: '3.26%',
+        icon: '/src/assets/images/equip/torque.png',
+        iconWidth: '12px',
+        iconHeight: '12px'
+
+      }, {
+        width: '30.3%',
+
+        name: '风速',
+        value: '2.36m/s',
+        icon: '/src/assets/images/equip/wind-speed.png',
+        iconWidth: '13px',
+        iconHeight: '9px'
+
+      }, {
+        width: '30.3%',
+
+        name: '塔机倾斜角度',
+        value: '1.25°',
+        icon: '/src/assets/images/equip/angle.png',
+        iconWidth: '10px',
+        iconHeight: '10px'
+      }, {
+        width: '30.3%',
+
+        name: '塔机方向',
+        value: '1.50°',
+        icon: '/src/assets/images/equip/direction-of-tower-crane.png',
+        iconWidth: '12px',
+        iconHeight: '12px'
+      }, {
+        width: '30.3%',
+
+        name: '吊绳倍率',
+        value: '2',
+        icon: '/src/assets/images/equip/wire-ratio.png',
+        iconWidth: '15px',
+        iconHeight: '9px'
+
+      }],
+      equipStatus: {
+        wifi: 'red',
+        electricity: 'yellow',
+        statusName: '正常'
+      }
+    }
+  },
+  computed: {
+
+  },
+  methods: {
+    filterData: function(e) {
+      if (this.isShowMore) {
+        return this.equipDetialCardList
+      } else {
+        return this.equipDetialCardList.slice(0, 3)
+      }
+    },
+    showMore() {
+      this.isShowMore = !this.isShowMore
+    }
+  }
+}
+</script>
+
+<style>
+.towerCraneMonitoring{
+  width: 98%;
+  height: auto;
+  /* padding: 0px 1% 2.5% 1%; */
+  border: 1px solid #4D628F;
+  background-color:#0A0B29;
+}
+/* .towerCraneMonitoring-card{
+  background-color:#0A0B29;
+} */
+.towerCraneMonitoring-header{
+   background-image: url('/src/assets/images/equip/card-header.png');
+  background-position: right top;
+  background-repeat: no-repeat;
+  background-size:100% 100%;
+}
+.towerCraneMonitoring-title{
+  width: 35%;
+  height: 12.5%;
+  /* background: black; */
+  font-size: 15px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #FFFFFF;
+  padding: 2% 5% 1% 3%;
+  display: inline-block;
+}
+.towerCraneMonitoring-state{
+  width: 55%;
+  height: 9.5%;
+  display: inline-block;
+}
+.towerCraneMonitoring-state-box{
+  float: right;
+}
+.towerCraneMonitoring-hidden-trouble{
+  width: 31%;
+  height: 85%;
+  background-color: red;
+  display: inline-block;
+  font-size: 10px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #FFEAEE;
+  padding: 0.5% 1% 1.5% 2%;
+  border-radius: 5px;
+  margin-left: 7%;
+
+}
+.towerCraneMonitoring-hidden-trouble-icon{
+  position: absolute;
+  top: 5.5%;
+}
+.towerCraneMonitoring-content{
+  width: 100%;
+  display: inline-block;
+  background-image: url('/src/assets/images/equip/towerCrane.png');
+  background-position: right top;
+  background-repeat: no-repeat;
+  background-size:180px 120px;
+}
+.towerCraneMonitoring-content-img{
+  width: 40%;
+  position: relative;
+}
+.towerCraneMonitoring-content-row{
+  height: 14.5%;
+  width: 97%;
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  vertical-align: middle;
+  padding-left: 0%;
+
+}
+.towerCraneMonitoring-content-row-name{
+  width: 18.5%;
+  text-align: right;
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #6F85A2;
+}
+.towerCraneMonitoring-content-row-name-real-time-data{
+   width: 100%;
+  text-align: left;
+  font-size: 12px;
+  padding-left: 1%;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #6F85A2;
+  padding-left: 3.4%;
+}
+.towerCraneMonitoring-content-row-value{
+  width: 62%;
+  font-size: 12px;
+  height: 16px;
+  line-height: 16px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  padding-left: 5%;
+  color: #B9CEE9;
+}
+.address-font{
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  text-decoration: underline;
+  color: #06F0FE;
+  position: relative;
+  top: -4px;
+}
+.address-icon{
+  width: 11px;
+  height: 16px;
+  position: relative;
+  top: 3px;
+  left: 10px;
+}
+.camera-bg-img{
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+.tEquipDetialCard-box{
+  height: 63px;
+  /* background-color: #FFFFFF; */
+  margin-left: 1.4%;
+  margin-right: 1.0%;
+  margin-top: 3%;
+}
+.refresh-img{
+  width: 13px;
+  height: 13px;
+  position: relative;
+  top: 2px;
+}
+.isShowIcon{
+width: 13px;
+height: 7px;
+float: right;
+margin-top: 1.8%;
+}
+
+.tEquipDetialCard-for-box{
+padding-bottom: 1.5%;
+
+}
+</style>

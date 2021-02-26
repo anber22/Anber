@@ -22,5 +22,20 @@ class IotApp {
       method: 'get'
     })
   }
+  //  获取物联应用列表
+  async equipInfoList(param) {
+    return await request({
+      url: `/apis/equip/type/${param.systemType}/place/page/${param.page}/size/${param.size}${param.consitionStr}`,
+      method: 'get'
+    })
+  }
+
+  //  获取物联应用实时数据列表
+  async equipRealTimeInfoList(param) {
+    return await request({
+      url: `/apis/equip/environment/list/finder?ids=` + param,
+      method: 'get'
+    })
+  }
 }
 export default new IotApp()

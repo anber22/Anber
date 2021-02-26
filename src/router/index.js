@@ -20,24 +20,24 @@ export default new VueRouter({
       meta: {
         showFooter: true
       },
-      redirect: '/index',
+      redirect: '/iotApp',
       children: [
         {
           path: '/index',
-          component: () => import('../../src/views/index/index'),
+          component: () => import('@/views/index/index'),
           meta: {
             showFooter: true
           }
         },
         {
           path: '/home',
-          component: () => import('../../src/views/home/home'),
+          component: () => import('@/views/home/home'),
           meta: {
             showFooter: true
           }
         }, {
           path: '/personalCenter',
-          component: () => import('../../src/views/personalCenter/personalCenter'),
+          component: () => import('@/views/personalCenter/personalCenter'),
           meta: {
             showFooter: true
           }
@@ -46,7 +46,7 @@ export default new VueRouter({
     },
     {
       path: '/iotApp',
-      component: () => import('../../src/views/aiot/iotApp'),
+      component: () => import('@/views/aiot/iotApp'),
       meta: {
         showFooter: true
       }

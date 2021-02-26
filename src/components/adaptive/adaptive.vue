@@ -37,6 +37,7 @@ export default {
 
 <style>
 .adaptive{
+  display: inline-block;
   position : relative;
 }
 .inside-content{

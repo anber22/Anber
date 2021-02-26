@@ -38,16 +38,27 @@
     - Search.css
 
   - equipCard               #设备卡片
-    - EquipCard.vue
-    - EquipCard.css
+    - PhysicalUnionApplication.vue     智慧物联信息卡片
+    - PhysicalUnionApplication.css   
+    - EnvironmentalMonitoring.vue      环境监测卡片
+    - EnvironmentalMonitoring.css  
+    - TowerCraneMonitoring.vue         塔机监测卡片
+    - TowerCraneMonitoring.css
 
   - equipDetialCard         #设备实时数据小卡片
     - EquipDetialCard.vue
     - EquipDetialCard.css
 
   - equipInfoCard           #设备基础信息卡片
-    - EquipInfoCard.vue
-    - EquipInfoCard.css
+   
+
+ - equipListCard           #设备列表卡片
+    - PhysicalUnionApplicationListCard.vue     智慧物联列表卡片
+    - PhysicalUnionApplicationListCard.css   
+    - EnvironmentalMonitoringListCard.vue      环境监测列表卡片
+    - EnvironmentalMonitoringListCard.css  
+    - TowerCraneMonitoringListCard.vue         塔机监测列表卡片
+    - TowerCraneMonitoringListCard.css
 
   - equipStatus             #设备电量信号在线状态
     - EquipStatus.vue

@@ -1,0 +1,131 @@
+<template>
+  <div class="physicalUnionApplicationListCard">
+    <div class="physicalUnionApplicationListCard-header">
+      <div class="physicalUnionApplicationListCard-title">
+        {{ data.equipName }}
+      </div>
+      <div class="physicalUnionApplicationListCard-state">
+        <EquipStatus :data="equipStatus" />
+      </div>
+    </div>
+    <div class="physicalUnionApplicationListCard-content">
+      <div class="physicalUnionApplicationListCard-content-row">
+        <div class="physicalUnionApplicationListCard-content-row-name">
+          {{ data.imei }}
+          <div class="physicalUnionApplicationListCard-type">
+            {{ data.equipType }}
+          </div>
+        </div><img src="/src/assets/images/equip/phone.png" alt="" class="physicalUnionApplicationListCard-content-row-icon">
+      </div>
+      <div class="physicalUnionApplicationListCard-content-row">
+        <div class="physicalUnionApplicationListCard-content-row-name">
+          {{ data.placeName }}
+        </div>
+        <img src="/src/assets/images/equip/navigation.png" alt="" class="physicalUnionApplicationListCard-content-row-icon">
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import EquipStatus from '/src/components/equipStatus/EquipStatus'
+export default {
+  components: {
+    EquipStatus
+  },
+  props: {
+    data: {
+      type: Object,
+      // eslint-disable-next-line vue/require-valid-default-prop
+      default: {}
+    }
+  },
+
+  data() {
+    return {
+      equipStatus: {
+        wifi: 80,
+        electricity: 80,
+        statusName: '正常'
+      }
+    }
+  },
+  methods: {
+
+  }
+}
+</script>
+
+<style>
+.physicalUnionApplicationListCard{
+  width: 100%;
+  height: 100%;
+  border: 1px solid #4D628F;
+  background-color:#0A0B29;
+}
+.physicalUnionApplicationListCard-header{
+
+background: #131F3B;
+}
+.physicalUnionApplicationListCard-title{
+  width: 35%;
+  height: 25%;
+  font-size: 15px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #FFFFFF;
+  padding: 1% 5% 1% 3%;
+  margin-top: 1%;
+  display: inline-block;
+  float: left;
+}
+.physicalUnionApplicationListCard-content{
+  width: 100%;
+  height: 55%;
+  margin-top: 2.7%;
+}
+.physicalUnionApplicationListCard-state{
+  width: 53%;
+  height: 25%;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 2.1% 1% 1% 3%;
+}
+.physicalUnionApplicationListCard-content-row{
+  height: 45.5%;
+  width: 100%;
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  vertical-align: middle
+}
+.physicalUnionApplicationListCard-content-row-name{
+  width: 89%;
+  text-align: left;
+  padding-left: 3%;
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #6F85A2;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.physicalUnionApplicationListCard-type{
+  width: auto;
+  background: #1B2B29;
+  border: 1px solid #70C7BE;
+  border-radius: 2px;
+  padding: 0.5% 1% 0.5% 1%;
+  margin-left: 2%;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.physicalUnionApplicationListCard-content-row-icon{
+  width: 19px;
+  height: 19px;
+}
+</style>
