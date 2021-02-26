@@ -9,9 +9,6 @@
         {{ equipCountings }}
       </div>
     </Adaptive>
-    <!-- <div class="equip-count">
-      <div class="inside-content" />
-    </div> -->
     <Adaptive class="branches-count" :data="['47.9%','18.67%']">
       <div class="count-title">
         网点数
@@ -21,71 +18,58 @@
       </div>
     </Adaptive>
     <!-- end -->
-    <!-- 仪表盘 start -->
-    <div class="gauge-rapper">
-      <div class="inner">
-        <Gauge :data="gaugeData" />
-      </div>
-    </div>
-    <!-- end -->
     <!-- 设备在线率 start -->
-    <div class="gauge-content">
-      <div class="inside-content">
-        <Gauge :data="gaugeData" />
-      </div>
-    </div>
+    <Adaptive :data="['100%','66%']">
+      <Gauge :data="gaugeData" />
+    </Adaptive>
     <!-- end -->
     <!-- 实时预警 start -->
-    <div class="title-box">
-      <div class="inside-content">
-        <div class="title-style" />
-        <div class="title-name">
-          实时预警
-        </div>
+    <Adaptive :data="['100%','5.57%']" class="title-box">
+      <div class="title-style" />
+      <div class="title-name">
+        实时预警
       </div>
-    </div>
-    <div class="warning-box">
-      <div class="inside-content">
-        <Warning class="warning" />
-      </div>
-    </div>
+    </Adaptive>
+    <Adaptive :data="['100%','12.75%']" class="warning-box">
+      <Warning class="warning" />
+    </Adaptive>
     <!-- end -->
     <!-- 应用列表 start -->
-    <div class="title-box">
-      <div class="inside-content">
-        <div class="title-style" />
-        <div class="title-name">
-          应用列表
-        </div>
+    <Adaptive :data="['100%','5.57%']" class="title-box">
+      <div class="title-style" />
+      <div class="title-name">
+        应用列表
       </div>
-    </div>
-    <div class="equipList-box">
-      <div class="inside-content">
-        <EquipList :data="equipList" class="equipList" />
-      </div>
-    </div>
+    </Adaptive>
+    <Adaptive :data="['100%','120.75%']" class="equipList-box">
+      <EquipList :data="equipList" class="equipList" />
+    </Adaptive>
     <!-- end -->
 
     <!-- 辖区统计 start  -->
-    <div class="title-box">
-      <div class="inside-content">
-        <div class="title-style" />
-        <div class="title-name">
-          辖区统计
-        </div>
+    <Adaptive :data="['100%','5.57%']" class="title-box">
+      <div class="title-style" />
+      <div class="title-name">
+        辖区统计
       </div>
-    </div>
+    </Adaptive>
     <DepartCount :data="departCountData" />
-    <div class="maxPie-content">
-      <div class="inside-content">
-        <MaxPie v-if="maxPieDataFlag" :data="maxPieData" @activeType="activeType" />
-      </div>
-    </div>
-    <div class="max-line-content">
-      <div class="inside-content">
-        <MaxLine v-if="lineDataFlag" :data="lineData" />
-      </div>
-    </div>
+    <Adaptive :data="['100%','70%']">
+      <MaxPie v-if="maxPieDataFlag" :data="maxPieData" @activeType="activeType" />
+    </Adaptive>
+    <Adaptive :data="['100%','56%']">
+      <MaxLine v-if="lineDataFlag" :data="lineData" />
+    </Adaptive>
+    <!-- end -->
+    <!-- 监测分析，近一月/近一年/全部 -->
+    <Adaptive :data="['100%','110%']">
+      <MonitorAnalysis :data="monitorAnalysisData" @timeType="getDateType" @systemType="getMonitorSystemType" />
+    </Adaptive>
+    <!-- end -->
+    <!-- 事件数故障数统计分析 start  -->
+    <Adaptive :data="['100%','104%']">
+      <Events :data="eventData" @systemType="getSystemType" />
+    </Adaptive>
     <!-- end -->
   </div>
 </template>
@@ -100,6 +84,8 @@ import Warning from '@/components/index/Warning/Warning'
 import Config from '/config.json'
 
 import DepartCount from '@/components/index/departCount/DepartCount'
+import Events from '@/components/index/events/Events'
+import MonitorAnalysis from '@/components/index/monitorAnalysis/MonitorAnalysis'
 
 export default {
   components: {
@@ -108,7 +94,9 @@ export default {
     Gauge,
     MaxPie,
     MaxLine,
-    DepartCount
+    DepartCount,
+    Events,
+    MonitorAnalysis
   },
   data() {
     return {
@@ -139,7 +127,90 @@ export default {
       },
       lineDataFlag: false,
       departCountList: [],
-      departCountData: {}
+      departCountData: {},
+      eventData: {
+        equitType: [
+          {
+            value: 1,
+            text: '智慧视觉统计'
+          },
+          {
+            value: 2,
+            text: '环境监测统计统'
+          },
+          {
+            value: 3,
+            text: '塔机监测统计'
+          }
+        ],
+        analysisTimelineData: {
+          chartId: 'analysisTimelineChartId', // 饼图的id
+          xAxis: {
+            data: []
+          },
+          yAxis: {
+            splitLineColor: 'rgba(255, 255, 255, 0.05)'
+          },
+          series: {
+            data: [],
+            data2: [],
+            smooth: true
+          }
+        },
+        analysisTimelineFlag: false
+      },
+      monitorAnalysisData: {
+        equipType: [
+          {
+            value: 1,
+            text: '智慧视觉统计统'
+          },
+          {
+            value: 2,
+            text: '环境监测统计统'
+          },
+          {
+            value: 3,
+            text: '塔机监测统计'
+          }
+        ],
+        dateType: [
+          {
+            value: 1,
+            text: '近1月'
+          },
+          {
+            value: 2,
+            text: '近1年'
+          },
+          {
+            value: 3,
+            text: '全部'
+          }
+        ],
+        pieData: {
+          chartId: 'monitorAnalysisChartId', // 饼图的id
+          data: [],
+          title: ''
+        },
+        monitorAnalysisFlag: false
+      },
+      analysisDateType: 1, // 监测分析当前选中的时间类型 默认近1月
+      analysisSystemType: 1 // 监测分析当前选中的系统类型 默认智慧视觉
+
+    }
+  },
+  computed: {
+    changeDateType() {
+      return function(type, system) {
+        if (type === 3) {
+          return Api.monitorAnalysis(system)
+        } else if (type === 1) {
+          return Api.monitorAnalysisMonth(system)
+        } else {
+          return Api.monitorAnalysisYear(system)
+        }
+      }
     }
   },
   mounted() {
@@ -149,7 +220,6 @@ export default {
     this.getEquipCountings()
     this.getBranchesCountings()
     this.getEquipList()
-    this.getTroubleAnalysis('12345')
     this.getDepartCounting()
   },
   methods: {
@@ -186,7 +256,8 @@ export default {
           }
         })
       })
-      console.log(arryNew)
+      this.getAnalysisTimeline(arryNew[0].id) // 用应用列表里的第一个子系统获取15天事件和故障数统计数据
+      this.getMonitorAnalysis(arryNew[0].id, 0) // 用应用列表里的第一个子系统获取监测分析1月内数据
       this.equipList = arryNew
     },
     /**
@@ -220,6 +291,8 @@ export default {
             count: item.data.count
           })
         })
+        // 使用当前第一个辖区id去获取该辖区隐患分析数据---折线图数据
+        this.getTroubleAnalysis(dataArr[0].departId)
         this.departCountData = {
           online: dataArr[0].data.online,
           outline: dataArr[0].data.outline,
@@ -231,8 +304,7 @@ export default {
     /**
      * 15天隐患分析
      */
-    async getTroubleAnalysis(id) {
-      const departId = id
+    async getTroubleAnalysis(departId) {
       const res = await Api.troubleAnalysis(departId)
       this.lineData.xAxis.data = []
       this.lineData.series.data = []
@@ -244,13 +316,74 @@ export default {
         })
         this.lineDataFlag = true
       }
+    },
+    /**
+     * 近15日事件统计
+     */
+    async getAnalysisTimeline(system) {
+      this.eventData.analysisTimelineData.xAxis.data = []
+      this.eventData.analysisTimelineData.series.data = []
+      this.eventData.analysisTimelineData.series.data2 = []
+      const res = await Api.analysisTimeline(system)
+      if (res.code === 200) {
+        const day = [...res.data.list]
+        day.forEach((item) => {
+          this.eventData.analysisTimelineData.xAxis.data.push(item.date.substring(4, 6) + '.' + item.date.substring(6, 8))
+          this.eventData.analysisTimelineData.series.data.push(item.eventCount)
+          this.eventData.analysisTimelineData.series.data2.push(item.errorCount)
+        })
+        this.eventData.analysisTimelineFlag = true
+      }
+    },
+    /**
+     * 从近15日事件统计Event组件传过来的选定的子系统，用于重新渲染图表数据
+     */
+    getSystemType(value) {
+      this.eventData.analysisTimelineFlag = false
+      this.getAnalysisTimeline(value)
+    },
+    /**
+     * 监测分析 type:1 (1月)、type:2 (1年)、type: 2（全部）
+     */
+    async getMonitorAnalysis(system, type) {
+      const apiUrl = this.changeDateType(type, system)
+      const res = await apiUrl
+      this.monitorAnalysisData.pieData.data = []
+      this.monitorAnalysisData.pieData.title = ''
+      if (res.code === 200) {
+        const dataArr = [...res.data.event]
+        dataArr.forEach(item => {
+          this.monitorAnalysisData.pieData.data.push({
+            value: item.eventCount,
+            name: item.name,
+            precent: item.eventPrecent
+          })
+        })
+        this.monitorAnalysisData.pieData.title = res.data.count
+        this.monitorAnalysisData.monitorAnalysisFlag = true
+      }
+    },
+    /**
+     * 监测分析切换日期
+     */
+    getDateType(value) {
+      this.analysisDateType = value
+      this.monitorAnalysisData.monitorAnalysisFlag = false
+      this.getMonitorAnalysis(this.analysisSystemType, value)
+    },
+    /**
+     * 监测分析切换系统类型
+     */
+    getMonitorSystemType(value) {
+      this.analysisSystemType = value
+      this.monitorAnalysisData.monitorAnalysisFlag = false
+      this.getMonitorAnalysis(value, this.analysisDateType)
     }
-
   }
 }
 </script>
 
-<style >
+<style scoped>
 .index{
   width: 92%;
   height: auto;
@@ -277,19 +410,8 @@ export default {
   background-size: cover;
 }
 .warning-box{
-  width: 100%;
-  position : relative;
-  padding-bottom : 12.75%;
   padding-right: 0px;
-
   margin-top: 8%;
-}
-.inside-content{
-  position : absolute;
-  top : 0;
-  left : 0;
-  right : 0;
-  bottom : 0;
 }
 .count-title{
   width: 100%;
@@ -312,9 +434,6 @@ export default {
 }
 /* 标题  start*/
 .title-box{
-  width: 100%;
-  position : relative;
-  padding-bottom : 5.57%;
   margin-top: 8%;
   margin-bottom: 2%;
 }
@@ -323,7 +442,6 @@ export default {
   height: 100%;
   background:-webkit-gradient(linear, 100% 100%, 0% 100%,from(#008EFF), to(#1DF2FF));
   display: inline-block;
-
   border-top-right-radius: 6px;
   border-bottom-left-radius: 6px;
 }
@@ -338,33 +456,10 @@ export default {
 }
 /* end */
 .equipList-box{
- width: 100%;
-  position : relative;
-  padding-bottom : 120.75%;
   padding-right: 0px;
-
 }
 .equipList{
   width: 100%;
   height: 100%;
-}
-
-.gauge-content{
-  position : relative;
-  width: 100%;
-  padding-bottom : 66%;
-  display: inline-block;
-}
-.maxPie-content{
-  position : relative;
-  width: 100%;
-  padding-bottom : 70%;
-  display: inline-block;
-}
-.max-line-content{
-  position : relative;
-  width: 100%;
-  padding-bottom : 56%;
-  display: inline-block;
 }
 </style>

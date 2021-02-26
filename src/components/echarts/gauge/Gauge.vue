@@ -18,6 +18,7 @@ export default {
   mounted() {
     var myChart = this.$echarts.init(document.getElementById(this.data.chartId))
     var option = {
+      animation: true,
       series: [{
         type: 'gauge',
         startAngle: 180,
@@ -431,7 +432,7 @@ export default {
         zlevel: 3
       }]
     }
-
+    myChart.setOption(option, true)
     setInterval(function() {
       option.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0
       myChart.setOption(option, true)
