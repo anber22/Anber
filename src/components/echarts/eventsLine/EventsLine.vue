@@ -39,7 +39,7 @@ export default {
         formatter: function(params) {
           var result = ''
           var dotHtml = '<span style="display:inline-block;margin-right:5px;margin-bottom: 4px;width:13px;height:2px;background-color:rgba(40, 255, 187, 1)"></span>'
-          var dotHtml2 = '<span style="display:inline-block;margin-right:5px;margin-bottom: 4px;width:13px;height:2px;background-color:rgba(24, 186, 250, 1)"></span>'
+          var dotHtml2 = '<span style="display:inline-block;margin-right:5px;margin-bottom: 4px;width:13px;height:2px;background-color:rgba(116, 102, 248, 1)"></span>'
           result += dotHtml + '事件数 ' + params[0].data + '</br>' + dotHtml2 + '故障数 ' + params[1].data
           return result
         },
@@ -151,11 +151,11 @@ export default {
             x2: 0,
             y2: 1,
             colorStops: [{
-              offset: 0, color: 'rgba(24, 186, 250, 0.2)' // 0% 处的颜色
+              offset: 0, color: 'rgba(116, 102, 248, 0.2)' // 0% 处的颜色
             }, {
-              offset: 0.1, color: 'rgba(24, 186, 250, 0.4)' // 20% 处的颜色
+              offset: 0.1, color: 'rgba(116, 102, 248, 0.4)' // 20% 处的颜色
             }, {
-              offset: 0.5, color: 'rgba(24, 186, 250, 0.2)' // 50% 处的颜色
+              offset: 0.5, color: 'rgba(116, 102, 248, 0.2)' // 50% 处的颜色
             }, {
               offset: 1, color: 'transparent' // 100% 处的颜色
             }]
@@ -163,7 +163,7 @@ export default {
         },
         lineStyle: {
           // 线的颜色
-          color: 'rgba(24, 186, 250, 1)',
+          color: 'rgba(116, 102, 248, 1)',
           width: 1
         }
       }]

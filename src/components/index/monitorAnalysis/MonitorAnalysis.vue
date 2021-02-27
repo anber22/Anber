@@ -18,7 +18,6 @@
     </div>
     <div class="">
       <div class="analysisTimeline">
-        z
         <Pie v-if="data.monitorAnalysisFlag" :data="data.pieData" />
       </div>
     </div>
