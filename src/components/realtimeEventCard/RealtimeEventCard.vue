@@ -12,11 +12,11 @@
           />
           <div class="right-text">
             <p class="title1">
-              惠景合园东北门保安亭惠景合园东北门保安亭惠景合园东北门保安亭惠景合园东北门保安亭
+              惠景合园东北门保安亭
             </p>
-            <span class="title2">未佩戴安全帽惠</span>
+            <span class="title2">未佩戴安全帽</span>
             <p class="title3">
-              2020-12-12 13:21:34惠景合园东北门保安亭惠景合园东北门保安亭
+              2020-12-12 13:21:34
             </p>
           </div>
           <div class="dot">

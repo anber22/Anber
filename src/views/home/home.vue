@@ -51,7 +51,7 @@
           </Adaptive>
           <p>隐患统计</p>
         </div>
-        <div>
+        <div @click="goJump('/video')">
           <Adaptive class="module-item" :data="['75.4%', '75.4%']">
             <van-image
               fit="contain"
@@ -119,6 +119,9 @@ export default {
   mounted() {
   },
   methods: {
+    goJump(path) {
+      this.$router.push(path)
+    }
   }
 }
 </script>

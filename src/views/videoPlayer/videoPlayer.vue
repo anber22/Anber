@@ -41,7 +41,7 @@ export default {
 }
 .video-center {
     position: fixed;
-    top: 50%;
+    top: 46%;
     left: 50%;
     background-color: #eee;
     width: 100%;

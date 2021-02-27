@@ -1,6 +1,5 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import User from '@/api/user'
-import { Message } from 'view-design'
 import store from '@/store'
 import router from '@/router'
 const user = {
