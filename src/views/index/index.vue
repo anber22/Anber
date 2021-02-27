@@ -1,7 +1,7 @@
 <template>
   <div>
     index
-    <img src="@/static/img/3474.jpg">
+    <img src="@/static/3474.jpg">
   </div>
 </template>
 
