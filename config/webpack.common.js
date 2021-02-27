@@ -1,77 +1,66 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const ProgressBarPlugin = require('progress-bar-webpack-plugin')
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const VueLoaderPlugin = require("vue-loader/lib/plugin");
+const ProgressBarPlugin = require("progress-bar-webpack-plugin");
 
 module.exports = {
   resolve: {
-    extensions: ['.js', '.vue', '.scss', '.css'], // 后缀名自动补全
+    extensions: [".js", ".vue", ".scss", ".css"], //后缀名自动补全
     alias: {
-      // 别名
-      '@': path.resolve(__dirname, '../src')
-    }
+      //别名
+      "@": path.resolve(__dirname, "../src"),
+    },
   },
   entry: {
-    index: path.resolve(__dirname, '../src/index.js')
+    index: path.resolve(__dirname, "../src/index.js"),
   },
   output: {
-    filename: 'js/[name].[chunkhash:8].js',
-    path: path.resolve(__dirname, '../dist'),
-    publicPath: '/'
+    filename: "[name].[chunkhash:8].js",
+    path: path.resolve(__dirname, "../dist"),
+    publicPath: "/",
   },
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', 'vue-style-loader', 'css-loader']
+        use: ["style-loader", "vue-style-loader", {
+          loader: 'css-loader',
+          options: {
+            esModule: false,
+          }
+        }],
       },
       {
-        test: /\.(png|svg|jpg|gif|ttf|woff|woff2|otf)$/,
+        test: /\.(png|svg|jpg|gif)$/,
         use: [
           {
-            loader: 'url-loader',
+            // 直接配置 url-loader 就好，超過上限的資源會自動 fallback 給 file-loader
+            loader: "url-loader",
             options: {
-              limit: 244000, // 50kb以内转换成base64
-              // publicPath: "/img", // 外部引入时的路径前缀
-              // outputPath: "assets/", // 导出的指定路径
-              name: '[name].[hash:8].[ext]', // 文件名
-              exclude: /node_modules/
-            }
-          }
-        ]
+              name: "img/[name].[ext]",
+              limit: 10000,
+              esModule: false,
+            },
+          },
+        ],
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
+        loader: "babel-loader",
+        exclude: /node_modules/,
       },
       {
         test: /\.vue$/,
-        use: ['vue-loader']
+        use: ["vue-loader"],
       },
-      {
-        test: /\.(html)$/,
-        loader: 'html-loader',
-        options: {
-          sources: {
-            list: [
-              {
-                tag: 'img',
-                attribute: 'data-src',
-                type: 'src'
-              }
-            ]
-          }
-        }
-      }
-    ]
+    ],
   },
   plugins: [
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
-      filename: './index.html', // 文件名
-      template: './index.html' // 模板文件
+      filename: "./index.html", //文件名
+      template: "./index.html", //模板文件
     }),
-    new ProgressBarPlugin() // 打包进度条
-  ]
-}
+    new ProgressBarPlugin(), //打包进度条
+  ],
+};
