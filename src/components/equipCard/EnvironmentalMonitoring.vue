@@ -2,7 +2,7 @@
   <div class="environmentalMonitoring">
     <div class="environmentalMonitoring-header">
       <div class="environmentalMonitoring-title">
-        YD234环境监测
+        {{ data.equipName }}
       </div>
       <div class="environmentalMonitoring-state">
         <div class="environmentalMonitoring-hidden-trouble">
@@ -20,7 +20,7 @@
           设备类型:
         </div>
         <div class="environmentalMonitoring-content-row-value">
-          环境监测
+          {{ data.equipType }}
         </div>
       </div>
       <div class="environmentalMonitoring-content-row">
@@ -28,7 +28,7 @@
           IMEI码:
         </div>
         <div class="environmentalMonitoring-content-row-value">
-          FX328798798249182
+          {{ data.imei }}
         </div>
       </div>
       <div class="environmentalMonitoring-content-row">
@@ -36,7 +36,7 @@
           安装位置:
         </div>
         <div class="environmentalMonitoring-content-row-value">
-          惠景合园1#、2#交界处
+          {{ data.equipAddress }}
         </div>
       </div>
       <div class="environmentalMonitoring-content-row">
@@ -44,7 +44,7 @@
           所属辖区:
         </div>
         <div class="environmentalMonitoring-content-row-value">
-          前山社区
+          {{ data.departName }}
         </div>
       </div>
       <div class="environmentalMonitoring-content-row">
@@ -52,7 +52,7 @@
           所属网点:
         </div>
         <div class="environmentalMonitoring-content-row-value address-font">
-          港湾一号
+          {{ data.placeName }}
           <img src="/src/assets/images/equip/address.png" alt="" class="address-icon">
         </div>
       </div>
@@ -63,7 +63,7 @@
         </div>
       </div>
       <div>
-        <EquipDetialCard v-for="item in equipDetialCardList" :key="item.index" class="equipDetialCard-box" :data="item" />
+        <EquipDetialCard v-for="item in equipDetialCardList" :key="item.index" class="equipDetialCard-box" :layout="item" :content="data" />
       </div>
     </div>
 
@@ -81,39 +81,56 @@ export default {
     EquipStatus,
     EquipDetialCard
   },
-
+  props: {
+    data: {
+      type: Object,
+      // eslint-disable-next-line vue/require-valid-default-prop
+      default: {}
+    }
+  },
   data() {
     return {
-      equipDetialCardList: [{
-        width: '24.5%',
-        name: '雨量',
-        value: '130mm',
-        icon: '/src/assets/images/equip/rainfall.png',
-        iconWidth: '13px',
-        iconHeight: '10px'
-      }, {
-        width: '42%',
-        name: '风速/风向',
-        value: '2.10m/s/东南25.5°',
-        icon: '/src/assets/images/equip/wind-speed.png',
-        iconWidth: '16px',
-        iconHeight: '10px'
-      }, {
-        width: '24.5%',
-        name: '温度/湿度',
-        value: '25.5°/29.5°',
-        icon: '/src/assets/images/equip/temperature.png',
-        iconWidth: '8px',
-        iconHeight: '16px'
+      equipDetialCardList: [
 
-      }],
+        {
+          typed: 'rainFall',
+          width: '24.55%',
+          name: '雨量',
+          value: '130mm',
+          icon: '/src/assets/images/equip/rainfall.png',
+          iconWidth: '13px',
+          iconHeight: '10px'
+        }, {
+          typed: 'windSpeed',
+
+          width: '42%',
+          name: '风速/风向',
+          value: '2.10m/s/东南25.5°',
+          icon: '/src/assets/images/equip/wind-speed.png',
+          iconWidth: '16px',
+          iconHeight: '10px'
+        }, {
+          typed: 'temperature',
+          width: '24.55%',
+          name: '温度/湿度',
+          value: '25.5°/29.5°',
+          icon: '/src/assets/images/equip/temperature.png',
+          iconWidth: '8px',
+          iconHeight: '16px'
+        }],
       equipStatus: {
         wifi: 'red',
         electricity: 'yellow',
         statusName: '正常'
       }
+
     }
+  }, beforeMount() {
+    console.log('卡卡卡卡卡片111', this.data)
+  }, mounted() {
+    console.log('卡卡卡卡卡片', this.data)
   },
+
   methods: {
 
   }
@@ -122,7 +139,7 @@ export default {
 
 <style>
 .environmentalMonitoring{
-  width: 98%;
+  width: 100%;
   height: 100%;
   /* padding: 0px 1% 0px 1%; */
   border: 0.5px solid #4D628F;

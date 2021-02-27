@@ -33,8 +33,11 @@ class IotApp {
   //  获取物联应用实时数据列表
   async equipRealTimeInfoList(param) {
     return await request({
-      url: `/apis/equip/environment/list/finder?ids=` + param,
-      method: 'get'
+      url: `/apis/equip/environment/list/finder`,
+      method: 'post',
+      data: {
+        ids: param
+      }
     })
   }
 }

@@ -3,13 +3,22 @@
     <router-view />
     <van-tabbar route class="van-tabbar-box">
       <van-tabbar-item replace to="/home" icon="home-o">
-        首页
+        <span>首页</span>
+        <template #icon="props">
+          <img :src="props.active ? homeIcon.active : homeIcon.inactive">
+        </template>
       </van-tabbar-item>
       <van-tabbar-item replace to="/index" icon="search">
-        智慧高投
+        <span>智慧高投</span>
+        <template #icon="props">
+          <img :src="props.active ? indexIcon.active : indexIcon.inactive">
+        </template>
       </van-tabbar-item>
       <van-tabbar-item replace to="/personalCenter" icon="search">
-        我的
+        <span>我的</span>
+        <template #icon="props">
+          <img :src="props.active ? personalCenterIcon.active : personalCenterIcon.inactive">
+        </template>
       </van-tabbar-item>
     </van-tabbar>
   </div>
@@ -19,7 +28,19 @@
 export default {
   data() {
     return {
-      active: 1
+      active: 1,
+      homeIcon: {
+        active: '/src/assets/images/public/home-active.png',
+        inactive: '/src/assets/images/public/home.png'
+      },
+      indexIcon: {
+        active: '/src/assets/images/public/index-active.png',
+        inactive: '/src/assets/images/public/index.png'
+      },
+      personalCenterIcon: {
+        active: '/src/assets/images/public/personalCenter-active.png',
+        inactive: '/src/assets/images/public/personalCenter.png'
+      }
     }
   },
   mounted() {
@@ -45,6 +66,12 @@ export default {
 }
 .van-tabbar-box{
   z-index: 10
+}
+.van-hairline--top-bottom::after, .van-hairline-unset--top-bottom::after{
+  border: none
+}
+.van-tabbar {
+  background-color:  #101920;
 }
 </style>
 
