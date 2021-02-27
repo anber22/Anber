@@ -1,7 +1,7 @@
 <!-- 首页应用列表 -->
 <template>
   <div class="equipList1">
-    <div v-for="item in data" :key="item.id" class="item">
+    <div v-for="item in data" :key="item.id" class="item" @click="showCard()">
       <div class="item-left">
         <img class="equip-img" :src="item.img">
         <p class="item-title">
@@ -49,6 +49,11 @@ export default {
   },
   data() {
     return {
+    }
+  },
+  methods: {
+    showCard() {
+      this.$router.push('/iotApp')
     }
   }
 }

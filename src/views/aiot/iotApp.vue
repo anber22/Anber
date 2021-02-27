@@ -1,14 +1,7 @@
 <template>
   <div class="iotApp">
     <!-- 顶部导航栏 starts -->
-    <van-nav-bar
-      title="智慧物联"
-      left-text="返回"
-      left-arrow
-      :fixed="true"
-      :placeholder="true"
-      @click-left="onClickLeft"
-    />
+
     <!-- end -->
     <!-- 顶部条件选择 start -->
     <div class="header-conditions">
@@ -29,21 +22,21 @@
     <!-- 卡片展示列表 start -->
     <div v-if="isCard">
       <div v-if="thisSubsystemId===0" class="show-list">
-        <Adaptive v-for="item in physicalUnionApplicationCardList" :key="item.index" :data="['100%','49.9%']" class="physicalUnionApplication-card">
+        <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','49.9%']" class="physicalUnionApplication-card">
           <PhysicalUnionApplication :data="item" />
         </Adaptive>
       </div>
-      <div v-if="thisSubsystemId===1" class="show-list">
-        <Adaptive v-for="item in environmentalMonitoringCardList" :key="item.index" :data="['100%','77.9%']" class="environmentalMonitoring-card">
+      <div v-if="thisSubsystemId===1 && !loadding " class="show-list">
+        <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','77.9%']" class="environmentalMonitoring-card">
           <EnvironmentalMonitoring :data="item" />
         </Adaptive>
       </div>
       <div v-if="thisSubsystemId===2" class="show-list">
-        <TowerCraneMonitoring v-for="item in towerCraneMonitoringCardList" :key="item.index" class="towerCraneMonitoring-card" :data="item" />
+        <TowerCraneMonitoring v-for="item in equipInfoList" :key="item.index" class="towerCraneMonitoring-card" :data="item" />
       </div>
     </div>
     <div v-if="!isCard">
-      <div class="show-list">
+      <div class="show-list" @click="showNext">
         <Adaptive v-for="item in thisSubsystemId===0?physicalUnionApplicationCardList:thisSubsystemId===1?environmentalMonitoringCardList:towerCraneMonitoringCardList" :key="item.index" :data="['100%','31.39%']" class="physicalUnionApplication-list-card">
           <PhysicalUnionApplicationListCard :data="item" />
         </Adaptive>
@@ -73,17 +66,13 @@ export default {
       value: '',
       switch1: false,
       switch2: false,
+      loadding: true,
       subsystemList: [
         { text: '智慧视觉', value: 0 },
         { text: '环境监测', value: 1 },
         { text: '塔机监测', value: 2 }
       ],
-      subsystemListTest: [
-        { text: '智慧视觉', value: 0 },
-        { text: '环境监测', value: 1 },
-        { text: '塔机监测', value: 2 }
-      ],
-      test: { name: '张三', age: '22' },
+
       thisSubsystemId: 0,
       testStr: 'string',
       wechat: null,
@@ -222,16 +211,15 @@ export default {
   mounted() {
     // this.wechat = new Wechat()
     this.getEquipInfoList()
-    console.log('测试基本类型', this.testStr)
-
-    console.log('测试完全observer', this.test.name)
-    this.test.name = 'hezijian'
-    console.log('测试observer', Object.assign({}, this.test), this.test)
   },
   methods: {
+    showNext() {
+      this.$router.push('/video')
+    },
     changeSystem() {
       console.log(this.thisSubsystemId)
       this.getEquipInfoList()
+      this.isCard = !(!this.isCard)
     },
     onClickLeft() {
       this.$router.back()
@@ -247,14 +235,32 @@ export default {
       const params = {
         systemType: this.thisSubsystemId,
         page: 1,
-        size: 10,
+        size: 12,
         consitionStr: (this.queryCondition.length < 1 ? '' : '?' + this.queryCondition)
       }
       const res = await Api.equipInfoList(params)
-      this.equipInfoList = [...res.data]
-      if (this.systemType === 1) {
+      this.equipInfoList = [...res.data.rows]
+      if (this.thisSubsystemId === 1) {
+        this.loadding = true
         var ids = this.equipInfoList.map(item => { return item.equipId })
         console.log('ids', ids)
+        const temp = await Api.equipRealTimeInfoList(ids)
+        console.log('啊啊啊啊啊啊啊', temp.data)
+        const combined = temp.data.reduce((acc, cur) => {
+          const target = acc.find(e => e.equipId === cur.equipId)
+          if (target) {
+            Object.assign(target, cur)
+          } else {
+            acc.push(cur)
+          }
+          return acc
+        }, this.equipInfoList)
+        this.equipInfoList = combined
+        console.log('合并后的equiplist', this.equipInfoList, combined)
+        this.$set(this.equipInfoList, this.equipInfoList)
+        this.isCard = !(!this.isCard)
+        this.loadding = false
+        this.$forceUpdate
       }
 
       console.log('设备信息列表', this.equipInfoList)

@@ -8,6 +8,7 @@ import VueRouter from 'vue-router'
 const Tabbar = () => import('../../src/views/tabbar/tabbar')
 // const Profile = () => import('../pages/Profile/profile')
 // const Patient = () => import('../pages/Patient/Patient')
+const Navbar = () => import('../../src/views/navbar/navbar')
 
 // 申明使用插件
 Vue.use(VueRouter)
@@ -20,7 +21,7 @@ export default new VueRouter({
       meta: {
         showFooter: true
       },
-      redirect: '/iotApp',
+      redirect: '/index',
       children: [
         {
           path: '/index',
@@ -45,26 +46,38 @@ export default new VueRouter({
       ]
     },
     {
-      path: '/iotApp',
-      component: () => import('@/views/aiot/iotApp'),
+      path: '/aiot',
+      component: Navbar,
       meta: {
         showFooter: true
-      }
-    },
-    {
-      path: '/video',
-      component: () => import('@/views/video/video'),
-      meta: {
-        showFooter: true
-      }
-    },
-    {
-      path: '/videoPlayer',
-      component: () => import('@/views/videoPlayer/videoPlayer'),
-      meta: {
-        showFooter: true
-      }
+      },
+      redirect: '/iotApp',
+      children: [{
+
+        path: '/iotApp',
+        component: () => import('@/views/aiot/iotApp'),
+        meta: {
+          showFooter: true,
+          title: '智慧物联'
+        }
+      },
+      {
+        path: '/video',
+        component: () => import('@/views/video/video'),
+        meta: {
+          showFooter: true,
+          title: '智慧视觉'
+        }
+      },
+      {
+        path: '/videoPlayer',
+        component: () => import('@/views/videoPlayer/videoPlayer'),
+        meta: {
+          showFooter: true
+        }
+      }]
     }
+
     // {
     //   path: '/profile',
     //   component: Profile,

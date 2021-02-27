@@ -1,4 +1,4 @@
-const requestPath = 'wss:rabbitmq.ctjt.cn/ws'
+const requestPath = 'ws://192.168.1.12:15654/ws'
 import Stomp from 'stompjs'
 // import localData from './local'
 import { cookieData, localData } from './local'
@@ -12,11 +12,11 @@ let socket = new WebSocket(requestPath)
 class Socket {
   constructor() {
     if (`${process.env.NODE_ENV}` === 'development') {
-      this.accountName = 'root'
-      this.passWord = 'root'
+      this.accountName = 'webclient'
+      this.passWord = 'webclient'
     } else {
-      this.accountName = '2222'
-      this.passWord = '1111'
+      this.accountName = 'webclient'
+      this.passWord = 'webclient'
     }
   }
 
@@ -35,6 +35,7 @@ class Socket {
     // 在线
     socket.heartbeat.incoming = 0
     // 发起连接
+    console.log('发起连接')
     socket.connect(this.accountName, this.passWord, this.onConnected, this.onFailed)
     // return onConnected
   }
@@ -47,7 +48,7 @@ class Socket {
     // .depart_id
     // 非正式版本下，加test-
     const topic =
-      '/exchange/notice_exchange_fanout/' +
+      '/exchange/aiot-event-message/' +
      '1112312'
     socket.subscribe(topic, this.responseCallback, this.onFailed)
 
@@ -64,7 +65,7 @@ class Socket {
    */
   onFailed(frame) {
     setTimeout(() => {
-      this.initSocket
+      this.initSocket()
     }, 2000)
   }
 

@@ -1,13 +1,14 @@
 <template>
-  <div class="equipDetialCard" :style="'width:'+data.width">
+  <div class="equipDetialCard" :style="'width:'+layout.width">
     <div class="equipDetialCard-name">
       <div class="name-font">
-        <img :src="data.icon" alt="" :style="'width:'+data.iconWidth+';height:'+data.iconHight" class="type-icon">  {{ data.name }}
+        <img :src="layout.icon" alt="" :style="'width:'+layout.iconWidth+';height:'+layout.iconHight" class="type-icon">  {{ layout.name }}
       </div>
     </div>
     <div class="equipDetialCard-value">
       <div class="value-font">
-        {{ data.value }}
+        {{ subValue===''?content[layout.typed]:subValue }}
+        <!-- 21111 -->
       </div>
     </div>
   </div>
@@ -18,7 +19,12 @@ export default {
   components: {
   },
   props: {
-    data: {
+    layout: {
+      type: Object,
+      // eslint-disable-next-line vue/require-valid-default-prop
+      default: {}
+    },
+    content: {
       type: Object,
       // eslint-disable-next-line vue/require-valid-default-prop
       default: {}
@@ -26,9 +32,19 @@ export default {
   },
   data() {
     return {
+      subValue: ''
     }
   },
-
+  mounted() {
+    console.log(this.layout, '0000000', this.content[this.layout.typed])
+    if (this.layout.typed === 'windSpeed') {
+      this.subValue = this.content.windSpeed + '/' + this.content.windDirection
+      console.log(this.subValue, '11111')
+    } else if (this.layout.typed === 'temperature') {
+      this.subValue = this.content.temperature + '/' + this.content.humidity
+      console.log(this.subValue, '11111')
+    }
+  },
   methods: {
 
   }
