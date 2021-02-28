@@ -86,6 +86,9 @@
   <!-- - analysisCount             #研判分析，实时统计
     - AnalysisCount.vue
     - AnalysisCount.css -->
+  - realtimeEventCard                     #实时事件卡片
+    - realtimeEventCard.vue
+    - realtimeEventCard.css
 
 ------------------------------------------------------
 

@@ -73,8 +73,18 @@ export default new VueRouter({
         path: '/videoPlayer',
         component: () => import('@/views/videoPlayer/videoPlayer'),
         meta: {
+
+          showFooter: true,
+          title: '视频播放'
         }
       }]
+    },
+    {
+      path: '/login',
+      component: () => import('@/views/login/login'),
+      meta: {
+        showFooter: true
+      }
     }
 
     // {
