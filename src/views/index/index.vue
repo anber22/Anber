@@ -78,9 +78,9 @@
 import Gauge from '@/components/echarts/gauge/Gauge'
 import MaxPie from '@/components/echarts/maxPie/MaxPie'
 import MaxLine from '@/components/echarts/line/Line'
-import Api from '../../../src/api/index'
-import EquipList from '@/components/index/equipList/EquipList'
-import Warning from '@/components/index/Warning/Warning'
+import Api from '@/api/index'
+import EquipList from 'cmp/index/equipList/EquipList'
+import Warning from 'cmp/index/Warning/Warning'
 import Config from '/config.json'
 
 import DepartCount from '@/components/index/departCount/DepartCount'
@@ -245,20 +245,33 @@ export default {
     async getEquipList() {
       const res = await Api.applicationlist()
       this.equipList = [...res.data]
-      const arryNew = []
-      // 过滤 config 的equipList ，拿出对应的imgUrl
-      this.equipList.forEach(item => {
-        console.log(Config)
-        Config.equipList.some((equip, index) => {
-          console.log('id', equip.id, item.id, equip.imgUrl)
-          if (equip.id === item.id) {
-            arryNew.push(Object.assign({}, item, { img: equip.imgUrl }))
-          }
-        })
-      })
-      this.getAnalysisTimeline(arryNew[0].id) // 用应用列表里的第一个子系统获取15天事件和故障数统计数据
-      this.getMonitorAnalysis(arryNew[0].id, 0) // 用应用列表里的第一个子系统获取监测分析1月内数据
-      this.equipList = arryNew
+      console.log('设备数量', this.equipList)
+      // const arryNew = []
+      // // 过滤 config 的equipList ，拿出对应的imgUrl
+      // this.equipList.forEach(item => {
+      //   console.log(Config)
+      //   Config.equipList.some(async(equip, index) => {
+      //     // const img = await require(`@${equip.imgUrl}.png`)
+      //     console.log('id', equip.id, item.id, equip.imgUrl)
+      //     if (equip.id === item.id) {
+      //       arryNew.push(Object.assign({}, item, { img: equip.imgUrl }))
+      //     }
+      //   })
+      // })
+      const combined = Config.equipList.reduce((acc, cur) => {
+        const target = acc.find(e => e.id === cur.id)
+        if (target) {
+          Object.assign(target, cur)
+        } else {
+          acc.push(cur)
+        }
+        return acc
+      }, this.equipList)
+
+      this.getAnalysisTimeline(combined[0].id) // 用应用列表里的第一个子系统获取15天事件和故障数统计数据
+      this.getMonitorAnalysis(combined[0].id, 0) // 用应用列表里的第一个子系统获取监测分析1月内数据
+
+      this.equipList = combined
     },
     /**
      * 辖区统计选中的辖区ID，并筛选当前辖区的数据出来
@@ -395,7 +408,7 @@ export default {
   margin-top: 5%;
   padding-right: 0px;
   display: inline-block;
-  background-image: url('/src/assets/images/index/equip-count.png');
+  background-image: url('@/assets/images/index/equip-count.png');
   background-repeat:no-repeat ;
   background-size: cover;
 }
@@ -405,7 +418,7 @@ export default {
   margin-top: 5%;
   display: inline-block;
   margin-left: 2.7%;
-  background-image: url('/src/assets/images/index/branches-count.png');
+  background-image: url('@/assets/images/index/branches-count.png');
   background-repeat:no-repeat ;
   background-size: cover;
 }

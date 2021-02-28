@@ -15,20 +15,20 @@
           <div class="physicalUnionApplicationListCard-type">
             {{ data.equipType }}
           </div>
-        </div><img src="/src/assets/images/equip/phone.png" alt="" class="physicalUnionApplicationListCard-content-row-icon">
+        </div><img src="@/assets/images/equip/phone.png" alt="" class="physicalUnionApplicationListCard-content-row-icon">
       </div>
       <div class="physicalUnionApplicationListCard-content-row">
         <div class="physicalUnionApplicationListCard-content-row-name">
           {{ data.placeName }}
         </div>
-        <img src="/src/assets/images/equip/navigation.png" alt="" class="physicalUnionApplicationListCard-content-row-icon">
+        <img src="@/assets/images/equip/navigation.png" alt="" class="physicalUnionApplicationListCard-content-row-icon">
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import EquipStatus from '/src/components/equipStatus/EquipStatus'
+import EquipStatus from 'cmp/equipStatus/EquipStatus'
 export default {
   components: {
     EquipStatus

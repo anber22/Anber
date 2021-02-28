@@ -54,22 +54,22 @@
           </div>
           <div class="towerCraneMonitoring-content-row-value address-font">
             港湾一号
-            <img src="/src/assets/images/equip/address.png" alt="" class="address-icon">
+            <img src="@/assets/images/equip/address.png" alt="" class="address-icon">
           </div>
         </div>
         <div class="towerCraneMonitoring-content-row">
           <div class="towerCraneMonitoring-content-row-name-real-time-data">
             实时数据
-            <img src="/src/assets/images/equip/refresh.png" alt="" class="refresh-img">
+            <img src="@/assets/images/equip/refresh.png" alt="" class="refresh-img">
 
-            <img v-show="!isShowMore" src="/src/assets/images/equip/down.png" alt="" class="isShowIcon" @click="showMore">
-            <img v-show="isShowMore" src="/src/assets/images/equip/up.png" alt="" class="isShowIcon" @click="showMore">
+            <img v-show="!isShowMore" src="@/assets/images/equip/down.png" alt="" class="isShowIcon" @click="showMore">
+            <img v-show="isShowMore" src="@/assets/images/equip/up.png" alt="" class="isShowIcon" @click="showMore">
           </div>
         </div>
       </div>
     </Adaptive>
     <div class="tEquipDetialCard-for-box">
-      <EquipDetialCard v-for="item in filterData(equipDetialCardList) " :key="item.index" :data="item" class="tEquipDetialCard-box" />
+      <EquipDetialCard v-for="item in filterData(equipDetialCardList) " :key="item.index" :layout="item" class="tEquipDetialCard-box" />
     </div>
   </div>
 
@@ -79,8 +79,8 @@
 </template>
 
 <script>
-import EquipStatus from '/src/components/equipStatus/EquipStatus'
-import EquipDetialCard from '/src/components/equipDetialCard/EquipDetialCard'
+import EquipStatus from 'cmp/equipStatus/EquipStatus'
+import EquipDetialCard from 'cmp/equipDetialCard/EquipDetialCard'
 export default {
   components: {
     EquipStatus,
@@ -211,7 +211,7 @@ export default {
   background-color:#0A0B29;
 } */
 .towerCraneMonitoring-header{
-   background-image: url('/src/assets/images/equip/card-header.png');
+   background-image: url('@/assets/images/equip/card-header.png');
   background-position: right top;
   background-repeat: no-repeat;
   background-size:100% 100%;
@@ -256,7 +256,7 @@ export default {
 .towerCraneMonitoring-content{
   width: 100%;
   display: inline-block;
-  background-image: url('/src/assets/images/equip/towerCrane.png');
+  background-image: url('@/assets/images/equip/towerCrane.png');
   background-position: right top;
   background-repeat: no-repeat;
   background-size:180px 120px;

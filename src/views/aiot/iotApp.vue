@@ -11,219 +11,103 @@
         </van-dropdown-menu>
       </div>
       <div class="header-input">
-        <van-search v-model="value" placeholder="设备名称\IEMI码" :clearable="false" />
+        <van-search v-model="queryCondition" placeholder="设备名称\IEMI码" :clearable="false" />
       </div>
       <div class="chang-list-type">
-        <img v-show="!isCard" src="/src/assets/images/public/list-type-table.png" alt="" class="list-type-img" @click="changeListType">
-        <img v-show="isCard" src="/src/assets/images/public/list-type-card.png" alt="" class="list-type-img" @click="changeListType">>
+        <img v-show="!isCard" src="@/assets/images/public/list-type-table.png" alt="" class="list-type-img" @click="changeListType">
+        <img v-show="isCard" src="@/assets/images/public/list-type-card.png" alt="" class="list-type-img" @click="changeListType">>
       </div>
     </div>
     <!-- end -->
-    <!-- 卡片展示列表 start -->
-    <div v-if="isCard">
-      <div v-if="thisSubsystemId===0" class="show-list">
-        <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','49.9%']" class="physicalUnionApplication-card">
-          <PhysicalUnionApplication :data="item" />
-        </Adaptive>
+    <!-- 内容 start -->
+    <div class="iot-content">
+      <!-- 卡片展示列表 start -->
+      <div v-if="isCard">
+        <div v-if="thisSubsystemId===0" class="show-list">
+          <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','49.9%']" class="physicalUnionApplication-card">
+            <PhysicalUnionApplication :data="item" />
+          </Adaptive>
+        </div>
+        <div v-if="thisSubsystemId===1 && !loadding " class="show-list">
+          <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','77.9%']" class="environmentalMonitoring-card">
+            <EnvironmentalMonitoring :data="item" />
+          </Adaptive>
+        </div>
+        <div v-if="thisSubsystemId===2" class="show-list">
+          <TowerCraneMonitoring v-for="item in equipInfoList" :key="item.index" class="towerCraneMonitoring-card" :data="item" />
+        </div>
       </div>
-      <div v-if="thisSubsystemId===1 && !loadding " class="show-list">
-        <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','77.9%']" class="environmentalMonitoring-card">
-          <EnvironmentalMonitoring :data="item" />
-        </Adaptive>
+      <!-- end -->
+      <!-- 列表卡片 start -->
+      <div v-if="!isCard">
+        <div class="show-list" @click="showNext">
+          <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','31.39%']" class="physicalUnionApplication-list-card">
+            <PhysicalUnionApplicationListCard :data="item" />
+          </Adaptive>
+        </div>
       </div>
-      <div v-if="thisSubsystemId===2" class="show-list">
-        <TowerCraneMonitoring v-for="item in equipInfoList" :key="item.index" class="towerCraneMonitoring-card" :data="item" />
-      </div>
+      <!-- end -->
     </div>
-    <div v-if="!isCard">
-      <div class="show-list" @click="showNext">
-        <Adaptive v-for="item in thisSubsystemId===0?physicalUnionApplicationCardList:thisSubsystemId===1?environmentalMonitoringCardList:towerCraneMonitoringCardList" :key="item.index" :data="['100%','31.39%']" class="physicalUnionApplication-list-card">
-          <PhysicalUnionApplicationListCard :data="item" />
-        </Adaptive>
-      </div>
-    </div>
-
     <!-- end -->
   </div>
 </template>
 
 <script>
-import PhysicalUnionApplication from '/src/components/equipCard/PhysicalUnionApplication.vue'
-import PhysicalUnionApplicationListCard from '/src/components/equipListCard/PhysicalUnionApplicationListCard.vue'
-import EnvironmentalMonitoring from '/src/components/equipCard/EnvironmentalMonitoring.vue'
-import TowerCraneMonitoring from '/src/components/equipCard/TowerCraneMonitoring.vue'
-import Api from '../../../src/api/aiot/iotApp.js'
+import PhysicalUnionApplication from 'cmp/equipCard/PhysicalUnionApplication.vue'
+import PhysicalUnionApplicationListCard from 'cmp/equipListCard/PhysicalUnionApplicationListCard.vue'
+import EnvironmentalMonitoring from 'cmp/equipCard/EnvironmentalMonitoring.vue'
+import TowerCraneMonitoring from 'cmp/equipCard/TowerCraneMonitoring.vue'
+import Api from '@/api/aiot/iotApp.js'
 
 export default {
   components: {
+    // 智慧物联设备信息卡片
     PhysicalUnionApplication,
+    // 设备信息列表卡片  子系统通用
     PhysicalUnionApplicationListCard,
+    // 环境监测设备信息卡片
     EnvironmentalMonitoring,
+    // 塔机检测设备信息卡片
     TowerCraneMonitoring
   },
   data() {
     return {
-      value: '',
-      switch1: false,
-      switch2: false,
+
       loadding: true,
+      // 系统选择下拉菜单
       subsystemList: [
         { text: '智慧视觉', value: 0 },
         { text: '环境监测', value: 1 },
         { text: '塔机监测', value: 2 }
       ],
-
+      // 当前选中系统
       thisSubsystemId: 0,
-      testStr: 'string',
-      wechat: null,
+      // 展示形式 （列表||卡片）
       isCard: false,
+      // 查询条件 （这里只有模糊查询）
       queryCondition: '',
-      equipInfoList: [],
-      physicalUnionApplicationCardList: [
-        {
-          'equipName': 'YD234摄像头',
-          'equipType': '安全帽监测',
-          'equipAddress': '惠景合园1#、2#交界处',
-          'imei': 'FX328798798249182',
-          'placeId': '1',
-          'placeName': '港湾一号',
-          'placeAddress': '珠海唐家湾',
-          'departId': '1',
-          'departName': '唐家社区',
-          'onlineType': 1,
-          'equipId': '1'
-        }, {
-          'equipName': 'YD235摄像头',
-          'equipType': '电瓶车上楼1111',
-          'equipAddress': '惠景合园1#、2#交界处',
-          'imei': 'FX328798798249182',
-          'placeId': '1',
-          'placeName': '港湾一号',
-          'placeAddress': '珠海唐家湾',
-          'departId': '1',
-          'departName': '唐家社区',
-          'onlineType': 1,
-          'equipId': '1'
-        }, {
-          'equipName': 'YD236摄像头',
-          'equipType': '安全帽监测',
-          'equipAddress': '惠景合园1#、2#交界处',
-          'imei': 'FX328798798249182',
-          'placeId': '1',
-          'placeName': '港湾一号',
-          'placeAddress': '珠海唐家湾',
-          'departId': '1',
-          'departName': '唐家社区',
-          'onlineType': 1,
-          'equipId': '1'
-        }],
-      environmentalMonitoringCardList: [{
-        'equipName': 'YD234摄像头',
-        'equipType': '安全帽监测',
-        'equipAddress': '惠景合园1#、2#交界处',
-        'imei': 'FX328798798249182',
-        'placeId': '1',
-        'placeName': '港湾一号',
-        'placeAddress': '珠海唐家湾',
-        'departId': '1',
-        'departName': '唐家社区',
-        'onlineType': 1,
-        'equipPower': 80,
-        'equipSignal': -45,
-        'equipId': '1'
-      }, {
-        'equipName': 'YD235摄像头',
-        'equipType': '电瓶车上楼1111',
-        'equipAddress': '惠景合园1#、2#交界处',
-        'imei': 'FX328798798249182',
-        'placeId': '1',
-        'placeName': '港湾一号',
-        'placeAddress': '珠海唐家湾',
-        'departId': '1',
-        'departName': '唐家社区',
-        'onlineType': 1,
-        'equipPower': 80,
-        'equipSignal': -45,
-        'equipId': '1'
-      }, {
-        'equipName': 'YD236摄像头',
-        'equipType': '安全帽监测',
-        'equipAddress': '惠景合园1#、2#交界处',
-        'imei': 'FX328798798249182',
-        'placeId': '1',
-        'placeName': '港湾一号',
-        'placeAddress': '珠海唐家湾',
-        'departId': '1',
-        'departName': '唐家社区',
-        'onlineType': 1,
-        'equipPower': 80,
-        'equipSignal': -45,
-        'equipId': '1'
-      }],
-      towerCraneMonitoringCardList: [
-        {
-          'equipName': 'YD234摄像头',
-          'equipType': '安全帽监测',
-          'equipAddress': '惠景合园1#、2#交界处',
-          'imei': 'FX328798798249182',
-          'placeId': '1',
-          'placeName': '港湾一号',
-          'placeAddress': '珠海唐家湾',
-          'departId': '1',
-          'departName': '唐家社区',
-          'onlineType': 1,
-          'equipPower': 80,
-          'equipSignal': -45,
-          'equipId': '1'
-        }, {
-          'equipName': 'YD235摄像头',
-          'equipType': '电瓶车上楼1111',
-          'equipAddress': '惠景合园1#、2#交界处',
-          'imei': 'FX328798798249182',
-          'placeId': '1',
-          'placeName': '港湾一号',
-          'placeAddress': '珠海唐家湾',
-          'departId': '1',
-          'departName': '唐家社区',
-          'onlineType': 1,
-          'equipPower': 80,
-          'equipSignal': -45,
-          'equipId': '1'
-        }, {
-          'equipName': 'YD236摄像头',
-          'equipType': '安全帽监测',
-          'equipAddress': '惠景合园1#、2#交界处',
-          'imei': 'FX328798798249182',
-          'placeId': '1',
-          'placeName': '港湾一号',
-          'placeAddress': '珠海唐家湾',
-          'departId': '1',
-          'departName': '唐家社区',
-          'onlineType': 1,
-          'equipPower': 80,
-          'equipSignal': -45,
-          'equipId': '1'
-        }
-      ]
-
+      // 设备卡片信息
+      equipInfoList: []
     }
   },
   mounted() {
-    // this.wechat = new Wechat()
+    // 渲染页面查询卡片列表片数据
     this.getEquipInfoList()
   },
   methods: {
+    /**
+     *跳转页面 - 测试
+     */
     showNext() {
       this.$router.push('/video')
     },
+    /**
+     * 切换子系统
+     */
     changeSystem() {
       console.log(this.thisSubsystemId)
       this.getEquipInfoList()
       this.isCard = !(!this.isCard)
-    },
-    onClickLeft() {
-      this.$router.back()
-      this.getEquipInfoList()
     },
     /**
      * 点击切换数据展示形式 （列表||卡片）
@@ -231,6 +115,7 @@ export default {
     changeListType() {
       this.isCard = !this.isCard
     },
+    // 获取卡片列表
     async getEquipInfoList() {
       const params = {
         systemType: this.thisSubsystemId,
@@ -240,12 +125,13 @@ export default {
       }
       const res = await Api.equipInfoList(params)
       this.equipInfoList = [...res.data.rows]
-      if (this.thisSubsystemId === 1) {
+      // 如果选择的是 thisSubsystemId ===1 的环境监测系统
+      if (this.thisSubsystemId === 1 || this.thisSubsystemId === 2) {
         this.loadding = true
+        // 获取ids去查询对应设备的详细数据
         var ids = this.equipInfoList.map(item => { return item.equipId })
-        console.log('ids', ids)
         const temp = await Api.equipRealTimeInfoList(ids)
-        console.log('啊啊啊啊啊啊啊', temp.data)
+        // 把两个数组对象根据equipId来合并
         const combined = temp.data.reduce((acc, cur) => {
           const target = acc.find(e => e.equipId === cur.equipId)
           if (target) {
@@ -256,14 +142,8 @@ export default {
           return acc
         }, this.equipInfoList)
         this.equipInfoList = combined
-        console.log('合并后的equiplist', this.equipInfoList, combined)
-        this.$set(this.equipInfoList, this.equipInfoList)
-        this.isCard = !(!this.isCard)
         this.loadding = false
-        this.$forceUpdate
       }
-
-      console.log('设备信息列表', this.equipInfoList)
     }
 
   }
@@ -275,15 +155,25 @@ export default {
   font-size: 50px;
 }
 .iotApp{
-  height: 2000px;
-  padding: 0px 3%;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+
   background-color: #101720;
+
+}
+.iot-content{
+  position: fixed;
+  padding: 0px 3% 13% 3%;
+  height: 87%;
+  width: 94%;
+  overflow: scroll;
 }
 .physicalUnionApplication-card{
   margin-top: 5%;
 }
 .physicalUnionApplication-list-card{
-    margin-top: 5%;
+    margin-bottom: 5%;
 }
 .environmentalMonitoring-card{
   margin-top: 5%;
@@ -292,11 +182,14 @@ export default {
   margin-top: 5%;
 }
 .header-conditions{
-  width: 100%;
+  width: 94%;
   height: 50px;
   display: flex;
   flex-direction: row;
+  padding: 0px 3%;
   vertical-align: middle;
+  position: relative;
+  top: 0;
 }
 .header-picker{
   width: 30%;

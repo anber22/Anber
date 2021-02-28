@@ -8,7 +8,8 @@ module.exports = {
     extensions: ['.js', '.vue', '.scss', '.css'], // 后缀名自动补全
     alias: {
       // 别名
-      '@': path.resolve(__dirname, '../src')
+      '@': path.resolve(__dirname, '../src'),
+      'cmp':path.resolve(__dirname, '/src/components')
     }
   },
   entry: {
@@ -23,7 +24,13 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', 'vue-style-loader', 'css-loader']
+        use: ['style-loader', 'vue-style-loader',
+        { 
+          loader:'css-loader',
+          options:{
+              esModule:false
+          }
+        }]
       },
       {
         test: /\.(png|svg|jpg|gif|ttf|woff|woff2|otf)$/,
@@ -31,10 +38,10 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              limit: 50000, // 50kb以内转换成base64
-              // publicPath: "@/", // 外部引入时的路径前缀
-              // outputPath: "assets/", // 导出的指定路径
-              name: '[name].[hash:8].[ext]' // 文件名
+              name:"img/[name].[ext]",
+              limit: 10000, // 10kb以内转换成base64
+              esModule:false
+              // name: '[name].[hash:8].[ext]' // 文件名
             }
           }
         ]

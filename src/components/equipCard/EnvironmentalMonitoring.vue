@@ -53,13 +53,13 @@
         </div>
         <div class="environmentalMonitoring-content-row-value address-font">
           {{ data.placeName }}
-          <img src="/src/assets/images/equip/address.png" alt="" class="address-icon">
+          <img src="@/assets/images/equip/address.png" alt="" class="address-icon">
         </div>
       </div>
       <div class="environmentalMonitoring-content-row">
         <div class="environmentalMonitoring-content-row-name-real-time-data">
           实时数据
-          <img src="/src/assets/images/equip/refresh.png" alt="" class="refresh-img">
+          <img src="@/assets/images/equip/refresh.png" alt="" class="refresh-img">
         </div>
       </div>
       <div>
@@ -74,8 +74,8 @@
 </template>
 
 <script>
-import EquipStatus from '/src/components/equipStatus/EquipStatus'
-import EquipDetialCard from '/src/components/equipDetialCard/EquipDetialCard'
+import EquipStatus from 'cmp/equipStatus/EquipStatus'
+import EquipDetialCard from 'cmp/equipDetialCard/EquipDetialCard'
 export default {
   components: {
     EquipStatus,
@@ -151,7 +151,7 @@ export default {
 .environmentalMonitoring-header{
   width: 100%;
   height: 13.5%;
-  background-image: url('/src/assets/images/equip/card-header.png');
+  background-image: url('@/assets/images/equip/card-header.png');
   background-position: right top;
   background-repeat: no-repeat;
   background-size:100% 100%;
@@ -195,7 +195,7 @@ export default {
 .environmentalMonitoring-content{
   width: 100%;
   display: inline-block;
-  background-image: url('/src/assets/images/equip/environmental-monitoring.png');
+  background-image: url('@/assets/images/equip/environmental-monitoring.png');
   background-position: right top;
   background-repeat: no-repeat;
   background-size:180px 120px;

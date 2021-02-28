@@ -19,28 +19,24 @@ export default new VueRouter({
       path: '/',
       component: Tabbar,
       meta: {
-        showFooter: true
       },
-      redirect: '/index',
+      redirect: '/iotAppDetail',
       children: [
         {
           path: '/index',
           component: () => import('@/views/index/index'),
           meta: {
-            showFooter: true
           }
         },
         {
           path: '/home',
           component: () => import('@/views/home/home'),
           meta: {
-            showFooter: true
           }
         }, {
           path: '/personalCenter',
           component: () => import('@/views/personalCenter/personalCenter'),
           meta: {
-            showFooter: true
           }
         }
       ]
@@ -49,7 +45,6 @@ export default new VueRouter({
       path: '/aiot',
       component: Navbar,
       meta: {
-        showFooter: true
       },
       redirect: '/iotApp',
       children: [{
@@ -57,15 +52,20 @@ export default new VueRouter({
         path: '/iotApp',
         component: () => import('@/views/aiot/iotApp'),
         meta: {
-          showFooter: true,
           title: '智慧物联'
+        }
+      }, {
+
+        path: '/iotAppDetail',
+        component: () => import('@/views/aiot/iotAppDetail'),
+        meta: {
+          title: '设备详情'
         }
       },
       {
         path: '/video',
         component: () => import('@/views/video/video'),
         meta: {
-          showFooter: true,
           title: '智慧视觉'
         }
       },
@@ -73,7 +73,6 @@ export default new VueRouter({
         path: '/videoPlayer',
         component: () => import('@/views/videoPlayer/videoPlayer'),
         meta: {
-          showFooter: true
         }
       }]
     }

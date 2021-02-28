@@ -45,6 +45,13 @@
     - TowerCraneMonitoring.vue         塔机监测卡片
     - TowerCraneMonitoring.css
 
+
+  - infoRow                #基本信息行
+    -infoRow.vue
+    -infoRow.css 
+
+
+
   - equipDetialCard         #设备实时数据小卡片
     - EquipDetialCard.vue
     - EquipDetialCard.css
@@ -102,6 +109,8 @@
   - iotApp                 #物联应用
     - iotApp.vue         
     - iotApp.css
+    - iotAppDetail.vue
+    - iotAppDetail.css
   
   - placeResourc           #网点管理
     - placeResourc.vue

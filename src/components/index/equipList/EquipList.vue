@@ -3,7 +3,7 @@
   <div class="equipList1">
     <div v-for="item in data" :key="item.id" class="item" @click="showCard()">
       <div class="item-left">
-        <img class="equip-img" :src="item.img">
+        <img class="equip-img" :src="item.imgUrl" alt>
         <p class="item-title">
           {{ item.typeName }}
         </p>

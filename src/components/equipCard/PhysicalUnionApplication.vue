@@ -53,7 +53,7 @@
         </div>
         <div class="physicalUnionApplication-content-row-value address-font">
           {{ data.placeName }}
-          <img src="/src/assets/images/equip/address.png" alt="" class="address-icon">
+          <img src="@/assets/images/equip/address.png" alt="" class="address-icon">
         </div>
       </div>
     </div>
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import EquipStatus from '/src/components/equipStatus/EquipStatus'
+import EquipStatus from 'cmp/equipStatus/EquipStatus'
 export default {
   components: {
     EquipStatus
@@ -102,7 +102,7 @@ export default {
 
 .physicalUnionApplication-header{
   background: #131F3B;
-  background-image: url('/src/assets/images/equip/card-header.png');
+  background-image: url('@/assets/images/equip/card-header.png');
   background-position: right top;
   background-repeat: no-repeat;
   background-size:100% 100%;
@@ -146,7 +146,7 @@ export default {
 .physicalUnionApplication-content{
   width: 100%;
   display: inline-block;
-  background-image: url('/src/assets/images/equip/camera-bg-img.png');
+  background-image: url('@/assets/images/equip/camera-bg-img.png');
   background-position: right;
   background-repeat: no-repeat;
   background-size:160px 110px;

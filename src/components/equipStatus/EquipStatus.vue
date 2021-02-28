@@ -4,13 +4,13 @@
       {{ data.statusName }}
     </div>
 
-    <img v-if="data.electricity==='yellow'" src="/src/assets/images/equip/battery-yellow.png" alt="" class="battery">
-    <img v-else-if="data.electricity==='green'" src="/src/assets/images/equip/battery-green.png" alt="" class="battery">
-    <img v-else-if="data.electricity==='red'" src="/src/assets/images/equip/battery-red.png" alt="" class="battery">
+    <img v-if="data.electricity==='yellow'" src="@/assets/images/equip/battery-yellow.png" alt="" class="battery">
+    <img v-else-if="data.electricity==='green'" src="@/assets/images/equip/battery-green.png" alt="" class="battery">
+    <img v-else-if="data.electricity==='red'" src="@/assets/images/equip/battery-red.png" alt="" class="battery">
 
-    <img v-if="data.wifi==='green'" src="/src/assets/images/equip/wifi-green.png" alt="" class="wifi">
-    <img v-else-if="data.wifi==='yellow'" src="/src/assets/images/equip/wifi-yellow.png" alt="" class="wifi">
-    <img v-else-if="data.wifi==='red'" src="/src/assets/images/equip/wifi-red.png" alt="" class="wifi">
+    <img v-if="data.wifi==='green'" src="@/assets/images/equip/wifi-green.png" alt="" class="wifi">
+    <img v-else-if="data.wifi==='yellow'" src="@/assets/images/equip/wifi-yellow.png" alt="" class="wifi">
+    <img v-else-if="data.wifi==='red'" src="@/assets/images/equip/wifi-red.png" alt="" class="wifi">
   </div>
 </template>
 

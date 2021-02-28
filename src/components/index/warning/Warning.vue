@@ -4,7 +4,7 @@
     <div class="hidden-trouble-detail">
       <div class="out-rect">
         <div class="in-rect">
-          <img class="equip-img" src="/src/assets/images/index/real-time-warning-camera.png">
+          <img class="equip-img" src="@/assets/images/index/real-time-warning-camera.png">
           <ul class="list">
             <li
               v-for="(rowItem, index) in ulList"
@@ -146,20 +146,7 @@ export default {
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
-.cover{
-  position: relative;
-}
-.cover::after{
-  content: '';
-  width: 7px;
-  height: 7px;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  border: 1px solid #0085F7;
-  border-top-color: #0085F7;
-  border-right-color: #0085F7;
-}
+
 .colItem{
   width: auto;
   display: inline-block;
