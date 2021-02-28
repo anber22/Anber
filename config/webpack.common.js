@@ -9,7 +9,8 @@ module.exports = {
     alias: {
       // 别名
       '@': path.resolve(__dirname, '../src'),
-      'cmp':path.resolve(__dirname, '/src/components')
+      // 组件
+      'cmp':path.resolve(__dirname, '../src/components')
     }
   },
   entry: {

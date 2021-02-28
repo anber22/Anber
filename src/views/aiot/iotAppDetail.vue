@@ -1,7 +1,7 @@
 <template>
   <div class="iotApp-detail">
     <van-tabs v-model="active" swipeable color="#06F0FE" title-active-color="#06F0FE" title-inactive-color="#8BA3C2" background="rgba(16, 23, 32, 1)" sticky ellipsis>
-      <van-tab v-for="item in tabList" :key="item" :title="item.title" class="tab-content" />
+      <van-tab v-for="item in tabList" :key="item.index" :title="item.title" class="tab-content" />
     </van-tabs>
   </div>
 </template>
@@ -14,6 +14,7 @@ export default {
   },
   data() {
     return {
+      active: 0,
       tabList: [
         {
           index: 0,
