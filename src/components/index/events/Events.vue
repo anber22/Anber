@@ -6,7 +6,7 @@
       <div class="title-name">
         <div style="margin-left: 4px;max-width: 70%; display: flex">
           <van-cell is-link :title="actionsTitle" class="actions-title" @click="show = true" />
-          <van-action-sheet v-model="show" class="actions-content" :actions="data.equitType" :closeable="true" title="请选择" :round="false" @select="onChangeSystemType" />
+          <van-action-sheet v-model="show" class="actions-content" :actions="data.equipType" :closeable="true" title="请选择" :round="false" @select="onChangeSystemType" />
           <div>
             <p class="thirtyDay" @click="show = true">
               (近30天)
@@ -54,8 +54,7 @@ export default {
     }
   },
   mounted() {
-    this.actionsTitle = this.data.equitType[0].name
-    console.log(this.actionsTitle, 'actionsTitle')
+    this.actionsTitle = this.data.equipType[0].name
   },
   methods: {
     onChangeSystemType(item) {

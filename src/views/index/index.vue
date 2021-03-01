@@ -63,17 +63,18 @@
     <!-- end -->
     <!-- 监测分析，近一月/近一年/全部 -->
     <Adaptive :data="['100%','100%']">
-      <MonitorAnalysis :data="monitorAnalysisData" @timeType="getDateType" @systemType="getMonitorSystemType" />
+      <MonitorAnalysis v-if="loading" :data="monitorAnalysisData" @timeType="getDateType" @systemType="getMonitorSystemType" />
     </Adaptive>
-    <!-- end -->
+    <!-- legend 图例 -->
     <div class="legend">
       <p v-for="(item, index) in monitorAnalysisData.pieData.data" :key="index">
         <span :style="{ background: item.color }" />{{ item.name }}&emsp;&emsp;{{ item.value }}次&emsp;&emsp;&ensp;{{ item.precent }}%
       </p>
     </div>
+    <!-- end -->
     <!-- 事件数故障数统计分析 start  -->
     <Adaptive :data="['100%','90%']">
-      <Events :data="eventData" @systemType="getSystemType" />
+      <Events v-if="loading" :data="eventData" @systemType="getSystemType" />
     </Adaptive>
     <!-- end -->
   </div>
@@ -105,6 +106,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       gaugeData: {
         chartId: 'gaugeId'
       },
@@ -135,20 +137,7 @@ export default {
       departCountData: {},
       // 事件数、故障数统计双折线图
       eventData: {
-        equitType: [
-          {
-            value: 1,
-            name: '智慧视觉统计'
-          },
-          {
-            value: 2,
-            name: '环境监测统计统'
-          },
-          {
-            value: 3,
-            name: '塔机监测统计'
-          }
-        ],
+        equitType: [],
         analysisTimelineData: {
           chartId: 'analysisTimelineChartId', // 双折线图的id
           xAxis: {
@@ -167,20 +156,7 @@ export default {
       },
       // 隐患分析近一月近一年全部数据
       monitorAnalysisData: {
-        equipType: [
-          {
-            value: 1,
-            name: '智慧视觉统计统'
-          },
-          {
-            value: 2,
-            name: '环境监测统计统'
-          },
-          {
-            value: 3,
-            name: '塔机监测统计'
-          }
-        ],
+        equipType: [],
         dateType: [
           {
             value: 1,
@@ -209,6 +185,7 @@ export default {
     }
   },
   computed: {
+
     changeDateType() {
       return function(type, system) {
         if (type === 1) {
@@ -276,9 +253,18 @@ export default {
         return acc
       }, this.equipList)
 
+      combined.forEach(item => {
+        this.monitorAnalysisData.equipType.push({
+          value: item.id,
+          name: item.name
+        })
+      })
+      this.eventData.equipType = this.monitorAnalysisData.equipType
+      console.log(this.eventData.equipType, 'this.eventData.equipType')
+      this.analysisDateType = combined[0].id
       this.getAnalysisTimeline(combined[0].id) // 用应用列表里的第一个子系统获取15天事件和故障数统计数据
-      this.getMonitorAnalysis(combined[0].id, 1) // 用应用列表里的第一个子系统获取监测分析1月内数据
-
+      this.getMonitorAnalysis(combined[0].id, this.monitorAnalysisData.dateType[0].value) // 用应用列表里的第一个子系统获取监测分析全部数据
+      this.loading = true
       this.equipList = combined
     },
     /**
@@ -364,7 +350,7 @@ export default {
       this.getAnalysisTimeline(value)
     },
     /**
-     * 监测分析 type:1 (1月)、type:2 (1年)、type: 2（全部）
+     * 监测分析 type:1 (全部)、type:2 (近1月)、type: 3（近1年）
      */
     async getMonitorAnalysis(system, type) {
       const apiUrl = this.changeDateType(type, system)
@@ -377,7 +363,6 @@ export default {
         const dataArr = [...res.data.event]
         if (Reflect.has(Config, 'hazardAnalysis')) {
           color = Config.hazardAnalysis.color
-          console.log(Config.hazardAnalysis.color, 'color')
         }
         dataArr.forEach((item, index) => {
           this.monitorAnalysisData.pieData.data.push({

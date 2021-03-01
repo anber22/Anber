@@ -73,7 +73,7 @@ export default {
   mounted() {
     setInterval(this.startPlay, 2000)
 
-    Socket.initSocket('equipCount')
+    // Socket.initSocket('equipCount')
   },
   destroyed() { // 页面销毁时清除定时器
     clearInterval(this.timer)
