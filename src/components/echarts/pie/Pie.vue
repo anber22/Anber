@@ -25,23 +25,16 @@ export default {
       const _data = this.data.data
       var myChart = this.$echarts.init(document.getElementById(this.data.chartId))
       var option = {
-        color: ['rgba(99, 127, 234, 1)', 'rgba(90, 173, 212, 1)', 'rgba(179, 90, 255, 1)', 'rgba(237, 204, 49, 1)', 'rgba(37, 189, 151, 1)'],
+        color: this.data.color,
         tooltip: {
           trigger: 'item',
           backgroundColor: 'rgba(0, 0, 0, 0.89)'
         },
-        title: {
-          text: this.data.title,
-          top: '21%',
-          left: '45%',
-          textStyle: {
-            color: '#fff',
-            fontSize: 14
-          }
-        },
         legend: {
-          top: '55%%',
+          show: false,
+          top: '50%',
           left: 'center',
+          orient: 'vertical',
           padding: 0,
           itemGap: 20,
           icon: 'rect',
@@ -55,7 +48,7 @@ export default {
             if (_data[0].value) {
               _data.forEach((item, i) => {
                 if (item.name === name) {
-                  name = item.name + '      ' + item.value + '次'
+                  name = item.name + '      ' + item.value + '次' + '        ' + item.precent + '%'
                 }
               })
             }
@@ -67,7 +60,7 @@ export default {
             name: '',
             type: 'pie',
             radius: ['30%', '50%'],
-            center: ['50%', '25%'],
+            center: ['50%', '30%'],
             avoidLabelOverlap: false,
             label: {
               show: false,

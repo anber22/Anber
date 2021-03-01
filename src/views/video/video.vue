@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Video from '@/components/video/Video'
+import Video from 'cmp/video/Video'
 import videoApi from '@/api/video'
 export default {
   components: {

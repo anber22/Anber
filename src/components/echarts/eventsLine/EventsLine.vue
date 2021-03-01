@@ -76,7 +76,7 @@ export default {
           show: false
         },
         axisLabel: {
-          interval: 2, // 如果设置为 1，表示『隔一个标签显示一个标签』，如果值为 2，表示隔两个标签显示一个标签，以此类推
+          interval: 6, // 如果设置为 1，表示『隔一个标签显示一个标签』，如果值为 2，表示隔两个标签显示一个标签，以此类推
           show: true,
           textStyle: {
             color: 'rgba(111, 133, 162, 1)'

@@ -4,16 +4,16 @@
     <div class="title-box">
       <div class="title-style" />
       <div class="title-name">
-        <div style="margin-left: 4px;width: 52%">
-          <!-- <Select v-model="systemType" size="small" class="system-select" @on-change="onChangeSystemType">
-            <Option v-for="item in data.equitType" :key="item.value" class="systemOption" :value="item.value">
-              {{ item.label }}
-            </Option>
-          </Select> -->
-          <van-dropdown-menu class="dropdown-select" :overlay="false" :z-index="200" active-color="#B9CEE9">
-            <van-dropdown-item v-model="systemType" :options="data.equitType" @change="onChangeSystemType" />
-          </van-dropdown-menu>
+        <div style="margin-left: 4px;max-width: 70%; display: flex">
+          <van-cell is-link :title="actionsTitle" class="actions-title" @click="show = true" />
+          <van-action-sheet v-model="show" class="actions-content" :actions="data.equitType" :closeable="true" title="请选择" :round="false" @select="onChangeSystemType" />
+          <div>
+            <p class="thirtyDay" @click="show = true">
+              (近30天)
+            </p>
+          </div>
         </div>
+
         <div>
           <span class="eventCounting">事件数</span>
           <span class="eventCounting errorCounting">故障数</span>
@@ -48,12 +48,22 @@ export default {
   },
   data() {
     return {
-      systemType: 1
+      systemType: 1,
+      show: false,
+      actionsTitle: null
     }
   },
+  mounted() {
+    this.actionsTitle = this.data.equitType[0].name
+    console.log(this.actionsTitle, 'actionsTitle')
+  },
   methods: {
-    onChangeSystemType(value) {
-      this.$emit('systemType', value)
+    onChangeSystemType(item) {
+      // 默认情况下点击选项时不会自动收起
+      // 可以通过 close-on-click-action 属性开启自动收起
+      this.show = false
+      this.actionsTitle = item.name
+      this.$emit('systemType', item.value)
     }
   }
 }
@@ -61,47 +71,77 @@ export default {
 
 <style scoped src="./Events.css"></style>
 <style>
-/* 修改下拉框样式 */
-.events-content .van-dropdown-menu__bar{
-  background-color: #101720 !important;
-  height: auto;
+/* 修改弹出框样式 */
+.thirtyDay{
+  font-size: 12px;
+  text-align: left;
+  line-height: 30px;
+  width: 50px;
+  position: relative
 }
-/* 标题和选中项文字样式 */
-.events-content .van-dropdown-menu__title{
-  color: rgba(185, 206, 233, 1);
-  font-size: 20px
-}
-/* 标题左对齐 */
-.events-content .van-dropdown-menu__item{
-  justify-content: left
+.thirtyDay::before{
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -12px;
+  margin-top: -8px;
+  border: 3px solid;
+  border-color: transparent transparent #dcdee0 #dcdee0;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  opacity: .8;
+  content: '';
 }
 /* option样式 */
 .events-content .van-cell{
   background-color: #101720;
   width: 100%;
-  font-size: 18px;
-  color: rgba(128, 146, 161, 1);
-  text-align: center;
-  padding: 6px 10px;
-}
-/* 关掉icon */
-.events-content .van-cell__value{
-  display: none
+  font-size: 20px;
+  color: #B9CEE9;
+  text-align: left;
+  padding: 0 0 0 5;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 /* 关掉option下边框 */
 .events-content .van-cell::after{
   display: none
 }
-/* 下拉框 */
-.events-content .van-popup--top{
-  width: 80%;
-  border: 1px rgba(42, 82, 134, 1) solid;
-  left: 25px;
-  background-color: transparent
+/* 小三角样式 */
+.events-content .actions-title .van-icon-arrow::before{
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -12px;
+  margin-top: -5px;
+  border: 3px solid;
+  border-color: transparent transparent #dcdee0 #dcdee0;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  opacity: .8;
+  content: '';
+  display: none;
 }
-/* 整个下拉框的宽高 */
-.events-content .van-dropdown-item{
-  width: 188px;
-  height: 137px;
+.events-content .actions-content.van-action-sheet{
+  background-color: #10161F;
+  color: #FFFEFE;
+  font-size: 16px
+}
+.events-content .actions-content .van-action-sheet__cancel, .actions-content .van-action-sheet__item{
+  background-color: #10161F;
+  color: #B9CEE9;
+  font-size: 16px;
+  width: 90%;
+  margin: 0 auto;
+  border-bottom: 1px #283444 solid;
+}
+.events-content .actions-content .van-action-sheet__header{
+  border-bottom: 1px #283444 solid;
+}
+.events-content .actions-content .van-action-sheet__close{
+  color: #FFFEFE
+}
+.events-content .van-overlay{
+  background-color: rgba(10, 4, 1, 0.55)
 }
 </style>

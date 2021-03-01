@@ -250,5 +250,9 @@
         }
       }
     }
+  },
+  "hazardAnalysis": {
+    "desc": "hazardAnalysis字段说明：智慧高投页面隐患次数分析饼图配置;color: 饼图的颜色",
+    "color": ["#637FEA", "#5AADD4", "#B35AFF", "#EDCC31", "#25BD97", "#e67e22", "#70a1ff", "#ff4757", "#eddd9e", "#7b8c7c", "#9b59b6", "#1abc9c", "#ffbc9b", "#dbfbe3", "#ff99ff", "#c14444", "#ffe3c8", "#717234", "#0b2d64", "#02b340"]
   }
 }
