@@ -40,9 +40,9 @@
               src="/src/assets/images/home/iot.png"
             />
           </Adaptive>
-          <p>物联应用</p>
+          <p>联网应用</p>
         </div>
-        <div>
+        <div hidden>
           <Adaptive class="module-item" :data="['75.4%', '75.4%']">
             <van-image
               fit="contain"
@@ -78,7 +78,7 @@
           </Adaptive>
           <p>隐患管理</p>
         </div>
-        <div>
+        <div hidden>
           <Adaptive class="module-item" :data="['75.4%', '75.4%']">
             <van-image
               fit="contain"

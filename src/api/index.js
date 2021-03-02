@@ -10,7 +10,7 @@ class Index {
   //  智慧视觉(环境监测、塔机检测)统计折线图
   async analysisTimeline(param) {
     return await request({
-      url: `/apis/equip/system/${param}/heartbeat/analysis/timeline`,
+      url: `/apis/equip/system/${param}1/heartbeat/analysis/timeline`,
       method: 'get'
     })
   }
