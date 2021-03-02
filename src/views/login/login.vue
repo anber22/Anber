@@ -211,6 +211,12 @@ export default {
 </script>
 
 <style scoped>
+.login-box{
+ background-color: #101720;
+ height: 100%;
+ width: 100%;
+ position: fixed;
+}
 .logo-box{
   width: 40%;
   margin: 16% auto;

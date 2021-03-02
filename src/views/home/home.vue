@@ -107,7 +107,7 @@
 </template>
 
 <script>
-import RealtimeEventCard from '@/components/realtimeEventCard/RealtimeEventCard'
+import RealtimeEventCard from 'cmp/realtimeEventCard/RealtimeEventCard'
 export default {
   components: {
     RealtimeEventCard

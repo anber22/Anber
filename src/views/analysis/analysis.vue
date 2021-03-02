@@ -137,7 +137,8 @@ export default {
 .analysis{
     width: 100%;
   height: 100%;
-  position: fixed
+  position: fixed;
+  background-color: #101720;
 }
 .analysis-content{
 padding: 0px 3% 52% 3%;

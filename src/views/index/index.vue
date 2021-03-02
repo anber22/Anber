@@ -19,7 +19,7 @@
     </Adaptive>
     <!-- end -->
     <!-- 设备在线率 start -->
-    <Adaptive :data="['100%','66%']">
+    <Adaptive :data="['100%','60%']">
       <Gauge :data="gaugeData" />
     </Adaptive>
     <!-- end -->
@@ -62,30 +62,36 @@
     </Adaptive>
     <!-- end -->
     <!-- 监测分析，近一月/近一年/全部 -->
-    <Adaptive :data="['100%','110%']">
-      <MonitorAnalysis :data="monitorAnalysisData" @timeType="getDateType" @systemType="getMonitorSystemType" />
+    <Adaptive :data="['100%','100%']">
+      <MonitorAnalysis v-if="loading" :data="monitorAnalysisData" @timeType="getDateType" @systemType="getMonitorSystemType" />
     </Adaptive>
+    <!-- legend 图例 -->
+    <div class="legend">
+      <p v-for="(item, index) in monitorAnalysisData.pieData.data" :key="index">
+        <span :style="{ background: item.color }" />{{ item.name }}&emsp;&emsp;{{ item.value }}次&emsp;&emsp;&ensp;{{ item.precent }}%
+      </p>
+    </div>
     <!-- end -->
     <!-- 事件数故障数统计分析 start  -->
-    <Adaptive :data="['100%','104%']">
-      <Events :data="eventData" @systemType="getSystemType" />
+    <Adaptive :data="['100%','90%']">
+      <Events v-if="loading" :data="eventData" @systemType="getSystemType" />
     </Adaptive>
     <!-- end -->
   </div>
 </template>
 
 <script>
-import Gauge from '@/components/echarts/gauge/Gauge'
-import MaxPie from '@/components/echarts/maxPie/MaxPie'
-import MaxLine from '@/components/echarts/line/Line'
+import Gauge from 'cmp/echarts/gauge/Gauge'
+import MaxPie from 'cmp/echarts/maxPie/MaxPie'
+import MaxLine from 'cmp/echarts/line/Line'
 import Api from '@/api/index'
 import EquipList from 'cmp/index/equipList/EquipList'
 import Warning from 'cmp/index/Warning/Warning'
 import Config from '/config.json'
 
-import DepartCount from '@/components/index/departCount/DepartCount'
-import Events from '@/components/index/events/Events'
-import MonitorAnalysis from '@/components/index/monitorAnalysis/MonitorAnalysis'
+import DepartCount from 'cmp/index/departCount/DepartCount'
+import Events from 'cmp/index/events/Events'
+import MonitorAnalysis from 'cmp/index/monitorAnalysis/MonitorAnalysis'
 
 export default {
   components: {
@@ -100,6 +106,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       gaugeData: {
         chartId: 'gaugeId'
       },
@@ -128,23 +135,11 @@ export default {
       lineDataFlag: false,
       departCountList: [],
       departCountData: {},
+      // 事件数、故障数统计双折线图
       eventData: {
-        equitType: [
-          {
-            value: 1,
-            text: '智慧视觉统计'
-          },
-          {
-            value: 2,
-            text: '环境监测统计统'
-          },
-          {
-            value: 3,
-            text: '塔机监测统计'
-          }
-        ],
+        equitType: [],
         analysisTimelineData: {
-          chartId: 'analysisTimelineChartId', // 饼图的id
+          chartId: 'analysisTimelineChartId', // 双折线图的id
           xAxis: {
             data: []
           },
@@ -159,53 +154,43 @@ export default {
         },
         analysisTimelineFlag: false
       },
+      // 隐患分析近一月近一年全部数据
       monitorAnalysisData: {
-        equipType: [
-          {
-            value: 1,
-            text: '智慧视觉统计统'
-          },
-          {
-            value: 2,
-            text: '环境监测统计统'
-          },
-          {
-            value: 3,
-            text: '塔机监测统计'
-          }
-        ],
+        equipType: [],
         dateType: [
           {
             value: 1,
-            text: '近1月'
+            text: '全部'
           },
           {
             value: 2,
-            text: '近1年'
+            text: '近1月'
           },
           {
             value: 3,
-            text: '全部'
+            text: '近1年'
           }
         ],
         pieData: {
           chartId: 'monitorAnalysisChartId', // 饼图的id
           data: [],
-          title: ''
+          title: '',
+          color: []
         },
         monitorAnalysisFlag: false
       },
-      analysisDateType: 1, // 监测分析当前选中的时间类型 默认近1月
+      monitorAnalysisLegendData: [],
+      analysisDateType: 1, // 监测分析当前选中的时间类型 默认全部
       analysisSystemType: 1 // 监测分析当前选中的系统类型 默认智慧视觉
-
     }
   },
   computed: {
+
     changeDateType() {
       return function(type, system) {
-        if (type === 3) {
+        if (type === 1) {
           return Api.monitorAnalysis(system)
-        } else if (type === 1) {
+        } else if (type === 2) {
           return Api.monitorAnalysisMonth(system)
         } else {
           return Api.monitorAnalysisYear(system)
@@ -268,9 +253,18 @@ export default {
         return acc
       }, this.equipList)
 
+      combined.forEach(item => {
+        this.monitorAnalysisData.equipType.push({
+          value: item.id,
+          name: item.name
+        })
+      })
+      this.eventData.equipType = this.monitorAnalysisData.equipType
+      console.log(this.eventData.equipType, 'this.eventData.equipType')
+      this.analysisDateType = combined[0].id
       this.getAnalysisTimeline(combined[0].id) // 用应用列表里的第一个子系统获取15天事件和故障数统计数据
-      this.getMonitorAnalysis(combined[0].id, 0) // 用应用列表里的第一个子系统获取监测分析1月内数据
-
+      this.getMonitorAnalysis(combined[0].id, this.monitorAnalysisData.dateType[0].value) // 用应用列表里的第一个子系统获取监测分析全部数据
+      this.loading = true
       this.equipList = combined
     },
     /**
@@ -356,22 +350,29 @@ export default {
       this.getAnalysisTimeline(value)
     },
     /**
-     * 监测分析 type:1 (1月)、type:2 (1年)、type: 2（全部）
+     * 监测分析 type:1 (全部)、type:2 (近1月)、type: 3（近1年）
      */
     async getMonitorAnalysis(system, type) {
       const apiUrl = this.changeDateType(type, system)
       const res = await apiUrl
+      let color = []
       this.monitorAnalysisData.pieData.data = []
       this.monitorAnalysisData.pieData.title = ''
+      this.monitorAnalysisData.pieData.color = []
       if (res.code === 200) {
         const dataArr = [...res.data.event]
-        dataArr.forEach(item => {
+        if (Reflect.has(Config, 'hazardAnalysis')) {
+          color = Config.hazardAnalysis.color
+        }
+        dataArr.forEach((item, index) => {
           this.monitorAnalysisData.pieData.data.push({
             value: item.eventCount,
             name: item.name,
-            precent: item.eventPrecent
+            precent: item.eventPrecent,
+            color: color[index]
           })
         })
+        this.monitorAnalysisData.pieData.color = color
         this.monitorAnalysisData.pieData.title = res.data.count
         this.monitorAnalysisData.monitorAnalysisFlag = true
       }
@@ -419,7 +420,7 @@ export default {
   display: inline-block;
   margin-left: 2.7%;
   background-image: url('@/assets/images/index/branches-count.png');
-  background-repeat:no-repeat ;
+  background-repeat:no-repeat;
   background-size: cover;
 }
 .warning-box{
@@ -474,5 +475,20 @@ export default {
 .equipList{
   width: 100%;
   height: 100%;
+}
+.legend{
+  text-align: center;
+  font-size: 12px;
+  color: #fff;
+}
+.legend p{
+  line-height: 2.5
+}
+.legend p span{
+  display: inline-block;
+  width: 11px;
+  background-color: #008EFF;
+  height: 9px;
+  margin-right: 10px;
 }
 </style>
