@@ -26,6 +26,8 @@
           fit="cover"
           style="vertical-align: text-top;"
           src="/src/assets/images/equip/address.png"
+          :show-error="false"
+          :show-loading="false"
         />
         {{ data.equipAddress }}
       </div>

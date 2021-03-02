@@ -6,6 +6,8 @@
           fit="cover"
           :src="data.pictureUrl"
           class="image-item"
+          :show-error="false"
+          :show-loading="false"
         />
       </Adaptive>
       <div class="text">
