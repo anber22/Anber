@@ -4,7 +4,7 @@
       <Adaptive :data="['100%','60%']">
         <van-image
           fit="cover"
-          :src="data.imgUrl"
+          :src="data.pictureUrl"
           class="image-item"
         />
       </Adaptive>

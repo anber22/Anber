@@ -122,7 +122,7 @@
           实时事件
         </div>
         <RealtimeEventCard />
-        <RealtimeEventCard />
+        <!-- <RealtimeEventCard /> -->
       </div>
     </div>
   </div>
