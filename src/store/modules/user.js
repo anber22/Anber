@@ -1,7 +1,7 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import User from '@/api/user'
-import store from '@/store'
-import router from '@/router'
+// import store from '@/store'
+// import router from '@/router'
 const user = {
   state: {
     token: getToken(),

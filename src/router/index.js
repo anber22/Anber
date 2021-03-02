@@ -20,7 +20,7 @@ export default new VueRouter({
       component: Tabbar,
       meta: {
       },
-      redirect: '/iotAppDetail',
+      redirect: '/analysis',
       children: [
         {
           path: '/index',
@@ -46,7 +46,7 @@ export default new VueRouter({
       component: Navbar,
       meta: {
       },
-      redirect: '/iotApp',
+      redirect: '/placeResourc',
       children: [{
 
         path: '/iotApp',
@@ -60,6 +60,20 @@ export default new VueRouter({
         component: () => import('@/views/aiot/iotAppDetail'),
         meta: {
           title: '设备详情'
+        }
+      },
+      {
+        path: '/placeResourc',
+        component: () => import('@/views/placeResourc/placeResourc'),
+        meta: {
+          title: '网点管理'
+        }
+      },
+      {
+        path: '/analysis',
+        component: () => import('@/views/analysis/analysis'),
+        meta: {
+          title: '隐患统计'
         }
       },
       {
