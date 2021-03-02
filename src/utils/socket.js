@@ -20,6 +20,10 @@ class Socket {
     }
   }
 
+  /**
+   * 初始化socket
+   * @param {*} channelName
+   */
   initSocket(channelName) {
     // 先识别对应的频道
     this.identificationOfTheChannel(channelName)
@@ -47,9 +51,7 @@ class Socket {
     // 订阅频道
     // .depart_id
     // 非正式版本下，加test-
-    const topic =
-      '/exchange/aiot-event-message/' +
-     '1112312'
+    const topic = channel
     socket.subscribe(topic, this.responseCallback, this.onFailed)
 
     // return responseCallback

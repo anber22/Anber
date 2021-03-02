@@ -121,7 +121,7 @@ export default {
         systemType: this.thisSubsystemId,
         page: 1,
         size: 12,
-        consitionStr: (this.queryCondition.length < 1 ? '' : '?' + this.queryCondition)
+        conditionStr: (this.queryCondition.length < 1 ? '' : '?' + this.queryCondition)
       }
       const res = await Api.equipInfoList(params)
       this.equipInfoList = [...res.data.rows]
@@ -165,7 +165,7 @@ export default {
 .iot-content{
   position: fixed;
   padding: 0px 3% 13% 3%;
-  height: 87%;
+  height: 80%;
   width: 94%;
   overflow: scroll;
 }

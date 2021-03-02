@@ -25,7 +25,7 @@ class IotApp {
   //  获取物联应用列表
   async equipInfoList(param) {
     return await request({
-      url: `/apis/equip/type/${param.systemType}/place/page/${param.page}/size/${param.size}${param.consitionStr}`,
+      url: `/apis/equip/type/${param.systemType}/place/page/${param.page}/size/${param.size}${param.conditionStr}`,
       method: 'get'
     })
   }
