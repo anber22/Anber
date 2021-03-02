@@ -125,14 +125,29 @@ export default {
       }
       const res = await Api.equipInfoList(params)
       this.equipInfoList = [...res.data.rows]
+      var ids = this.equipInfoList.map(item => { return item.equipId })
+
+      const hazardCountList = await Api.equipUntreatedEventList(ids)
+      console.log('hazardCountList', hazardCountList)
+      let combined = hazardCountList.data.reduce((acc, cur) => {
+        const target = acc.find(e => e.equipId === cur.equipId)
+        if (target) {
+          Object.assign(target, cur)
+        } else {
+          acc.push(cur)
+        }
+        return acc
+      }, this.equipInfoList)
+      this.equipInfoList = combined
+      console.log('hazardCountList', combined)
       // 如果选择的是 thisSubsystemId ===1 的环境监测系统
       if (this.thisSubsystemId === 1 || this.thisSubsystemId === 2) {
         this.loadding = true
         // 获取ids去查询对应设备的详细数据
-        var ids = this.equipInfoList.map(item => { return item.equipId })
+
         const temp = await Api.equipRealTimeInfoList(ids)
         // 把两个数组对象根据equipId来合并
-        const combined = temp.data.reduce((acc, cur) => {
+        combined = temp.data.reduce((acc, cur) => {
           const target = acc.find(e => e.equipId === cur.equipId)
           if (target) {
             Object.assign(target, cur)
@@ -142,6 +157,7 @@ export default {
           return acc
         }, this.equipInfoList)
         this.equipInfoList = combined
+        console.log('1231231', this.equipInfoList)
         this.loadding = false
       }
     }

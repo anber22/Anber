@@ -20,7 +20,7 @@ export default new VueRouter({
       component: Tabbar,
       meta: {
       },
-      redirect: '/analysis',
+      redirect: '/hazardDetail',
       children: [
         {
           path: '/index',
@@ -70,8 +70,8 @@ export default new VueRouter({
         }
       },
       {
-        path: '/analysis',
-        component: () => import('@/views/analysis/analysis'),
+        path: '/hazard',
+        component: () => import('@/views/hazard/hazard'),
         meta: {
           title: '隐患统计'
         }
@@ -91,7 +91,18 @@ export default new VueRouter({
           showFooter: true,
           title: '视频播放'
         }
-      }]
+      },
+      {
+        path: '/hazardDetail',
+        name: 'HazardDetail',
+        component: () => import('@/views/hazardDetail/hazardDetail'),
+        meta: {
+          showFooter: true,
+          title: '隐患详情'
+        }
+      }
+
+      ]
     },
     {
       path: '/login',
