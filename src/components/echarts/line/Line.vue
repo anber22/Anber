@@ -12,6 +12,13 @@ export default {
     }
   },
   mounted() {
+    let interval = 2
+    const _xAxisData = this.data.xAxis.data
+    if (_xAxisData.length < 7) {
+      interval = 0
+    } else if (_xAxisData.length > 6 && _xAxisData.length < 12) {
+      interval = 1
+    }
     // 基于准备好的dom，初始化echarts实例
     var myChart = this.$echarts.init(document.getElementById(this.data.chartId))
     // 指定图表的配置项和数据
@@ -65,7 +72,7 @@ export default {
           show: false
         },
         axisLabel: {
-          interval: 2, // 如果设置为 1，表示『隔一个标签显示一个标签』，如果值为 2，表示隔两个标签显示一个标签，以此类推
+          interval: interval, // 如果设置为 1，表示『隔一个标签显示一个标签』，如果值为 2，表示隔两个标签显示一个标签，以此类推
           show: true,
           textStyle: {
             color: 'rgba(111, 133, 162, 1)'

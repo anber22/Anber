@@ -27,6 +27,7 @@ export default {
       var option = {
         color: this.data.color,
         tooltip: {
+          show: false,
           trigger: 'item',
           backgroundColor: 'rgba(0, 0, 0, 0.89)'
         },

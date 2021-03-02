@@ -1,5 +1,5 @@
 <template>
-  <div class="placeResourcListCard">
+  <div class="placeResourcListCard" @click="goJump(data.placeId)">
     <div class="placeResourcListCard-header">
       <div class="placeResourcListCard-title">
         {{ data.placeName }}
@@ -57,7 +57,14 @@ export default {
     }
   },
   methods: {
-
+    goJump(id) {
+      this.$router.push({
+        path: '/placeResourcDetail',
+        query: {
+          placeId: id
+        }
+      })
+    }
   }
 }
 </script>
