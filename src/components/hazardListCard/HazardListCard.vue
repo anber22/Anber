@@ -1,38 +1,38 @@
 <template>
-  <div class="analysisListCard">
-    <div class="analysisListCard-header">
-      <div v-if="data.isDone===1" class="analysisListCard-status-deal">
+  <div class="hazardListCard">
+    <div class="hazardListCard-header">
+      <div v-if="data.isDone===1" class="hazardListCard-status-deal">
         已处理
       </div>
-      <div v-else class="analysisListCard-status">
+      <div v-else class="hazardListCard-status">
         未处理
       </div>
-      <div class="analysisListCard-analysis-name">
+      <div class="hazardListCard-analysis-name">
         {{ data.onlineMsg }}
       </div>
 
-      <div class="analysisListCard-equip-count">
-        <div class="analysisListCard-event-type">
+      <div class="hazardListCard-equip-count">
+        <div :class="data.onlineType===0?'hazardListCard-event-type-orange':'hazardListCard-event-type-red'">
           {{ data.onlineType===0?"故障":"事件" }}
         </div>
       </div>
     </div>
-    <div class="analysisListCard-content">
-      <div class="analysisListCard-content-row">
-        <div class="analysisListCard-content-row-name">
+    <div class="hazardListCard-content">
+      <div class="hazardListCard-content-row">
+        <div class="hazardListCard-content-row-name">
           {{ data.typeName+"-"+data.placeName+"-"+data.equipAddress }}
           <!-- 安全帽监测-港湾一号-湾9栋401大门口 -->
-        </div><img src="@/assets/images/equip/phone.png" alt="" class="analysisListCard-content-row-icon">
-        <img src="@/assets/images/equip/navigation.png" alt="" class="analysisListCard-content-row-icon">
+        </div><img src="@/assets/images/equip/phone.png" alt="" class="hazardListCard-content-row-icon">
+        <img src="@/assets/images/equip/navigation.png" alt="" class="hazardListCard-content-row-icon">
       </div>
-      <div class="analysisListCard-content-row">
-        <div class="analysisListCard-content-row-name">
+      <div class="hazardListCard-content-row">
+        <div class="hazardListCard-content-row-name">
           <!-- {{ data.placeName }} -->
           {{ data.imei }}
         </div>
       </div>
-      <div class="analysisListCard-content-row">
-        <div class="analysisListCard-content-row-name">
+      <div class="hazardListCard-content-row">
+        <div class="hazardListCard-content-row-name">
           <!-- {{ data.placeName }} -->
           {{ timeTransformation(data.createTime) }}
         </div>
@@ -75,16 +75,16 @@ export default {
 </script>
 
 <style>
-.analysisListCard{
+.hazardListCard{
   width: 100%;
   height: 100%;
   border: 1px solid #4D628F;
   background-color:#0A0B29;
 }
-.analysisListCard-header{
+.hazardListCard-header{
   background: #131F3B;
 }
-.analysisListCard-status-deal{
+.hazardListCard-status-deal{
   width: 16%;
   height: 11%;
   font-size: 15px;
@@ -100,7 +100,7 @@ export default {
   display: inline-block;
   float: left;
 }
-.analysisListCard-status{
+.hazardListCard-status{
   width: 16%;
   height: 11%;
   font-size: 15px;
@@ -116,7 +116,7 @@ export default {
   display: inline-block;
   float: left;
 }
-.analysisListCard-analysis-name{
+.hazardListCard-analysis-name{
    width: 54%;
   height: 25%;
   font-size: 15px;
@@ -128,12 +128,12 @@ export default {
   display: inline-block;
   float: left;
 }
-.analysisListCard-content{
+.hazardListCard-content{
   width: 100%;
   height: 55%;
   margin-top: 2.7%;
 }
-.analysisListCard-equip-count{
+.hazardListCard-equip-count{
   width: 8%;
   height: 13%;
   font-size: 12px;
@@ -146,14 +146,14 @@ export default {
   text-align: right;
   padding-right: 3%;
 }
-.analysisListCard-equip-count-num{
+.hazardListCard-equip-count-num{
   width: auto;
   height: 100%;
   display: inline-block;
 
   color: #06F0FE;
 }
-.analysisListCard-content-row{
+.hazardListCard-content-row{
   height: 38%;
   width: 100%;
   font-size: 12px;
@@ -162,7 +162,7 @@ export default {
   align-items: center;
   vertical-align: middle
 }
-.analysisListCard-content-row-name{
+.hazardListCard-content-row-name{
   width: 74%;
   text-align: left;
   padding-left: 3%;
@@ -176,16 +176,30 @@ export default {
   overflow: hidden;
 }
 
-.analysisListCard-event-type{
+.hazardListCard-event-type-orange{
   width: auto;
   background: #1B2B29;
-  border: 1px solid #54A4E7;
+  border: 1px solid #FF9F17;
   border-radius: 2px;
-  color: #55A4E7;
+  color: #FF9F17;
   font-size: 10px;
   font-family: PingFang SC;
   font-weight: 400;
-  color: #55A4E7;
+  padding: 3.5% 10% 6.5% 11%;
+  margin-left: 2%;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.hazardListCard-event-type-red{
+  width: auto;
+  background: #1B2B29;
+  border: 1px solid #FF1743;
+  border-radius: 2px;
+  color: #FF1743;
+  font-size: 10px;
+  font-family: PingFang SC;
+  font-weight: 400;
   padding: 3.5% 10% 6.5% 11%;
   margin-left: 2%;
   display: inline-block;
@@ -193,7 +207,7 @@ export default {
   overflow: hidden;
 }
 
-.analysisListCard-content-row-icon{
+.hazardListCard-content-row-icon{
   width: 19px;
   height: 19px;
   margin-left: 5%;

@@ -40,5 +40,16 @@ class IotApp {
       }
     })
   }
+
+  //  获取物联应用未处理事件数
+  async equipUntreatedEventList(param) {
+    return await request({
+      url: `/apis/equip/event/undone/counting/finder`,
+      method: 'post',
+      data: {
+        ids: param
+      }
+    })
+  }
 }
 export default new IotApp()

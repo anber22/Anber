@@ -5,12 +5,13 @@
         {{ data.equipName }}
       </div>
       <div class="physicalUnionApplication-state">
-        <!-- <div class="physicalUnionApplication-hidden-trouble">
-          两个隐患
-          <van-icon name="arrow" color="#ffff" class="physicalUnionApplication-hidden-trouble-icon" />
-        </div> -->
         <div class="physicalUnionApplication-state-box">
           <EquipStatus :data="equipStatus" />
+        </div>
+        <div v-if="data.count!==0" class="physicalUnionApplication-hidden-trouble">
+          <van-badge :content="data.count" badge-size="14px">
+            <img src="@/assets/images/equip/risk-early-warning.png" alt="" class="physicalUnionApplication-hidden-trouble-icon">
+          </van-badge>
         </div>
       </div>
     </div>
@@ -127,22 +128,23 @@ export default {
   float: right;
 }
 .physicalUnionApplication-hidden-trouble{
-  width: 34%;
+  width: 11%;
   height: 70%;
-  background-color: red;
+  /* background-color: red; */
   display: inline-block;
   font-size: 10px;
   font-family: PingFang SC;
   font-weight: 400;
+  float: right;
   color: #FFEAEE;
   padding: 0.5% 1% 0.5% 2%;
   margin-left: 7%;
   border-radius: 5px
 }
-.physicalUnionApplication-hidden-trouble-icon{
+/* .physicalUnionApplication-hidden-trouble-icon{
   position: absolute;
   top: 9.5%;
-}
+} */
 .physicalUnionApplication-content{
   width: 100%;
   display: inline-block;
@@ -183,6 +185,10 @@ export default {
   color: #B9CEE9;
   padding-left: 5%;
 }
+.physicalUnionApplication-hidden-trouble-icon{
+  width: 18px;
+  height: 19px;
+}
 .address-font{
   font-size: 12px;
   font-family: PingFang SC;
@@ -203,5 +209,11 @@ export default {
   width: 100%;
   height: 100%;
   z-index: -1;
+}
+.van-badge{
+  border: none
+}
+.van-badge--fixed{
+top: 4px
 }
 </style>
