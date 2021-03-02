@@ -5,12 +5,13 @@
         {{ data.equipName }}
       </div>
       <div class="environmentalMonitoring-state">
-        <div class="environmentalMonitoring-hidden-trouble">
-          两个隐患
-          <van-icon name="arrow" color="#ffff" class="environmentalMonitoring-hidden-trouble-icon" />
-        </div>
         <div class="environmentalMonitoring-state-box">
           <EquipStatus :data="equipStatus" />
+        </div>
+        <div v-if="data.count!==0" class="environmentalMonitoring-hidden-trouble">
+          <van-badge :content="data.count" badge-size="14px">
+            <img src="@/assets/images/equip/risk-early-warning.png" alt="" class="environmentalMonitoring-hidden-trouble-icon">
+          </van-badge>
         </div>
       </div>
     </div>
@@ -169,16 +170,15 @@ export default {
 }
 .environmentalMonitoring-state{
   width: 55%;
-  height: 56.5%;
+  height: 36.5%;
   display: inline-block;
 }
 .environmentalMonitoring-state-box{
   float: right;
 }
 .environmentalMonitoring-hidden-trouble{
-  width: 32%;
+  width: 15%;
   height: 68%;
-  background-color: red;
   display: inline-block;
   font-size: 10px;
   font-family: PingFang SC;
@@ -187,10 +187,12 @@ export default {
   padding: 0.5% 1% 2.5% 2%;
   margin-left: 8%;
   border-radius: 5px;
+  float: right;
+
 }
 .environmentalMonitoring-hidden-trouble-icon{
-  position: absolute;
-  top: 4.5%;
+    width: 18px;
+  height: 19px;
 }
 .environmentalMonitoring-content{
   width: 100%;
@@ -276,5 +278,8 @@ width: 13px;
 height: 13px;
 position: relative;
 top: 2px;
+}
+.van-badge--fixed{
+top: 4px
 }
 </style>

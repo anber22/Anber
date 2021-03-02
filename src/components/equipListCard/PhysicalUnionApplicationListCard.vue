@@ -44,8 +44,8 @@ export default {
   data() {
     return {
       equipStatus: {
-        wifi: 80,
-        electricity: 80,
+        wifi: 'red',
+        electricity: 'yellow',
         statusName: '正常'
       }
     }

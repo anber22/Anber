@@ -1,10 +1,5 @@
 <template>
-  <div>
-    personalCenter
-    <van-button type="primary" @click="goNext()">
-      主要按钮
-    </van-button>
-  </div>
+  <div class="personalCenter" />
 </template>
 
 <script>
@@ -27,5 +22,11 @@ export default {
 <style>
   .title {
     font-size: 50px;
+  }
+  .personalCenter{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: #101720;
   }
 </style>

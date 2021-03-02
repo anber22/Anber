@@ -20,7 +20,7 @@ export default new VueRouter({
       component: Tabbar,
       meta: {
       },
-      redirect: '/hazardDetail',
+      redirect: '/index',
       children: [
         {
           path: '/index',
@@ -46,7 +46,7 @@ export default new VueRouter({
       component: Navbar,
       meta: {
       },
-      redirect: '/placeResourc',
+      redirect: '/iotApp',
       children: [
         {
 

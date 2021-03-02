@@ -86,7 +86,9 @@ export default {
       }
     }
   },
-
+  mounted() {
+    console.log('卡片信息', this.data)
+  },
   methods: {
 
   }

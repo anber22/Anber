@@ -23,7 +23,7 @@
     <div class="iot-content">
       <!-- 卡片展示列表 start -->
       <div v-if="isCard">
-        <div v-if="thisSubsystemId===0" class="show-list">
+        <div v-if="thisSubsystemId===0 && !loadding " class="show-list">
           <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','49.9%']" class="physicalUnionApplication-card">
             <PhysicalUnionApplication :data="item" />
           </Adaptive>
@@ -33,14 +33,14 @@
             <EnvironmentalMonitoring :data="item" />
           </Adaptive>
         </div>
-        <div v-if="thisSubsystemId===2" class="show-list">
+        <div v-if="thisSubsystemId===2 && !loadding " class="show-list">
           <TowerCraneMonitoring v-for="item in equipInfoList" :key="item.index" class="towerCraneMonitoring-card" :data="item" />
         </div>
       </div>
       <!-- end -->
       <!-- 列表卡片 start -->
       <div v-if="!isCard">
-        <div class="show-list" @click="showNext">
+        <div class="show-list">
           <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','31.39%']" class="physicalUnionApplication-list-card">
             <PhysicalUnionApplicationListCard :data="item" />
           </Adaptive>
@@ -96,18 +96,11 @@ export default {
   },
   methods: {
     /**
-     *跳转页面 - 测试
-     */
-    showNext() {
-      this.$router.push('/video')
-    },
-    /**
      * 切换子系统
      */
     changeSystem() {
       console.log(this.thisSubsystemId)
       this.getEquipInfoList()
-      this.isCard = !(!this.isCard)
     },
     /**
      * 点击切换数据展示形式 （列表||卡片）
@@ -117,6 +110,7 @@ export default {
     },
     // 获取卡片列表
     async getEquipInfoList() {
+      this.loadding = true
       const params = {
         systemType: this.thisSubsystemId,
         page: 1,
@@ -158,10 +152,9 @@ export default {
         }, this.equipInfoList)
         this.equipInfoList = combined
         console.log('1231231', this.equipInfoList)
-        this.loadding = false
       }
+      this.loadding = false
     }
-
   }
 }
 </script>

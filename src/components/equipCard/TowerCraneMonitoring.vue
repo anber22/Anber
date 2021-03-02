@@ -6,13 +6,14 @@
           YD234环境监测
         </div>
         <div class="towerCraneMonitoring-state">
-          <div class="towerCraneMonitoring-hidden-trouble">
-            两个隐患
-            <van-icon name="arrow" color="#ffff" class="towerCraneMonitoring-hidden-trouble-icon" />
-          </div>
           <div class="towerCraneMonitoring-state-box">
             <EquipStatus :data="equipStatus" />
           </div>
+          <!-- <div v-if="data.count!==0" class="towerCraneMonitoring-hidden-trouble">
+            <van-badge :content="data.count" badge-size="14px">
+              <img src="@/assets/images/equip/risk-early-warning.png" alt="" class="towerCraneMonitoring-hidden-trouble-icon">
+            </van-badge>
+          </div> -->
         </div>
       </div>
       <div class="towerCraneMonitoring-content">
@@ -238,7 +239,6 @@ export default {
 .towerCraneMonitoring-hidden-trouble{
   width: 31%;
   height: 85%;
-  background-color: red;
   display: inline-block;
   font-size: 10px;
   font-family: PingFang SC;
@@ -247,11 +247,12 @@ export default {
   padding: 0.5% 1% 1.5% 2%;
   border-radius: 5px;
   margin-left: 7%;
+  float:right;
 
 }
 .towerCraneMonitoring-hidden-trouble-icon{
-  position: absolute;
-  top: 5.5%;
+  width: 18px;
+  height: 19px;
 }
 .towerCraneMonitoring-content{
   width: 100%;

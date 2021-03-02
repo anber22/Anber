@@ -59,11 +59,11 @@ export default {
     }
   },
   mounted() {
-    this.equipStatus = {
-      statusName: this.data.onlineType,
-      wifi: this.data.equipSignal,
-      electricity: this.data.equipPower
-    }
+    // this.equipStatus = {
+    //   statusName: this.data.onlineType,
+    //   wifi: this.data.equipSignal,
+    //   electricity: this.data.equipPower
+    // }
   },
   methods: {
 
