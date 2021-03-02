@@ -49,9 +49,10 @@ export default {
 
 <style>
 .placeResourc{
-    width: 100%;
+  width: 100%;
   height: 100%;
-  position: fixed
+  position: fixed;
+  background-color: #101720
 }
 .placeResourc-content{
 padding: 0px 3% 52% 3%;

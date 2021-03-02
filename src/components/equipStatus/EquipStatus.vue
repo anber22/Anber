@@ -1,6 +1,6 @@
 <template>
   <div class="equip-status">
-    <div v-if="data.statusName.length>0" class="status-name" :style="'color:'+ data.statusName==='正常'?'green':'red'">
+    <div v-if="data.statusName.length>0" class="status-name" :style="'color:'+ (data.statusName==='正常'?'green':'red')">
       {{ data.statusName }}
     </div>
 
@@ -70,7 +70,7 @@ export default {
   font-size: 12px;
   font-family: PingFang SC;
   font-weight: 400;
-  color: #29CF7B;
+  /* color: #29CF7B; */
   margin-left: 10%;
   display: inline-block;
   float: right;
