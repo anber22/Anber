@@ -37,7 +37,7 @@ export default {
       if (res.code === 200) {
         this.placeList = [...res.data]
         this.activeName = this.placeList[0].placeId
-        this.getVideoPlaceEquipList(this.placeList[0].placeId, 11) // 默认展开第一列（获取第一列数据）
+        this.getVideoPlaceEquipList(this.placeList[0].placeId, 1) // 默认展开第一列（获取第一列数据）
       }
     },
     // 切换面板时触发,用选中的placeId获取该网点下的设备列表
@@ -45,7 +45,7 @@ export default {
       if (id) {
         this.placeList.forEach((item, index) => {
           if (!Reflect.has(item, 'equips') && id === item.placeId) {
-            this.getVideoPlaceEquipList(id, 11)
+            this.getVideoPlaceEquipList(id, 1)
             return true
           }
         })

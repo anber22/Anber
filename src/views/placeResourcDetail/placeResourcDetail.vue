@@ -8,6 +8,8 @@
             height="17px"
             fit="contain"
             src="/src/assets/images/home/title-icon.png"
+            :show-error="false"
+            :show-loading="false"
           />
           网点信息
         </div>
@@ -26,6 +28,8 @@
               fit="contain"
               src="/src/assets/images/equip/navigation.png"
               class="right-icon"
+              :show-error="false"
+              :show-loading="false"
             />
           </div>
           <div class="text-item">
@@ -42,6 +46,8 @@
                 fit="contain"
                 src="/src/assets/images/equip/phone.png"
                 class="right-icon"
+                :show-error="false"
+                :show-loading="false"
               />
             </a>
           </div>
@@ -86,6 +92,8 @@
             height="17px"
             fit="contain"
             src="/src/assets/images/home/title-icon.png"
+            :show-error="false"
+            :show-loading="false"
           />
           物联设备({{ placeResourcEquip.length }})
         </div>
@@ -106,6 +114,8 @@
               style="vertical-align: text-top;"
               fit="contain"
               src="/src/assets/images/equip/add.png"
+              :show-error="false"
+              :show-loading="false"
             />
             绑定设备
           </p>
