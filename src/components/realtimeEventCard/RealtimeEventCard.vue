@@ -9,6 +9,8 @@
             fit="cover"
             class="events-item-img"
             src="https://img01.yzcdn.cn/vant/cat.jpeg"
+            :show-error="false"
+            :show-loading="false"
           />
           <div class="right-text">
             <p class="title1">

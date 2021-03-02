@@ -8,24 +8,32 @@
             <van-image
               fit="contain"
               src="/src/assets/images/home/banner-1.jpg"
+              :show-error="false"
+              :show-loading="false"
             />
           </van-swipe-item>
           <van-swipe-item>
             <van-image
               fit="contain"
               src="/src/assets/images/home/banner-2.jpg"
+              :show-error="false"
+              :show-loading="false"
             />
           </van-swipe-item>
           <van-swipe-item>
             <van-image
               fit="contain"
               src="/src/assets/images/home/banner-3.jpg"
+              :show-error="false"
+              :show-loading="false"
             />
           </van-swipe-item>
           <van-swipe-item>
             <van-image
               fit="contain"
               src="/src/assets/images/home/banner-4.jpg"
+              :show-error="false"
+              :show-loading="false"
             />
           </van-swipe-item>
         </van-swipe>
@@ -38,6 +46,8 @@
             <van-image
               fit="contain"
               src="/src/assets/images/home/iot.png"
+              :show-error="false"
+              :show-loading="false"
             />
           </Adaptive>
           <p>联网应用</p>
@@ -47,6 +57,8 @@
             <van-image
               fit="contain"
               src="/src/assets/images/home/hazard.png"
+              :show-error="false"
+              :show-loading="false"
             />
           </Adaptive>
           <p>隐患统计</p>
@@ -56,6 +68,8 @@
             <van-image
               fit="contain"
               src="/src/assets/images/home/video.png"
+              :show-error="false"
+              :show-loading="false"
             />
           </Adaptive>
           <p>智慧视觉</p>
@@ -65,6 +79,8 @@
             <van-image
               fit="contain"
               src="/src/assets/images/home/place.png"
+              :show-error="false"
+              :show-loading="false"
             />
           </Adaptive>
           <p>网点管理</p>
@@ -74,6 +90,8 @@
             <van-image
               fit="contain"
               src="/src/assets/images/home/manage.png"
+              :show-error="false"
+              :show-loading="false"
             />
           </Adaptive>
           <p>隐患管理</p>
@@ -83,6 +101,8 @@
             <van-image
               fit="contain"
               src="/src/assets/images/home/scan.png"
+              :show-error="false"
+              :show-loading="false"
             />
           </Adaptive>
           <p>扫一扫</p>
@@ -96,6 +116,8 @@
             height="17px"
             fit="contain"
             src="/src/assets/images/home/title-icon.png"
+            :show-error="false"
+            :show-loading="false"
           />
           实时事件
         </div>
