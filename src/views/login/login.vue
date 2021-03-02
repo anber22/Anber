@@ -94,10 +94,10 @@ export default {
   },
   data() {
     return {
-      activeTab: 0,
+      activeTab: 1,
       isPasswordData: {
-        userName: '',
-        password: ''
+        userName: '18666121714',
+        password: '123456'
       },
       isSMSData: {
         phone: '',

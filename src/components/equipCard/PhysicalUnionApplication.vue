@@ -97,7 +97,7 @@ export default {
 
 <style>
 .physicalUnionApplication{
-  width: 98%;
+  width: 100%;
   /* padding: 0px 1% 0px 1%; */
   border: 1px solid #4D628F;
     background-color:#0A0B29;

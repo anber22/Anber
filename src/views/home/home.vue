@@ -41,7 +41,7 @@
       <!-- end -->
       <!-- 实时事件 start-->
       <div class="functional-module">
-        <div>
+        <div @click="goJump('/iotApp')">
           <Adaptive class="module-item" :data="['75.4%', '75.4%']">
             <van-image
               fit="contain"
@@ -74,7 +74,7 @@
           </Adaptive>
           <p>智慧视觉</p>
         </div>
-        <div>
+        <div @click="goJump('/placeResourse')">
           <Adaptive class="module-item" :data="['75.4%', '75.4%']">
             <van-image
               fit="contain"
@@ -85,7 +85,7 @@
           </Adaptive>
           <p>网点管理</p>
         </div>
-        <div>
+        <div @click="goJump('/hazard')">
           <Adaptive class="module-item" :data="['75.4%', '75.4%']">
             <van-image
               fit="contain"

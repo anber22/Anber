@@ -202,7 +202,7 @@ export default {
 
 <style>
 .towerCraneMonitoring{
-  width: 98%;
+  width: 100%;
   height: auto;
   /* padding: 0px 1% 2.5% 1%; */
   border: 1px solid #4D628F;

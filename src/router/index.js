@@ -20,7 +20,7 @@ export default new VueRouter({
       component: Tabbar,
       meta: {
       },
-      redirect: '/index',
+      redirect: '/login',
       children: [
         {
           path: '/index',
@@ -65,8 +65,8 @@ export default new VueRouter({
           }
         },
         {
-          path: '/placeResourc',
-          component: () => import('@/views/placeResourc/placeResourc'),
+          path: '/placeResourse',
+          component: () => import('@/views/placeResourse/placeResourse'),
           meta: {
             title: '网点管理'
           }
