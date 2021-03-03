@@ -7,6 +7,8 @@
           height="100%"
           fit="cover"
           src="/src/assets/images/login/logo.png"
+          :show-error="false"
+          :show-loading="false"
         />
       </Adaptive>
     </div>
@@ -24,6 +26,8 @@
                 height="44px"
                 fit="cover"
                 src="/src/assets/images/login/phone.png"
+                :show-error="false"
+                :show-loading="false"
               />
               <van-field v-model="isSMSData.phone" type="tel" placeholder="请输入手机号" />
             </div>
@@ -33,6 +37,8 @@
                 height="44px"
                 fit="cover"
                 src="/src/assets/images/login/code.png"
+                :show-error="false"
+                :show-loading="false"
               />
               <van-field
                 v-model="isSMSData.code"
@@ -58,6 +64,8 @@
                 height="44px"
                 fit="cover"
                 src="/src/assets/images/login/userName.png"
+                :show-error="false"
+                :show-loading="false"
               />
               <van-field v-model="isPasswordData.userName" type="tel" placeholder="请输入用户名称" />
             </div>
@@ -68,6 +76,8 @@
                 height="44px"
                 fit="cover"
                 src="/src/assets/images/login/password.png"
+                :show-error="false"
+                :show-loading="false"
               />
               <van-field v-model="isPasswordData.password" type="password" placeholder="请输入用户密码" />
             </div>
@@ -216,6 +226,7 @@ export default {
  height: 100%;
  width: 100%;
  position: fixed;
+ background-image: url('/src/assets/images/login/bg.png')
 }
 .logo-box{
   width: 40%;
