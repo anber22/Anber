@@ -297,7 +297,7 @@ height: 17px;
     vertical-align: top
 }
 .hazardDetail-submit-content-info-row-name{
-  width: 16%;
+  width: 21%;
   height: 100%;
   display: inline-block;
   text-align: right;
@@ -308,7 +308,7 @@ height: 17px;
   color: #6F85A2;
 }
 .hazardDetail-deal-content-info-row-name{
-   width: 16%;
+  width: 20%;
   height: auto;
   display: inline-block;
   text-align: right;
@@ -322,7 +322,7 @@ height: 17px;
   float: left;
 }
 .hazardDetail-submit-content-info-row-value{
-   width:68%;
+   width:61%;
   height: 100%;
   display: inline-block;
   text-align: left;
@@ -334,7 +334,7 @@ height: 17px;
   color: #B9CEE9;
 }
 .hazardDetail-deal-content-info-row-sort-value{
-  width:25%;
+  width:21%;
   height: 100%;
   display: inline-block;
   text-align: left;

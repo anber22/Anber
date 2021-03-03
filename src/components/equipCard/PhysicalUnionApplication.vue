@@ -170,7 +170,7 @@ export default {
   vertical-align: middle
 }
 .physicalUnionApplication-content-row-name{
-  width:15.5%;
+  width:19.5%;
   text-align: right;
   font-size: 12px;
   font-family: PingFang SC;
@@ -178,7 +178,7 @@ export default {
   color: #6F85A2;
 }
 .physicalUnionApplication-content-row-value{
-  width: 62%;
+  width: 60%;
   font-size: 12px;
   height: 16px;
   line-height: 16px;

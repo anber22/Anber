@@ -71,7 +71,7 @@ export default {
     }
   },
   mounted() {
-    setInterval(this.startPlay, 2000)
+    setInterval(this.startPlay, 3000)
 
     // Socket.initSocket('equipCount')
   },
@@ -86,7 +86,7 @@ export default {
         that.play = false // 暂停播放
         that.ulList.push(that.ulList[0]) // 将第一条数据塞到最后一个
         that.ulList.shift() // 删除第一条数据
-      }, 300)
+      }, 500)
       // console.log(that.timer)
     }
   }
