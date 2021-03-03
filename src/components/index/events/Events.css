@@ -31,7 +31,10 @@
 .eventCounting{
   color: rgba(254, 255, 255, 1);
   font-size: 10px;
-  margin-left: 20px;
+  margin-left: 6px;
+  display: inline-block;
+  transform: scale(0.8);
+  -webkit-transform: scale(0.8);
 }
 .eventCounting{
   position: relative;

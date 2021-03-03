@@ -1,7 +1,7 @@
 <template>
   <div class="videoPlayer-box">
     <p class="title">
-      {{ title }}安全帽监测2港湾一号安装地址2安装地址安装地址
+      {{ title }}
     </p>
     <div class="video-center">
       <iframe class="video-content" src="https://www.baidu.com/" frameborder="0" />
