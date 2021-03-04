@@ -133,13 +133,15 @@ export default {
             x2: 0,
             y2: 1,
             colorStops: [{
-              offset: 0, color: 'rgba(40, 255, 187, 0.2)' // 0% 处的颜色
+              offset: 0.1, color: 'rgba(0, 15, 33, 0.5)' // 0% 处的颜色
             }, {
-              offset: 0.2, color: 'rgba(40, 255, 187, 0.4)' // 20% 处的颜色
+              offset: 0.2, color: 'rgba(40, 255, 187, 0.1)' // 20% 处的颜色
             }, {
-              offset: 0.5, color: 'rgba(40, 255, 187, 0.2)' // 50% 处的颜色
+              offset: 0.5, color: 'rgba(40, 255, 187, 0.1)' // 50% 处的颜色
             }, {
-              offset: 1, color: 'transparent' // 100% 处的颜色
+              offset: 0.8, color: 'rgba(40, 255, 187, 0.2)' // 50% 处的颜色
+            }, {
+              offset: 1, color: 'rgba(40, 255, 187, 0.1)' // 100% 处的颜色
             }]
           }
         },
@@ -164,13 +166,15 @@ export default {
             x2: 0,
             y2: 1,
             colorStops: [{
-              offset: 0, color: 'rgba(116, 102, 248, 0.2)' // 0% 处的颜色
+              offset: 0.1, color: 'rgba(0, 15, 33, 0.5)' // 0% 处的颜色
             }, {
-              offset: 0.1, color: 'rgba(116, 102, 248, 0.4)' // 20% 处的颜色
+              offset: 0.2, color: 'rgba(116, 102, 248, 0.1)' // 20% 处的颜色
             }, {
-              offset: 0.5, color: 'rgba(116, 102, 248, 0.2)' // 50% 处的颜色
+              offset: 0.5, color: 'rgba(116, 102, 248, 0.1)' // 50% 处的颜色
             }, {
-              offset: 1, color: 'transparent' // 100% 处的颜色
+              offset: 0.8, color: 'rgba(116, 102, 248, 0.2)' // 50% 处的颜色
+            }, {
+              offset: 1, color: 'rgba(116, 102, 248, 0.1)' // 100% 处的颜色
             }]
           }
         },

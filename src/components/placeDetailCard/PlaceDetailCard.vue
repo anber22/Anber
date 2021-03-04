@@ -2,7 +2,7 @@
   <div class="PlaceDetailCard">
     <div class="PlaceDetailCard-header">
       <div class="PlaceDetailCard-title">
-        {{ data.equipTypeName }}
+        {{ data.equipName }}
       </div>
       <div class="PlaceDetailCard-state">
         <!-- <div class="PlaceDetailCard-hidden-trouble">
@@ -16,7 +16,7 @@
     </div>
     <div class="PlaceDetailCard-content">
       <div class="PlaceDetail-top-text">
-        <span class="PlaceDetail-model PlaceDetail-ellipsis">{{ data.equipName }}</span>
+        <span class="PlaceDetail-model PlaceDetail-ellipsis">{{ data.equipTypeName }}</span>
         <span class="PlaceDetail-imei-code PlaceDetail-ellipsis">{{ data.imei }}</span>
       </div>
       <div class="PlaceDetail-bottom-text">

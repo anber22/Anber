@@ -77,10 +77,12 @@ export default {
   height: 22.5%;
   box-sizing: border-box;
   background: rgba(16, 233, 255, 0);
-  border: 1px solid #008797;
+  /* border: 1px solid #008797; */
+  border: 1px solid rgba(71, 167, 234, 0.2);
   margin-top:2.8%;
   clear: both;
-  box-shadow:1px 1px 11px 2px rgba(0, 133, 247, 0.6) inset;
+  /* box-shadow:1px 1px 11px 2px rgba(0, 133, 247, 0.6) inset; */
+  box-shadow: 0px 0px 7px 0px rgba(0, 133, 247, 0.4) inset;
 }
 .item-left{
   width: 25%;
