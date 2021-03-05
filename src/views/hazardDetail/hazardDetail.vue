@@ -141,7 +141,6 @@ export default {
   },
   mounted() {
     this.detailInfoId = this.$route.params.id
-    console.log('初始化详情', this.detailInfoId)
     this.getHazardDetail()
   },
   methods: {
@@ -150,14 +149,12 @@ export default {
         id: this.detailInfoId + '5'
       }
       const res = await Api.hazardDeatilInfo(params)
-      console.log('输出详情', res)
       this.detailInfo = { ...res.data }
       if (this.detailInfo.isDone === 1) {
         this.getHazardDealInfo()
       }
     },
     timeTransformation(e) {
-      console.log('date', e)
       return dealData.dataFormatStamp(e)
     },
     async getHazardDealInfo() {
@@ -165,7 +162,6 @@ export default {
         id: this.detailInfoId + '7'
       }
       const res = await Api.hazardDealInfo(params)
-      console.log('输出处理详情', res)
       this.dealInfo = { ...res.data }
     }
   }

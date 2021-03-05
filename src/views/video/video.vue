@@ -65,7 +65,6 @@ export default {
             this.$set(this.placeList[i], 'equips', res.data)
           }
         }
-        console.log('placeList', this.placeList)
       }
     }
   }

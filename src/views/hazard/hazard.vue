@@ -63,11 +63,9 @@ export default {
   },
   methods: {
     showDetail(e) {
-      console.log(e)
       this.$router.push({ name: 'HazardDetail', params: { id: e }})
     },
     onConfirm(value, index) {
-      console.log('点击确认', value, index)
       this.show = false
       this.equipType = index[0]
       this.status = index[1]
@@ -94,7 +92,6 @@ export default {
       }
       const res = await Api.analysisList(params)
       this.analysisList = [...res.data.rows]
-      console.log('获取隐患列表', this.analysisList)
     }, // 获取设备类型列表
     async getEquipTypeList() {
       const params = {
@@ -102,12 +99,9 @@ export default {
       }
       const res = await Api.hazardTypeList(params)
       this.equipTypeList = [...res.data]
-      console.log('获取设备类型列表', this.equipTypeList)
       this.equipTypeList.forEach(item => {
         this.columns[0].values.push(item.name)
       })
-
-      console.log('下拉选项', this.columns)
     },
     formattingCondition() {
       let conditionStr = ''
@@ -132,7 +126,6 @@ export default {
         }
       }
 
-      console.log('ping jie', conditionStr)
       return conditionStr
     }
   }

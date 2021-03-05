@@ -87,7 +87,6 @@ export default {
         that.ulList.push(that.ulList[0]) // 将第一条数据塞到最后一个
         that.ulList.shift() // 删除第一条数据
       }, 500)
-      // console.log(that.timer)
     }
   }
 }

@@ -118,7 +118,6 @@ export default {
   },
   methods: {
     login() {
-      console.log(this.activeTab, 'this.activeTab')
       // activeTab:0 短信登录，activeTab:1 账号(手机号)登录
       if (this.activeTab === 0) {
         this.isSMSLogin()
@@ -147,7 +146,6 @@ export default {
         const yzmTime = setInterval(() => {
           if (this.yzm_state) {
             this.yzm_state--
-            console.log(this.yzm_state)
           } else {
             clearInterval(yzmTime)
           }

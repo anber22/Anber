@@ -22,7 +22,7 @@ module.exports = merge(base, {
     proxy: {
       //设置代理
       "/apis": {
-        target: "http://192.168.1.12:1080",
+        target: "http://server12.ctjt.cn:1080",
         // target: "http://47.106.116.164:8017",
         pathRewrite: { "^/apis": "" },
         changeOrigin: true,

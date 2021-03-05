@@ -27,7 +27,6 @@ export default {
     }
   },
   beforeMount() {
-    console.log('ddddata', this.data[0])
   },
   methods: {
 

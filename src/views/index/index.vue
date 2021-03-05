@@ -214,7 +214,6 @@ export default {
     async getEquipCountings() {
       const res = await Api.equipCountings()
       this.equipCountings = parseInt(res.data).toLocaleString()
-      console.log(this.equipCountings)
     },
     /**
      * 获取网点总数
@@ -222,7 +221,6 @@ export default {
     async getBranchesCountings() {
       const res = await Api.branchesCountings()
       this.branchesCountings = parseInt(res.data).toLocaleString()
-      console.log(this.equipCountings)
     },
     /**
      * 获取应用列表
@@ -230,7 +228,6 @@ export default {
     async getEquipList() {
       const res = await Api.applicationlist()
       this.equipList = [...res.data]
-      console.log('设备数量', this.equipList)
       // const arryNew = []
       // // 过滤 config 的equipList ，拿出对应的imgUrl
       // this.equipList.forEach(item => {
@@ -260,7 +257,6 @@ export default {
         })
       })
       this.eventData.equipType = this.monitorAnalysisData.equipType
-      console.log(this.eventData.equipType, 'this.eventData.equipType')
       this.analysisDateType = combined[0].id
       this.getAnalysisTimeline(combined[0].id) // 用应用列表里的第一个子系统获取15天事件和故障数统计数据
       this.getMonitorAnalysis(combined[0].id, this.monitorAnalysisData.dateType[0].value) // 用应用列表里的第一个子系统获取监测分析全部数据
