@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import Pie from 'cmp/echarts/pie/Pie'
+import Pie from 'cmp/echarts/analysispie/AnalysisPie'
 export default {
   components: {
     Pie
