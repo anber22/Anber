@@ -86,7 +86,7 @@ import MaxPie from 'cmp/echarts/maxPie/MaxPie'
 import MaxLine from 'cmp/echarts/maxLine/MaxLine'
 import Api from '@/api/index'
 import EquipList from 'cmp/index/equipList/EquipList'
-import Warning from 'cmp/index/Warning/Warning'
+import Warning from 'cmp/index/warning/Warning'
 import Config from '/config.json'
 
 import DepartCount from 'cmp/index/departCount/DepartCount'
