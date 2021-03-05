@@ -4,7 +4,7 @@ const webpack = require("webpack");
 
 module.exports = merge(base, {
   mode: "development",
-  devtool: "source-map",
+  devtool: "inline-source-map",
   devServer: {
     publicPath: '/',
     // index: 'index.html',
@@ -28,6 +28,7 @@ module.exports = merge(base, {
         changeOrigin: true,
       }
     }
+
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
+  plugins: [new webpack.HotModuleReplacementPlugin()]
 });
