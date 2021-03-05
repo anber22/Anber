@@ -45,25 +45,25 @@ export default {
     return {
       ulList: [
         {
-          type: '违规停放1',
+          type: '违规停放',
           address: '港湾一号',
           status: '待处理',
-          time: '八分钟'
+          time: '8min'
         }, {
-          type: '违规停放2',
+          type: '高空抛物',
           address: '港湾一号',
           status: '待处理',
-          time: '八分钟'
+          time: '6min'
         }, {
-          type: '违规停放3',
+          type: '电瓶车上楼',
           address: '港湾一号',
           status: '待处理',
-          time: '八分钟'
+          time: '23:00'
         }, {
-          type: '违规停放4',
+          type: '未戴安全帽',
           address: '港湾一号',
           status: '待处理',
-          time: '八分钟'
+          time: '18:00'
         }
       ],
       play: false,
