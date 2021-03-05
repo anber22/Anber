@@ -27,7 +27,7 @@ module.exports = merge(base, {
         pathRewrite: { "^/apis": "" },
         changeOrigin: true,
       }
-    }
+    } 
   },
   plugins: [new webpack.HotModuleReplacementPlugin()],
 });
