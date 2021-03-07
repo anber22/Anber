@@ -180,7 +180,7 @@ export default {
   list-style: none;
   width: 100%;
   text-align: center;
-  overflow: hidden; /*key code*/
+  overflow: hidden; /*key code */
   height: 100%; /*key code*/
   padding: 0;
   margin-left: 3%;
