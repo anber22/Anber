@@ -127,9 +127,7 @@ export default {
 
     }
   }, beforeMount() {
-    console.log('卡卡卡卡卡片111', this.data)
   }, mounted() {
-    console.log('卡卡卡卡卡片', this.data)
   },
 
   methods: {

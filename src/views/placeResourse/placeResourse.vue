@@ -34,13 +34,10 @@ export default {
         size: 12,
         condition: (this.queryCondition.length < 1 ? '' : ('?condition=' + this.queryCondition))
       }
-      console.log(params)
       const res = await Api.placeResourcList(params)
       this.placeResourcList = [...res.data.rows]
-      console.log('网点列表', this.placeResourcList)
     },
     onSearch(e) {
-      console.log(e, this.queryCondition)
       this.getPlaceResourcList()
     }
   }

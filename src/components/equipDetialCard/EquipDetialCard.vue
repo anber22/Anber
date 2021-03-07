@@ -36,13 +36,10 @@ export default {
     }
   },
   mounted() {
-    console.log(this.layout, '0000000', this.content[this.layout.typed])
     if (this.layout.typed === 'windSpeed') {
       this.subValue = this.content.windSpeed + '/' + this.content.windDirection
-      console.log(this.subValue, '11111')
     } else if (this.layout.typed === 'temperature') {
       this.subValue = this.content.temperature + '/' + this.content.humidity
-      console.log(this.subValue, '11111')
     }
   },
   methods: {

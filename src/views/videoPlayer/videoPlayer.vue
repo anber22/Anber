@@ -28,7 +28,6 @@ export default {
   },
   methods: {
     getVideo(imei) {
-      console.log(imei, 'imei来了')
     }
   }
 }

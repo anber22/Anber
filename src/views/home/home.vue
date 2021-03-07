@@ -5,14 +5,14 @@
         <!-- banner start-->
         <Adaptive :data="['100%', '43.5%']">
           <van-swipe class="banner-box" :autoplay="10000" :show-indicators="false" indicator-color="white">
-            <van-swipe-item>
+            <!-- <van-swipe-item>
               <van-image
                 fit="contain"
                 src="/src/assets/images/home/banner-1.jpg"
                 :show-error="false"
                 :show-loading="false"
               />
-            </van-swipe-item>
+            </van-swipe-item> -->
             <van-swipe-item>
               <van-image
                 fit="contain"

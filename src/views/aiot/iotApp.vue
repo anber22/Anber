@@ -99,7 +99,6 @@ export default {
      * 切换子系统
      */
     changeSystem() {
-      console.log(this.thisSubsystemId)
       this.getEquipInfoList()
     },
     /**
@@ -122,7 +121,6 @@ export default {
       var ids = this.equipInfoList.map(item => { return item.equipId })
 
       const hazardCountList = await Api.equipUntreatedEventList(ids)
-      console.log('hazardCountList', hazardCountList)
       let combined = hazardCountList.data.reduce((acc, cur) => {
         const target = acc.find(e => e.equipId === cur.equipId)
         if (target) {
@@ -133,7 +131,6 @@ export default {
         return acc
       }, this.equipInfoList)
       this.equipInfoList = combined
-      console.log('hazardCountList', combined)
       // 如果选择的是 thisSubsystemId ===1 的环境监测系统
       if (this.thisSubsystemId === 1 || this.thisSubsystemId === 2) {
         this.loadding = true
@@ -151,7 +148,6 @@ export default {
           return acc
         }, this.equipInfoList)
         this.equipInfoList = combined
-        console.log('1231231', this.equipInfoList)
       }
       this.loadding = false
     }

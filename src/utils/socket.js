@@ -39,7 +39,6 @@ class Socket {
     // 在线
     socket.heartbeat.incoming = 0
     // 发起连接
-    console.log('发起连接')
     socket.connect(this.accountName, this.passWord, this.onConnected, this.onFailed)
     // return onConnected
   }

@@ -146,7 +146,6 @@ export default {
         const yzmTime = setInterval(() => {
           if (this.yzm_state) {
             this.yzm_state--
-            console.log(this.yzm_state)
           } else {
             clearInterval(yzmTime)
           }
