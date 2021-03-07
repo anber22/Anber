@@ -141,23 +141,19 @@
 
     }
   },
-  "equipList":[
+  "subsystemList":[
     {
-      "id":"1",
-      "name":"智慧视觉系统",
+      "id":5,
+      "name":"智慧视觉",
       "imgUrl":"/src/assets/images/index/wisdom-visual.png"
     },{
-      "id":"2",
+      "id":10,
       "name":"环境监测系统",
       "imgUrl":"/src/assets/images/index/environmental-monitoring.png"
     },{
-      "id":"3",
+      "id":11,
       "name":"塔机监测系统",
       "imgUrl":"/src/assets/images/index/crane-monitoring.png"
-    },{
-      "id":"4",
-      "name":"烟温监测系统",
-      "imgUrl":"/src/assets/images/index/smoke-temperature-monitoring.png"
     }
   ],
   "diyComponent":{

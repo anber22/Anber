@@ -71,6 +71,11 @@ class Data {
       }
     }
   }
+  /**
+   * 时间戳转时间
+   * @param {*} input
+   * @param {*} pattern
+   */
   dataFormatStamp(input, pattern = '') { // 在参数列表中 通过 pattern="" 来指定形参默认值，防止报错
     const dt = new Date(input * 1000)
     // 获取年月日

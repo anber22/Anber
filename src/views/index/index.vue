@@ -31,7 +31,7 @@
       </div>
     </Adaptive>
     <Adaptive :data="['100%','12.75%']" class="warning-box">
-      <Warning class="warning" />
+      <Warning class="warning" :data="hiddenDangerList" />
     </Adaptive>
     <!-- end -->
     <!-- 应用列表 start -->
@@ -41,9 +41,8 @@
         应用列表
       </div>
     </Adaptive>
-    <Adaptive :data="['100%','120.75%']" class="equipList-box">
-      <EquipList :data="equipList" class="equipList" />
-    </Adaptive>
+    <EquipList :data="equipList" />
+
     <!-- end -->
 
     <!-- 辖区统计 start  -->
@@ -180,8 +179,11 @@ export default {
         monitorAnalysisFlag: false
       },
       monitorAnalysisLegendData: [],
-      analysisDateType: 1, // 监测分析当前选中的时间类型 默认全部
-      analysisSystemType: 1 // 监测分析当前选中的系统类型 默认智慧视觉
+      // 监测分析当前选中的时间类型 默认全部
+      analysisDateType: 1,
+      // 监测分析当前选中的系统类型 默认智慧视觉
+      analysisSystemType: 1,
+      hiddenDangerList: []
     }
   },
   computed: {
@@ -206,6 +208,7 @@ export default {
     this.getBranchesCountings()
     this.getEquipList()
     this.getDepartCounting()
+    this.getHiddenDangerList()
   },
   methods: {
     /**
@@ -214,7 +217,7 @@ export default {
     async getEquipCountings() {
       const res = await Api.equipCountings()
       this.equipCountings = parseInt(res.data).toLocaleString()
-      console.log(this.equipCountings)
+      console.log('设备数', this.equipCountings)
     },
     /**
      * 获取网点总数
@@ -222,7 +225,7 @@ export default {
     async getBranchesCountings() {
       const res = await Api.branchesCountings()
       this.branchesCountings = parseInt(res.data).toLocaleString()
-      console.log(this.equipCountings)
+      console.log('网点数', this.branchesCountings)
     },
     /**
      * 获取应用列表
@@ -243,7 +246,7 @@ export default {
       //     }
       //   })
       // })
-      const combined = Config.equipList.reduce((acc, cur) => {
+      const combined = Config.subsystemList.reduce((acc, cur) => {
         const target = acc.find(e => e.id === cur.id)
         if (target) {
           Object.assign(target, cur)
@@ -252,7 +255,7 @@ export default {
         }
         return acc
       }, this.equipList)
-
+      this.equipList = combined
       combined.forEach(item => {
         this.monitorAnalysisData.equipType.push({
           value: item.id,
@@ -265,7 +268,6 @@ export default {
       this.getAnalysisTimeline(combined[0].id) // 用应用列表里的第一个子系统获取15天事件和故障数统计数据
       this.getMonitorAnalysis(combined[0].id, this.monitorAnalysisData.dateType[0].value) // 用应用列表里的第一个子系统获取监测分析全部数据
       this.loading = true
-      this.equipList = combined
     },
     /**
      * 辖区统计选中的辖区ID，并筛选当前辖区的数据出来
@@ -392,6 +394,25 @@ export default {
       this.analysisSystemType = value
       this.monitorAnalysisData.monitorAnalysisFlag = false
       this.getMonitorAnalysis(value, this.analysisDateType)
+    },
+    /**
+     * 获取隐患列表 top10
+     */
+    async getHiddenDangerList() {
+      const res = await Api.hiddenDangerList(11)
+      this.hiddenDangerList = [...res.data]
+
+      console.log('隐患列表', this.hiddenDangerList)
+
+      this.hiddenDangerList.forEach(hItem => {
+        Config.subsystemList.forEach(cItem => {
+          if (hItem.type === cItem.id) {
+            // Object.assign(hItem, cItem) assign后者会覆盖前者的同名属性的值
+            hItem['imgUrl'] = cItem.imgUrl
+          }
+        })
+      })
+      console.log('隐患列表', this.hiddenDangerList)
     }
   }
 }
@@ -472,10 +493,7 @@ export default {
 .equipList-box{
   padding-right: 0px;
 }
-.equipList{
-  width: 100%;
-  height: 100%;
-}
+
 .legend{
   text-align: center;
   font-size: 12px;

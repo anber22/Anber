@@ -1,11 +1,11 @@
 <!-- 首页应用列表 -->
 <template>
-  <div class="equipList1">
-    <div v-for="item in data" :key="item.id" class="item" @click="showCard()">
+  <div class="equipList">
+    <Adaptive v-for="item in data" :key="item.id" :data="['100%','22.75%']" class="item" @click="showCard()">
       <div class="item-left">
         <img class="equip-img" :src="item.imgUrl" alt>
         <p class="item-title">
-          {{ item.typeName }}
+          {{ item.name }}
         </p>
       </div>
       <div class="item-right">
@@ -34,7 +34,7 @@
           </p>
         </div>
       </div>
-    </div>
+    </Adaptive>
   </div>
 </template>
 
@@ -60,9 +60,9 @@ export default {
 </script>
 
 <style  scoped>
-.equipList1{
+.equipList{
   width: 100%;
-  height: 100%;
+  height: auto;
   margin-top: 1%;
   box-sizing: border-box;
   /* background: rgba(0, 133, 247, 0.1); */
@@ -73,8 +73,7 @@ export default {
     display: none;
 }
 .item{
-  width: 100%;
-  height: 22.5%;
+
   box-sizing: border-box;
   background: rgba(16, 233, 255, 0);
   /* border: 1px solid #008797; */
@@ -124,7 +123,7 @@ color: #A3D5FF;
   line-height: 5px;
   padding-left: 12px;
   color: #EFF0F1;
-  margin-top:38%;
+  margin-top:31%;
   margin-bottom: 0px;
   background: linear-gradient(125deg, rgba(16, 233, 255, 0) 8px,#00B5ED 9%,transparent 81%) left  ;
   background-size: 100% 100%;

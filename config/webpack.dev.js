@@ -22,10 +22,11 @@ module.exports = merge(base, {
     proxy: {
       //设置代理
       "/apis": {
-        target: "http://server12.ctjt.cn:1080",
+        target: "https://www.k8s.ctjt.cn",
         // target: "http://47.106.116.164:8017",
         pathRewrite: { "^/apis": "" },
         changeOrigin: true,
+        secure: false, // 目标服务器地址是否是安全协议
       }
     }
   },
