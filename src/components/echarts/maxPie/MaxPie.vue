@@ -45,7 +45,7 @@ export default {
   methods: {
     init() {
       this.departName = this.data.data[0].name
-      this.count = this.data.data[0].value
+      this.count = this.data.data[0].count
       var myChart = this.$echarts.init(document.getElementById(this.data.chartId))
       var option = {
         tooltip: {

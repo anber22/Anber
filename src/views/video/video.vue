@@ -28,7 +28,7 @@ export default {
     }
   },
   mounted() {
-    this.getVideoPlaceList(1) // 获取网点列表，智慧视觉传对应的智慧视觉子系统的id
+    this.getVideoPlaceList(5) // 获取网点列表，智慧视觉传对应的智慧视觉子系统的id
   },
   methods: {
     // 设备类型关联的场所列表
@@ -37,7 +37,7 @@ export default {
       if (res.code === 200) {
         this.placeList = [...res.data]
         this.activeName = this.placeList[0].placeId
-        this.getVideoPlaceEquipList(this.placeList[0].placeId, 1) // 默认展开第一列（获取第一列数据）
+        this.getVideoPlaceEquipList(this.placeList[0].placeId, 5) // 默认展开第一列（获取第一列数据）
       }
     },
     // 切换面板时触发,用选中的placeId获取该网点下的设备列表
@@ -45,7 +45,7 @@ export default {
       if (id) {
         this.placeList.forEach((item, index) => {
           if (!Reflect.has(item, 'equips') && id === item.placeId) {
-            this.getVideoPlaceEquipList(id, 1)
+            this.getVideoPlaceEquipList(id, 5)
             return true
           }
         })
@@ -77,12 +77,13 @@ export default {
   width: 100%;
   height: auto;
   background-color: rgba(16, 23, 32, 1);
-  color: #fff
+  color: #fff;
+  min-height: 100%;
 }
 .video-content{
   width: 92%;
-  height: 100%;
-  margin: 0 auto;
+  height: auto;
+  padding: 0 4%;
 }
 </style>
 <style>

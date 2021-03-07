@@ -13,7 +13,7 @@
         隐患
       </p>
       <p class="detail-item-value color-light-yellow">
-        {{ data.outline }}
+        {{ data.trouble }}
       </p>
     </div>
     <div class="detail-item">
@@ -21,7 +21,7 @@
         离线
       </p>
       <p class="detail-item-value color-light-red">
-        {{ data.trouble }}
+        {{ data.outline }}
       </p>
     </div>
   </div>

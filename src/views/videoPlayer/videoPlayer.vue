@@ -4,7 +4,9 @@
       {{ title }}
     </p>
     <div class="video-center">
-      <iframe class="video-content" src="https://www.baidu.com/" frameborder="0" />
+      <!-- <iframe class="video-content" src="https://www.baidu.com/" frameborder="0" />
+       -->
+      <video width="100%" height="100%" src="/src/oceans.mp4" class="video-content" autoplay />
     </div>
   </div>
 </template>
@@ -53,6 +55,7 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
+  background-color: #101720;
 }
 .title{
   color: #8BA3C2;

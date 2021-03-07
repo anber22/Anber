@@ -43,7 +43,12 @@ export default {
             type: 'dashed'
           }
         },
-        color: 'rgba(255, 255, 255, 0.1)',
+        textStyle: {
+          color: '#8BA3C2'
+        },
+        borderColor: 'rgba(24, 237, 250, 1)',
+        borderWidth: 1,
+        triggerOn: 'mousemove|click',
         formatter: function(params) {
           var result = ''
           var dotHtml = '<span style="display:inline-block;margin-right:5px;margin-bottom: 4px;width:13px;height:2px;background-color:rgba(24, 237, 250, 1)"></span>'
