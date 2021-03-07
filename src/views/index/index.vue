@@ -117,7 +117,8 @@ export default {
       },
       maxPieDataFlag: false,
       lineData: {
-        chartId: 'lineChartId', // 饼图的id
+        // 饼图的id
+        chartId: 'lineChartId',
         title: '隐患分析（近15天)',
         xAxis: {
           data: []
@@ -137,7 +138,8 @@ export default {
       eventData: {
         equitType: [],
         analysisTimelineData: {
-          chartId: 'analysisTimelineChartId', // 双折线图的id
+          // 双折线图的id
+          chartId: 'analysisTimelineChartId',
           xAxis: {
             data: []
           },
@@ -170,7 +172,8 @@ export default {
           }
         ],
         pieData: {
-          chartId: 'monitorAnalysisChartId', // 饼图的id
+          // 饼图的id
+          chartId: 'monitorAnalysisChartId',
           data: [],
           title: '',
           color: []
@@ -178,8 +181,10 @@ export default {
         monitorAnalysisFlag: false
       },
       monitorAnalysisLegendData: [],
-      analysisDateType: 1, // 监测分析当前选中的时间类型 默认全部
-      analysisSystemType: 1 // 监测分析当前选中的系统类型 默认智慧视觉
+      // 监测分析当前选中的时间类型 默认全部
+      analysisDateType: 1,
+      // 监测分析当前选中的系统类型 默认智慧视觉
+      analysisSystemType: 1
     }
   },
   computed: {
@@ -247,8 +252,10 @@ export default {
       })
       this.eventData.equipType = this.monitorAnalysisData.equipType
       this.analysisDateType = combined[0].id
-      this.getAnalysisTimeline(combined[0].id) // 用应用列表里的第一个子系统获取15天事件和故障数统计数据
-      this.getMonitorAnalysis(combined[0].id, this.monitorAnalysisData.dateType[0].value) // 用应用列表里的第一个子系统获取监测分析全部数据
+      // 用应用列表里的第一个子系统获取15天事件和故障数统计数据
+      this.getAnalysisTimeline(combined[0].id)
+      // 用应用列表里的第一个子系统获取监测分析全部数据
+      this.getMonitorAnalysis(combined[0].id, this.monitorAnalysisData.dateType[0].value)
       this.loading = true
     },
     /**
@@ -293,7 +300,7 @@ export default {
       }
     },
     /**
-     * 15天隐患分析
+     * 辖区统计联动，当前选中辖区的隐患分析（近15天）
      */
     async getTroubleAnalysis(departId) {
       const res = await Api.troubleAnalysis(departId)
@@ -309,7 +316,7 @@ export default {
       }
     },
     /**
-     * 近15日事件统计
+     * 智慧视觉统计折线图（30天事件数，故障数）
      */
     async getAnalysisTimeline(system) {
       this.eventData.analysisTimelineData.xAxis.data = []

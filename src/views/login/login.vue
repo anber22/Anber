@@ -173,16 +173,17 @@ export default {
         this.$Toast('验证码不能为空')
         return
       }
-      // if (this.remember) {
-      //   Reflect.set(param, 'data', 30)
+      /**
+       * 不请求接口，勿删
+       */
+      // const res = await this.$store.dispatch('LoginByCode', param)
+      // if (res.code === 200) {
+      // this.$Toast(res.message)
+      this.$Toast('登陆成功')
+      this.$router.push('/home')
+      // } else {
+      //   this.$Toast(res.message)
       // }
-      const res = await this.$store.dispatch('LoginByCode', param)
-      if (res.code === 200) {
-        this.$Toast(res.message)
-        this.$router.push('/home')
-      } else {
-        this.$Toast(res.message)
-      }
     }, // 密码登录
     async isPasswordLogin() {
       const param = {
@@ -202,17 +203,18 @@ export default {
         this.$Toast('密码不能为空')
         return
       }
-      // if (this.remember) {
-      //   Reflect.set(param, 'data', 30)
-      // }
-      const res = await this.$store.dispatch('Login', param)
+      /**
+       * 不请求接口，勿删
+       */
+      // const res = await this.$store.dispatch('Login', param)
 
-      if (res.code === 200) {
-        this.$Toast(res.message)
-        this.$router.push('/home')
-      } else {
-        this.$Toast(res.message)
-      }
+      // if (res.code === 200) {
+      //   this.$Toast(res.message)
+      this.$Toast('登陆成功')
+      this.$router.push('/home')
+      // } else {
+      //   this.$Toast(res.message)
+      // }
     }
   }
 }

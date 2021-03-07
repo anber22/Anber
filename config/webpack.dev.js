@@ -26,6 +26,7 @@ module.exports = merge(base, {
         // target: "http://47.106.116.164:8017",
         pathRewrite: { "^/apis": "" },
         changeOrigin: true,
+        secure: false, // 目标服务器地址是否是安全协议
       }
     } 
   },
