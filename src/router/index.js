@@ -20,7 +20,7 @@ export default new VueRouter({
       component: Tabbar,
       meta: {
       },
-      redirect: '/login',
+      redirect: '/index',
       children: [
         {
           path: '/index',

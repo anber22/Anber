@@ -3,8 +3,8 @@
   <div class="warin">
     <div class="hidden-trouble-detail">
       <div class="out-rect">
-        <div class="in-rect">
-          <img class="equip-img" src="@/assets/images/index/real-time-warning-camera.png">
+        <div v-if="ulList" class="in-rect">
+          <img class="equip-img" :src="currentSystemtypeImage">
           <ul class="list">
             <li
               v-for="(rowItem, index) in ulList"
@@ -29,6 +29,9 @@
             </li>
           </ul>
         </div>
+        <div v-else class="no-data">
+          暂无数据
+        </div>
       </div>
     </div>
   </div>
@@ -40,39 +43,30 @@ export default {
   components: {
 
   },
-
+  props: {
+    data: {
+      type: Array,
+      default: null
+    }
+  },
   data() {
     return {
       ulList: [
-        {
-          type: '违规停放',
-          address: '港湾一号',
-          status: '待处理',
-          time: '8min'
-        }, {
-          type: '高空抛物',
-          address: '港湾一号',
-          status: '待处理',
-          time: '6min'
-        }, {
-          type: '电瓶车上楼',
-          address: '港湾一号',
-          status: '待处理',
-          time: '23:00'
-        }, {
-          type: '未戴安全帽',
-          address: '港湾一号',
-          status: '待处理',
-          time: '18:00'
-        }
       ],
       play: false,
-      timer: null // //接收定时器
+      // 接收定时器
+      timer: null,
+      currentSystemtypeImage: ''
     }
   },
-  mounted() {
-    setInterval(this.startPlay, 3000)
-
+  created() {
+    console.log('页面创建', this.data, this.ulList)
+    this.ulList = this.data
+    if (this.ulList !== null) {
+      if (this.ulList.length > 1) {
+        setInterval(this.startPlay, 3000)
+      }
+    }
     // Socket.initSocket('equipCount')
   },
   destroyed() { // 页面销毁时清除定时器
@@ -86,7 +80,9 @@ export default {
         that.play = false // 暂停播放
         that.ulList.push(that.ulList[0]) // 将第一条数据塞到最后一个
         that.ulList.shift() // 删除第一条数据
+        this.currentSystemtypeImage = this.ulList[0].imgUrl
       }, 500)
+      // console.log(that.timer)
     }
   }
 }
@@ -126,7 +122,7 @@ export default {
   width: 100%;
   height: 100%; /*关键样式*/
   line-height: 350%;
-  background: linear-gradient(45deg, transparent 4.67%, rgba(0, 186, 255, 1) 0%,#010F1F 48%)  right;
+  /* background: linear-gradient(45deg, transparent 4.67%, rgba(0, 186, 255, 1) 0%,#010F1F 48%)  right; */
   background-size: 100% 100%;
   background-repeat: no-repeat;
   /* box-shadow: 4px 0 10px rgba(226, 226, 226, 0.3); */
@@ -141,7 +137,7 @@ export default {
   display: flex;
   padding: 0px  3%;
   margin-top: 0.03%;
-  background: linear-gradient(45deg, transparent 4.47%, rgba(0, 48, 93, 1) 0,#010F1F) top right;
+   background-image: url('@/assets/images/index/hidden-trouble-to-push-bg.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
@@ -180,7 +176,7 @@ export default {
   list-style: none;
   width: 100%;
   text-align: center;
-  overflow: hidden; /*key code */
+  overflow: hidden; /*key code*/
   height: 100%; /*key code*/
   padding: 0;
   margin-left: 3%;
@@ -189,5 +185,13 @@ export default {
 li {
   height: 100%;
   text-align: left;
+}
+.no-data{
+  width: 100%;
+  height: 20px;
+  line-height:20px;
+  color: #ffffff;
+  font-size: 14px;
+  text-align: center
 }
 </style>

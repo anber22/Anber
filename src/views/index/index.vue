@@ -41,9 +41,7 @@
         应用列表
       </div>
     </Adaptive>
-    <Adaptive :data="['100%','120.75%']" class="equipList-box">
-      <EquipList :data="equipList" class="equipList" />
-    </Adaptive>
+    <EquipList :data="equipList" />
     <!-- end -->
 
     <!-- 辖区统计 start  -->
@@ -228,19 +226,9 @@ export default {
     async getEquipList() {
       const res = await Api.applicationlist()
       this.equipList = [...res.data]
-      // const arryNew = []
-      // // 过滤 config 的equipList ，拿出对应的imgUrl
-      // this.equipList.forEach(item => {
-      //   console.log(Config)
-      //   Config.equipList.some(async(equip, index) => {
-      //     // const img = await require(`@${equip.imgUrl}.png`)
-      //     console.log('id', equip.id, item.id, equip.imgUrl)
-      //     if (equip.id === item.id) {
-      //       arryNew.push(Object.assign({}, item, { img: equip.imgUrl }))
-      //     }
-      //   })
-      // })
-      const combined = Config.equipList.reduce((acc, cur) => {
+      console.log('设备数量', this.equipList)
+
+      const combined = Config.subsystemList.reduce((acc, cur) => {
         const target = acc.find(e => e.id === cur.id)
         if (target) {
           Object.assign(target, cur)
@@ -249,7 +237,8 @@ export default {
         }
         return acc
       }, this.equipList)
-
+      this.equipList = combined
+      console.log('应用列表', this.equipList)
       combined.forEach(item => {
         this.monitorAnalysisData.equipType.push({
           value: item.id,
@@ -261,7 +250,6 @@ export default {
       this.getAnalysisTimeline(combined[0].id) // 用应用列表里的第一个子系统获取15天事件和故障数统计数据
       this.getMonitorAnalysis(combined[0].id, this.monitorAnalysisData.dateType[0].value) // 用应用列表里的第一个子系统获取监测分析全部数据
       this.loading = true
-      this.equipList = combined
     },
     /**
      * 辖区统计选中的辖区ID，并筛选当前辖区的数据出来
@@ -468,10 +456,7 @@ export default {
 .equipList-box{
   padding-right: 0px;
 }
-.equipList{
-  width: 100%;
-  height: 100%;
-}
+
 .legend{
   text-align: center;
   font-size: 12px;
