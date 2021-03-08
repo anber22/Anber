@@ -148,11 +148,11 @@
       "imgUrl":"/src/assets/images/index/wisdom-visual.png"
     },{
       "id":10,
-      "name":"环境监测系统",
+      "name":"环境监测",
       "imgUrl":"/src/assets/images/index/environmental-monitoring.png"
     },{
       "id":11,
-      "name":"塔机监测系统",
+      "name":"塔机监测",
       "imgUrl":"/src/assets/images/index/crane-monitoring.png"
     }
   ],

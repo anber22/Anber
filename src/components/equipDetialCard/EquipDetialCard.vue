@@ -7,7 +7,8 @@
     </div>
     <div class="equipDetialCard-value">
       <div class="value-font">
-        {{ subValue===''?content[layout.typed]:subValue }}
+        <!-- {{ subValue===''?content[layout.typed]:subValue }} -->
+        {{ layout.value }}
         <!-- 21111 -->
       </div>
     </div>
@@ -23,12 +24,13 @@ export default {
       type: Object,
       // eslint-disable-next-line vue/require-valid-default-prop
       default: {}
-    },
-    content: {
-      type: Object,
-      // eslint-disable-next-line vue/require-valid-default-prop
-      default: {}
     }
+    // ,
+    // content: {
+    //   type: Object,
+    //   // eslint-disable-next-line vue/require-valid-default-prop
+    //   default: {}
+    // }
   },
   data() {
     return {
@@ -36,11 +38,11 @@ export default {
     }
   },
   mounted() {
-    if (this.layout.typed === 'windSpeed') {
-      this.subValue = this.content.windSpeed + '/' + this.content.windDirection
-    } else if (this.layout.typed === 'temperature') {
-      this.subValue = this.content.temperature + '/' + this.content.humidity
-    }
+    // if (this.layout.typed === 'windSpeed') {
+    //   this.subValue = this.content.windSpeed + '/' + this.content.windDirection
+    // } else if (this.layout.typed === 'temperature') {
+    //   this.subValue = this.content.temperature + '/' + this.content.humidity
+    // }
   },
   methods: {
 

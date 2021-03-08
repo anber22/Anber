@@ -69,6 +69,7 @@ export default {
       this.show = false
       this.equipType = index[0]
       this.status = index[1]
+      console.log(value, index, 'iiiii')
       // this.formattingCondition()
       this.getAnalysisList()
     },
@@ -92,14 +93,17 @@ export default {
       }
       const res = await Api.analysisList(params)
       this.analysisList = [...res.data.rows]
+      console.log(this.analysisList, 'analysisList')
     }, // 获取设备类型列表
     async getEquipTypeList() {
-      const params = {
-        type: 0
-      }
-      const res = await Api.hazardTypeList(params)
+      const res = await Api.equipTypeList(0)
       this.equipTypeList = [...res.data]
       this.equipTypeList.forEach(item => {
+        // 这里有问题，不是拿设备类型，是要拿隐患类型
+        // 这里有问题，不是拿设备类型，是要拿隐患类型
+        // 这里有问题，不是拿设备类型，是要拿隐患类型
+        // 这里有问题，不是拿设备类型，是要拿隐患类型
+        // 这里有问题，不是拿设备类型，是要拿隐患类型
         this.columns[0].values.push(item.name)
       })
     },

@@ -17,7 +17,7 @@
           <div class="text-item">
             <span class="name">网点名称：</span>
             <span class="describe">{{ placeResourcDetail.placeName }}</span>
-            <span class="placeType">重点单位</span>
+            <span class="placeType">{{ placeResourcDetail.placeTypeId }}</span>
           </div>
           <div class="text-item">
             <span class="name">网点地址：</span>

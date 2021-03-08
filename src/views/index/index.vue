@@ -139,7 +139,7 @@ export default {
       departCountData: {},
       // 事件数、故障数统计双折线图
       eventData: {
-        equitType: [],
+        equipType: [],
         analysisTimelineData: {
           // 双折线图的id
           chartId: 'analysisTimelineChartId',
@@ -257,10 +257,14 @@ export default {
       combined.forEach(item => {
         this.monitorAnalysisData.equipType.push({
           value: item.id,
-          name: item.name
+          name: item.name + '分析'
+        })
+        this.eventData.equipType.push({
+          value: item.id,
+          name: item.name + '统计'
         })
       })
-      this.eventData.equipType = this.monitorAnalysisData.equipType
+      // this.eventData.equipType = this.monitorAnalysisData.equipType
       this.analysisDateType = combined[0].id
       // 用应用列表里的第一个子系统获取15天事件和故障数统计数据
       this.getAnalysisTimeline(combined[0].id)
