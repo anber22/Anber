@@ -30,5 +30,12 @@ export default {
   #app{
     zoom: 1.104;
   }
+
+}
+.AnalysisPie-echarts-tooltip{
+  z-index: 9 !important;
+}
+.MaxLine-echarts-tooltip, .EventsLine-echarts-tooltip{
+  padding: 6px !important
 }
 </style>

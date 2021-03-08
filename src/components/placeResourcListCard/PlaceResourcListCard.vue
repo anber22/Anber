@@ -19,9 +19,12 @@
             {{ data.phone }}
           </div>
           <div class="placeResourcListCard-type">
-            {{ data.placeTypeName }}
+            {{ data.placeTypeId }}
           </div>
-        </div><img src="@/assets/images/equip/phone.png" alt="" class="placeResourcListCard-content-row-icon">
+        </div>
+        <!-- <a :href="'tel:' + data.phone"> -->
+        <img src="@/assets/images/equip/phone.png" alt="" class="placeResourcListCard-content-row-icon">
+        <!-- </a> -->
       </div>
       <div class="placeResourcListCard-content-row">
         <div class="placeResourcListCard-content-row-name">

@@ -17,7 +17,7 @@
           <div class="text-item">
             <span class="name">网点名称：</span>
             <span class="describe">{{ placeResourcDetail.placeName }}</span>
-            <span class="placeType">重点单位</span>
+            <span class="placeType">{{ placeResourcDetail.placeTypeId }}</span>
           </div>
           <div class="text-item">
             <span class="name">网点地址：</span>
@@ -205,6 +205,7 @@ export default {
   border-radius: 2px;
   transform: scale(0.8);
   -webkit-transform: scale(0.8);
+  background: #0d2031;
 }
 .text-box .text-item .describe{
   color: #B9CEE9

@@ -49,6 +49,7 @@ export default {
         borderColor: 'rgba(24, 237, 250, 1)',
         borderWidth: 1,
         triggerOn: 'mousemove|click',
+        className: 'MaxLine-echarts-tooltip',
         formatter: function(params) {
           var result = ''
           var dotHtml = '<span style="display:inline-block;margin-right:5px;margin-bottom: 4px;width:13px;height:2px;background-color:rgba(24, 237, 250, 1)"></span>'

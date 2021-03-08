@@ -23,18 +23,18 @@
     <div class="iot-content">
       <!-- 卡片展示列表 start -->
       <div v-if="isCard">
-        <div v-if="thisSubsystemId===0 && !loadding " class="show-list">
+        <div v-if="thisSubsystemId===5 && !loadding " class="show-list">
           <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','49.9%']" class="physicalUnionApplication-card">
             <PhysicalUnionApplication :data="item" />
           </Adaptive>
         </div>
-        <div v-if="thisSubsystemId===1 && !loadding " class="show-list">
+        <div v-if="thisSubsystemId===10 && !loadding " class="show-list">
           <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','77.9%']" class="environmentalMonitoring-card">
             <EnvironmentalMonitoring :data="item" />
           </Adaptive>
         </div>
-        <div v-if="thisSubsystemId===2 && !loadding " class="show-list">
-          <TowerCraneMonitoring v-for="item in equipInfoList" :key="item.index" class="towerCraneMonitoring-card" :data="item" />
+        <div v-if="thisSubsystemId===11 && !loadding " class="show-list">
+          <TowerCraneMonitoring v-for="(item, index) in equipInfoList" :key="index" class="towerCraneMonitoring-card" :data="item" />
         </div>
       </div>
       <!-- end -->
@@ -76,12 +76,12 @@ export default {
       loadding: true,
       // 系统选择下拉菜单
       subsystemList: [
-        { text: '智慧视觉', value: 0 },
-        { text: '环境监测', value: 1 },
-        { text: '塔机监测', value: 2 }
+        { text: '智慧视觉', value: 5 },
+        { text: '环境监测', value: 10 },
+        { text: '塔机监测', value: 11 }
       ],
       // 当前选中系统
-      thisSubsystemId: 0,
+      thisSubsystemId: 5,
       // 展示形式 （列表||卡片）
       isCard: false,
       // 查询条件 （这里只有模糊查询）
@@ -125,28 +125,31 @@ export default {
         const target = acc.find(e => e.equipId === cur.equipId)
         if (target) {
           Object.assign(target, cur)
-        } else {
-          acc.push(cur)
         }
         return acc
       }, this.equipInfoList)
       this.equipInfoList = combined
       // 如果选择的是 thisSubsystemId ===1 的环境监测系统
-      if (this.thisSubsystemId === 1 || this.thisSubsystemId === 2) {
+      if (this.thisSubsystemId === 10 || this.thisSubsystemId === 11) {
         this.loadding = true
+        // 根据对应的设备类型去请求相对应系统的接口
+        let system = ''
+        if (this.thisSubsystemId === 10) {
+          system = 'environment'
+        } else if (this.thisSubsystemId === 11) {
+          system = 'tower'
+        }
         // 获取ids去查询对应设备的详细数据
-
-        const temp = await Api.equipRealTimeInfoList(ids)
+        const temp = await Api.equipRealTimeInfoList(ids, system)
         // 把两个数组对象根据equipId来合并
         combined = temp.data.reduce((acc, cur) => {
           const target = acc.find(e => e.equipId === cur.equipId)
           if (target) {
             Object.assign(target, cur)
-          } else {
-            acc.push(cur)
           }
           return acc
         }, this.equipInfoList)
+        console.log(combined, 'combined')
         this.equipInfoList = combined
       }
       this.loadding = false

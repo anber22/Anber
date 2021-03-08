@@ -91,34 +91,7 @@ export default {
   },
   data() {
     return {
-      equipDetialCardList: [
-
-        {
-          typed: 'rainFall',
-          width: '24.55%',
-          name: '雨量',
-          value: '130mm',
-          icon: '/src/assets/images/equip/rainfall.png',
-          iconWidth: '13px',
-          iconHeight: '10px'
-        }, {
-          typed: 'windSpeed',
-
-          width: '42%',
-          name: '风速/风向',
-          value: '2.10m/s/东南25.5°',
-          icon: '/src/assets/images/equip/wind-speed.png',
-          iconWidth: '16px',
-          iconHeight: '10px'
-        }, {
-          typed: 'temperature',
-          width: '24.55%',
-          name: '温度/湿度',
-          value: '25.5°/29.5°',
-          icon: '/src/assets/images/equip/temperature.png',
-          iconWidth: '8px',
-          iconHeight: '16px'
-        }],
+      equipDetialCardList: [],
       equipStatus: {
         wifi: 'red',
         electricity: 'yellow',
@@ -127,11 +100,41 @@ export default {
 
     }
   }, beforeMount() {
-  }, mounted() {
+  },
+  mounted() {
+    this.setEquipDetailCardListData()
   },
 
   methods: {
+    setEquipDetailCardListData() {
+      const detailData = this.data
+      this.equipDetialCardList = [{
+        typed: 'rainFall',
+        width: '24.55%',
+        name: '雨量',
+        value: detailData.rainFall ? detailData.rainFall + 'mm' : '-',
+        icon: '/src/assets/images/equip/rainfall.png',
+        iconWidth: '13px',
+        iconHeight: '10px'
+      }, {
+        typed: 'windSpeed',
 
+        width: '42%',
+        name: '风速/风向',
+        value: (detailData.windSpeed ? detailData.windSpeed + 'm/s/' : '-') + (detailData.windDirection ? detailData.windDirection + '°' : '-'),
+        icon: '/src/assets/images/equip/wind-speed.png',
+        iconWidth: '16px',
+        iconHeight: '10px'
+      }, {
+        typed: 'temperature',
+        width: '24.55%',
+        name: '温度/湿度',
+        value: (detailData.temperature ? detailData.temperature + '°/' : '-') + (detailData.humidity ? detailData.humidity + '%RH' : '-'),
+        icon: '/src/assets/images/equip/temperature.png',
+        iconWidth: '8px',
+        iconHeight: '16px'
+      }]
+    }
   }
 }
 </script>

@@ -64,7 +64,9 @@
             <div class="hazardDetail-submit-content-info-row-value">
               {{ detailInfo.managerName+"-"+detailInfo.phone }}
             </div>
-            <img src="@/assets/images/equip/phone.png" alt="" class="hazardDetail-submit-content-info-row-icon">
+            <a :href="'tel:' + detailInfo.phone">
+              <img src="@/assets/images/equip/phone.png" alt="" class="hazardDetail-submit-content-info-row-icon">
+            </a>
           </div>
 
           <div class="hazardDetail-submit-content-info-row">
@@ -72,7 +74,7 @@
               发生时间:
             </div>
             <div class="hazardDetail-submit-content-info-row-value">
-              {{ timeTransformation(detailInfo.createTime) }}
+              {{ timeTransformation(detailInfo.createdTime) }}
             </div>
           </div>
         </div>
@@ -146,7 +148,7 @@ export default {
   methods: {
     async getHazardDetail() {
       const params = {
-        id: this.detailInfoId + '5'
+        id: this.detailInfoId
       }
       const res = await Api.hazardDeatilInfo(params)
       this.detailInfo = { ...res.data }
@@ -155,11 +157,11 @@ export default {
       }
     },
     timeTransformation(e) {
-      return dealData.dataFormatStamp(e)
+      return dealData.dataFormat(e)
     },
     async getHazardDealInfo() {
       const params = {
-        id: this.detailInfoId + '7'
+        id: this.detailInfoId
       }
       const res = await Api.hazardDealInfo(params)
       this.dealInfo = { ...res.data }

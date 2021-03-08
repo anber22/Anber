@@ -8,19 +8,19 @@
         未处理
       </div>
       <div class="hazardListCard-analysis-name">
-        {{ data.onlineMsg }}
+        {{ data.hazardType }}
       </div>
 
       <div class="hazardListCard-equip-count">
-        <div :class="data.onlineType===0?'hazardListCard-event-type-orange':'hazardListCard-event-type-red'">
-          {{ data.onlineType===0?"故障":"事件" }}
+        <div :class="data.hazardCategory===2?'hazardListCard-event-type-orange':'hazardListCard-event-type-red'">
+          {{ data.hazardCategory===2?"故障":"事件" }}
         </div>
       </div>
     </div>
     <div class="hazardListCard-content">
       <div class="hazardListCard-content-row">
         <div class="hazardListCard-content-row-name">
-          {{ data.typeName+"-"+data.placeName+"-"+data.equipAddress }}
+          {{ data.equipType+"-"+data.placeName+"-"+data.equipAddress }}
           <!-- 安全帽监测-港湾一号-湾9栋401大门口 -->
         </div><img src="@/assets/images/equip/phone.png" alt="" class="hazardListCard-content-row-icon">
         <img src="@/assets/images/equip/navigation.png" alt="" class="hazardListCard-content-row-icon">
@@ -34,7 +34,7 @@
       <div class="hazardListCard-content-row">
         <div class="hazardListCard-content-row-name">
           <!-- {{ data.placeName }} -->
-          {{ timeTransformation(data.createTime) }}
+          {{ timeTransformation(data.createdTime) }}
         </div>
       </div>
     </div>
@@ -68,7 +68,7 @@ export default {
   methods: {
     timeTransformation(e) {
       console.log('date', e)
-      return dealData.dataFormatStamp(e)
+      return dealData.dataFormat(e)
     }
   }
 }

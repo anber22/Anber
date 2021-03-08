@@ -51,6 +51,7 @@ export default {
         borderColor: '#8BA3C2',
         borderWidth: 1,
         triggerOn: 'mousemove|click',
+        className: 'EventsLine-echarts-tooltip',
         formatter: function(params) {
           var result = ''
           var dotHtml = '<span style="display:inline-block;margin-right:5px;margin-bottom: 4px;width:13px;height:2px;background-color:rgba(40, 255, 187, 1)"></span>'

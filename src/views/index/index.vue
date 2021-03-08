@@ -22,6 +22,8 @@
     <Adaptive :data="['100%','60%']">
       <Gauge :data="gaugeData" />
     </Adaptive>
+    <!-- 分割线line -->
+    <div style="width: 100%;height: 8px;background: #131B25;margin-top: 14px" />
     <!-- end -->
     <!-- 实时预警 start -->
     <Adaptive :data="['100%','5.57%']" class="title-box">
@@ -60,15 +62,15 @@
     </Adaptive>
     <!-- end -->
     <!-- 监测分析，近一月/近一年/全部 -->
-    <Adaptive :data="['100%','100%']">
+    <Adaptive :data="['100%','140%']">
       <MonitorAnalysis v-if="loading" :data="monitorAnalysisData" @timeType="getDateType" @systemType="getMonitorSystemType" />
     </Adaptive>
     <!-- legend 图例 -->
-    <div class="legend">
+    <!-- <div class="legend">
       <p v-for="(item, index) in monitorAnalysisData.pieData.data" :key="index">
         <span :style="{ background: item.color }" />{{ item.name }}&emsp;&emsp;{{ item.value }}次&emsp;&emsp;&ensp;{{ item.precent }}%
       </p>
-    </div>
+    </div> -->
     <!-- end -->
     <!-- 事件数故障数统计分析 start  -->
     <Adaptive :data="['100%','90%']">
@@ -107,7 +109,8 @@ export default {
     return {
       loading: false,
       gaugeData: {
-        chartId: 'gaugeId'
+        chartId: 'gaugeId',
+        onlinePercent: 0
       },
       equipCountings: '',
       branchesCountings: '',
@@ -137,7 +140,7 @@ export default {
       departCountData: {},
       // 事件数、故障数统计双折线图
       eventData: {
-        equitType: [],
+        equipType: [],
         analysisTimelineData: {
           // 双折线图的id
           chartId: 'analysisTimelineChartId',
@@ -186,7 +189,8 @@ export default {
       analysisDateType: 1,
       // 监测分析当前选中的系统类型 默认智慧视觉
       analysisSystemType: 1,
-      hiddenDangerList: []
+      hiddenDangerList: [],
+      onlinePercent: 0
     }
   },
   computed: {
@@ -217,6 +221,7 @@ export default {
     console.log('设备类型', await this.equipType)
     console.log('隐患类型', await this.hazardType)
     console.log('网点类型', await this.placeType)
+    this.getOnlinePercent()
   },
   methods: {
     /**
@@ -239,6 +244,13 @@ export default {
       this.branchesCountings = parseInt(res.data).toLocaleString()
     },
     /**
+     * 设备在线率
+     */
+    async getOnlinePercent() {
+      const res = await Api.onlinePercent()
+      this.gaugeData.onlinePercent = res.data
+    },
+    /**
      * 获取应用列表
      */
     async getEquipList() {
@@ -258,10 +270,14 @@ export default {
       combined.forEach(item => {
         this.monitorAnalysisData.equipType.push({
           value: item.id,
-          name: item.name
+          name: item.name + '分析'
+        })
+        this.eventData.equipType.push({
+          value: item.id,
+          name: item.name + '统计'
         })
       })
-      this.eventData.equipType = this.monitorAnalysisData.equipType
+      // this.eventData.equipType = this.monitorAnalysisData.equipType
       this.analysisDateType = combined[0].id
       // 用应用列表里的第一个子系统获取15天事件和故障数统计数据
       this.getAnalysisTimeline(combined[0].id)
@@ -294,7 +310,7 @@ export default {
         const dataArr = [...res.data]
         dataArr.forEach(item => {
           this.maxPieData.data.push({
-            value: item.data.trouble,
+            value: item.data.count,
             name: item.departName,
             type: item.departId,
             count: item.data.count
@@ -368,9 +384,9 @@ export default {
         }
         dataArr.forEach((item, index) => {
           this.monitorAnalysisData.pieData.data.push({
-            value: item.eventCount,
+            value: item.count,
             name: item.name,
-            precent: item.eventPrecent,
+            precent: item.precent,
             color: color[index]
           })
         })
@@ -494,9 +510,10 @@ export default {
 }
 
 .legend{
-  text-align: center;
+  /* text-align: center; */
   font-size: 12px;
   color: #fff;
+  padding-left: 18%;
 }
 .legend p{
   line-height: 2.5

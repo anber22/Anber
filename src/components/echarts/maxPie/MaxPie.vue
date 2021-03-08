@@ -96,6 +96,10 @@ export default {
               length: 10,
               length2: 8
             },
+            // 是否隐藏重叠的标签。
+            labelLayout: {
+              hideOverlap: false
+            },
             data: this.data.data,
             zlevel: 6
           }, {
