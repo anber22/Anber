@@ -1,4 +1,3 @@
-<!-- 首页事件类型 -->
 <template>
   <div class="events-content">
     <div class="title-box">

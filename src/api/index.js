@@ -28,6 +28,13 @@ class Index {
       method: 'get'
     })
   }
+  // 设备在线率（仪表盘，码表）
+  async onlinePercent() {
+    return await request({
+      url: '/apis/equip/online/percent',
+      method: 'get'
+    })
+  }
   // 首页左上角辖区统计
   async departCounting() {
     return await request({

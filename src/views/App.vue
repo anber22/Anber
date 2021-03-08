@@ -21,4 +21,10 @@ export default {
   margin: 0px;
   padding: 0px;
 }
+.AnalysisPie-echarts-tooltip{
+  z-index: 9 !important;
+}
+.MaxLine-echarts-tooltip, .EventsLine-echarts-tooltip{
+  padding: 6px !important
+}
 </style>

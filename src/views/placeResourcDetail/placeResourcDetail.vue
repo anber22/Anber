@@ -205,6 +205,7 @@ export default {
   border-radius: 2px;
   transform: scale(0.8);
   -webkit-transform: scale(0.8);
+  background: #0d2031;
 }
 .text-box .text-item .describe{
   color: #B9CEE9
