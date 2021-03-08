@@ -1,39 +1,41 @@
 <!-- 首页应用列表 -->
 <template>
   <div class="equipList">
-    <div v-for="item in data" :key="item.id" class="equipList-item" @click="showCard()">
-      <div class="equipList-item-left">
-        <img class="equipList-equip-img" :src="item.imgUrl" alt>
-        <p class="equipList-item-title">
-          {{ item.name }}
-        </p>
-      </div>
-      <div class="equipList-item-right">
-        <div class="equipList-detail-item">
-          <p class="equipList-detail-item-title">
-            在线
-          </p>
-          <p class="equipList-detail-item-value color-light-blue">
-            {{ item.data.online }}
+    <div v-for="item in data" :key="item.id" @click="showCard()">
+      <Adaptive :data="['100%','24.4%']" class="equipList-item">
+        <div class="equipList-item-left">
+          <img class="equipList-equip-img" :src="item.imgUrl" alt>
+          <p class="equipList-item-title">
+            {{ item.name }}
           </p>
         </div>
-        <div class="equipList-detail-item">
-          <p class="equipList-detail-item-title">
-            隐患
-          </p>
-          <p class="equipList-detail-item-value color-light-yellow">
-            {{ item.data.outline }}
-          </p>
+        <div class="equipList-item-right">
+          <div class="equipList-detail-item">
+            <p class="equipList-detail-item-title">
+              在线
+            </p>
+            <p class="equipList-detail-item-value color-light-blue">
+              {{ item.data.online }}
+            </p>
+          </div>
+          <div class="equipList-detail-item">
+            <p class="equipList-detail-item-title">
+              隐患
+            </p>
+            <p class="equipList-detail-item-value color-light-yellow">
+              {{ item.data.error }}
+            </p>
+          </div>
+          <div class="equipList-detail-item">
+            <p class="equipList-detail-item-title">
+              离线
+            </p>
+            <p class="equipList-detail-item-value color-light-red">
+              {{ item.data.outline }}
+            </p>
+          </div>
         </div>
-        <div class="equipList-detail-item">
-          <p class="equipList-detail-item-title">
-            离线
-          </p>
-          <p class="equipList-detail-item-value color-light-red">
-            {{ item.data.error }}
-          </p>
-        </div>
-      </div>
+      </Adaptive>
     </div>
   </div>
 </template>
@@ -73,8 +75,8 @@ export default {
     display: none;
 }
 .equipList-item{
-  width: 100%;
-  height: 10.6%;
+  /* width: 100%;
+  height: 10.6%; */
   box-sizing: border-box;
   background: rgba(16, 233, 255, 0);
   /* border: 1px solid #008797; */

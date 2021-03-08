@@ -31,7 +31,7 @@
       </div>
     </Adaptive>
     <Adaptive :data="['100%','12.75%']" class="warning-box">
-      <Warning class="warning" />
+      <Warning v-if="hiddenDangerList.length>0" class="warning" :data="hiddenDangerList" />
     </Adaptive>
     <!-- end -->
     <!-- 应用列表 start -->
@@ -90,7 +90,8 @@ import Config from '/config.json'
 import DepartCount from 'cmp/index/departCount/DepartCount'
 import Events from 'cmp/index/events/Events'
 import MonitorAnalysis from 'cmp/index/monitorAnalysis/MonitorAnalysis'
-
+import { mapGetters } from 'vuex'
+import store from '@/store'
 export default {
   components: {
     EquipList,
@@ -184,11 +185,12 @@ export default {
       // 监测分析当前选中的时间类型 默认全部
       analysisDateType: 1,
       // 监测分析当前选中的系统类型 默认智慧视觉
-      analysisSystemType: 1
+      analysisSystemType: 1,
+      hiddenDangerList: []
     }
   },
   computed: {
-
+    ...mapGetters(['equipType', 'hazardType', 'placeType']),
     changeDateType() {
       return function(type, system) {
         if (type === 1) {
@@ -201,14 +203,20 @@ export default {
       }
     }
   },
-  mounted() {
+  async created() {
     // setTimeout(() => {
     //   this.socket()
     // }, 1000)
+    this.getHazardTypeList()
+    this.getHiddenDangerList()
     this.getEquipCountings()
     this.getBranchesCountings()
     this.getEquipList()
     this.getDepartCounting()
+    store.dispatch('generatePersistence')
+    console.log('设备类型', await this.equipType)
+    console.log('隐患类型', await this.hazardType)
+    console.log('网点类型', await this.placeType)
   },
   methods: {
     /**
@@ -217,6 +225,11 @@ export default {
     async getEquipCountings() {
       const res = await Api.equipCountings()
       this.equipCountings = parseInt(res.data).toLocaleString()
+    },
+    async getHazardTypeList() {
+      // console.log('index111', await store.getters.hazardType)
+
+      // console.log('index2222', await store.getters.hazardType)
     },
     /**
      * 获取网点总数
@@ -237,8 +250,6 @@ export default {
         const target = acc.find(e => e.id === cur.id)
         if (target) {
           Object.assign(target, cur)
-        } else {
-          acc.push(cur)
         }
         return acc
       }, this.equipList)
@@ -383,6 +394,24 @@ export default {
       this.analysisSystemType = value
       this.monitorAnalysisData.monitorAnalysisFlag = false
       this.getMonitorAnalysis(value, this.analysisDateType)
+    },
+    /**
+     * 获取隐患列表 top10
+     */
+    async getHiddenDangerList() {
+      const res = await Api.hiddenDangerList(12)
+      this.hiddenDangerList = [...res.data]
+
+      this.hiddenDangerList.forEach(hItem => {
+        Config.subsystemList.forEach(cItem => {
+          if (hItem.type === cItem.id) {
+            // Object.assign(hItem, cItem) assign后者会覆盖前者的同名属性的值
+            hItem['imgUrl'] = cItem.imgUrl
+            hItem['systemName'] = cItem.name
+          }
+        })
+      })
+      console.log('隐患列表', this.hiddenDangerList)
     }
   }
 }
