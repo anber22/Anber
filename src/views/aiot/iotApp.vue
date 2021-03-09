@@ -40,7 +40,7 @@
       <!-- end -->
       <!-- 列表卡片 start -->
       <div v-if="!isCard">
-        <div class="show-list">
+        <div v-if="!loadding" class="show-list">
           <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','31.39%']" class="physicalUnionApplication-list-card">
             <PhysicalUnionApplicationListCard :data="item" />
           </Adaptive>
@@ -58,6 +58,7 @@ import PhysicalUnionApplicationListCard from 'cmp/equipListCard/PhysicalUnionApp
 import EnvironmentalMonitoring from 'cmp/equipCard/EnvironmentalMonitoring.vue'
 import TowerCraneMonitoring from 'cmp/equipCard/TowerCraneMonitoring.vue'
 import Api from '@/api/aiot/iotApp.js'
+import promiseToList from '@/utils/promiseToList'
 
 export default {
   components: {
@@ -121,6 +122,9 @@ export default {
       var ids = this.equipInfoList.map(item => { return item.equipId })
 
       const hazardCountList = await Api.equipUntreatedEventList(ids)
+
+      this.equipInfoList = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', this.equipInfoList)
+
       let combined = hazardCountList.data.reduce((acc, cur) => {
         const target = acc.find(e => e.equipId === cur.equipId)
         if (target) {
@@ -128,7 +132,12 @@ export default {
         }
         return acc
       }, this.equipInfoList)
+
       this.equipInfoList = combined
+      console.log('设备列表', this.equipInfoList)
+      // this.equipInfoList.forEach(item => {
+      //   promiseToList.conversion('equipType', item.)
+      // })
       // 如果选择的是 thisSubsystemId ===1 的环境监测系统
       if (this.thisSubsystemId === 10 || this.thisSubsystemId === 11) {
         this.loadding = true
@@ -152,6 +161,7 @@ export default {
         console.log(combined, 'combined')
         this.equipInfoList = combined
       }
+      console.log('最后输出卡片列表', this.equipInfoList)
       this.loadding = false
     }
   }

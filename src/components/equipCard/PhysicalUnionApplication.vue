@@ -21,7 +21,7 @@
           设备类型:
         </div>
         <div class="physicalUnionApplication-content-row-value">
-          {{ data.equipType }}
+          {{ data.equipTypeName }}
         </div>
       </div>
       <div class="physicalUnionApplication-content-row">

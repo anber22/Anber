@@ -22,7 +22,7 @@
             设备类型:
           </div>
           <div class="towerCraneMonitoring-content-row-value">
-            {{ data.equipType }}
+            {{ data.equipTypeName }}
           </div>
         </div>
         <div class="towerCraneMonitoring-content-row">
@@ -132,7 +132,6 @@ export default {
         iconHeight: '10px'
       }, {
         width: '30.3%',
-
         name: '幅度',
         value: detailData.amplitude ? detailData.amplitude + 'mm' : '-',
         icon: '/src/assets/images/equip/amplitude.png',
