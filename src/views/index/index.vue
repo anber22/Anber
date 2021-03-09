@@ -73,7 +73,7 @@
     </div> -->
     <!-- end -->
     <!-- 事件数故障数统计分析 start  -->
-    <Adaptive :data="['100%','90%']">
+    <Adaptive :data="['100%','84%']">
       <Events v-if="loading" :data="eventData" @systemType="getSystemType" />
     </Adaptive>
     <!-- end -->
@@ -191,7 +191,7 @@ export default {
       analysisSystemType: 1,
       hiddenDangerList: [],
       onlinePercent: 0,
-      analysisHeight: 160
+      analysisHeight: 154
     }
   },
   computed: {
@@ -385,19 +385,13 @@ export default {
         if (dataArr.length < 4) {
           this.analysisHeight = 100
         } else {
-          this.analysisHeight = 160
+          this.analysisHeight = 158
         }
         dataArr.forEach((item, index) => {
           this.monitorAnalysisData.pieData.data.push({
             value: item.count,
             name: item.name,
             precent: item.precent,
-            color: color[index]
-          })
-          this.monitorAnalysisData.pieData.data.push({
-            value: item.count + 1,
-            name: item.name + '加',
-            precent: item.precent + 1,
             color: color[index]
           })
         })

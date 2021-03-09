@@ -12,7 +12,7 @@
 <script>
 import PlaceResourcListCard from 'cmp/placeResourcListCard/PlaceResourcListCard'
 import Api from '@/api/placeResourc/placeResourc.js'
-import { mapGetters } from 'vuex'
+import promiseToList from '@/utils/promiseToList'
 
 export default {
   components: {
@@ -24,9 +24,6 @@ export default {
       queryCondition: '',
       placeTypeList: []
     }
-  },
-  computed: {
-    ...mapGetters(['placeType'])
   },
   mounted() {
     this.getPlaceResourcList()
@@ -41,14 +38,9 @@ export default {
       }
       const res = await Api.placeResourcList(params)
       if (res.code === 200) {
-        const listData = [...res.data.rows]
-        const placeTypeList = await this.placeType
-        listData.forEach((item, index) => {
-          const placeTypeName = placeTypeList.filter(e =>
-            item.placeTypeId === e.id
-          )
-          Reflect.set(item, 'placeTypeName', placeTypeName.length > 0 ? placeTypeName[0].name : '')
-        })
+        let listData = [...res.data.rows]
+        // 去vuex获取该网点的网点类型名称，放到数组集合里
+        listData = await promiseToList.conversion('placeType', 'placeTypeId', 'placeTypeName', listData)
         this.placeResourcList = listData
       }
     },

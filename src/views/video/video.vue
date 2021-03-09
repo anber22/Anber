@@ -17,6 +17,7 @@
 import Video from 'cmp/video/Video'
 import videoApi from '@/api/video'
 import { mapGetters } from 'vuex'
+import promiseToList from '@/utils/promiseToList'
 export default {
   components: {
     Video
@@ -72,12 +73,9 @@ export default {
         type: type
       }
       const res = await videoApi.videoPlaceEquipList(param)
-      const equipTypeList = await this.equipType
       if (res.code === 200) {
-        res.data.forEach((item, index) => {
-          const equipTypeName = equipTypeList.filter(e => item.equipType === e.id)
-          Reflect.set(item, 'equipTypeName', equipTypeName.length > 0 ? equipTypeName[0].name : '')
-        })
+        // 去vuex获取该网点的设备类型名称，放到数组集合里
+        res.data = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', res.data)
 
         for (const i in this.placeList) {
           if (param.id === this.placeList[i].placeId) {
