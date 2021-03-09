@@ -3,31 +3,36 @@
   <div class="warin">
     <div class="hidden-trouble-detail">
       <div class="out-rect">
-        <div class="in-rect">
-          <img class="equip-img" src="@/assets/images/index/real-time-warning-camera.png">
+        <div v-if="ulList" class="in-rect">
+          <img class="equip-img" :src="currentSystemtypeImage">
           <ul class="list">
             <li
               v-for="(rowItem, index) in ulList"
-              :key="rowItem.id"
+              :key="index"
               :class="!index && play ? 'toUp' : ''"
+              @click="showDetail(rowItem.id)"
             >
               <div class="colItem title">
-                智慧视觉
+                {{ rowItem.systemName }}
               </div>
               <div class="colItem content">
-                {{ rowItem.type }}
+                {{ rowItem.onlineMsg }}
               </div>
               <div class="colItem content">
-                {{ rowItem.address }}
+                {{ rowItem.placeName }}
               </div>
-              <div class="colItem content" style="color:red;">
-                {{ rowItem.status }}
-              </div>
+              <!-- <div class="colItem content" style="color:red;">
+                未处理
+              </div> -->
               <div class="colItem content">
-                {{ rowItem.time }}
+                <!-- 22.22 -->
+                {{ changeDate(rowItem.createTime) }}
               </div>
             </li>
           </ul>
+        </div>
+        <div v-else class="no-data">
+          暂无数据
         </div>
       </div>
     </div>
@@ -36,60 +41,85 @@
 
 <script>
 import Socket from '../../../utils/socket'
+import Data from '@/utils/data.js'
 export default {
   components: {
 
   },
-
+  props: {
+    data: {
+      type: Array,
+      default: null
+    }
+  },
   data() {
     return {
       ulList: [
-        {
-          type: '违规停放1',
-          address: '港湾一号',
-          status: '待处理',
-          time: '八分钟'
-        }, {
-          type: '违规停放2',
-          address: '港湾一号',
-          status: '待处理',
-          time: '八分钟'
-        }, {
-          type: '违规停放3',
-          address: '港湾一号',
-          status: '待处理',
-          time: '八分钟'
-        }, {
-          type: '违规停放4',
-          address: '港湾一号',
-          status: '待处理',
-          time: '八分钟'
-        }
+
       ],
       play: false,
-      timer: null // //接收定时器
+      // 接收定时器
+      timer: null,
+      currentSystemtypeImage: ''
     }
   },
-  mounted() {
-    setInterval(this.startPlay, 3000)
+  computed: {
+    changeDate: function() {
+      return function(val) {
+        // console.log('组件传入时间', val)
 
+        return this.dateFormat(val)
+      }
+    }
+  },
+  created() {
+    console.log('页面创建', this.data, this.ulList)
+    this.ulList = this.data
+
+    if (this.ulList !== null) {
+      if (this.ulList.length > 1) {
+        this.currentSystemtypeImage = this.ulList[0].imgUrl
+        setInterval(this.startPlay, 3000)
+      }
+    }
     // Socket.initSocket('equipCount')
   },
   destroyed() { // 页面销毁时清除定时器
     clearInterval(this.timer)
   },
   methods: {
+    showDetail(e) {
+      console.log('网点id', e)
+      this.$router.push({
+        path: '/hazardDetail',
+        query: {
+          hazardId: e
+        }
+      })
+    },
     startPlay() {
       const that = this
       that.play = true // 开始播放
+
       that.timer = setTimeout(() => { // 创建并执行定时器
         that.play = false // 暂停播放
         that.ulList.push(that.ulList[0]) // 将第一条数据塞到最后一个
         that.ulList.shift() // 删除第一条数据
+        // console.log('输出循环列表', that.ulList)
+        this.currentSystemtypeImage = this.ulList[0].imgUrl
       }, 500)
+
       // console.log(that.timer)
+    },
+    /**
+     * 时间格式转换
+     */
+    dateFormat(date) {
+      // console.log('传出时间', Data.dateDifference(date))
+      return Data.dateDifference(date)
     }
   }
+
 }
 </script>
 
@@ -127,7 +157,7 @@ export default {
   width: 100%;
   height: 100%; /*关键样式*/
   line-height: 350%;
-  background: linear-gradient(45deg, transparent 4.67%, rgba(0, 186, 255, 1) 0%,#010F1F 48%)  right;
+  /* background: linear-gradient(45deg, transparent 4.67%, rgba(0, 186, 255, 1) 0%,#010F1F 48%)  right; */
   background-size: 100% 100%;
   background-repeat: no-repeat;
   /* box-shadow: 4px 0 10px rgba(226, 226, 226, 0.3); */
@@ -142,7 +172,7 @@ export default {
   display: flex;
   padding: 0px  3%;
   margin-top: 0.03%;
-  background: linear-gradient(45deg, transparent 4.47%, rgba(0, 48, 93, 1) 0,#010F1F) top right;
+   background-image: url('@/assets/images/index/hidden-trouble-to-push-bg.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
@@ -152,7 +182,7 @@ export default {
   display: inline-block;
   text-align: center;
   height: 100%;
-  line-height: 40px;
+  line-height: 350%;
   overflow: hidden;
   margin-left: 2%
 }
@@ -190,5 +220,13 @@ export default {
 li {
   height: 100%;
   text-align: left;
+}
+.no-data{
+  width: 100%;
+  height: 20px;
+  line-height:20px;
+  color: #ffffff;
+  font-size: 14px;
+  text-align: center
 }
 </style>

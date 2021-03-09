@@ -22,6 +22,8 @@
     <Adaptive :data="['100%','60%']">
       <Gauge :data="gaugeData" />
     </Adaptive>
+    <!-- 分割线line -->
+    <div style="width: 100%;height: 8px;background: #131B25;margin-top: 14px" />
     <!-- end -->
     <!-- 实时预警 start -->
     <Adaptive :data="['100%','5.57%']" class="title-box">
@@ -31,7 +33,7 @@
       </div>
     </Adaptive>
     <Adaptive :data="['100%','12.75%']" class="warning-box">
-      <Warning class="warning" />
+      <Warning v-if="hiddenDangerList.length>0" class="warning" :data="hiddenDangerList" />
     </Adaptive>
     <!-- end -->
     <!-- 应用列表 start -->
@@ -41,9 +43,7 @@
         应用列表
       </div>
     </Adaptive>
-    <Adaptive :data="['100%','120.75%']" class="equipList-box">
-      <EquipList :data="equipList" class="equipList" />
-    </Adaptive>
+    <EquipList :data="equipList" />
     <!-- end -->
 
     <!-- 辖区统计 start  -->
@@ -62,18 +62,18 @@
     </Adaptive>
     <!-- end -->
     <!-- 监测分析，近一月/近一年/全部 -->
-    <Adaptive :data="['100%','100%']">
+    <Adaptive :data="['100%', analysisHeight +'%']">
       <MonitorAnalysis v-if="loading" :data="monitorAnalysisData" @timeType="getDateType" @systemType="getMonitorSystemType" />
     </Adaptive>
     <!-- legend 图例 -->
-    <div class="legend">
+    <!-- <div class="legend">
       <p v-for="(item, index) in monitorAnalysisData.pieData.data" :key="index">
         <span :style="{ background: item.color }" />{{ item.name }}&emsp;&emsp;{{ item.value }}次&emsp;&emsp;&ensp;{{ item.precent }}%
       </p>
-    </div>
+    </div> -->
     <!-- end -->
     <!-- 事件数故障数统计分析 start  -->
-    <Adaptive :data="['100%','90%']">
+    <Adaptive :data="['100%','84%']">
       <Events v-if="loading" :data="eventData" @systemType="getSystemType" />
     </Adaptive>
     <!-- end -->
@@ -92,7 +92,8 @@ import Config from '/config.json'
 import DepartCount from 'cmp/index/departCount/DepartCount'
 import Events from 'cmp/index/events/Events'
 import MonitorAnalysis from 'cmp/index/monitorAnalysis/MonitorAnalysis'
-
+import { mapGetters } from 'vuex'
+import store from '@/store'
 export default {
   components: {
     EquipList,
@@ -108,7 +109,8 @@ export default {
     return {
       loading: false,
       gaugeData: {
-        chartId: 'gaugeId'
+        chartId: 'gaugeId',
+        onlinePercent: 0
       },
       equipCountings: '',
       branchesCountings: '',
@@ -119,7 +121,8 @@ export default {
       },
       maxPieDataFlag: false,
       lineData: {
-        chartId: 'lineChartId', // 饼图的id
+        // 饼图的id
+        chartId: 'lineChartId',
         title: '隐患分析（近15天)',
         xAxis: {
           data: []
@@ -137,9 +140,10 @@ export default {
       departCountData: {},
       // 事件数、故障数统计双折线图
       eventData: {
-        equitType: [],
+        equipType: [],
         analysisTimelineData: {
-          chartId: 'analysisTimelineChartId', // 双折线图的id
+          // 双折线图的id
+          chartId: 'analysisTimelineChartId',
           xAxis: {
             data: []
           },
@@ -172,7 +176,8 @@ export default {
           }
         ],
         pieData: {
-          chartId: 'monitorAnalysisChartId', // 饼图的id
+          // 饼图的id
+          chartId: 'monitorAnalysisChartId',
           data: [],
           title: '',
           color: []
@@ -180,12 +185,17 @@ export default {
         monitorAnalysisFlag: false
       },
       monitorAnalysisLegendData: [],
-      analysisDateType: 1, // 监测分析当前选中的时间类型 默认全部
-      analysisSystemType: 1 // 监测分析当前选中的系统类型 默认智慧视觉
+      // 监测分析当前选中的时间类型 默认全部
+      analysisDateType: 1,
+      // 监测分析当前选中的系统类型 默认智慧视觉
+      analysisSystemType: 1,
+      hiddenDangerList: [],
+      onlinePercent: 0,
+      analysisHeight: 154
     }
   },
   computed: {
-
+    ...mapGetters(['equipType', 'hazardType', 'placeType']),
     changeDateType() {
       return function(type, system) {
         if (type === 1) {
@@ -198,14 +208,21 @@ export default {
       }
     }
   },
-  mounted() {
+  async created() {
     // setTimeout(() => {
     //   this.socket()
     // }, 1000)
+    this.getHazardTypeList()
+    this.getHiddenDangerList()
     this.getEquipCountings()
     this.getBranchesCountings()
     this.getEquipList()
     this.getDepartCounting()
+    store.dispatch('generatePersistence')
+    console.log('设备类型', await this.equipType)
+    console.log('隐患类型', await this.hazardType)
+    console.log('网点类型', await this.placeType)
+    this.getOnlinePercent()
   },
   methods: {
     /**
@@ -213,8 +230,14 @@ export default {
      */
     async getEquipCountings() {
       const res = await Api.equipCountings()
-      this.equipCountings = parseInt(res.data).toLocaleString()
-      console.log(this.equipCountings)
+      if (res.code === 200) {
+        this.equipCountings = parseInt(res.data).toLocaleString()
+      }
+    },
+    async getHazardTypeList() {
+      // console.log('index111', await store.getters.hazardType)
+
+      // console.log('index2222', await store.getters.hazardType)
     },
     /**
      * 获取网点总数
@@ -222,63 +245,63 @@ export default {
     async getBranchesCountings() {
       const res = await Api.branchesCountings()
       this.branchesCountings = parseInt(res.data).toLocaleString()
-      console.log(this.equipCountings)
+    },
+    /**
+     * 设备在线率
+     */
+    async getOnlinePercent() {
+      const res = await Api.onlinePercent()
+      if (res.code === 200) {
+        this.gaugeData.onlinePercent = res.data
+      }
     },
     /**
      * 获取应用列表
      */
     async getEquipList() {
       const res = await Api.applicationlist()
-      this.equipList = [...res.data]
+      if (res.code === 200) {
+        this.equipList = [...res.data]
+      }
       console.log('设备数量', this.equipList)
-      // const arryNew = []
-      // // 过滤 config 的equipList ，拿出对应的imgUrl
-      // this.equipList.forEach(item => {
-      //   console.log(Config)
-      //   Config.equipList.some(async(equip, index) => {
-      //     // const img = await require(`@${equip.imgUrl}.png`)
-      //     console.log('id', equip.id, item.id, equip.imgUrl)
-      //     if (equip.id === item.id) {
-      //       arryNew.push(Object.assign({}, item, { img: equip.imgUrl }))
-      //     }
-      //   })
-      // })
-      const combined = Config.equipList.reduce((acc, cur) => {
+
+      const combined = Config.subsystemList.reduce((acc, cur) => {
         const target = acc.find(e => e.id === cur.id)
         if (target) {
           Object.assign(target, cur)
-        } else {
-          acc.push(cur)
         }
         return acc
       }, this.equipList)
-
+      this.equipList = combined
+      console.log('应用列表', this.equipList)
       combined.forEach(item => {
         this.monitorAnalysisData.equipType.push({
           value: item.id,
-          name: item.name
+          name: item.name + '分析'
+        })
+        this.eventData.equipType.push({
+          value: item.id,
+          name: item.name + '统计'
         })
       })
-      this.eventData.equipType = this.monitorAnalysisData.equipType
-      console.log(this.eventData.equipType, 'this.eventData.equipType')
+      // this.eventData.equipType = this.monitorAnalysisData.equipType
       this.analysisDateType = combined[0].id
-      this.getAnalysisTimeline(combined[0].id) // 用应用列表里的第一个子系统获取15天事件和故障数统计数据
-      this.getMonitorAnalysis(combined[0].id, this.monitorAnalysisData.dateType[0].value) // 用应用列表里的第一个子系统获取监测分析全部数据
+      // 用应用列表里的第一个子系统获取15天事件和故障数统计数据
+      this.getAnalysisTimeline(combined[0].id)
+      // 用应用列表里的第一个子系统获取监测分析全部数据
+      this.getMonitorAnalysis(combined[0].id, this.monitorAnalysisData.dateType[0].value)
       this.loading = true
-      this.equipList = combined
     },
     /**
      * 辖区统计选中的辖区ID，并筛选当前辖区的数据出来
      */
     activeType(type) {
       this.lineDataFlag = false
-      const countObj = this.departCountList.filter(item => {
-        return type === item.departId
-      })
+      const countObj = this.departCountList.filter(item => type === item.departId)
       this.departCountData = {
-        online: countObj[0].data.online,
-        outline: countObj[0].data.outline,
-        trouble: countObj[0].data.trouble
+        online: countObj.length > 0 ? countObj[0].data.online : '',
+        outline: countObj.length > 0 ? countObj[0].data.outline : '',
+        trouble: countObj.length > 0 ? countObj[0].data.trouble : ''
       }
       this.getTroubleAnalysis(type)
     },
@@ -292,7 +315,7 @@ export default {
         const dataArr = [...res.data]
         dataArr.forEach(item => {
           this.maxPieData.data.push({
-            value: item.data.trouble,
+            value: item.data.count,
             name: item.departName,
             type: item.departId,
             count: item.data.count
@@ -309,7 +332,7 @@ export default {
       }
     },
     /**
-     * 15天隐患分析
+     * 辖区统计联动，当前选中辖区的隐患分析（近15天）
      */
     async getTroubleAnalysis(departId) {
       const res = await Api.troubleAnalysis(departId)
@@ -325,7 +348,7 @@ export default {
       }
     },
     /**
-     * 近15日事件统计
+     * 智慧视觉统计折线图（30天事件数，故障数）
      */
     async getAnalysisTimeline(system) {
       this.eventData.analysisTimelineData.xAxis.data = []
@@ -364,11 +387,16 @@ export default {
         if (Reflect.has(Config, 'hazardAnalysis')) {
           color = Config.hazardAnalysis.color
         }
+        if (dataArr.length < 4) {
+          this.analysisHeight = 100
+        } else {
+          this.analysisHeight = 158
+        }
         dataArr.forEach((item, index) => {
           this.monitorAnalysisData.pieData.data.push({
-            value: item.eventCount,
+            value: item.count,
             name: item.name,
-            precent: item.eventPrecent,
+            precent: item.precent,
             color: color[index]
           })
         })
@@ -392,6 +420,25 @@ export default {
       this.analysisSystemType = value
       this.monitorAnalysisData.monitorAnalysisFlag = false
       this.getMonitorAnalysis(value, this.analysisDateType)
+    },
+    /**
+     * 获取隐患列表 top10
+     */
+    async getHiddenDangerList() {
+      const res = await Api.hiddenDangerList(12)
+      if (res.code === 200) {
+        this.hiddenDangerList = [...res.data]
+      }
+      this.hiddenDangerList.forEach(hItem => {
+        Config.subsystemList.forEach(cItem => {
+          if (hItem.type === cItem.id) {
+            // Object.assign(hItem, cItem) assign后者会覆盖前者的同名属性的值
+            hItem['imgUrl'] = cItem.imgUrl
+            hItem['systemName'] = cItem.name
+          }
+        })
+      })
+      console.log('隐患列表', this.hiddenDangerList)
     }
   }
 }
@@ -472,14 +519,12 @@ export default {
 .equipList-box{
   padding-right: 0px;
 }
-.equipList{
-  width: 100%;
-  height: 100%;
-}
+
 .legend{
-  text-align: center;
+  /* text-align: center; */
   font-size: 12px;
   color: #fff;
+  padding-left: 18%;
 }
 .legend p{
   line-height: 2.5

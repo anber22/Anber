@@ -65,7 +65,7 @@ export default {
         },
         detail: {
           valueAnimation: true,
-          offsetCenter: [0, '30%'],
+          offsetCenter: [0, '40%'],
           formatter: [
             '{a|设备在线率：}',
             '{b|{value}%}'
@@ -74,18 +74,20 @@ export default {
           rich: {
             a: {
               color: 'rgba(163, 239, 255, 1)',
-              fontSize: 14
+              fontSize: 14,
+              verticalAlign: 'middle'
             },
             b: {
               color: 'rgba(163, 239, 255, 1)',
               height: 40,
-              fontSize: 28
+              fontSize: 28,
+              verticalAlign: 'bottom'
             }
           },
           color: 'auto'
         },
         data: [{
-          value: 70
+          value: this.data.onlinePercent
         }],
         zlevel: 3
       }, {
@@ -436,7 +438,7 @@ export default {
     setInterval(function() {
       option.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0
       myChart.setOption(option, true)
-    }, 2000)
+    }, 5000)
   }
 }
 </script>

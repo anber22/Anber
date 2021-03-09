@@ -44,10 +44,8 @@
 //   mutations: {
 //     SET_ROUTERS: (state, routers) => {
 //       state.addRouters = routers
-//       console.log(constantRouterMap)
 //       state.routers = routers.concat(constantRouterMap)
 
-//       console.log('1231231231', state.routers)
 //     }
 //   },
 //   actions: {

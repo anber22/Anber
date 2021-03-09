@@ -4,14 +4,14 @@ class Analysis {
   //  获取隐患列表
   async analysisList(param) {
     return await request({
-      url: `/apis/heartbeat/equip/type/${param.type}/list/finder/page/${param.page}/size/${param.size}${param.condition}`,
+      url: `/apis/heartbeat/equip/type/${param.type}/list/page/${param.page}/size/${param.size}${param.condition}`,
       method: 'get'
     })
   }
-  //  获取隐患类型列表
-  async hazardTypeList(param) {
+  //  获取设备类型列表
+  async equipTypeList(param) {
     return await request({
-      url: `/apis/equip/system/0/type/list`,
+      url: `/apis/equip/type/${param}/type/list`,
       method: 'get'
     })
   }
@@ -26,6 +26,13 @@ class Analysis {
   async hazardDealInfo(param) {
     return await request({
       url: `/apis/log/heartbeat/id/${param.id}/result`,
+      method: 'get'
+    })
+  }
+  //  隐患类型列表
+  async hazardTypeList(param) {
+    return await request({
+      url: `/apis/heartbeat/hazard/type/list/equip/type/${param}`,
       method: 'get'
     })
   }

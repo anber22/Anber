@@ -1,4 +1,3 @@
-<!-- 首页监测分析 -->
 <template>
   <div class="monitorAnalysis-content">
     <div class="title-box">

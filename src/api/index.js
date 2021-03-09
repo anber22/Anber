@@ -7,10 +7,10 @@ class Index {
     })
   }
 
-  //  智慧视觉(环境监测、塔机检测)统计折线图
+  //  智慧视觉统计折线图（30天事件数，故障数）
   async analysisTimeline(param) {
     return await request({
-      url: `/apis/equip/system/${param}1/heartbeat/analysis/timeline`,
+      url: `/apis/equip/type/${param}/heartbeat/analysis/timeline`,
       method: 'get'
     })
   }
@@ -28,6 +28,13 @@ class Index {
       method: 'get'
     })
   }
+  // 设备在线率（仪表盘，码表）
+  async onlinePercent() {
+    return await request({
+      url: '/apis/equip/online/percent',
+      method: 'get'
+    })
+  }
   // 首页左上角辖区统计
   async departCounting() {
     return await request({
@@ -35,7 +42,7 @@ class Index {
       method: 'get'
     })
   }
-  // 隐患分析近15天
+  // 辖区统计联动，当前选中辖区的隐患分析（近15天）
   async troubleAnalysis(param) {
     return await request({
       url: `/apis/equip/heartbeat/trouble/latest/counting?departId=${param}`,
@@ -45,21 +52,28 @@ class Index {
   // 监测分析（全部）
   async monitorAnalysis(param) {
     return await request({
-      url: `/apis/heartbeat/system/${param}/heartbeat/analysis/latest`,
+      url: `/apis/heartbeat/hazard/by/equip/type/${param}/analysis/latest`,
       method: 'get'
     })
   }
   // 监测分析（1月）
   async monitorAnalysisMonth(param) {
     return await request({
-      url: `/apis/heartbeat/system/${param}/analysis/latest/month/1`,
+      url: `/apis/heartbeat/hazard/by/equip/type/${param}/analysis/latest/month/1`,
       method: 'get'
     })
   }
   // 监测分析（1年）
   async monitorAnalysisYear(param) {
     return await request({
-      url: `/apis/heartbeat/system/${param}/analysis/latest/year/1`,
+      url: `/apis/heartbeat/hazard/by/equip/type/${param}/analysis/latest/year/1`,
+      method: 'get'
+    })
+  }
+  // 获取隐患未读未处理按时间排序前十列表
+  async hiddenDangerList(param) {
+    return await request({
+      url: `/apis/heartbeat/event/undone/unread/lastest/list/size/${param}`,
       method: 'get'
     })
   }
