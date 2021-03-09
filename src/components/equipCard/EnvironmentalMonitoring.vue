@@ -21,7 +21,7 @@
           设备类型:
         </div>
         <div class="environmentalMonitoring-content-row-value">
-          {{ data.equipType }}
+          {{ data.equipTypeName }}
         </div>
       </div>
       <div class="environmentalMonitoring-content-row">
@@ -121,7 +121,7 @@ export default {
 
         width: '42%',
         name: '风速/风向',
-        value: (detailData.windSpeed ? detailData.windSpeed + 'm/s/' : '-') + (detailData.windDirection ? detailData.windDirection + '°' : '-'),
+        value: (detailData.windSpeed ? detailData.windSpeed + 'm/s/' : '-/') + (detailData.windDirection ? detailData.windDirection + '°' : '-'),
         icon: '/src/assets/images/equip/wind-speed.png',
         iconWidth: '16px',
         iconHeight: '10px'
@@ -129,7 +129,7 @@ export default {
         typed: 'temperature',
         width: '24.55%',
         name: '温度/湿度',
-        value: (detailData.temperature ? detailData.temperature + '°/' : '-') + (detailData.humidity ? detailData.humidity + '%RH' : '-'),
+        value: (detailData.temperature ? detailData.temperature + '°/' : '-/') + (detailData.humidity ? detailData.humidity + '%RH' : '-'),
         icon: '/src/assets/images/equip/temperature.png',
         iconWidth: '8px',
         iconHeight: '16px'

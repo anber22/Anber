@@ -257,6 +257,7 @@ export default {
     async getEquipList() {
       const res = await Api.applicationlist()
       this.equipList = [...res.data]
+
       console.log('设备数量', this.equipList)
 
       const combined = Config.subsystemList.reduce((acc, cur) => {

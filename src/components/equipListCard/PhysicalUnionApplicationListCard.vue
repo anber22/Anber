@@ -13,7 +13,7 @@
         <div class="physicalUnionApplicationListCard-content-row-name">
           {{ data.imei }}
           <div class="physicalUnionApplicationListCard-type">
-            {{ data.equipType }}
+            {{ data.equipTypeName }}
           </div>
         </div><img src="@/assets/images/equip/phone.png" alt="" class="physicalUnionApplicationListCard-content-row-icon">
       </div>
@@ -29,10 +29,13 @@
 
 <script>
 import EquipStatus from 'cmp/equipStatus/EquipStatus'
+import { mapGetters } from 'vuex'
+
 export default {
   components: {
     EquipStatus
   },
+
   props: {
     data: {
       type: Object,
@@ -49,6 +52,13 @@ export default {
         statusName: '正常'
       }
     }
+  },
+  computed: {
+
+  },
+  created() {
+  },
+  mounted() {
   },
   methods: {
 
@@ -68,7 +78,7 @@ export default {
 background: #131F3B;
 }
 .physicalUnionApplicationListCard-title{
-  width: 35%;
+  width: 40%;
   height: 25%;
   font-size: 15px;
   font-family: PingFang SC;
@@ -85,7 +95,7 @@ background: #131F3B;
   margin-top: 2.7%;
 }
 .physicalUnionApplicationListCard-state{
-  width: 53%;
+  width: 48%;
   height: 25%;
   display: inline-block;
   vertical-align: middle;

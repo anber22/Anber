@@ -39,22 +39,25 @@ const persistence = {
      * @param {*} param
      */
     async  getDataByHttp({ commit }, param) {
-      var result = []
+      let result = []
       // 判断如果没有值才去请求
       if (persistence.state[param].length < 1) {
-        switch (param) {
-          case 'hazardType':
-            result = await Api.hazardTypeList(0)
+        if (param === 'hazardType') {
+          result = await Api.hazardTypeList(0)
+          console.log('隐患类型', result)
+          if (result.code === 200) {
             commit('SET_HAZARD_TYPE', result.data)
-            break
-          case 'placeType':
-            result = await Api.placeTypeList()
+          }
+        } else if (param === 'placeType') {
+          result = await Api.placeTypeList()
+          if (result.code === 200) {
             commit('SET_PLACE_TYPE', result.data)
-            break
-          case 'equipType':
-            result = await Api.equipTypeList(0)
+          }
+        } else if (param === 'equipType') {
+          result = await Api.equipTypeList(0)
+          if (result.code === 200) {
             commit('SET_EQUIP_TYPE', result.data)
-            break
+          }
         }
       }
     },
