@@ -29,6 +29,8 @@
 
 <script>
 import HazardListCard from 'cmp/hazardListCard/HazardListCard'
+import promiseToList from '@/utils/promiseToList'
+
 import Api from '@/api/hazard/hazard.js'
 
 export default {
@@ -52,14 +54,14 @@ export default {
           defaultIndex: 0
         }
       ],
-      equipTypeList: [],
+      hazardTypeList: [],
       show: false,
       status: 0
     }
   },
   mounted() {
     this.getAnalysisList()
-    this.getEquipTypeList()
+    this.getHazardTypeList()
   },
   methods: {
     showDetail(e) {
@@ -69,7 +71,7 @@ export default {
       this.show = false
       this.equipType = index[0]
       this.status = index[1]
-      console.log(value, index, 'iiiii')
+      console.log(value, this.equipType, 'iiiii')
       // this.formattingCondition()
       this.getAnalysisList()
     },
@@ -93,17 +95,15 @@ export default {
       }
       const res = await Api.analysisList(params)
       this.analysisList = [...res.data.rows]
+      this.analysisList = await promiseToList.conversion('hazardType', 'hazardType', 'hazardTypeName', this.analysisList)
+      this.analysisList = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', this.analysisList)
       console.log(this.analysisList, 'analysisList')
-    }, // 获取设备类型列表
-    async getEquipTypeList() {
-      const res = await Api.equipTypeList(0)
-      this.equipTypeList = [...res.data]
-      this.equipTypeList.forEach(item => {
-        // 这里有问题，不是拿设备类型，是要拿隐患类型
-        // 这里有问题，不是拿设备类型，是要拿隐患类型
-        // 这里有问题，不是拿设备类型，是要拿隐患类型
-        // 这里有问题，不是拿设备类型，是要拿隐患类型
-        // 这里有问题，不是拿设备类型，是要拿隐患类型
+    },
+    // 获取设备类型列表
+    async getHazardTypeList() {
+      const res = await Api.hazardTypeList(0)
+      this.hazardTypeList = [...res.data]
+      this.hazardTypeList.forEach(item => {
         this.columns[0].values.push(item.name)
       })
     },
@@ -116,17 +116,17 @@ export default {
       }
       if (this.equipType !== 0) {
         if (!first) {
-          conditionStr = conditionStr + '?hazardType=' + this.equipType
+          conditionStr = conditionStr + '?hazardType=' + this.hazardTypeList[(this.equipType === 0 ? 0 : this.equipType - 1)].id
           first = true
         } else {
-          conditionStr = conditionStr + '&hazardType=' + this.equipType
+          conditionStr = conditionStr + '&hazardType=' + this.hazardTypeList[(this.equipType === 0 ? 0 : this.equipType - 1)].id
         }
       }
       if (this.status !== 0) {
         if (!first) {
-          conditionStr = conditionStr + '?isDone=' + this.status
+          conditionStr = conditionStr + '?isDone=' + (this.status - 1)
         } else {
-          conditionStr = conditionStr + '&isDone=' + this.status
+          conditionStr = conditionStr + '&isDone=' + (this.status - 1)
         }
       }
 

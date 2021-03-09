@@ -7,7 +7,7 @@
         </div>
         <div class="towerCraneMonitoring-state">
           <div class="towerCraneMonitoring-state-box">
-            <EquipStatus :data="equipStatus" />
+            <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" />
           </div>
           <!-- <div v-if="data.count!==0" class="towerCraneMonitoring-hidden-trouble">
             <van-badge :content="data.count" badge-size="14px">

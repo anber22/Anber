@@ -119,8 +119,9 @@ class Data {
   dateDifference = function(input, pattern = '') { // 在参数列表中 通过 pattern="" 来指定形参默认值，防止报错
     const nowStamp = (Date.parse(new Date())) / 1000
 
+    // console.log('传入时间', input / 1000)
     // 总时差 单位/秒
-    var date3 = (nowStamp - input)
+    var date3 = (nowStamp - (input / 1000))
     // 计算相差分钟数
     var minutes = Math.floor(date3 / (60))
 

@@ -8,7 +8,7 @@
         未处理
       </div>
       <div class="hazardListCard-analysis-name">
-        {{ data.hazardType }}
+        {{ data.hazardTypeName }}
       </div>
 
       <div class="hazardListCard-equip-count">
@@ -20,7 +20,7 @@
     <div class="hazardListCard-content">
       <div class="hazardListCard-content-row">
         <div class="hazardListCard-content-row-name">
-          {{ data.equipType+"-"+data.placeName+"-"+data.equipAddress }}
+          {{ data.equipTypeName+"-"+data.placeName+"-"+data.equipAddress }}
           <!-- 安全帽监测-港湾一号-湾9栋401大门口 -->
         </div><img src="@/assets/images/equip/phone.png" alt="" class="hazardListCard-content-row-icon">
         <img src="@/assets/images/equip/navigation.png" alt="" class="hazardListCard-content-row-icon">

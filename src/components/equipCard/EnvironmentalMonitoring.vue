@@ -6,7 +6,7 @@
       </div>
       <div class="environmentalMonitoring-state">
         <div class="environmentalMonitoring-state-box">
-          <EquipStatus :data="equipStatus" />
+          <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" />
         </div>
         <div v-if="data.count!==0" class="environmentalMonitoring-hidden-trouble">
           <van-badge :content="data.count" badge-size="14px">
