@@ -14,7 +14,7 @@ const request = axios.create({
 })
 
 request.defaults.headers.post['Content-Type'] =
-  'application/x-www-form-urlencoded'
+  'application/json'
 
 // request.defaults.headers.post['Content-Type'] = 'application/json';
 
