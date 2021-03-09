@@ -10,6 +10,7 @@
               v-for="(rowItem, index) in ulList"
               :key="index"
               :class="!index && play ? 'toUp' : ''"
+              @click="showDetail(rowItem.id)"
             >
               <div class="colItem title">
                 {{ rowItem.systemName }}
@@ -87,6 +88,15 @@ export default {
     clearInterval(this.timer)
   },
   methods: {
+    showDetail(e) {
+      console.log('网点id', e)
+      this.$router.push({
+        path: '/hazardDetail',
+        query: {
+          hazardId: e
+        }
+      })
+    },
     startPlay() {
       const that = this
       that.play = true // 开始播放
@@ -95,7 +105,7 @@ export default {
         that.play = false // 暂停播放
         that.ulList.push(that.ulList[0]) // 将第一条数据塞到最后一个
         that.ulList.shift() // 删除第一条数据
-        console.log('输出循环列表', that.ulList)
+        // console.log('输出循环列表', that.ulList)
         this.currentSystemtypeImage = this.ulList[0].imgUrl
       }, 500)
 

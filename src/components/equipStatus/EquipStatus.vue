@@ -1,6 +1,6 @@
 <template>
   <div class="equip-status">
-    <div class="status-name" :style="'color:'+ ((electricity===0 || ( 95> signal && signal >=105))?'red':'green')">
+    <div class="status-name" :style="'color:'+ ((electricity===0 || ( 95> signal && signal >=105))?'#FF1743':'#29CF7B')">
       {{ (electricity===0 || ( -95> signal && signal >=105))?"故障":"正常" }}
     </div>
 
@@ -77,7 +77,7 @@ export default {
   line-height: 21px;
   font-size: 12px;
   font-family: PingFang SC;
-  font-weight: 400;
+  font-weight: 600;
   /* color: #29CF7B; */
   margin-left: 10%;
   display: inline-block;

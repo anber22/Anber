@@ -11,7 +11,7 @@
         </van-dropdown-menu>
       </div>
       <div class="header-input">
-        <van-search v-model="queryCondition" placeholder="设备名称\IEMI码" :clearable="false" />
+        <van-search v-model="queryCondition" placeholder="设备名称\IEMI码" :clearable="false" @search="onSearch" />
       </div>
       <div class="chang-list-type">
         <img v-show="!isCard" src="@/assets/images/public/list-type-table.png" alt="" class="list-type-img" @click="changeListType">
@@ -97,6 +97,12 @@ export default {
   },
   methods: {
     /**
+     * 查询
+     */
+    onSearch(e) {
+      this.getEquipInfoList()
+    },
+    /**
      * 切换子系统
      */
     changeSystem() {
@@ -108,31 +114,37 @@ export default {
     changeListType() {
       this.isCard = !this.isCard
     },
-    // 获取卡片列表
+    /**
+     * 获取卡片列表
+     */
     async getEquipInfoList() {
       this.loadding = true
       const params = {
         systemType: this.thisSubsystemId,
         page: 1,
         size: 12,
-        conditionStr: (this.queryCondition.length < 1 ? '' : '?' + this.queryCondition)
+        conditionStr: (this.queryCondition.length < 1 ? '' : '?condition=' + this.queryCondition)
       }
+      console.log('输出参数', params)
       const res = await Api.equipInfoList(params)
-      this.equipInfoList = [...res.data.rows]
+      if (res.code === 200) {
+        this.equipInfoList = [...res.data.rows]
+      }
       var ids = this.equipInfoList.map(item => { return item.equipId })
 
       const hazardCountList = await Api.equipUntreatedEventList(ids)
 
       this.equipInfoList = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', this.equipInfoList)
-
-      let combined = hazardCountList.data.reduce((acc, cur) => {
-        const target = acc.find(e => e.equipId === cur.equipId)
-        if (target) {
-          Object.assign(target, cur)
-        }
-        return acc
-      }, this.equipInfoList)
-
+      let combined = []
+      if (res.code === 200) {
+        combined = hazardCountList.data.reduce((acc, cur) => {
+          const target = acc.find(e => e.equipId === cur.equipId)
+          if (target) {
+            Object.assign(target, cur)
+          }
+          return acc
+        }, this.equipInfoList)
+      }
       this.equipInfoList = combined
       console.log('设备列表', this.equipInfoList)
       // this.equipInfoList.forEach(item => {
@@ -151,13 +163,15 @@ export default {
         // 获取ids去查询对应设备的详细数据
         const temp = await Api.equipRealTimeInfoList(ids, system)
         // 把两个数组对象根据equipId来合并
-        combined = temp.data.reduce((acc, cur) => {
-          const target = acc.find(e => e.equipId === cur.equipId)
-          if (target) {
-            Object.assign(target, cur)
-          }
-          return acc
-        }, this.equipInfoList)
+        if (res.code === 200) {
+          combined = temp.data.reduce((acc, cur) => {
+            const target = acc.find(e => e.equipId === cur.equipId)
+            if (target) {
+              Object.assign(target, cur)
+            }
+            return acc
+          }, this.equipInfoList)
+        }
         console.log(combined, 'combined')
         this.equipInfoList = combined
       }
@@ -228,7 +242,16 @@ export default {
   display: flex;
   align-items: center;
 }
-.van-search {
+
+.list-type-img{
+  width: 21px;
+  height: 19px;
+}
+
+</style>
+
+<style >
+.iotApp .van-search {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -241,50 +264,48 @@ export default {
     background-color: transparent;
 
 }
-.van-search__content{
+.iotApp .van-search__content{
   background-color: rgba(26, 33, 43, 1);
+  padding-left: 0px;
 }
 
-.van-dropdown-menu__bar{
+.iotApp .van-dropdown-menu__bar{
   background-color:  rgba(16, 23, 32, 1) ;
 }
-.van-dropdown-menu__title{
+.iotApp .van-dropdown-menu__title{
 
 font-size: 15px;
 font-family: PingFang SC;
 font-weight: 400;
 color: #8BA3C2;
 }
-.van-field__control{
+.iotApp .van-field__control{
   font-size: 15px;
 font-family: PingFang SC;
 font-weight: 400;
-  color: #373F4A;
+  color: #8BA3C2
+
 }
-.van-cell{
+.iotApp .van-cell{
   color: rgba(139, 163, 194, 1);
   padding: 10px 31px;
 }
-input::-webkit-input-placeholder{
+.iotApp input::-webkit-input-placeholder{
   color: #373F4A !important;
 
 font-size: 12px
 }
-.list-type-img{
-  width: 21px;
-  height: 19px;
-}
-.van-cell{
+.iotApp .van-cell{
   background-color: rgba(16, 23, 32, 1);
 }
-.van-popup{
+.iotApp .van-popup{
   background-color: rgba(16, 23, 32, 1);
 
 }
-.van-cell::after {
+.iotApp .van-cell::after {
   border-bottom: 1px solid rgba(16, 23, 32, 1);
 }
-.van-dropdown-item__option--active .van-dropdown-item__icon{
+.iotApp .van-dropdown-item__option--active .van-dropdown-item__icon{
   color: rgba(139, 163, 194, 1);
 }
 </style>

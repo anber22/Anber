@@ -19,7 +19,9 @@
       </div>
       <div class="physicalUnionApplicationListCard-content-row">
         <div class="physicalUnionApplicationListCard-content-row-name">
-          {{ data.placeName }}
+          <span class="physicalUnionApplicationListCard-content-row-place-name" @click="showDetail(data.placeId)">
+            {{ data.placeName }}
+          </span>
         </div>
         <img src="@/assets/images/equip/navigation.png" alt="" class="physicalUnionApplicationListCard-content-row-icon">
       </div>
@@ -61,7 +63,15 @@ export default {
   mounted() {
   },
   methods: {
-
+    showDetail(e) {
+      console.log('网点id', e)
+      this.$router.push({
+        path: '/placeResourcDetail',
+        query: {
+          placeId: e
+        }
+      })
+    }
   }
 }
 </script>
@@ -117,11 +127,20 @@ background: #131F3B;
   font-size: 12px;
   font-family: PingFang SC;
   font-weight: 400;
+
   color: #6F85A2;
   display: flex;
   align-items: center;
   white-space: nowrap;
   overflow: hidden;
+}
+.physicalUnionApplicationListCard-content-row-place-name{
+
+font-size: 12px;
+font-family: PingFang SC;
+font-weight: 400;
+text-decoration: underline;
+color: #06F0FE;
 }
 .physicalUnionApplicationListCard-type{
   width: auto;

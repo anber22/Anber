@@ -1,7 +1,7 @@
 <template>
   <div class="placeResourcDetail">
     <div class="placeResourcDetail-box">
-      <div class="placeResourcDetail-content">
+      <div v-if="!loading" class="placeResourcDetail-content">
         <div class="title">
           <van-image
             width="4px"
@@ -17,7 +17,7 @@
           <div class="text-item">
             <span class="name">网点名称：</span>
             <span class="describe">{{ placeResourcDetail.placeName }}</span>
-            <span class="placeType">{{ placeResourcDetail.placeTypeId }}</span>
+            <span class="placeType">{{ placeResourcDetail.placeTypeName }}</span>
           </div>
           <div class="text-item">
             <span class="name">网点地址：</span>
@@ -51,6 +51,7 @@
               />
             </a>
           </div>
+          <!-- 勿删：责任书照片和网点照片 -->
           <!-- <div class="text-item" style="display: flex;">
             <span class="name phone-name">责任书：</span>
             <div class="phone-box">
@@ -100,12 +101,6 @@
         <Adaptive v-for="(item, index) in placeResourcEquip" :key="index" class="PlaceDetailCard" :data="['100%', '32%']">
           <PlaceDetailCard :data="item" />
         </Adaptive>
-        <!-- <Adaptive class="PlaceDetailCard" :data="['100%', '32%']">
-          <PlaceDetailCard />
-        </Adaptive>
-        <Adaptive class="PlaceDetailCard" :data="['100%', '32%']">
-          <PlaceDetailCard />
-        </Adaptive> -->
         <div class="PlaceDetailCard-bind-equip">
           <p>
             <van-image
@@ -128,6 +123,8 @@
 <script>
 import Api from '@/api/placeResourc/placeResourc'
 import PlaceDetailCard from 'cmp/placeDetailCard/PlaceDetailCard'
+import promiseToList from '@/utils/promiseToList'
+
 export default {
   components: {
     PlaceDetailCard
@@ -135,7 +132,8 @@ export default {
   data() {
     return {
       placeResourcDetail: {},
-      placeResourcEquip: []
+      placeResourcEquip: [],
+      loading: true
     }
   },
   mounted() {
@@ -143,13 +141,30 @@ export default {
     this.getPlaceResourcEquip(this.$route.query.placeId)
   },
   methods: {
+    /**
+     * 获取当前网点详情
+     */
     async getPlaceResourcDetail(id) {
+      this.loading = true
+
       const res = await Api.placeResourcDetail(id)
-      this.placeResourcDetail = res.data
+      if (res.code === 200) {
+        this.placeResourcDetail = res.data
+      }
+      console.log('网点详情', this.placeResourcDetail)
+      this.placeResourcDetail = await promiseToList.conversion('placeType', 'placeTypeId', 'placeTypeName', [this.placeResourcDetail])
+      this.placeResourcDetail = this.placeResourcDetail[0]
+      console.log('网点详情', this.placeResourcDetail)
+      this.loading = false
     },
+    /**
+     * 获取当前网点关联的设备列表
+     */
     async getPlaceResourcEquip(id) {
       const res = await Api.placeResourcEquip(id)
-      this.placeResourcEquip = res.data
+      if (res.code === 200) {
+        this.placeResourcEquip = [...res.data]
+      }
     }
   }
 }

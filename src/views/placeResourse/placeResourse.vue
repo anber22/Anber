@@ -12,6 +12,7 @@
 <script>
 import PlaceResourcListCard from 'cmp/placeResourcListCard/PlaceResourcListCard'
 import Api from '@/api/placeResourc/placeResourc.js'
+import promiseToList from '@/utils/promiseToList'
 
 export default {
   components: {
@@ -20,7 +21,8 @@ export default {
   data() {
     return {
       placeResourcList: [],
-      queryCondition: ''
+      queryCondition: '',
+      placeTypeList: []
     }
   },
   mounted() {
@@ -31,11 +33,17 @@ export default {
       const params = {
         // systemType: this.thisSubsystemId,
         page: 1,
-        size: 12,
+        size: 999,
         condition: (this.queryCondition.length < 1 ? '' : ('?condition=' + this.queryCondition))
       }
+      console.log('参数', params)
       const res = await Api.placeResourcList(params)
-      this.placeResourcList = [...res.data.rows]
+      if (res.code === 200) {
+        let listData = [...res.data.rows]
+        // 去vuex获取该网点的网点类型名称，放到数组集合里
+        listData = await promiseToList.conversion('placeType', 'placeTypeId', 'placeTypeName', listData)
+        this.placeResourcList = listData
+      }
     },
     onSearch(e) {
       this.getPlaceResourcList()
@@ -63,10 +71,14 @@ padding: 0px 3% 52% 3%;
 }
 .van-search__content {
   background-color: #1A212B;
+
 }
 input::-webkit-input-placeholder{
   color: #373F4A !important;
 
 font-size: 12px
+}
+.van-field__control{
+  color: #8BA3C2;
 }
 </style>

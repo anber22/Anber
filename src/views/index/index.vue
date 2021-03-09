@@ -62,7 +62,7 @@
     </Adaptive>
     <!-- end -->
     <!-- 监测分析，近一月/近一年/全部 -->
-    <Adaptive :data="['100%','140%']">
+    <Adaptive :data="['100%', analysisHeight +'%']">
       <MonitorAnalysis v-if="loading" :data="monitorAnalysisData" @timeType="getDateType" @systemType="getMonitorSystemType" />
     </Adaptive>
     <!-- legend 图例 -->
@@ -73,7 +73,7 @@
     </div> -->
     <!-- end -->
     <!-- 事件数故障数统计分析 start  -->
-    <Adaptive :data="['100%','90%']">
+    <Adaptive :data="['100%','84%']">
       <Events v-if="loading" :data="eventData" @systemType="getSystemType" />
     </Adaptive>
     <!-- end -->
@@ -190,7 +190,8 @@ export default {
       // 监测分析当前选中的系统类型 默认智慧视觉
       analysisSystemType: 1,
       hiddenDangerList: [],
-      onlinePercent: 0
+      onlinePercent: 0,
+      analysisHeight: 154
     }
   },
   computed: {
@@ -229,7 +230,9 @@ export default {
      */
     async getEquipCountings() {
       const res = await Api.equipCountings()
-      this.equipCountings = parseInt(res.data).toLocaleString()
+      if (res.code === 200) {
+        this.equipCountings = parseInt(res.data).toLocaleString()
+      }
     },
     async getHazardTypeList() {
       // console.log('index111', await store.getters.hazardType)
@@ -248,15 +251,18 @@ export default {
      */
     async getOnlinePercent() {
       const res = await Api.onlinePercent()
-      this.gaugeData.onlinePercent = res.data
+      if (res.code === 200) {
+        this.gaugeData.onlinePercent = res.data
+      }
     },
     /**
      * 获取应用列表
      */
     async getEquipList() {
       const res = await Api.applicationlist()
-      this.equipList = [...res.data]
-
+      if (res.code === 200) {
+        this.equipList = [...res.data]
+      }
       console.log('设备数量', this.equipList)
 
       const combined = Config.subsystemList.reduce((acc, cur) => {
@@ -291,13 +297,11 @@ export default {
      */
     activeType(type) {
       this.lineDataFlag = false
-      const countObj = this.departCountList.filter(item => {
-        return type === item.departId
-      })
+      const countObj = this.departCountList.filter(item => type === item.departId)
       this.departCountData = {
-        online: countObj[0].data.online,
-        outline: countObj[0].data.outline,
-        trouble: countObj[0].data.trouble
+        online: countObj.length > 0 ? countObj[0].data.online : '',
+        outline: countObj.length > 0 ? countObj[0].data.outline : '',
+        trouble: countObj.length > 0 ? countObj[0].data.trouble : ''
       }
       this.getTroubleAnalysis(type)
     },
@@ -383,6 +387,11 @@ export default {
         if (Reflect.has(Config, 'hazardAnalysis')) {
           color = Config.hazardAnalysis.color
         }
+        if (dataArr.length < 4) {
+          this.analysisHeight = 100
+        } else {
+          this.analysisHeight = 158
+        }
         dataArr.forEach((item, index) => {
           this.monitorAnalysisData.pieData.data.push({
             value: item.count,
@@ -417,8 +426,9 @@ export default {
      */
     async getHiddenDangerList() {
       const res = await Api.hiddenDangerList(12)
-      this.hiddenDangerList = [...res.data]
-
+      if (res.code === 200) {
+        this.hiddenDangerList = [...res.data]
+      }
       this.hiddenDangerList.forEach(hItem => {
         Config.subsystemList.forEach(cItem => {
           if (hItem.type === cItem.id) {

@@ -53,7 +53,7 @@
           <div class="towerCraneMonitoring-content-row-name">
             所属网点:
           </div>
-          <div class="towerCraneMonitoring-content-row-value address-font">
+          <div class="towerCraneMonitoring-content-row-value address-font" @click="showDetail(data.placeId)">
             {{ data.placeName }}
             <img src="@/assets/images/equip/address.png" alt="" class="address-icon">
           </div>
@@ -111,6 +111,15 @@ export default {
     this.setEquipDetailCardListData()
   },
   methods: {
+    showDetail(e) {
+      console.log('网点id', e)
+      this.$router.push({
+        path: '/placeResourcDetail',
+        query: {
+          placeId: e
+        }
+      })
+    },
     filterData: function(e) {
       if (this.isShowMore) {
         return this.equipDetialCardList
@@ -223,7 +232,9 @@ export default {
   background-color:#0A0B29;
 } */
 .towerCraneMonitoring-header{
+    background: #131F3B;
    background-image: url('@/assets/images/equip/card-header.png');
+
   background-position: right top;
   background-repeat: no-repeat;
   background-size:100% 100%;
@@ -241,7 +252,7 @@ export default {
 }
 .towerCraneMonitoring-state{
   width: 55%;
-  height: 9.5%;
+  height: 6.5%;
   display: inline-block;
 }
 .towerCraneMonitoring-state-box{

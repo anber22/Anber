@@ -12,7 +12,7 @@
       </Adaptive>
       <div class="text">
         <p class="title">
-          {{ data.equipType }}
+          {{ data.equipTypeName }}
         </p>
         <p class="title2">
           {{ placename }}
@@ -45,7 +45,7 @@ export default {
         query: {
           imei: 123456,
           placeName: this.placename,
-          equipType: this.data.equipType,
+          equipTypeName: this.data.equipTypeName,
           equipAddress: this.data.equipAddress
         }
       })

@@ -52,7 +52,7 @@
         <div class="physicalUnionApplication-content-row-name">
           所属网点:
         </div>
-        <div class="physicalUnionApplication-content-row-value address-font">
+        <div class="physicalUnionApplication-content-row-value address-font" @click="showDetail(data.placeId)">
           {{ data.placeName }}
           <img src="@/assets/images/equip/address.png" alt="" class="address-icon">
         </div>
@@ -90,7 +90,15 @@ export default {
     console.log('卡片信息', this.data)
   },
   methods: {
-
+    showDetail(e) {
+      console.log('网点id', e)
+      this.$router.push({
+        path: '/placeResourcDetail',
+        query: {
+          placeId: e
+        }
+      })
+    }
   }
 }
 </script>

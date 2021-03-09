@@ -31,11 +31,9 @@ export default {
   },
   watch: {
     activeType(index) {
-      const activeData = this.data.data.filter(item => {
-        return item.type === index
-      })
-      this.departName = activeData[0].name
-      this.count = activeData[0].count
+      const activeData = this.data.data.filter(item => item.type === index)
+      this.departName = activeData.length > 0 ? activeData[0].name : ''
+      this.count = activeData.length > 0 ? activeData[0].count : ''
       this.$emit('activeType', index)
     }
   },

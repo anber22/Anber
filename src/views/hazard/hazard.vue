@@ -1,29 +1,35 @@
 <template>
   <div class="analysis">
+    <!-- 头部搜索栏 start -->
     <div class="analysis-input">
       <van-search v-model="queryCondition" placeholder="设备名称/IMEI码" background="#101720" @search="onSearch" />
     </div>
     <div class="analysis-button">
-      <img src="@/assets/images/public/screening.png" alt="" class="analysis-icon" @click="showPopup">
+      <img src="@/assets/images/public/screening.png" alt="" class="analysis-icon" @click="show = true">
     </div>
+    <!-- end -->
 
-    <div class="analysis-content">
+    <!-- 详情列表 start -->
+    <div v-if="!loading" class="analysis-content">
       <div v-for="item in analysisList" :key="item.index" @click="showDetail(item.id)">
         <Adaptive :data="['94%','38.39%']" class="analysis-list-card">
           <HazardListCard :data="item" />
         </Adaptive>
       </div>
     </div>
+    <!-- end -->
 
+    <!-- picker start -->
     <van-popup v-model="show" position="bottom">
       <van-picker
         show-toolbar
         title="请选择"
         :columns="columns"
         @confirm="onConfirm"
-        @cancel="onCancel"
+        @cancel="show = false"
       />
     </van-popup>
+    <!-- end -->
   </div>
 </template>
 
@@ -56,7 +62,8 @@ export default {
       ],
       hazardTypeList: [],
       show: false,
-      status: 0
+      status: 0,
+      loading: true
     }
   },
   mounted() {
@@ -64,29 +71,40 @@ export default {
     this.getHazardTypeList()
   },
   methods: {
+    /**
+     * 跳转详情
+     */
     showDetail(e) {
-      this.$router.push({ name: 'HazardDetail', params: { id: e }})
+      console.log('网点id', e)
+      this.$router.push({
+        path: '/hazardDetail',
+        query: {
+          hazardId: e
+        }
+      })
     },
+    /**
+     * picker确认
+     */
     onConfirm(value, index) {
       this.show = false
       this.equipType = index[0]
       this.status = index[1]
-      console.log(value, this.equipType, 'iiiii')
       // this.formattingCondition()
       this.getAnalysisList()
     },
-    onCancel() {
-      this.show = false
-    },
-    showPopup() {
-      this.show = true
-    },
-
+    /**
+     * 查询
+     */
     onSearch(e) {
       this.getAnalysisList()
     },
-    // 获取隐患列表
+    /**
+     * 获取隐患列表
+     */
     async getAnalysisList() {
+      this.loading = true
+
       const params = {
         type: 0,
         page: 1,
@@ -94,19 +112,29 @@ export default {
         condition: this.formattingCondition()
       }
       const res = await Api.analysisList(params)
-      this.analysisList = [...res.data.rows]
+      if (res.code === 200) {
+        this.analysisList = [...res.data.rows]
+      }
       this.analysisList = await promiseToList.conversion('hazardType', 'hazardType', 'hazardTypeName', this.analysisList)
       this.analysisList = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', this.analysisList)
       console.log(this.analysisList, 'analysisList')
+      this.loading = false
     },
-    // 获取设备类型列表
+    /**
+     * 获取设备类型列表
+     */
     async getHazardTypeList() {
       const res = await Api.hazardTypeList(0)
-      this.hazardTypeList = [...res.data]
+      if (res.code === 200) {
+        this.hazardTypeList = [...res.data]
+      }
       this.hazardTypeList.forEach(item => {
         this.columns[0].values.push(item.name)
       })
     },
+    /**
+     * 格式化path传参
+     */
     formattingCondition() {
       let conditionStr = ''
       let first = false

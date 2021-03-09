@@ -75,7 +75,7 @@ export default new VueRouter({
           path: '/hazard',
           component: () => import('@/views/hazard/hazard'),
           meta: {
-            title: '隐患统计'
+            title: '隐患管理'
           }
         },
         {
@@ -92,7 +92,9 @@ export default new VueRouter({
             title: '视频播放'
           }
         },
-        { path: '/placeResourcDetail',
+        {
+          name: 'PlaceResourcDetail',
+          path: '/placeResourcDetail',
           component: () => import('@/views/placeResourcDetail/placeResourcDetail'),
           meta: {
             title: '网点详情'

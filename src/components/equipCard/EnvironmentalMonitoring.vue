@@ -52,7 +52,7 @@
         <div class="environmentalMonitoring-content-row-name">
           所属网点:
         </div>
-        <div class="environmentalMonitoring-content-row-value address-font">
+        <div class="environmentalMonitoring-content-row-value address-font" @click="showDetail(data.placeId)">
           {{ data.placeName }}
           <img src="@/assets/images/equip/address.png" alt="" class="address-icon">
         </div>
@@ -106,6 +106,15 @@ export default {
   },
 
   methods: {
+    showDetail(e) {
+      console.log('网点id', e)
+      this.$router.push({
+        path: '/placeResourcDetail',
+        query: {
+          placeId: e
+        }
+      })
+    },
     setEquipDetailCardListData() {
       const detailData = this.data
       this.equipDetialCardList = [{
@@ -153,6 +162,8 @@ export default {
 .environmentalMonitoring-header{
   width: 100%;
   height: 13.5%;
+  background: #131F3B;
+
   background-image: url('@/assets/images/equip/card-header.png');
   background-position: right top;
   background-repeat: no-repeat;

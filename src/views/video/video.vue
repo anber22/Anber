@@ -16,6 +16,8 @@
 <script>
 import Video from 'cmp/video/Video'
 import videoApi from '@/api/video'
+import { mapGetters } from 'vuex'
+import promiseToList from '@/utils/promiseToList'
 export default {
   components: {
     Video
@@ -27,20 +29,31 @@ export default {
       searchValue: null
     }
   },
+  computed: {
+    ...mapGetters(['equipType'])
+  },
   mounted() {
-    this.getVideoPlaceList(5) // 获取网点列表，智慧视觉传对应的智慧视觉子系统的id
+    /**
+     * 获取网点列表，智慧视觉传对应的智慧视觉子系统的id:5
+     */
+    this.getVideoPlaceList(5)
   },
   methods: {
-    // 设备类型关联的场所列表
+    /**
+     * 设备类型关联的场所列表
+     */
     async getVideoPlaceList(type) {
       const res = await videoApi.videoPlaceList(type)
       if (res.code === 200) {
         this.placeList = [...res.data]
         this.activeName = this.placeList[0].placeId
-        this.getVideoPlaceEquipList(this.placeList[0].placeId, 5) // 默认展开第一列（获取第一列数据）
+        // 默认展开第一列（获取第一列数据）
+        this.getVideoPlaceEquipList(this.placeList[0].placeId, 5)
       }
     },
-    // 切换面板时触发,用选中的placeId获取该网点下的设备列表
+    /**
+     * 切换面板时触发,用选中的placeId获取该网点下的设备列表
+     */
     changePlace(id) {
       if (id) {
         this.placeList.forEach((item, index) => {
@@ -51,7 +64,9 @@ export default {
         })
       }
     },
-    // 获取场所关联的设备列表
+    /**
+     * 获取场所关联的设备列表
+     */
     async getVideoPlaceEquipList(id, type) {
       const param = {
         id: id,
@@ -59,9 +74,11 @@ export default {
       }
       const res = await videoApi.videoPlaceEquipList(param)
       if (res.code === 200) {
+        // 去vuex获取该网点的设备类型名称，放到数组集合里
+        res.data = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', res.data)
+
         for (const i in this.placeList) {
           if (param.id === this.placeList[i].placeId) {
-            // Reflect.set(this.placeList[i], 'equips', res.data)
             this.$set(this.placeList[i], 'equips', res.data)
           }
         }
@@ -96,6 +113,7 @@ export default {
 .video-view .van-field__left-icon .van-icon{
   font-size: 24px
 }
+/* 修改搜索输入框默认样式 */
 .video-view input::-webkit-input-placeholder {
   color: rgba(55, 63, 74, 1);
 }
