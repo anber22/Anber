@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import Socket from '../../../utils/socket'
+// import Socket from '../../../utils/socket'
 import Data from '@/utils/data.js'
 export default {
   components: {
