@@ -10,6 +10,7 @@
               v-for="(rowItem, index) in ulList"
               :key="index"
               :class="!index && play ? 'toUp' : ''"
+              @click="showDetail(rowItem.id)"
             >
               <div class="colItem title">
                 {{ rowItem.systemName }}
@@ -25,7 +26,7 @@
               </div> -->
               <div class="colItem content">
                 <!-- 22.22 -->
-                {{ dateFormat(rowItem.createdTime) }}
+                {{ changeDate(rowItem.createTime) }}
               </div>
             </li>
           </ul>
@@ -62,6 +63,15 @@ export default {
       currentSystemtypeImage: ''
     }
   },
+  computed: {
+    changeDate: function() {
+      return function(val) {
+        // console.log('组件传入时间', val)
+
+        return this.dateFormat(val)
+      }
+    }
+  },
   created() {
     console.log('页面创建', this.data, this.ulList)
     this.ulList = this.data
@@ -78,6 +88,15 @@ export default {
     clearInterval(this.timer)
   },
   methods: {
+    showDetail(e) {
+      console.log('网点id', e)
+      this.$router.push({
+        path: '/hazardDetail',
+        query: {
+          hazardId: e
+        }
+      })
+    },
     startPlay() {
       const that = this
       that.play = true // 开始播放
@@ -86,6 +105,7 @@ export default {
         that.play = false // 暂停播放
         that.ulList.push(that.ulList[0]) // 将第一条数据塞到最后一个
         that.ulList.shift() // 删除第一条数据
+        // console.log('输出循环列表', that.ulList)
         this.currentSystemtypeImage = this.ulList[0].imgUrl
       }, 500)
 
@@ -95,6 +115,7 @@ export default {
      * 时间格式转换
      */
     dateFormat(date) {
+      // console.log('传出时间', Data.dateDifference(date))
       return Data.dateDifference(date)
     }
   }

@@ -29,7 +29,9 @@
       <div class="placeResourcListCard-content-row">
         <div class="placeResourcListCard-content-row-name">
           <!-- {{ data.placeName }} -->
-          {{ data.placeAddress }}
+          <span class="placeResourcListCard-content-row-adress-name">
+            {{ data.placeAddress }}
+          </span>
         </div>
         <img src="@/assets/images/equip/navigation.png" alt="" class="placeResourcListCard-content-row-icon">
       </div>
@@ -142,6 +144,14 @@ background: #131F3B;
   align-items: center;
   white-space: nowrap;
   overflow: hidden;
+}
+.placeResourcListCard-content-row-adress-name{
+
+font-size: 12px;
+font-family: PingFang SC;
+font-weight: 400;
+text-decoration: underline;
+color: #06F0FE;
 }
 .placeResourcListCard-type{
   width: auto;

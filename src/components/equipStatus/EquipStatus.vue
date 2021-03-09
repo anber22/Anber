@@ -1,16 +1,16 @@
 <template>
   <div class="equip-status">
-    <div v-if="data.statusName.length>0" class="status-name" :style="'color:'+ (data.statusName==='正常'?'green':'red')">
-      {{ data.statusName }}
+    <div class="status-name" :style="'color:'+ ((electricity===0 || ( 95> signal && signal >=105))?'#FF1743':'#29CF7B')">
+      {{ (electricity===0 || ( -95> signal && signal >=105))?"故障":"正常" }}
     </div>
 
-    <img v-if="data.electricity==='yellow'" src="@/assets/images/equip/battery-yellow.png" alt="" class="battery">
-    <img v-else-if="data.electricity==='green'" src="@/assets/images/equip/battery-green.png" alt="" class="battery">
-    <img v-else-if="data.electricity==='red'" src="@/assets/images/equip/battery-red.png" alt="" class="battery">
+    <img v-if="electricity>0 && electricity<=30" src="@/assets/images/equip/battery-yellow.png" alt="" class="battery">
+    <img v-else-if="electricity>30" src="@/assets/images/equip/battery-green.png" alt="" class="battery">
+    <img v-else-if="electricity===0" src="@/assets/images/equip/battery-red.png" alt="" class="battery">
 
-    <img v-if="data.wifi==='green'" src="@/assets/images/equip/wifi-green.png" alt="" class="wifi">
-    <img v-else-if="data.wifi==='yellow'" src="@/assets/images/equip/wifi-yellow.png" alt="" class="wifi">
-    <img v-else-if="data.wifi==='red'" src="@/assets/images/equip/wifi-red.png" alt="" class="wifi">
+    <img v-if="signal>-75" src="@/assets/images/equip/wifi-green.png" alt="" class="wifi">
+    <img v-else-if="signal<=-75 && signal >-95" src="@/assets/images/equip/wifi-yellow.png" alt="" class="wifi">
+    <img v-else-if="signal<=-95 && signal >=-105" src="@/assets/images/equip/wifi-red.png" alt="" class="wifi">
   </div>
 </template>
 
@@ -20,16 +20,24 @@ export default {
 
   },
   props: {
-    data: {
-      type: Object,
+    electricity: {
+      type: Number,
       // eslint-disable-next-line vue/require-valid-default-prop
-      default: {}
+      default: 0
+    },
+
+    signal: {
+      type: Number,
+      // eslint-disable-next-line vue/require-valid-default-prop
+      default: 0
     }
   },
   data() {
     return {
 
     }
+  },
+  mounted() {
   },
   methods: {
 
@@ -69,7 +77,7 @@ export default {
   line-height: 21px;
   font-size: 12px;
   font-family: PingFang SC;
-  font-weight: 400;
+  font-weight: 600;
   /* color: #29CF7B; */
   margin-left: 10%;
   display: inline-block;

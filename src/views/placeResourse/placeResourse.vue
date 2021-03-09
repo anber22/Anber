@@ -33,9 +33,10 @@ export default {
       const params = {
         // systemType: this.thisSubsystemId,
         page: 1,
-        size: 12,
+        size: 999,
         condition: (this.queryCondition.length < 1 ? '' : ('?condition=' + this.queryCondition))
       }
+      console.log('参数', params)
       const res = await Api.placeResourcList(params)
       if (res.code === 200) {
         let listData = [...res.data.rows]
@@ -70,10 +71,14 @@ padding: 0px 3% 52% 3%;
 }
 .van-search__content {
   background-color: #1A212B;
+
 }
 input::-webkit-input-placeholder{
   color: #373F4A !important;
 
 font-size: 12px
+}
+.van-field__control{
+  color: #8BA3C2;
 }
 </style>

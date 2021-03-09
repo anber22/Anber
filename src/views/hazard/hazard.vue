@@ -1,34 +1,42 @@
 <template>
   <div class="analysis">
+    <!-- 头部搜索栏 start -->
     <div class="analysis-input">
       <van-search v-model="queryCondition" placeholder="设备名称/IMEI码" background="#101720" @search="onSearch" />
     </div>
     <div class="analysis-button">
-      <img src="@/assets/images/public/screening.png" alt="" class="analysis-icon" @click="showPopup">
+      <img src="@/assets/images/public/screening.png" alt="" class="analysis-icon" @click="show = true">
     </div>
+    <!-- end -->
 
-    <div class="analysis-content">
+    <!-- 详情列表 start -->
+    <div v-if="!loading" class="analysis-content">
       <div v-for="item in analysisList" :key="item.index" @click="showDetail(item.id)">
         <Adaptive :data="['94%','38.39%']" class="analysis-list-card">
           <HazardListCard :data="item" />
         </Adaptive>
       </div>
     </div>
+    <!-- end -->
 
+    <!-- picker start -->
     <van-popup v-model="show" position="bottom">
       <van-picker
         show-toolbar
         title="请选择"
         :columns="columns"
         @confirm="onConfirm"
-        @cancel="onCancel"
+        @cancel="show = false"
       />
     </van-popup>
+    <!-- end -->
   </div>
 </template>
 
 <script>
 import HazardListCard from 'cmp/hazardListCard/HazardListCard'
+import promiseToList from '@/utils/promiseToList'
+
 import Api from '@/api/hazard/hazard.js'
 
 export default {
@@ -52,19 +60,32 @@ export default {
           defaultIndex: 0
         }
       ],
-      equipTypeList: [],
+      hazardTypeList: [],
       show: false,
-      status: 0
+      status: 0,
+      loading: true
     }
   },
   mounted() {
     this.getAnalysisList()
-    this.getEquipTypeList()
+    this.getHazardTypeList()
   },
   methods: {
+    /**
+     * 跳转详情
+     */
     showDetail(e) {
-      this.$router.push({ name: 'HazardDetail', params: { id: e }})
+      console.log('网点id', e)
+      this.$router.push({
+        path: '/hazardDetail',
+        query: {
+          hazardId: e
+        }
+      })
     },
+    /**
+     * picker确认
+     */
     onConfirm(value, index) {
       this.show = false
       this.equipType = index[0]
@@ -72,18 +93,18 @@ export default {
       // this.formattingCondition()
       this.getAnalysisList()
     },
-    onCancel() {
-      this.show = false
-    },
-    showPopup() {
-      this.show = true
-    },
-
+    /**
+     * 查询
+     */
     onSearch(e) {
       this.getAnalysisList()
     },
-    // 获取隐患列表
+    /**
+     * 获取隐患列表
+     */
     async getAnalysisList() {
+      this.loading = true
+
       const params = {
         type: 0,
         page: 1,
@@ -91,20 +112,29 @@ export default {
         condition: this.formattingCondition()
       }
       const res = await Api.analysisList(params)
-      this.analysisList = [...res.data.rows]
-    }, // 获取设备类型列表
-    async getEquipTypeList() {
-      const res = await Api.equipTypeList(0)
-      this.equipTypeList = [...res.data]
-      this.equipTypeList.forEach(item => {
-        // 这里有问题，不是拿设备类型，是要拿隐患类型
-        // 这里有问题，不是拿设备类型，是要拿隐患类型
-        // 这里有问题，不是拿设备类型，是要拿隐患类型
-        // 这里有问题，不是拿设备类型，是要拿隐患类型
-        // 这里有问题，不是拿设备类型，是要拿隐患类型
+      if (res.code === 200) {
+        this.analysisList = [...res.data.rows]
+      }
+      this.analysisList = await promiseToList.conversion('hazardType', 'hazardType', 'hazardTypeName', this.analysisList)
+      this.analysisList = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', this.analysisList)
+      console.log(this.analysisList, 'analysisList')
+      this.loading = false
+    },
+    /**
+     * 获取设备类型列表
+     */
+    async getHazardTypeList() {
+      const res = await Api.hazardTypeList(0)
+      if (res.code === 200) {
+        this.hazardTypeList = [...res.data]
+      }
+      this.hazardTypeList.forEach(item => {
         this.columns[0].values.push(item.name)
       })
     },
+    /**
+     * 格式化path传参
+     */
     formattingCondition() {
       let conditionStr = ''
       let first = false
@@ -114,17 +144,17 @@ export default {
       }
       if (this.equipType !== 0) {
         if (!first) {
-          conditionStr = conditionStr + '?hazardType=' + this.equipType
+          conditionStr = conditionStr + '?hazardType=' + this.hazardTypeList[(this.equipType === 0 ? 0 : this.equipType - 1)].id
           first = true
         } else {
-          conditionStr = conditionStr + '&hazardType=' + this.equipType
+          conditionStr = conditionStr + '&hazardType=' + this.hazardTypeList[(this.equipType === 0 ? 0 : this.equipType - 1)].id
         }
       }
       if (this.status !== 0) {
         if (!first) {
-          conditionStr = conditionStr + '?isDone=' + this.status
+          conditionStr = conditionStr + '?isDone=' + (this.status - 1)
         } else {
-          conditionStr = conditionStr + '&isDone=' + this.status
+          conditionStr = conditionStr + '&isDone=' + (this.status - 1)
         }
       }
 

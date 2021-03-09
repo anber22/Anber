@@ -230,7 +230,9 @@ export default {
      */
     async getEquipCountings() {
       const res = await Api.equipCountings()
-      this.equipCountings = parseInt(res.data).toLocaleString()
+      if (res.code === 200) {
+        this.equipCountings = parseInt(res.data).toLocaleString()
+      }
     },
     async getHazardTypeList() {
       // console.log('index111', await store.getters.hazardType)
@@ -249,15 +251,18 @@ export default {
      */
     async getOnlinePercent() {
       const res = await Api.onlinePercent()
-      this.gaugeData.onlinePercent = res.data
+      if (res.code === 200) {
+        this.gaugeData.onlinePercent = res.data
+      }
     },
     /**
      * 获取应用列表
      */
     async getEquipList() {
       const res = await Api.applicationlist()
-      this.equipList = [...res.data]
-
+      if (res.code === 200) {
+        this.equipList = [...res.data]
+      }
       console.log('设备数量', this.equipList)
 
       const combined = Config.subsystemList.reduce((acc, cur) => {
@@ -421,8 +426,9 @@ export default {
      */
     async getHiddenDangerList() {
       const res = await Api.hiddenDangerList(12)
-      this.hiddenDangerList = [...res.data]
-
+      if (res.code === 200) {
+        this.hiddenDangerList = [...res.data]
+      }
       this.hiddenDangerList.forEach(hItem => {
         Config.subsystemList.forEach(cItem => {
           if (hItem.type === cItem.id) {

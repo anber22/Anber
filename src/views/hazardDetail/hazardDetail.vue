@@ -1,11 +1,14 @@
 <template>
   <div class="hazardDetail">
+    <!-- 隐患详情信息 start -->
     <div class="hazardDetail-submit">
       <div class="hazardDetail-submit-title">
         <img src="@/assets/images/home/title-icon.png" alt="" class="hazardDetail-submit-titil-icon">
         隐患信息
       </div>
+
       <div class="hazardDetail-submit-content">
+        <!-- 隐患详情信息  标题信息 start -->
         <div class="hazardDetail-submit-content-header">
           <span v-if="detailInfo.isDone===1" class="hazardDetail-submit-content-deal-status">
             已处理
@@ -14,15 +17,15 @@
             未处理
           </span>
           <span class="hazardDetail-submit-content-equip-status">
-            {{ detailInfo.onlineMsg }}
+            {{ detailInfo.hazardTypeName }}
           </span>
           <span :class="detailInfo.onlineType===0?'hazardDetail-submit-content-hazard-type-orange':'hazardDetail-submit-content-hazard-type-red'">
             {{ detailInfo.onlineType===0?"故障":"事件" }}
           </span>
-          <!-- <span class="hazardDetail-submit-content-hazard-type">
-            故障
-          </span> -->
         </div>
+        <!-- end -->
+
+        <!-- 隐患详情 start -->
         <div class="hazardDetail-submit-content-info">
           <div class="hazardDetail-submit-content-info-row">
             <div class="hazardDetail-submit-content-info-row-name">
@@ -78,8 +81,12 @@
             </div>
           </div>
         </div>
+        <!-- end -->
       </div>
     </div>
+    <!-- end -->
+
+    <!-- 隐患处理信息 start -->
     <div class="hazardDetail-deal-content">
       <div class="hazardDetail-submit-title">
         <img src="@/assets/images/home/title-icon.png" alt="" class="hazardDetail-submit-titil-icon">
@@ -122,12 +129,14 @@
         暂无处理信息
       </div>
     </div>
+    <!-- end -->
   </div>
 </template>
 
 <script>
 import Api from '@/api/hazard/hazard.js'
 import dealData from '@/utils/data'
+import promiseToList from '@/utils/promiseToList'
 
 export default {
   components: {
@@ -142,29 +151,48 @@ export default {
     }
   },
   mounted() {
-    this.detailInfoId = this.$route.params.id
+    this.detailInfoId = this.$route.query.hazardId
     this.getHazardDetail()
   },
   methods: {
+    /**
+     * 获取隐患详情信息
+     */
     async getHazardDetail() {
       const params = {
         id: this.detailInfoId
       }
       const res = await Api.hazardDeatilInfo(params)
-      this.detailInfo = { ...res.data }
+      if (res.code === 200) {
+        this.detailInfo = { ...res.data }
+      }
+      console.log('详情', this.detailInfo)
+      this.detailInfo = await promiseToList.conversion('hazardType', 'hazardType', 'hazardTypeName', [this.detailInfo])
+      this.detailInfo = this.detailInfo[0]
+      console.log('详情1', this.detailInfo)
       if (this.detailInfo.isDone === 1) {
         this.getHazardDealInfo()
       }
     },
+
+    /**
+     *  时间格式化
+     */
     timeTransformation(e) {
       return dealData.dataFormat(e)
     },
+
+    /**
+     * 获取隐患处理信息
+     */
     async getHazardDealInfo() {
       const params = {
         id: this.detailInfoId
       }
       const res = await Api.hazardDealInfo(params)
-      this.dealInfo = { ...res.data }
+      if (res.code === 200) {
+        this.dealInfo = { ...res.data }
+      }
     }
   }
 }

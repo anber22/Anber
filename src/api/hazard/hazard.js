@@ -29,5 +29,12 @@ class Analysis {
       method: 'get'
     })
   }
+  //  隐患类型列表
+  async hazardTypeList(param) {
+    return await request({
+      url: `/apis/heartbeat/hazard/type/list/equip/type/${param}`,
+      method: 'get'
+    })
+  }
 }
 export default new Analysis()
