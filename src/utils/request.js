@@ -8,13 +8,13 @@ import Config from '../../config.json'
 // create an request instance
 const request = axios.create({
   // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  baseURL: process.env.NODE_ENV === 'development' ? Config.url : 'https://www.k8s.ctjt.cn',
+  baseURL: process.env.NODE_ENV === 'development' ? Config.url : 'https://beta.zhgtwx.ctjt.cn',
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
 })
 
 request.defaults.headers.post['Content-Type'] =
-  'application/json'
+  'application/x-www-form-urlencoded'
 
 // request.defaults.headers.post['Content-Type'] = 'application/json';
 
