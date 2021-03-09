@@ -6,7 +6,7 @@
       </div>
       <div class="physicalUnionApplication-state">
         <div class="physicalUnionApplication-state-box">
-          <EquipStatus :data="equipStatus" />
+          <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" />
         </div>
         <div v-if="data.count!==0" class="physicalUnionApplication-hidden-trouble">
           <van-badge :content="data.count" badge-size="14px">
@@ -21,7 +21,7 @@
           设备类型:
         </div>
         <div class="physicalUnionApplication-content-row-value">
-          {{ data.equipType }}
+          {{ data.equipTypeName }}
         </div>
       </div>
       <div class="physicalUnionApplication-content-row">
@@ -52,7 +52,7 @@
         <div class="physicalUnionApplication-content-row-name">
           所属网点:
         </div>
-        <div class="physicalUnionApplication-content-row-value address-font">
+        <div class="physicalUnionApplication-content-row-value address-font" @click="showDetail(data.placeId)">
           {{ data.placeName }}
           <img src="@/assets/images/equip/address.png" alt="" class="address-icon">
         </div>
@@ -90,7 +90,15 @@ export default {
     console.log('卡片信息', this.data)
   },
   methods: {
-
+    showDetail(e) {
+      console.log('网点id', e)
+      this.$router.push({
+        path: '/placeResourcDetail',
+        query: {
+          placeId: e
+        }
+      })
+    }
   }
 }
 </script>

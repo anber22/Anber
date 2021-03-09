@@ -6,7 +6,7 @@
       </div>
       <div class="environmentalMonitoring-state">
         <div class="environmentalMonitoring-state-box">
-          <EquipStatus :data="equipStatus" />
+          <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" />
         </div>
         <div v-if="data.count!==0" class="environmentalMonitoring-hidden-trouble">
           <van-badge :content="data.count" badge-size="14px">
@@ -21,7 +21,7 @@
           设备类型:
         </div>
         <div class="environmentalMonitoring-content-row-value">
-          {{ data.equipType }}
+          {{ data.equipTypeName }}
         </div>
       </div>
       <div class="environmentalMonitoring-content-row">
@@ -52,7 +52,7 @@
         <div class="environmentalMonitoring-content-row-name">
           所属网点:
         </div>
-        <div class="environmentalMonitoring-content-row-value address-font">
+        <div class="environmentalMonitoring-content-row-value address-font" @click="showDetail(data.placeId)">
           {{ data.placeName }}
           <img src="@/assets/images/equip/address.png" alt="" class="address-icon">
         </div>
@@ -91,34 +91,7 @@ export default {
   },
   data() {
     return {
-      equipDetialCardList: [
-
-        {
-          typed: 'rainFall',
-          width: '24.55%',
-          name: '雨量',
-          value: '130mm',
-          icon: '/src/assets/images/equip/rainfall.png',
-          iconWidth: '13px',
-          iconHeight: '10px'
-        }, {
-          typed: 'windSpeed',
-
-          width: '42%',
-          name: '风速/风向',
-          value: '2.10m/s/东南25.5°',
-          icon: '/src/assets/images/equip/wind-speed.png',
-          iconWidth: '16px',
-          iconHeight: '10px'
-        }, {
-          typed: 'temperature',
-          width: '24.55%',
-          name: '温度/湿度',
-          value: '25.5°/29.5°',
-          icon: '/src/assets/images/equip/temperature.png',
-          iconWidth: '8px',
-          iconHeight: '16px'
-        }],
+      equipDetialCardList: [],
       equipStatus: {
         wifi: 'red',
         electricity: 'yellow',
@@ -127,13 +100,50 @@ export default {
 
     }
   }, beforeMount() {
-    console.log('卡卡卡卡卡片111', this.data)
-  }, mounted() {
-    console.log('卡卡卡卡卡片', this.data)
+  },
+  mounted() {
+    this.setEquipDetailCardListData()
   },
 
   methods: {
+    showDetail(e) {
+      console.log('网点id', e)
+      this.$router.push({
+        path: '/placeResourcDetail',
+        query: {
+          placeId: e
+        }
+      })
+    },
+    setEquipDetailCardListData() {
+      const detailData = this.data
+      this.equipDetialCardList = [{
+        typed: 'rainFall',
+        width: '24.55%',
+        name: '雨量',
+        value: detailData.rainFall ? detailData.rainFall + 'mm' : '-',
+        icon: '/src/assets/images/equip/rainfall.png',
+        iconWidth: '13px',
+        iconHeight: '10px'
+      }, {
+        typed: 'windSpeed',
 
+        width: '42%',
+        name: '风速/风向',
+        value: (detailData.windSpeed ? detailData.windSpeed + 'm/s/' : '-/') + (detailData.windDirection ? detailData.windDirection + '°' : '-'),
+        icon: '/src/assets/images/equip/wind-speed.png',
+        iconWidth: '16px',
+        iconHeight: '10px'
+      }, {
+        typed: 'temperature',
+        width: '24.55%',
+        name: '温度/湿度',
+        value: (detailData.temperature ? detailData.temperature + '°/' : '-/') + (detailData.humidity ? detailData.humidity + '%RH' : '-'),
+        icon: '/src/assets/images/equip/temperature.png',
+        iconWidth: '8px',
+        iconHeight: '16px'
+      }]
+    }
   }
 }
 </script>
@@ -152,6 +162,8 @@ export default {
 .environmentalMonitoring-header{
   width: 100%;
   height: 13.5%;
+  background: #131F3B;
+
   background-image: url('@/assets/images/equip/card-header.png');
   background-position: right top;
   background-repeat: no-repeat;

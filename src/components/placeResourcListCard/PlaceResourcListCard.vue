@@ -21,12 +21,17 @@
           <div class="placeResourcListCard-type">
             {{ data.placeTypeName }}
           </div>
-        </div><img src="@/assets/images/equip/phone.png" alt="" class="placeResourcListCard-content-row-icon">
+        </div>
+        <!-- <a :href="'tel:' + data.phone"> -->
+        <img src="@/assets/images/equip/phone.png" alt="" class="placeResourcListCard-content-row-icon">
+        <!-- </a> -->
       </div>
       <div class="placeResourcListCard-content-row">
         <div class="placeResourcListCard-content-row-name">
           <!-- {{ data.placeName }} -->
-          {{ data.placeAddress }}
+          <span class="placeResourcListCard-content-row-adress-name">
+            {{ data.placeAddress }}
+          </span>
         </div>
         <img src="@/assets/images/equip/navigation.png" alt="" class="placeResourcListCard-content-row-icon">
       </div>
@@ -61,7 +66,8 @@ export default {
       this.$router.push({
         path: '/placeResourcDetail',
         query: {
-          placeId: id
+          placeId: id,
+          placeTypeName: this.data.placeTypeName
         }
       })
     }
@@ -138,6 +144,14 @@ background: #131F3B;
   align-items: center;
   white-space: nowrap;
   overflow: hidden;
+}
+.placeResourcListCard-content-row-adress-name{
+
+font-size: 12px;
+font-family: PingFang SC;
+font-weight: 400;
+text-decoration: underline;
+color: #06F0FE;
 }
 .placeResourcListCard-type{
   width: auto;

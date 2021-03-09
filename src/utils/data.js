@@ -116,5 +116,30 @@ class Data {
     // 否则，就返回  年-月-日 时：分：秒
     return `${y}` + `-` + `${m}` + `-` + `${d}`
   }
+  /**
+   * 传入时间和当前时间（本地）相减获取时间差（分）如果大于十分钟返回时分，小于十分钟就返回分钟数
+   * @param {*} input
+   * @param {*} pattern
+   */
+  dateDifference = function(input, pattern = '') { // 在参数列表中 通过 pattern="" 来指定形参默认值，防止报错
+    const nowStamp = (Date.parse(new Date())) / 1000
+
+    // console.log('传入时间', input / 1000)
+    // 总时差 单位/秒
+    var date3 = (nowStamp - (input / 1000))
+    // 计算相差分钟数
+    var minutes = Math.floor(date3 / (60))
+
+    if (minutes >= 10) {
+      const dt = new Date(input * 1000)
+      const hh = this.appendZero(dt.getHours().toString())
+      const mm = this.appendZero(dt.getMinutes().toString())
+      return `${hh} : ${mm}`
+    } else if (minutes === 0) {
+      return `< 1 min`
+    } else {
+      return `${minutes} min`
+    }
+  }
 }
 export default new Data()

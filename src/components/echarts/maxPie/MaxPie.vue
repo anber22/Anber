@@ -31,11 +31,9 @@ export default {
   },
   watch: {
     activeType(index) {
-      const activeData = this.data.data.filter(item => {
-        return item.type === index
-      })
-      this.departName = activeData[0].name
-      this.count = activeData[0].count
+      const activeData = this.data.data.filter(item => item.type === index)
+      this.departName = activeData.length > 0 ? activeData[0].name : ''
+      this.count = activeData.length > 0 ? activeData[0].count : ''
       this.$emit('activeType', index)
     }
   },
@@ -45,7 +43,7 @@ export default {
   methods: {
     init() {
       this.departName = this.data.data[0].name
-      this.count = this.data.data[0].value
+      this.count = this.data.data[0].count
       var myChart = this.$echarts.init(document.getElementById(this.data.chartId))
       var option = {
         tooltip: {
@@ -95,6 +93,10 @@ export default {
               minTurnAngle: 100,
               length: 10,
               length2: 8
+            },
+            // 是否隐藏重叠的标签。
+            labelLayout: {
+              hideOverlap: false
             },
             data: this.data.data,
             zlevel: 6

@@ -30,7 +30,6 @@ export default {
     }
   },
   created() {
-    console.log('rrrrrouter', this.$route)
     this.title = this.$route.meta.title
   },
   methods: {

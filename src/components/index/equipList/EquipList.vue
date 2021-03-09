@@ -1,40 +1,42 @@
 <!-- 首页应用列表 -->
 <template>
   <div class="equipList">
-    <Adaptive v-for="item in data" :key="item.id" :data="['100%','22.75%']" class="item" @click="showCard()">
-      <div class="item-left">
-        <img class="equip-img" :src="item.imgUrl" alt>
-        <p class="item-title">
-          {{ item.name }}
-        </p>
-      </div>
-      <div class="item-right">
-        <div class="detail-item">
-          <p class="detail-item-title">
-            在线
-          </p>
-          <p class="detail-item-value color-light-blue">
-            {{ item.data.online }}
+    </p><div v-for="item in data" :key="item.id" @click="showCard()">
+      <Adaptive :data="['100%','24.4%']" class="equipList-item">
+        <div class="equipList-item-left">
+          <img class="equipList-equip-img" :src="item.imgUrl" alt>
+          <p class="equipList-item-title">
+            {{ item.name }}
           </p>
         </div>
-        <div class="detail-item">
-          <p class="detail-item-title">
-            隐患
-          </p>
-          <p class="detail-item-value color-light-yellow">
-            {{ item.data.outline }}
-          </p>
+        <div class="equipList-item-right">
+          <div class="equipList-detail-item">
+            <p class="equipList-detail-item-title">
+              在线
+            </p>
+            <p class="equipList-detail-item-value color-light-blue">
+              {{ item.data.online }}
+            </p>
+          </div>
+          <div class="equipList-detail-item">
+            <p class="equipList-detail-item-title">
+              隐患
+            </p>
+            <p class="equipList-detail-item-value color-light-yellow">
+              {{ item.data.error }}
+            </p>
+          </div>
+          <div class="equipList-detail-item">
+            <p class="equipList-detail-item-title">
+              离线
+            </p>
+            <p class="equipList-detail-item-value color-light-red">
+              {{ item.data.outline }}
+            </p>
+          </div>
         </div>
-        <div class="detail-item">
-          <p class="detail-item-title">
-            离线
-          </p>
-          <p class="detail-item-value color-light-red">
-            {{ item.data.error }}
-          </p>
-        </div>
-      </div>
-    </Adaptive>
+      </Adaptive>
+    </div>
   </div>
 </template>
 
@@ -72,8 +74,10 @@ export default {
 .equipList::-webkit-scrollbar {
     display: none;
 }
-.item{
 
+.equipList-item{
+  /* width: 100%;
+  height: 10.6%; */
   box-sizing: border-box;
   background: rgba(16, 233, 255, 0);
   /* border: 1px solid #008797; */
@@ -83,18 +87,18 @@ export default {
   /* box-shadow:1px 1px 11px 2px rgba(0, 133, 247, 0.6) inset; */
   box-shadow: 0px 0px 7px 0px rgba(0, 133, 247, 0.4) inset;
 }
-.item-left{
+.equipList-item-left{
   width: 25%;
   height: 72.6%;
   padding: 3.2%;
   text-align: center;
   float: left;
 }
-.equip-img{
+.equipList-equip-img{
   width: 60%;
   height: 66%;
 }
-.item-title{
+.equipList-item-title{
   text-align: center;
 
 font-size: 12px;
@@ -103,17 +107,17 @@ font-weight: 400;
 color: #A3D5FF;
   margin-top: 6%;
 }
-.item-right{
+.equipList-item-right{
   width: 68%;
   height: 100%;
   float: left;
 }
-.detail-item{
+.equipList-detail-item{
   width: 31.33%;
   height: 100%;
   display: inline-block;
 }
-.detail-item-title{
+.equipList-detail-item-title{
   height: 11px;
   width: 43.33px;
   font-size: 12px;
@@ -123,13 +127,14 @@ color: #A3D5FF;
   line-height: 5px;
   padding-left: 12px;
   color: #EFF0F1;
-  margin-top:31%;
+
+  margin-top:32%;
   margin-bottom: 0px;
   background: linear-gradient(125deg, rgba(16, 233, 255, 0) 8px,#00B5ED 9%,transparent 81%) left  ;
   background-size: 100% 100%;
   margin-left: 15px
 }
-.detail-item-value{
+.equipList-detail-item-value{
   height: 18px;
   font-size: 19px;
   font-family: PingFang SC;
@@ -138,7 +143,7 @@ color: #A3D5FF;
   text-align: center;
   margin-top: 12%;
 }
-.color-light-blue{
+.equipList-color-light-blue{
   color: #46FFEB;
 }
 .color-light-yellow{

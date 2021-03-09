@@ -21,4 +21,21 @@ export default {
   margin: 0px;
   padding: 0px;
 }
+@media (min-width: 300px) and (max-width: 320px) {
+  #app{
+    zoom: 0.8533;
+  }
+}
+@media (min-width: 414px) and (max-width: 420px) {
+  #app{
+    zoom: 1.104;
+  }
+
+}
+.AnalysisPie-echarts-tooltip{
+  z-index: 9 !important;
+}
+.MaxLine-echarts-tooltip, .EventsLine-echarts-tooltip{
+  padding: 6px !important
+}
 </style>

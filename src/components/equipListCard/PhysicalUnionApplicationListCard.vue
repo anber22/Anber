@@ -5,7 +5,7 @@
         {{ data.equipName }}
       </div>
       <div class="physicalUnionApplicationListCard-state">
-        <EquipStatus :data="equipStatus" />
+        <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" />
       </div>
     </div>
     <div class="physicalUnionApplicationListCard-content">
@@ -13,13 +13,15 @@
         <div class="physicalUnionApplicationListCard-content-row-name">
           {{ data.imei }}
           <div class="physicalUnionApplicationListCard-type">
-            {{ data.equipType }}
+            {{ data.equipTypeName }}
           </div>
         </div><img src="@/assets/images/equip/phone.png" alt="" class="physicalUnionApplicationListCard-content-row-icon">
       </div>
       <div class="physicalUnionApplicationListCard-content-row">
         <div class="physicalUnionApplicationListCard-content-row-name">
-          {{ data.placeName }}
+          <span class="physicalUnionApplicationListCard-content-row-place-name" @click="showDetail(data.placeId)">
+            {{ data.placeName }}
+          </span>
         </div>
         <img src="@/assets/images/equip/navigation.png" alt="" class="physicalUnionApplicationListCard-content-row-icon">
       </div>
@@ -29,10 +31,13 @@
 
 <script>
 import EquipStatus from 'cmp/equipStatus/EquipStatus'
+import { mapGetters } from 'vuex'
+
 export default {
   components: {
     EquipStatus
   },
+
   props: {
     data: {
       type: Object,
@@ -50,8 +55,23 @@ export default {
       }
     }
   },
-  methods: {
+  computed: {
 
+  },
+  created() {
+  },
+  mounted() {
+  },
+  methods: {
+    showDetail(e) {
+      console.log('网点id', e)
+      this.$router.push({
+        path: '/placeResourcDetail',
+        query: {
+          placeId: e
+        }
+      })
+    }
   }
 }
 </script>
@@ -68,7 +88,7 @@ export default {
 background: #131F3B;
 }
 .physicalUnionApplicationListCard-title{
-  width: 35%;
+  width: 40%;
   height: 25%;
   font-size: 15px;
   font-family: PingFang SC;
@@ -85,7 +105,7 @@ background: #131F3B;
   margin-top: 2.7%;
 }
 .physicalUnionApplicationListCard-state{
-  width: 53%;
+  width: 48%;
   height: 25%;
   display: inline-block;
   vertical-align: middle;
@@ -107,11 +127,20 @@ background: #131F3B;
   font-size: 12px;
   font-family: PingFang SC;
   font-weight: 400;
+
   color: #6F85A2;
   display: flex;
   align-items: center;
   white-space: nowrap;
   overflow: hidden;
+}
+.physicalUnionApplicationListCard-content-row-place-name{
+
+font-size: 12px;
+font-family: PingFang SC;
+font-weight: 400;
+text-decoration: underline;
+color: #06F0FE;
 }
 .physicalUnionApplicationListCard-type{
   width: auto;

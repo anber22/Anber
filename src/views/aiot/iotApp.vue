@@ -11,7 +11,7 @@
         </van-dropdown-menu>
       </div>
       <div class="header-input">
-        <van-search v-model="queryCondition" placeholder="设备名称\IEMI码" :clearable="false" />
+        <van-search v-model="queryCondition" placeholder="设备名称\IEMI码" :clearable="false" @search="onSearch" />
       </div>
       <div class="chang-list-type">
         <img v-show="!isCard" src="@/assets/images/public/list-type-table.png" alt="" class="list-type-img" @click="changeListType">
@@ -23,24 +23,24 @@
     <div class="iot-content">
       <!-- 卡片展示列表 start -->
       <div v-if="isCard">
-        <div v-if="thisSubsystemId===0 && !loadding " class="show-list">
+        <div v-if="thisSubsystemId===5 && !loadding " class="show-list">
           <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','49.9%']" class="physicalUnionApplication-card">
             <PhysicalUnionApplication :data="item" />
           </Adaptive>
         </div>
-        <div v-if="thisSubsystemId===1 && !loadding " class="show-list">
+        <div v-if="thisSubsystemId===10 && !loadding " class="show-list">
           <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','77.9%']" class="environmentalMonitoring-card">
             <EnvironmentalMonitoring :data="item" />
           </Adaptive>
         </div>
-        <div v-if="thisSubsystemId===2 && !loadding " class="show-list">
-          <TowerCraneMonitoring v-for="item in equipInfoList" :key="item.index" class="towerCraneMonitoring-card" :data="item" />
+        <div v-if="thisSubsystemId===11 && !loadding " class="show-list">
+          <TowerCraneMonitoring v-for="(item, index) in equipInfoList" :key="index" class="towerCraneMonitoring-card" :data="item" />
         </div>
       </div>
       <!-- end -->
       <!-- 列表卡片 start -->
       <div v-if="!isCard">
-        <div class="show-list">
+        <div v-if="!loadding" class="show-list">
           <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','31.39%']" class="physicalUnionApplication-list-card">
             <PhysicalUnionApplicationListCard :data="item" />
           </Adaptive>
@@ -58,6 +58,7 @@ import PhysicalUnionApplicationListCard from 'cmp/equipListCard/PhysicalUnionApp
 import EnvironmentalMonitoring from 'cmp/equipCard/EnvironmentalMonitoring.vue'
 import TowerCraneMonitoring from 'cmp/equipCard/TowerCraneMonitoring.vue'
 import Api from '@/api/aiot/iotApp.js'
+import promiseToList from '@/utils/promiseToList'
 
 export default {
   components: {
@@ -76,12 +77,12 @@ export default {
       loadding: true,
       // 系统选择下拉菜单
       subsystemList: [
-        { text: '智慧视觉', value: 0 },
-        { text: '环境监测', value: 1 },
-        { text: '塔机监测', value: 2 }
+        { text: '智慧视觉', value: 5 },
+        { text: '环境监测', value: 10 },
+        { text: '塔机监测', value: 11 }
       ],
       // 当前选中系统
-      thisSubsystemId: 0,
+      thisSubsystemId: 5,
       // 展示形式 （列表||卡片）
       isCard: false,
       // 查询条件 （这里只有模糊查询）
@@ -96,10 +97,15 @@ export default {
   },
   methods: {
     /**
+     * 查询
+     */
+    onSearch(e) {
+      this.getEquipInfoList()
+    },
+    /**
      * 切换子系统
      */
     changeSystem() {
-      console.log(this.thisSubsystemId)
       this.getEquipInfoList()
     },
     /**
@@ -108,51 +114,68 @@ export default {
     changeListType() {
       this.isCard = !this.isCard
     },
-    // 获取卡片列表
+    /**
+     * 获取卡片列表
+     */
     async getEquipInfoList() {
       this.loadding = true
       const params = {
         systemType: this.thisSubsystemId,
         page: 1,
         size: 12,
-        conditionStr: (this.queryCondition.length < 1 ? '' : '?' + this.queryCondition)
+        conditionStr: (this.queryCondition.length < 1 ? '' : '?condition=' + this.queryCondition)
       }
+      console.log('输出参数', params)
       const res = await Api.equipInfoList(params)
-      this.equipInfoList = [...res.data.rows]
+      if (res.code === 200) {
+        this.equipInfoList = [...res.data.rows]
+      }
       var ids = this.equipInfoList.map(item => { return item.equipId })
 
       const hazardCountList = await Api.equipUntreatedEventList(ids)
-      console.log('hazardCountList', hazardCountList)
-      let combined = hazardCountList.data.reduce((acc, cur) => {
-        const target = acc.find(e => e.equipId === cur.equipId)
-        if (target) {
-          Object.assign(target, cur)
-        } else {
-          acc.push(cur)
-        }
-        return acc
-      }, this.equipInfoList)
-      this.equipInfoList = combined
-      console.log('hazardCountList', combined)
-      // 如果选择的是 thisSubsystemId ===1 的环境监测系统
-      if (this.thisSubsystemId === 1 || this.thisSubsystemId === 2) {
-        this.loadding = true
-        // 获取ids去查询对应设备的详细数据
 
-        const temp = await Api.equipRealTimeInfoList(ids)
-        // 把两个数组对象根据equipId来合并
-        combined = temp.data.reduce((acc, cur) => {
+      this.equipInfoList = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', this.equipInfoList)
+      let combined = []
+      if (res.code === 200) {
+        combined = hazardCountList.data.reduce((acc, cur) => {
           const target = acc.find(e => e.equipId === cur.equipId)
           if (target) {
             Object.assign(target, cur)
-          } else {
-            acc.push(cur)
           }
           return acc
         }, this.equipInfoList)
-        this.equipInfoList = combined
-        console.log('1231231', this.equipInfoList)
       }
+      this.equipInfoList = combined
+      console.log('设备列表', this.equipInfoList)
+      // this.equipInfoList.forEach(item => {
+      //   promiseToList.conversion('equipType', item.)
+      // })
+      // 如果选择的是 thisSubsystemId ===1 的环境监测系统
+      if (this.thisSubsystemId === 10 || this.thisSubsystemId === 11) {
+        this.loadding = true
+        // 根据对应的设备类型去请求相对应系统的接口
+        let system = ''
+        if (this.thisSubsystemId === 10) {
+          system = 'environment'
+        } else if (this.thisSubsystemId === 11) {
+          system = 'tower'
+        }
+        // 获取ids去查询对应设备的详细数据
+        const temp = await Api.equipRealTimeInfoList(ids, system)
+        // 把两个数组对象根据equipId来合并
+        if (res.code === 200) {
+          combined = temp.data.reduce((acc, cur) => {
+            const target = acc.find(e => e.equipId === cur.equipId)
+            if (target) {
+              Object.assign(target, cur)
+            }
+            return acc
+          }, this.equipInfoList)
+        }
+        console.log(combined, 'combined')
+        this.equipInfoList = combined
+      }
+      console.log('最后输出卡片列表', this.equipInfoList)
       this.loadding = false
     }
   }
@@ -219,7 +242,16 @@ export default {
   display: flex;
   align-items: center;
 }
-.van-search {
+
+.list-type-img{
+  width: 21px;
+  height: 19px;
+}
+
+</style>
+
+<style >
+.iotApp .van-search {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -232,50 +264,48 @@ export default {
     background-color: transparent;
 
 }
-.van-search__content{
+.iotApp .van-search__content{
   background-color: rgba(26, 33, 43, 1);
+  padding-left: 0px;
 }
 
-.van-dropdown-menu__bar{
+.iotApp .van-dropdown-menu__bar{
   background-color:  rgba(16, 23, 32, 1) ;
 }
-.van-dropdown-menu__title{
+.iotApp .van-dropdown-menu__title{
 
 font-size: 15px;
 font-family: PingFang SC;
 font-weight: 400;
 color: #8BA3C2;
 }
-.van-field__control{
+.iotApp .van-field__control{
   font-size: 15px;
 font-family: PingFang SC;
 font-weight: 400;
-  color: #373F4A;
+  color: #8BA3C2
+
 }
-.van-cell{
+.iotApp .van-cell{
   color: rgba(139, 163, 194, 1);
   padding: 10px 31px;
 }
-input::-webkit-input-placeholder{
+.iotApp input::-webkit-input-placeholder{
   color: #373F4A !important;
 
 font-size: 12px
 }
-.list-type-img{
-  width: 21px;
-  height: 19px;
-}
-.van-cell{
+.iotApp .van-cell{
   background-color: rgba(16, 23, 32, 1);
 }
-.van-popup{
+.iotApp .van-popup{
   background-color: rgba(16, 23, 32, 1);
 
 }
-.van-cell::after {
+.iotApp .van-cell::after {
   border-bottom: 1px solid rgba(16, 23, 32, 1);
 }
-.van-dropdown-item__option--active .van-dropdown-item__icon{
+.iotApp .van-dropdown-item__option--active .van-dropdown-item__icon{
   color: rgba(139, 163, 194, 1);
 }
 </style>

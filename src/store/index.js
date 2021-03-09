@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import getters from './getters'
 import equip from './modules/equip'
 import permission from './modules/permission'
+import persistence from './modules/persistence'
 
 import user from './modules/user'
 
@@ -12,9 +13,11 @@ const store = new Vuex.Store({
   modules: {
     equip,
     user,
-    permission
+    permission,
+    persistence
   },
   getters
 })
+console.log('store开始')
 
 export default store

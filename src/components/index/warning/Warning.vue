@@ -3,28 +3,30 @@
   <div class="warin">
     <div class="hidden-trouble-detail">
       <div class="out-rect">
-        <div v-if="ulList.length>0" class="in-rect">
+        <div v-if="ulList" class="in-rect">
           <img class="equip-img" :src="currentSystemtypeImage">
           <ul class="list">
             <li
               v-for="(rowItem, index) in ulList"
-              :key="rowItem.id"
+              :key="index"
               :class="!index && play ? 'toUp' : ''"
+              @click="showDetail(rowItem.id)"
             >
               <div class="colItem title">
-                智慧视觉
+                {{ rowItem.systemName }}
               </div>
               <div class="colItem content">
-                {{ rowItem.type }}
+                {{ rowItem.onlineMsg }}
               </div>
               <div class="colItem content">
-                {{ rowItem.address }}
+                {{ rowItem.placeName }}
               </div>
-              <div class="colItem content" style="color:red;">
-                {{ rowItem.status }}
-              </div>
+              <!-- <div class="colItem content" style="color:red;">
+                未处理
+              </div> -->
               <div class="colItem content">
-                {{ rowItem.time }}
+                <!-- 22.22 -->
+                {{ changeDate(rowItem.createTime) }}
               </div>
             </li>
           </ul>
@@ -39,6 +41,7 @@
 
 <script>
 import Socket from '../../../utils/socket'
+import Data from '@/utils/data.js'
 export default {
   components: {
 
@@ -58,12 +61,27 @@ export default {
       // 接收定时器
       timer: null,
       currentSystemtypeImage: ''
+
     }
   },
-  mounted() {
+  computed: {
+    changeDate: function() {
+      return function(val) {
+        // console.log('组件传入时间', val)
+
+        return this.dateFormat(val)
+      }
+    }
+  },
+  created() {
+    console.log('页面创建', this.data, this.ulList)
     this.ulList = this.data
-    if (this.ulList.length > 1) {
-      setInterval(this.startPlay, 3000)
+
+    if (this.ulList !== null) {
+      if (this.ulList.length > 1) {
+        this.currentSystemtypeImage = this.ulList[0].imgUrl
+        setInterval(this.startPlay, 3000)
+      }
     }
     // Socket.initSocket('equipCount')
   },
@@ -71,18 +89,39 @@ export default {
     clearInterval(this.timer)
   },
   methods: {
+    showDetail(e) {
+      console.log('网点id', e)
+      this.$router.push({
+        path: '/hazardDetail',
+        query: {
+          hazardId: e
+        }
+      })
+    },
     startPlay() {
       const that = this
       that.play = true // 开始播放
+
       that.timer = setTimeout(() => { // 创建并执行定时器
         that.play = false // 暂停播放
         that.ulList.push(that.ulList[0]) // 将第一条数据塞到最后一个
         that.ulList.shift() // 删除第一条数据
+
+        // console.log('输出循环列表', that.ulList)
         this.currentSystemtypeImage = this.ulList[0].imgUrl
       }, 500)
+
       // console.log(that.timer)
+    },
+    /**
+     * 时间格式转换
+     */
+    dateFormat(date) {
+      // console.log('传出时间', Data.dateDifference(date))
+      return Data.dateDifference(date)
     }
   }
+
 }
 </script>
 
@@ -145,7 +184,7 @@ export default {
   display: inline-block;
   text-align: center;
   height: 100%;
-  line-height: 40px;
+  line-height: 350%;
   overflow: hidden;
   margin-left: 2%
 }
@@ -187,7 +226,8 @@ li {
 .no-data{
   width: 100%;
   height: 20px;
-  line-height: 20px;
+
+  line-height:20px;
   color: #ffffff;
   font-size: 14px;
   text-align: center
