@@ -15,8 +15,8 @@ module.exports = merge(base, {
     // },
     historyApiFallback: true,
     compress: true, // 启用压缩,
-    host: "0.0.0.0",
-    port: 1209, // 端口
+    // host: "0.0.0.0",
+    port: 1211, // 端口
     open: true, // 自动打开浏览器
     hot: true,
     proxy: {
