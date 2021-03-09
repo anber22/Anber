@@ -69,7 +69,6 @@ export default {
       this.show = false
       this.equipType = index[0]
       this.status = index[1]
-      console.log(value, index, 'iiiii')
       // this.formattingCondition()
       this.getAnalysisList()
     },
@@ -93,7 +92,6 @@ export default {
       }
       const res = await Api.analysisList(params)
       this.analysisList = [...res.data.rows]
-      console.log(this.analysisList, 'analysisList')
     }, // 获取设备类型列表
     async getEquipTypeList() {
       const res = await Api.equipTypeList(0)

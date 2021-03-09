@@ -174,7 +174,7 @@ export default {
         return
       }
       /**
-       * 不请求接口，勿删
+       * 暂时不请求接口，勿删此段注释代码
        */
       // const res = await this.$store.dispatch('LoginByCode', param)
       // if (res.code === 200) {
@@ -184,7 +184,10 @@ export default {
       // } else {
       //   this.$Toast(res.message)
       // }
-    }, // 密码登录
+    },
+    /** 密码登录
+     *
+     */
     async isPasswordLogin() {
       const param = {
         phone: this.isPasswordData.userName,
@@ -204,7 +207,7 @@ export default {
         return
       }
       /**
-       * 不请求接口，勿删
+       * 暂时不请求接口，勿删此段注释代码
        */
       // const res = await this.$store.dispatch('Login', param)
 

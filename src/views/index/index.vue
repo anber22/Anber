@@ -62,7 +62,7 @@
     </Adaptive>
     <!-- end -->
     <!-- 监测分析，近一月/近一年/全部 -->
-    <Adaptive :data="['100%','140%']">
+    <Adaptive :data="['100%', analysisHeight +'%']">
       <MonitorAnalysis v-if="loading" :data="monitorAnalysisData" @timeType="getDateType" @systemType="getMonitorSystemType" />
     </Adaptive>
     <!-- legend 图例 -->
@@ -190,7 +190,8 @@ export default {
       // 监测分析当前选中的系统类型 默认智慧视觉
       analysisSystemType: 1,
       hiddenDangerList: [],
-      onlinePercent: 0
+      onlinePercent: 0,
+      analysisHeight: 160
     }
   },
   computed: {
@@ -290,13 +291,11 @@ export default {
      */
     activeType(type) {
       this.lineDataFlag = false
-      const countObj = this.departCountList.filter(item => {
-        return type === item.departId
-      })
+      const countObj = this.departCountList.filter(item => type === item.departId)
       this.departCountData = {
-        online: countObj[0].data.online,
-        outline: countObj[0].data.outline,
-        trouble: countObj[0].data.trouble
+        online: countObj.length > 0 ? countObj[0].data.online : '',
+        outline: countObj.length > 0 ? countObj[0].data.outline : '',
+        trouble: countObj.length > 0 ? countObj[0].data.trouble : ''
       }
       this.getTroubleAnalysis(type)
     },
@@ -382,11 +381,22 @@ export default {
         if (Reflect.has(Config, 'hazardAnalysis')) {
           color = Config.hazardAnalysis.color
         }
+        if (dataArr.length < 4) {
+          this.analysisHeight = 100
+        } else {
+          this.analysisHeight = 160
+        }
         dataArr.forEach((item, index) => {
           this.monitorAnalysisData.pieData.data.push({
             value: item.count,
             name: item.name,
             precent: item.precent,
+            color: color[index]
+          })
+          this.monitorAnalysisData.pieData.data.push({
+            value: item.count + 1,
+            name: item.name + '加',
+            precent: item.precent + 1,
             color: color[index]
           })
         })

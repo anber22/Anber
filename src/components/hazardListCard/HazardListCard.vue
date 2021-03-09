@@ -67,7 +67,6 @@ export default {
   },
   methods: {
     timeTransformation(e) {
-      console.log('date', e)
       return dealData.dataFormat(e)
     }
   }

@@ -19,7 +19,7 @@
             {{ data.phone }}
           </div>
           <div class="placeResourcListCard-type">
-            {{ data.placeTypeId }}
+            {{ data.placeTypeName }}
           </div>
         </div>
         <!-- <a :href="'tel:' + data.phone"> -->
@@ -64,7 +64,8 @@ export default {
       this.$router.push({
         path: '/placeResourcDetail',
         query: {
-          placeId: id
+          placeId: id,
+          placeTypeName: this.data.placeTypeName
         }
       })
     }

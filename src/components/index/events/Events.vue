@@ -1,6 +1,6 @@
 <template>
   <div class="events-content">
-    <div class="title-box">
+    <div class="title-box" style="margin-top: 2%;">
       <div class="title-style" />
       <div class="title-name">
         <div style="margin-left: 4px;max-width: 70%; display: flex">

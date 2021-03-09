@@ -22,11 +22,12 @@ export default {
   },
   mounted() {
     if (this.$route.query) {
-      this.title = this.$route.query.equipType + this.$route.query.placeName + this.$route.query.equipAddress
+      this.title = this.$route.query.equipTypeName + '-' + this.$route.query.placeName + this.$route.query.equipAddress
       this.getVideo(this.$route.query.imei)
     }
   },
   methods: {
+    // 获取视频流方法：未定怎么拿
     getVideo(imei) {
     }
   }

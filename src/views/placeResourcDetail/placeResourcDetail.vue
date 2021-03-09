@@ -17,7 +17,7 @@
           <div class="text-item">
             <span class="name">网点名称：</span>
             <span class="describe">{{ placeResourcDetail.placeName }}</span>
-            <span class="placeType">{{ placeResourcDetail.placeTypeId }}</span>
+            <span class="placeType">{{ $route.query.placeTypeName }}</span>
           </div>
           <div class="text-item">
             <span class="name">网点地址：</span>
@@ -51,6 +51,7 @@
               />
             </a>
           </div>
+          <!-- 勿删：责任书照片和网点照片 -->
           <!-- <div class="text-item" style="display: flex;">
             <span class="name phone-name">责任书：</span>
             <div class="phone-box">
@@ -100,12 +101,6 @@
         <Adaptive v-for="(item, index) in placeResourcEquip" :key="index" class="PlaceDetailCard" :data="['100%', '32%']">
           <PlaceDetailCard :data="item" />
         </Adaptive>
-        <!-- <Adaptive class="PlaceDetailCard" :data="['100%', '32%']">
-          <PlaceDetailCard />
-        </Adaptive>
-        <Adaptive class="PlaceDetailCard" :data="['100%', '32%']">
-          <PlaceDetailCard />
-        </Adaptive> -->
         <div class="PlaceDetailCard-bind-equip">
           <p>
             <van-image
@@ -143,10 +138,16 @@ export default {
     this.getPlaceResourcEquip(this.$route.query.placeId)
   },
   methods: {
+    /**
+     * 获取当前网点详情
+     */
     async getPlaceResourcDetail(id) {
       const res = await Api.placeResourcDetail(id)
       this.placeResourcDetail = res.data
     },
+    /**
+     * 获取当前网点关联的设备列表
+     */
     async getPlaceResourcEquip(id) {
       const res = await Api.placeResourcEquip(id)
       this.placeResourcEquip = res.data

@@ -23,7 +23,6 @@ export default {
   methods: {
     init() {
       let _data = []
-      console.log(this.data.title < 1 || this.data.title === null, 'lllllll')
       if (this.data.title < 1 || this.data.title === null) {
         _data = [{
           name: '暂无数据',

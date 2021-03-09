@@ -12,6 +12,7 @@
 <script>
 import PlaceResourcListCard from 'cmp/placeResourcListCard/PlaceResourcListCard'
 import Api from '@/api/placeResourc/placeResourc.js'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -20,8 +21,12 @@ export default {
   data() {
     return {
       placeResourcList: [],
-      queryCondition: ''
+      queryCondition: '',
+      placeTypeList: []
     }
+  },
+  computed: {
+    ...mapGetters(['placeType'])
   },
   mounted() {
     this.getPlaceResourcList()
@@ -35,7 +40,17 @@ export default {
         condition: (this.queryCondition.length < 1 ? '' : ('?condition=' + this.queryCondition))
       }
       const res = await Api.placeResourcList(params)
-      this.placeResourcList = [...res.data.rows]
+      if (res.code === 200) {
+        const listData = [...res.data.rows]
+        const placeTypeList = await this.placeType
+        listData.forEach((item, index) => {
+          const placeTypeName = placeTypeList.filter(e =>
+            item.placeTypeId === e.id
+          )
+          Reflect.set(item, 'placeTypeName', placeTypeName.length > 0 ? placeTypeName[0].name : '')
+        })
+        this.placeResourcList = listData
+      }
     },
     onSearch(e) {
       this.getPlaceResourcList()
