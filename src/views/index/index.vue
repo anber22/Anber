@@ -226,12 +226,12 @@ export default {
       }
     }
   },
-  async created() {
+  created() {
     // setTimeout(() => {
     //   this.socket()
     // }, 1000)
     this.subsystemList.forEach(item => {
-      item.imgUrl = require(item.require)
+      item.imgUrl = require(item.imgUrl)
     })
     this.getHazardTypeList()
     this.getHiddenDangerList()
@@ -241,9 +241,9 @@ export default {
     this.getDepartCounting()
 
     store.dispatch('generatePersistence')
-    console.log('设备类型', await this.equipType)
-    console.log('隐患类型', await this.hazardType)
-    console.log('网点类型', await this.placeType)
+    // console.log('设备类型', await this.equipType)
+    // console.log('隐患类型', await this.hazardType)
+    // console.log('网点类型', await this.placeType)
     this.getOnlinePercent()
   },
   methods: {
