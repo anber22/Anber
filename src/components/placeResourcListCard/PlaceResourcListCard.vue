@@ -1,5 +1,5 @@
 <template>
-  <div class="placeResourcListCard" @click="goJump(data.placeId)">
+  <div class="placeResourcListCard">
     <div class="placeResourcListCard-header">
       <div class="placeResourcListCard-title">
         {{ data.placeName }}
@@ -29,7 +29,7 @@
       <div class="placeResourcListCard-content-row">
         <div class="placeResourcListCard-content-row-name">
           <!-- {{ data.placeName }} -->
-          <span class="placeResourcListCard-content-row-adress-name">
+          <span class="placeResourcListCard-content-row-adress-name" @click="goJump(data.placeId)">
             {{ data.placeAddress }}
           </span>
         </div>
