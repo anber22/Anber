@@ -166,17 +166,16 @@ export default {
 
 <style>
 .analysis{
-    width: 100%;
-  height: 100%;
   position: fixed;
-  overflow: scroll;
+  width: 100%;
+  height: 100%;
   background-color: #101720;
 }
 .analysis-content{
-padding: 0px 3% 52% 3%;
+  position: fixed;
+  padding: 0px 3% 52% 3%;
   width: 100%;
   height: 80%;
-  position: fixed;
   overflow: scroll;
 }
 .analysis-list-card{

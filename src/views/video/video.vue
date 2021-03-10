@@ -90,17 +90,20 @@ export default {
 
 <style scoped>
 .video-view{
-  width: 100%;
   position: fixed;
+  width: 100%;
+
   height: 100%;
   background-color: rgba(16, 23, 32, 1);
   color: #fff;
   min-height: 100%;
-  overflow: scroll;
 }
 .video-content{
+  position: fixed;
   width: 92%;
-  height: auto;
+
+  height: 80%;
+  overflow: scroll;
   padding: 0 4%;
 }
 </style>
