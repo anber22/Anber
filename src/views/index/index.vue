@@ -273,6 +273,7 @@ export default {
         const target = acc.find(e => e.id === cur.id)
         if (target) {
           Object.assign(target, cur)
+          target.imgUrl = require(target.imgUrl)
         }
         return acc
       }, this.equipList)
