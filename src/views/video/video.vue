@@ -92,7 +92,6 @@ export default {
 .video-view{
   position: fixed;
   width: 100%;
-
   height: 100%;
   background-color: rgba(16, 23, 32, 1);
   color: #fff;
@@ -102,7 +101,7 @@ export default {
   position: fixed;
   width: 92%;
 
-  height: 80%;
+  height: 90%;
   overflow: scroll;
   padding: 0 4%;
 }
