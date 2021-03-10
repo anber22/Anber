@@ -57,7 +57,8 @@ export default {
   width: 100%;
   height: 100%;
   position: fixed;
-  background-color: #101720
+  overflow: scroll;
+  background-color: #101720;
 }
 .placeResourc-content{
 padding: 0px 3% 52% 3%;

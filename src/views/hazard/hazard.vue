@@ -169,6 +169,7 @@ export default {
     width: 100%;
   height: 100%;
   position: fixed;
+  overflow: scroll;
   background-color: #101720;
 }
 .analysis-content{
