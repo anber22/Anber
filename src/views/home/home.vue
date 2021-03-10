@@ -16,7 +16,7 @@
             <van-swipe-item>
               <van-image
                 fit="contain"
-                src="@/assets/images/home/banner-2.jpg"
+                :src="require('/src/assets/images/home/banner-2.jpg')"
                 :show-error="false"
                 :show-loading="false"
               />
@@ -24,7 +24,7 @@
             <van-swipe-item>
               <van-image
                 fit="contain"
-                src="@/assets/images/home/banner-3.jpg"
+                :src="require('/src/assets/images/home/banner-3.jpg')"
                 :show-error="false"
                 :show-loading="false"
               />
@@ -32,7 +32,7 @@
             <van-swipe-item>
               <van-image
                 fit="contain"
-                src="@/assets/images/home/banner-4.jpg"
+                :src="require('/src/assets/images/home/banner-4.jpg')"
                 :show-error="false"
                 :show-loading="false"
               />
@@ -46,7 +46,7 @@
             <Adaptive class="module-item" :data="['75.4%', '75.4%']">
               <van-image
                 fit="contain"
-                src="@/assets/images/home/iot.png"
+                :src="require('/src/assets/images/home/iot.png')"
                 :show-error="false"
                 :show-loading="false"
               />
@@ -57,7 +57,7 @@
             <Adaptive class="module-item" :data="['75.4%', '75.4%']">
               <van-image
                 fit="contain"
-                src="@/assets/images/home/hazard.png"
+                :src="require('/src/assets/images/home/hazard.png')"
                 :show-error="false"
                 :show-loading="false"
               />
@@ -68,7 +68,7 @@
             <Adaptive class="module-item" :data="['75.4%', '75.4%']">
               <van-image
                 fit="contain"
-                src="@/assets/images/home/video.png"
+                :src="require('/src/assets/images/home/video.png')"
                 :show-error="false"
                 :show-loading="false"
               />
@@ -79,7 +79,7 @@
             <Adaptive class="module-item" :data="['75.4%', '75.4%']">
               <van-image
                 fit="contain"
-                src="@/assets/images/home/place.png"
+                :src="require('/src/assets/images/home/place.png')"
                 :show-error="false"
                 :show-loading="false"
               />
@@ -90,7 +90,7 @@
             <Adaptive class="module-item" :data="['75.4%', '75.4%']">
               <van-image
                 fit="contain"
-                src="@/assets/images/home/manage.png"
+                :src="require('/src/assets/images/home/manage.png')"
                 :show-error="false"
                 :show-loading="false"
               />
@@ -101,7 +101,7 @@
             <Adaptive class="module-item" :data="['75.4%', '75.4%']">
               <van-image
                 fit="contain"
-                src="@/assets/images/home/scan.png"
+                :src="require('/src/assets/images/home/scan.png')"
                 :show-error="false"
                 :show-loading="false"
               />
@@ -116,7 +116,7 @@
               width="4px"
               height="17px"
               fit="contain"
-              src="@/assets/images/home/title-icon.png"
+              :src="require('/src/assets/images/home/title-icon.png')"
               :show-error="false"
               :show-loading="false"
             />

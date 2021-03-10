@@ -6,7 +6,7 @@ module.exports = merge(base, {
   mode: "development",
   devtool: "source-map",
   devServer: {
-    publicPath: '../../',
+    publicPath: '/',
     // index: 'index.html',
     // historyApiFallback: {
     //   rewrites: [

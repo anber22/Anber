@@ -30,16 +30,16 @@ export default {
     return {
       active: 1,
       homeIcon: {
-        active: '/src/assets/images/public/home-active.png',
-        inactive: '/src/assets/images/public/home.png'
+        active: require('/src/assets/images/public/home-active.png'),
+        inactive: require('/src/assets/images/public/home.png')
       },
       indexIcon: {
-        active: '/src/assets/images/public/index-active.png',
-        inactive: '/src/assets/images/public/index.png'
+        active: require('/src/assets/images/public/index-active.png'),
+        inactive: require('/src/assets/images/public/index.png')
       },
       personalCenterIcon: {
-        active: '/src/assets/images/public/personalCenter-active.png',
-        inactive: '/src/assets/images/public/personalCenter.png'
+        active: require('/src/assets/images/public/personalCenter-active.png'),
+        inactive: require('/src/assets/images/public/personalCenter.png')
       }
     }
   },
