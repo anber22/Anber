@@ -25,7 +25,7 @@
           height="15px"
           fit="cover"
           style="vertical-align: text-top;"
-          src="@/assets/images/equip/address.png"
+          src="/src/assets/images/equip/address.png"
           :show-error="false"
           :show-loading="false"
         />
