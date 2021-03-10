@@ -230,6 +230,9 @@ export default {
     // setTimeout(() => {
     //   this.socket()
     // }, 1000)
+    this.subsystemList.forEach(item => {
+      item.imgUrl = require(item.require)
+    })
     this.getHazardTypeList()
     this.getHiddenDangerList()
     this.getEquipCountings()
@@ -295,8 +298,8 @@ export default {
       }, this.equipList)
       this.equipList = combined
 
-      console.log(typeof '/src/assets/images/index/wisdom-visual.png')
-      console.log('config', typeof Config.subsystemList[0].imgUrl)
+      // console.log(typeof '/src/assets/images/index/wisdom-visual.png')
+      // console.log('config', typeof Config.subsystemList[0].imgUrl)
       combined.forEach(item => {
         this.monitorAnalysisData.equipType.push({
           value: item.id,
