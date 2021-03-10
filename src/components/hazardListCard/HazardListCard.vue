@@ -23,7 +23,7 @@
           {{ data.equipTypeName+"-"+data.placeName+"-"+data.equipAddress }}
           <!-- 安全帽监测-港湾一号-湾9栋401大门口 -->
         </div>
-        <a @click="callPhone(data.placeId)">
+        <a @click.stop="callPhone(data.placeId)">
           <img src="@/assets/images/equip/phone.png" alt="" class="hazardListCard-content-row-icon">
         </a>
         <img src="@/assets/images/equip/navigation.png" alt="" class="hazardListCard-content-row-icon">
