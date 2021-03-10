@@ -145,16 +145,16 @@
     {
       "id":5,
       "name":"智慧视觉",
-      "imgUrl": "/src/assets/images/index/wisdom-visual.png"
+      "imgUrl": "../assets/images/index/wisdom-visual.png"
     },{
       "id":10,
 
       "name":"环境监测",
-      "imgUrl":"/src/assets/images/index/environmental-monitoring.png"
+      "imgUrl":"../assets/images/index/environmental-monitoring.png"
     },{
       "id":11,
       "name":"塔机监测",
-      "imgUrl":"/src/assets/images/index/crane-monitoring.png"
+      "imgUrl":"../assets/images/index/crane-monitoring.png"
     }
   ],
   "diyComponent":{

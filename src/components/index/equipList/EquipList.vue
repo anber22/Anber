@@ -4,7 +4,7 @@
     <div v-for="item in data" :key="item.id" @click="showCard()">
       <Adaptive :data="['100%','24.4%']" class="equipList-item">
         <div class="equipList-item-left">
-          <img class="equipList-equip-img" :src="item.imgUrl" alt>
+          <img class="equipList-equip-img" :src="item.imgUrl" alt="">
           <p class="equipList-item-title">
             {{ item.name }}
           </p>
