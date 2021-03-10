@@ -273,7 +273,9 @@ export default {
         const target = acc.find(e => e.id === cur.id)
         if (target) {
           Object.assign(target, cur)
-          target.imgUrl = require('/src/assets/images/index/environmental-monitoring.png')
+          let temp = ''
+          temp = target.imgUrl
+          target.imgUrl = require(temp)
         }
         return acc
       }, this.equipList)
