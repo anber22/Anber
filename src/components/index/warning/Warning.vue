@@ -40,7 +40,7 @@
 </template>
 
 <script>
-// import Socket from '../../../utils/socket'
+import Socket from '../../../utils/socket'
 import Data from '@/utils/data.js'
 export default {
   components: {
@@ -85,7 +85,7 @@ export default {
         this.currentSystemtypeImage = this.ulList[0].imgUrl
       }
     }
-    // Socket.initSocket('equipCount')
+    Socket.initSocket('equipCount')
   },
   destroyed() { // 页面销毁时清除定时器
     clearInterval(this.timer)
