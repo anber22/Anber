@@ -53,6 +53,16 @@ export default {
   }
 
 }
+@media (min-width: 421px) and (max-width: 500px) {
+  #app{
+    zoom: 1.333333;
+  }
+}
+@media (min-width: 500px) and (max-width: 540px) {
+  #app{
+    zoom: 1.44;
+  }
+}
 .AnalysisPie-echarts-tooltip{
   z-index: 9 !important;
 }
