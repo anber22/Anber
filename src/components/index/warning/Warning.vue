@@ -3,7 +3,7 @@
   <div class="warin">
     <div class="hidden-trouble-detail">
       <div class="out-rect">
-        <div v-if="ulList" class="in-rect">
+        <div v-if="ulList.length>0" class="in-rect">
           <img class="equip-img" :src="currentSystemtypeImage" alt="">
           <ul class="list">
             <li
