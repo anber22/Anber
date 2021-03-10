@@ -76,7 +76,6 @@
                 height="44px"
                 fit="cover"
                 :src="require('/src/assets/images/login/password.png')"
-                "
                 :show-error="false"
                 :show-loading="false"
               />
