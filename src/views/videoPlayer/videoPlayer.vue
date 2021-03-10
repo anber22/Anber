@@ -25,7 +25,7 @@
 <script>
 // import 'videojs-contrib-hls'
 // import { videojs } from 'video.js'
-const Hls = require('hls.js')
+// const Hls = require('hls.js')
 
 export default {
   components: {
@@ -47,13 +47,13 @@ export default {
     /**
      * hls.js插件的init方法
      */
-    this.getVideo()
+    // this.getVideo()
   },
   beforeDestroy() {
     /**
      * hls.js插件的销毁方法
      */
-    this.videoPause()
+    // this.videoPause()
   },
   methods: {
     /**
@@ -78,30 +78,30 @@ export default {
      * 03428523308467170101_low
      *
      */
-    videoPause() {
-      if (this.hls) {
-        this.$refs.video.pause()
-        this.hls.destroy()
-        this.hls = null
-      }
-    },
-    getVideo() {
-      if (Hls.isSupported()) {
-        this.hls = new Hls()
-        // const videoUrl = ['03428523308467170101_low', '03428523306008160101_low', '03428523308196850101_low']
-        // const index = Math.floor((Math.random() * videoUrl.length))
+    // videoPause() {
+    //   if (this.hls) {
+    //     this.$refs.video.pause()
+    //     this.hls.destroy()
+    //     this.hls = null
+    //   }
+    // },
+    // getVideo() {
+    //   if (Hls.isSupported()) {
+    //     this.hls = new Hls()
+    //     const videoUrl = ['03428523308467170101_low', '03428523306008160101_low', '03428523308196850101_low']
+    //     const index = Math.floor((Math.random() * videoUrl.length))
 
-        this.hls.loadSource('/video/hls/' + '03428523308467170101_low' + '.m3u8')
-        this.hls.attachMedia(this.$refs.video)
-        this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          console.log('加载成功')
-          this.$refs.video.play()
-        })
-        this.hls.on(Hls.Events.ERROR, (event, data) => {
-          console.log('加载失败')
-        })
-      }
-    }
+    //     this.hls.loadSource('/video/hls/' + '03428523308467170101_low' + '.m3u8')
+    //     this.hls.attachMedia(this.$refs.video)
+    //     this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
+    //       console.log('加载成功')
+    //       this.$refs.video.play()
+    //     })
+    //     this.hls.on(Hls.Events.ERROR, (event, data) => {
+    //       console.log('加载失败')
+    //     })
+    //   }
+    // }
   }
 }
 </script>
