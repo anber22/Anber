@@ -95,6 +95,7 @@ import Events from 'cmp/index/events/Events'
 import MonitorAnalysis from 'cmp/index/monitorAnalysis/MonitorAnalysis'
 import { mapGetters } from 'vuex'
 import store from '@/store'
+import CraneMonitoring from '@/assets/images/index/wisdom-visual.png'
 export default {
   components: {
     EquipList,
