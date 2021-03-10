@@ -121,7 +121,7 @@
 </template>
 
 <script>
-import Api from '@/api/placeResourc/placeResourc'
+import Api from '@/api/placeResource/placeResource'
 import PlaceDetailCard from 'cmp/placeDetailCard/PlaceDetailCard'
 import promiseToList from '@/utils/promiseToList'
 

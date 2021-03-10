@@ -15,7 +15,10 @@
           <div class="physicalUnionApplicationListCard-type">
             {{ data.equipTypeName }}
           </div>
-        </div><img src="@/assets/images/equip/phone.png" alt="" class="physicalUnionApplicationListCard-content-row-icon">
+        </div>
+        <!-- <a :href="'tel:' + placeResourcDetail.phone"> -->
+        <img src="@/assets/images/equip/phone.png" alt="" class="physicalUnionApplicationListCard-content-row-icon">
+        <!-- </a> -->
       </div>
       <div class="physicalUnionApplicationListCard-content-row">
         <div class="physicalUnionApplicationListCard-content-row-name">

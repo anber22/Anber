@@ -22,7 +22,10 @@
         <div class="hazardListCard-content-row-name">
           {{ data.equipTypeName+"-"+data.placeName+"-"+data.equipAddress }}
           <!-- 安全帽监测-港湾一号-湾9栋401大门口 -->
-        </div><img src="@/assets/images/equip/phone.png" alt="" class="hazardListCard-content-row-icon">
+        </div>
+        <a @click="callPhone(data.placeId)">
+          <img src="@/assets/images/equip/phone.png" alt="" class="hazardListCard-content-row-icon">
+        </a>
         <img src="@/assets/images/equip/navigation.png" alt="" class="hazardListCard-content-row-icon">
       </div>
       <div class="hazardListCard-content-row">
@@ -43,7 +46,7 @@
 
 <script>
 import dealData from '@/utils/data'
-
+import Api from '@/api/placeResource/placeResource'
 export default {
   components: {
     // EquipStatus
@@ -66,6 +69,13 @@ export default {
     }
   },
   methods: {
+    async  callPhone(e) {
+      const res = await Api.placeResourcDetail(e)
+      if (res.code === 200) {
+        const result = res.data
+        window.location.href = 'tel://' + result.phone
+      }
+    },
     timeTransformation(e) {
       return dealData.dataFormat(e)
     }
