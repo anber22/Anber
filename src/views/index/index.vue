@@ -278,6 +278,8 @@ export default {
       }, this.equipList)
       this.equipList = combined
 
+      console.log('/src/assets/images/index/wisdom-visual.png')
+      console.log('config' + Config.subsystemList[0].imgUrl)
       combined.forEach(item => {
         this.monitorAnalysisData.equipType.push({
           value: item.id,
