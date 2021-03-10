@@ -15,9 +15,9 @@
       >
         <source src="http://10.9.2.14:8681/hls/03428523308886210101_src.m3u8" type="video/mp4">
       </video> -->
-      <div>
-        <video id="video" ref="video" class="video-center" />
-      </div>
+      <!-- <div @click="getVideo()"> -->
+      <video id="video" ref="video" muted autoplay class="video-center" />
+      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -44,14 +44,22 @@ export default {
       // this.getVideo(this.$route.query.imei)
     }
     // this.initVideoPlayer()
+    /**
+     * hls.js插件的init方法
+     */
     this.getVideo()
   },
   beforeDestroy() {
-    console.log('销毁')
+    /**
+     * hls.js插件的销毁方法
+     */
     this.videoPause()
   },
   methods: {
-    // 初始化播放器方法
+    /**
+     * video.js插件的方法
+     */
+
     // initVideoPlayer() {
     //   // 第一个选中的要播放的video标签, 记得是video标签,
     //   const currentInstance = this.$video('video', {
@@ -64,6 +72,12 @@ export default {
     //     type: 'application/x-mpegURL' // 这个type值必写, 告诉videojs这是一个hls流视频
     //   })
     // }
+
+    /**
+     * hls.js插件的方法
+     * 03428523308467170101_low
+     *
+     */
     videoPause() {
       if (this.hls) {
         this.$refs.video.pause()
@@ -74,15 +88,16 @@ export default {
     getVideo() {
       if (Hls.isSupported()) {
         this.hls = new Hls()
-        this.hls.loadSource('/video/hls/03428523308886210101_src.m3u8')
+        // const videoUrl = ['03428523308467170101_low', '03428523306008160101_low', '03428523308196850101_low']
+        // const index = Math.floor((Math.random() * videoUrl.length))
+
+        this.hls.loadSource('/video/hls/' + '03428523308467170101_low' + '.m3u8')
         this.hls.attachMedia(this.$refs.video)
         this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
           console.log('加载成功')
           this.$refs.video.play()
         })
         this.hls.on(Hls.Events.ERROR, (event, data) => {
-        // console.log(event, data);
-        // 监听出错事件
           console.log('加载失败')
         })
       }
@@ -97,10 +112,11 @@ export default {
   width: 100vw;
   height: 100vh;
   background-color: #101720;
+  position: fixed
 }
 .video-center {
     position: fixed;
-    top: 46%;
+    top: 45%;
     left: 50%;
     background-color: #101720;
     width: 100%;
