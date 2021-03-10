@@ -145,7 +145,7 @@
     {
       "id":5,
       "name":"智慧视觉",
-      "imgUrl":"/src/assets/images/index/wisdom-visual.png"
+      "imgUrl": "'/src/assets/images/index/wisdom-visual.png'"
     },{
       "id":10,
 
