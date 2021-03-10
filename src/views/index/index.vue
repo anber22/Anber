@@ -289,9 +289,7 @@ export default {
         const target = acc.find(e => e.id === cur.id)
         if (target) {
           Object.assign(target, cur)
-          let temp = '/src/assets/images/index/'
-          temp = target.imgUrl
-          target.imgUrl = require(`/src/assets/images/index/${target.imgUrl}`)
+          // target.imgUrl = require(`/src/assets/images/index/${target.imgUrl}`)
         }
         return acc
       }, this.equipList)
