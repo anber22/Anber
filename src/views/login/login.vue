@@ -179,7 +179,7 @@ export default {
       // const res = await this.$store.dispatch('LoginByCode', param)
       // if (res.code === 200) {
       // this.$Toast(res.message)
-      this.$Toast('登陆成功')
+      this.$Toast('登录成功')
       this.$router.push('/home')
       // } else {
       //   this.$Toast(res.message)
@@ -213,7 +213,7 @@ export default {
 
       // if (res.code === 200) {
       //   this.$Toast(res.message)
-      this.$Toast('登陆成功')
+      this.$Toast('登录成功')
       this.$router.push('/home')
       // } else {
       //   this.$Toast(res.message)

@@ -22,9 +22,9 @@
             {{ data.placeTypeName }}
           </div>
         </div>
-        <!-- <a :href="'tel:' + data.phone"> -->
-        <img src="@/assets/images/equip/phone.png" alt="" class="placeResourcListCard-content-row-icon">
-        <!-- </a> -->
+        <a @click.stop="callPhone(data.placeId)">
+          <img src="@/assets/images/equip/phone.png" alt="" class="placeResourcListCard-content-row-icon">
+        </a>
       </div>
       <div class="placeResourcListCard-content-row">
         <div class="placeResourcListCard-content-row-name">
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import Api from '@/api/placeResource/placeResource'
+
 export default {
   components: {
     // EquipStatus
@@ -62,6 +64,13 @@ export default {
     }
   },
   methods: {
+    async  callPhone(e) {
+      const res = await Api.placeResourcDetail(e)
+      if (res.code === 200) {
+        const result = res.data
+        window.location.href = 'tel://' + result.phone
+      }
+    },
     goJump(id) {
       this.$router.push({
         path: '/placeResourcDetail',
