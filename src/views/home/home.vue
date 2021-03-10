@@ -68,7 +68,7 @@
             <Adaptive class="module-item" :data="['75.4%', '75.4%']">
               <van-image
                 fit="contain"
-                :src="require('/src/assets/images/home/video.png')"
+                :src="require('/src/assets/images/index/wisdom-visual.png')"
                 :show-error="false"
                 :show-loading="false"
               />
