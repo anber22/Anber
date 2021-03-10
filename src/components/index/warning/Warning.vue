@@ -186,7 +186,7 @@ export default {
   display: inline-block;
   text-align: center;
   height: 100%;
-  line-height: 350%;
+  line-height: 400%;
   overflow: hidden;
   margin-left: 2%
 }
