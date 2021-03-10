@@ -81,6 +81,8 @@ export default {
       if (this.ulList.length > 1) {
         this.currentSystemtypeImage = this.ulList[0].imgUrl
         setInterval(this.startPlay, 3000)
+      } else {
+        this.currentSystemtypeImage = this.ulList[0].imgUrl
       }
     }
     // Socket.initSocket('equipCount')
