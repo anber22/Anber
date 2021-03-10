@@ -277,7 +277,7 @@ export default {
           Object.assign(target, cur)
           let temp = '/src/assets/images/index/'
           temp = target.imgUrl
-          target.imgUrl = require(`${temp}${target.imgUrl}`)
+          target.imgUrl = require(`/src/assets/images/index/${target.imgUrl}`)
         }
         return acc
       }, this.equipList)
