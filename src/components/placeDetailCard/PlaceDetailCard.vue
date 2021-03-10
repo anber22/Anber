@@ -6,7 +6,7 @@
       </div>
       <div class="PlaceDetailCard-state">
         <!-- <div class="PlaceDetailCard-hidden-trouble">
-          两个隐患
+          两个隐患1
           <van-icon name="arrow" color="#ffff" class="PlaceDetailCard-hidden-trouble-icon" />
         </div> -->
         <div class="PlaceDetailCard-state-box">
