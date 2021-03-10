@@ -88,7 +88,10 @@ export default {
     getVideo() {
       if (Hls.isSupported()) {
         this.hls = new Hls()
-        this.hls.loadSource('/video/hls/03428523304647470101_src.m3u8')
+        // const videoUrl = ['03428523308467170101_low', '03428523306008160101_low', '03428523308196850101_low']
+        // const index = Math.floor((Math.random() * videoUrl.length))
+
+        this.hls.loadSource('/video/hls/' + '03428523308467170101_low' + '.m3u8')
         this.hls.attachMedia(this.$refs.video)
         this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
           console.log('加载成功')
