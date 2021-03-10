@@ -107,7 +107,7 @@ export default {
         that.ulList.push(that.ulList[0]) // 将第一条数据塞到最后一个
         that.ulList.shift() // 删除第一条数据
 
-        // console.log('输出循环列表', that.ulList)
+        console.log('输出循环列表', that.ulList)
         this.currentSystemtypeImage = this.ulList[0].imgUrl
       }, 500)
 
