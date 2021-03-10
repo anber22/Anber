@@ -109,6 +109,7 @@ export default {
   },
   data() {
     return {
+      systemList: [],
       loading: false,
       gaugeData: {
         chartId: 'gaugeId',
@@ -274,9 +275,9 @@ export default {
         const target = acc.find(e => e.id === cur.id)
         if (target) {
           Object.assign(target, cur)
-          let temp = ''
+          let temp = '/src/assets/images/index/'
           temp = target.imgUrl
-          target.imgUrl = require(temp)
+          target.imgUrl = require(`${temp}${target.imgUrl}`)
         }
         return acc
       }, this.equipList)
