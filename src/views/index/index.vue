@@ -109,7 +109,21 @@ export default {
   },
   data() {
     return {
-      systemList: [],
+      subsystemList: [
+        {
+          id: 5,
+          name: '智慧视觉',
+          imgUrl: '/src/assets/images/index/wisdom-visual.png'
+        }, {
+          id: 10,
+          name: '环境监测',
+          imgUrl: '/src/assets/images/index/environmental-monitoring.png'
+        }, {
+          id: 11,
+          name: '塔机监测',
+          imgUrl: '/src/assets/images/index/crane-monitoring.png'
+        }
+      ],
       loading: false,
       gaugeData: {
         chartId: 'gaugeId',
@@ -271,7 +285,7 @@ export default {
       }
       console.log('设备数量', this.equipList)
 
-      const combined = Config.subsystemList.reduce((acc, cur) => {
+      const combined = this.subsystemList.reduce((acc, cur) => {
         const target = acc.find(e => e.id === cur.id)
         if (target) {
           Object.assign(target, cur)
@@ -441,7 +455,7 @@ export default {
         this.hiddenDangerList = [...res.data]
       }
       this.hiddenDangerList.forEach(hItem => {
-        Config.subsystemList.forEach(cItem => {
+        this.subsystemList.forEach(cItem => {
           if (hItem.type === cItem.id) {
             // Object.assign(hItem, cItem) assign后者会覆盖前者的同名属性的值
             hItem['imgUrl'] = cItem.imgUrl
