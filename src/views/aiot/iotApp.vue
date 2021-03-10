@@ -122,7 +122,7 @@ export default {
       const params = {
         systemType: this.thisSubsystemId,
         page: 1,
-        size: 12,
+        size: 99999,
         conditionStr: (this.queryCondition.length < 1 ? '' : '?condition=' + this.queryCondition)
       }
       console.log('输出参数', params)

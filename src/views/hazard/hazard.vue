@@ -108,7 +108,7 @@ export default {
       const params = {
         type: 0,
         page: 1,
-        size: 24,
+        size: 999,
         condition: this.formattingCondition()
       }
       const res = await Api.analysisList(params)
