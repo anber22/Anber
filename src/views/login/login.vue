@@ -6,7 +6,7 @@
           width="100%"
           height="100%"
           fit="cover"
-          src="/src/assets/images/login/logo.png"
+          :src="require('/src/assets/images/login/logo.png')"
           :show-error="false"
           :show-loading="false"
         />
@@ -25,7 +25,7 @@
                 width="40px"
                 height="44px"
                 fit="cover"
-                src="/src/assets/images/login/phone.png"
+                :src="require('/src/assets/images/login/phone.png')"
                 :show-error="false"
                 :show-loading="false"
               />
@@ -36,7 +36,7 @@
                 width="40px"
                 height="44px"
                 fit="cover"
-                src="/src/assets/images/login/code.png"
+                :src="require('/src/assets/images/login/code.png')"
                 :show-error="false"
                 :show-loading="false"
               />
@@ -63,7 +63,7 @@
                 width="40px"
                 height="44px"
                 fit="cover"
-                src="/src/assets/images/login/userName.png"
+                :src="require('/src/assets/images/login/userName.png')"
                 :show-error="false"
                 :show-loading="false"
               />
@@ -75,7 +75,8 @@
                 width="40px"
                 height="44px"
                 fit="cover"
-                src="/src/assets/images/login/password.png"
+                :src="require('/src/assets/images/login/password.png')"
+                "
                 :show-error="false"
                 :show-loading="false"
               />
