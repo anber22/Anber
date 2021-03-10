@@ -12,7 +12,8 @@ import { Toast } from 'vant'
 import Vuex from 'vuex'
 import store from './store'
 // import video from 'video.js'
-import 'video.js/dist/video-js.css'
+// import 'video.js/dist/video-js.css'
+// import hls from 'videojs-contrib-hls'
 
 // 这里模拟拥有登陆后的状态, 触发权限过滤
 setToken('4776dd6b-ff18-4428-8488-4022e48389d0')
@@ -27,9 +28,8 @@ Vue.prototype.$request = request
 Vue.prototype.$Toast = Toast
 // Vue.prototype.$video = video
 // const hls = require('videojs-contrib-hls')
-// console.log(hls)
-
-// console.log(video)
+// Vue.use(hls)
+// console.log(hls, 'hls')
 
 // 开发环境
 console.log(`${process.env.NODE_ENV}`, 'process')
