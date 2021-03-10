@@ -4,7 +4,7 @@
     <div class="hidden-trouble-detail">
       <div class="out-rect">
         <div v-if="ulList" class="in-rect">
-          <img class="equip-img" :src="currentSystemtypeImage">
+          <img class="equip-img" :src="require(currentSystemtypeImage)">
           <ul class="list">
             <li
               v-for="(rowItem, index) in ulList"
