@@ -2,7 +2,7 @@
   <div class="analysis">
     <!-- 头部搜索栏 start -->
     <div class="analysis-input">
-      <van-search v-model="queryCondition" placeholder="设备名称/IMEI码" background="#101720" @search="onSearch" />
+      <van-search v-model="queryCondition" placeholder="网点名称/IMEI码" background="#101720" @search="onSearch" />
     </div>
     <div class="analysis-button">
       <img src="@/assets/images/public/screening.png" alt="" class="analysis-icon" @click="show = true">
