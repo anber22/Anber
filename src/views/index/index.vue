@@ -113,15 +113,15 @@ export default {
         {
           id: 5,
           name: '智慧视觉',
-          imgUrl: '/src/assets/images/index/wisdom-visual.png'
+          imgUrl: require('/src/assets/images/index/wisdom-visual.png')
         }, {
           id: 10,
           name: '环境监测',
-          imgUrl: '/src/assets/images/index/environmental-monitoring.png'
+          imgUrl: require('/src/assets/images/index/environmental-monitoring.png')
         }, {
           id: 11,
           name: '塔机监测',
-          imgUrl: '/src/assets/images/index/crane-monitoring.png'
+          imgUrl: require('/src/assets/images/index/crane-monitoring.png')
         }
       ],
       loading: false,
@@ -230,9 +230,9 @@ export default {
     // setTimeout(() => {
     //   this.socket()
     // }, 1000)
-    this.subsystemList.forEach(item => {
-      item.imgUrl = require(item.imgUrl)
-    })
+    // this.subsystemList.forEach(item => {
+    //   item.imgUrl = require(item.imgUrl)
+    // })
     this.getHazardTypeList()
     this.getHiddenDangerList()
     this.getEquipCountings()
