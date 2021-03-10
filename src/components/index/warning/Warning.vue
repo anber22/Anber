@@ -183,10 +183,10 @@ export default {
 
 .colItem{
   width: auto;
-  display: table-cell;
+  display: inline-block;
   text-align: center;
   height: 100%;
-  vertical-align: middle;
+  line-height: 400%;
   overflow: hidden;
   margin-left: 2%
 }
