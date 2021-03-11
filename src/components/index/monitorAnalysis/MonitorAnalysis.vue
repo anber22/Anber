@@ -97,7 +97,7 @@ export default {
   display: none
 }
 
-/* 小三角样式 */
+/* 小三角样式1 */
 .monitorAnalysis-content .actions-title .van-icon-arrow::before,
 .monitorAnalysis-content .right-select .van-popover__wrapper::before{
   content: '';
