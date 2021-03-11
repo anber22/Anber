@@ -77,6 +77,16 @@ export default {
     zoom: 1.33333333;
   }
 }
+@media (min-width: 501px) and (max-width: 520px) {
+  #app{
+    zoom: 1.3866666;
+  }
+}
+@media (min-width: 521px) and (max-width: 530px) {
+  #app{
+    zoom: 1.413333;
+  }
+}
 .AnalysisPie-echarts-tooltip{
   z-index: 9 !important;
 }
