@@ -43,7 +43,7 @@
         应用列表
       </div>
     </Adaptive>
-    <van-loading v-if="loadding" size="24px" vertical>
+    <van-loading v-if="!loading" size="24px" vertical>
       加载中...
     </van-loading>
     <EquipList :data="equipList" />
@@ -66,7 +66,7 @@
     <!-- end -->
     <!-- 监测分析，近一月/近一年/全部 -->
     <Adaptive :data="['100%', analysisHeight +'%']">
-      <MonitorAnalysis v-if="loading" :data="monitorAnalysisData" @timeType="getDateType" @systemType="getMonitorSystemType" />
+      <MonitorAnalysis v-if="!loading" :data="monitorAnalysisData" @timeType="getDateType" @systemType="getMonitorSystemType" />
     </Adaptive>
     <!-- legend 图例 -->
     <!-- <div class="legend">
@@ -77,7 +77,7 @@
     <!-- end -->
     <!-- 事件数故障数统计分析 start  -->
     <Adaptive :data="['100%','84%']">
-      <Events v-if="loading" :data="eventData" @systemType="getSystemType" />
+      <Events v-if="!loading" :data="eventData" @systemType="getSystemType" />
     </Adaptive>
     <!-- end -->
   </div>
@@ -111,7 +111,7 @@ export default {
   },
   data() {
     return {
-      loadding: true,
+      loading: true,
       subsystemList: [
         {
           id: 5,
@@ -127,7 +127,6 @@ export default {
           imgUrl: require('/src/assets/images/index/crane-monitoring.png')
         }
       ],
-      loading: false,
       gaugeData: {
         chartId: 'gaugeId',
         onlinePercent: 0
@@ -285,7 +284,7 @@ export default {
      * 获取应用列表
      */
     async getEquipList() {
-      this.loadding = true
+      this.loading = true
       const res = await Api.applicationlist()
       if (res.code === 200) {
         this.equipList = [...res.data]
@@ -320,7 +319,7 @@ export default {
       this.getAnalysisTimeline(combined[0].id)
       // 用应用列表里的第一个子系统获取监测分析全部数据
       this.getMonitorAnalysis(combined[0].id, this.monitorAnalysisData.dateType[0].value)
-      this.loading = true
+      this.loading = false
     },
     /**
      * 辖区统计选中的辖区ID，并筛选当前辖区的数据出来
