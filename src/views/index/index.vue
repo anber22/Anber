@@ -43,10 +43,10 @@
         应用列表
       </div>
     </Adaptive>
-    <EquipList :data="equipList" />
-    <van-loading v-if="!equipList" size="24px" vertical>
+    <van-loading v-if="" size="24px" vertical>
       加载中...
     </van-loading>
+    <EquipList :data="equipList" />
     <!-- end -->
 
     <!-- 辖区统计 start  -->
@@ -111,6 +111,7 @@ export default {
   },
   data() {
     return {
+      loadding: false,
       subsystemList: [
         {
           id: 5,
@@ -284,6 +285,7 @@ export default {
      * 获取应用列表
      */
     async getEquipList() {
+      this.loadding = true
       const res = await Api.applicationlist()
       if (res.code === 200) {
         this.equipList = [...res.data]
