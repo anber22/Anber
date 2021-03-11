@@ -43,7 +43,7 @@
         应用列表
       </div>
     </Adaptive>
-    <van-loading v-if="!loading" size="24px" vertical>
+    <van-loading v-if="loading" size="24px" vertical>
       加载中...
     </van-loading>
     <EquipList :data="equipList" />
