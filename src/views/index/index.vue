@@ -44,7 +44,9 @@
       </div>
     </Adaptive>
     <EquipList :data="equipList" />
-
+    <van-loading size="24px" vertical>
+      加载中...
+    </van-loading>
     <!-- end -->
 
     <!-- 辖区统计 start  -->
@@ -78,9 +80,6 @@
       <Events v-if="loading" :data="eventData" @systemType="getSystemType" />
     </Adaptive>
     <!-- end -->
-    <van-loading size="24px" vertical>
-      加载中...
-    </van-loading>
   </div>
 </template>
 

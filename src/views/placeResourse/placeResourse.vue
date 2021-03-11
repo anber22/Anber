@@ -2,13 +2,13 @@
   <div class="placeResource">
     <van-search v-model="queryCondition" placeholder="请输入搜索关键词" background="#101720" @search="onSearch" />
     <div class="placeResource-content">
+      <van-loading size="24px" vertical>
+        加载中...
+      </van-loading>
       <Adaptive v-for="item in placeResourcList" :key="item.index" :data="['94%','31.39%']" class="placeResource-list-card">
         <PlaceResourcListCard :data="item" />
       </Adaptive>
     </div>
-    <van-loading size="24px" vertical>
-      加载中...
-    </van-loading>
   </div>
 </template>
 

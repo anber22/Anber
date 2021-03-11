@@ -9,10 +9,10 @@
           </div>
         </van-collapse-item>
       </van-collapse>
+      <van-loading size="24px" vertical>
+        加载中...
+      </van-loading>
     </div>
-    <van-loading size="24px" vertical>
-      加载中...
-    </van-loading>
   </div>
 </template>
 
