@@ -43,7 +43,7 @@
         应用列表
       </div>
     </Adaptive>
-    <van-loading v-if="" size="24px" vertical>
+    <van-loading v-if="loadding" size="24px" vertical>
       加载中...
     </van-loading>
     <EquipList :data="equipList" />
@@ -111,7 +111,7 @@ export default {
   },
   data() {
     return {
-      loadding: false,
+      loadding: true,
       subsystemList: [
         {
           id: 5,
