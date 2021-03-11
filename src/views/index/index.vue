@@ -360,8 +360,8 @@ export default {
           outline: dataArr[0].data.outline,
           trouble: dataArr[0].data.trouble
         }
-        this.maxPieDataFlag = true
       }
+      this.maxPieDataFlag = true
     },
     /**
      * 辖区统计联动，当前选中辖区的隐患分析（近15天）
