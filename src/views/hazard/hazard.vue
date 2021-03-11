@@ -10,7 +10,7 @@
     <!-- end -->
 
     <!-- 详情列表 start -->
-    <van-loading size="24px" vertical>
+    <van-loading v-if="loading" size="24px" vertical>
       加载中...
     </van-loading>
     <div v-if="!loading" class="analysis-content">
