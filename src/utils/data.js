@@ -131,7 +131,7 @@ class Data {
     var minutes = Math.floor(date3 / (60))
 
     if (minutes >= 10) {
-      const dt = new Date(input * 1000)
+      const dt = new Date(input)
       const hh = this.appendZero(dt.getHours().toString())
       const mm = this.appendZero(dt.getMinutes().toString())
       return `${hh} : ${mm}`

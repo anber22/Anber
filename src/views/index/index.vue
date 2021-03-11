@@ -461,7 +461,7 @@ export default {
       if (res.code === 200) {
         this.hiddenDangerList = [...res.data]
       }
-
+      console.log('获取隐患列表', this.hiddenDangerList)
       this.hiddenDangerList.forEach(hItem => {
         this.subsystemList.forEach(cItem => {
           if (hItem.type === cItem.id) {
