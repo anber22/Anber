@@ -6,6 +6,9 @@
         <PlaceResourcListCard :data="item" />
       </Adaptive>
     </div>
+    <van-loading size="24px" vertical>
+      加载中...
+    </van-loading>
   </div>
 </template>
 

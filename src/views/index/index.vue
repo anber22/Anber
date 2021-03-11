@@ -78,6 +78,9 @@
       <Events v-if="loading" :data="eventData" @systemType="getSystemType" />
     </Adaptive>
     <!-- end -->
+    <van-loading size="24px" vertical>
+      加载中...
+    </van-loading>
   </div>
 </template>
 
