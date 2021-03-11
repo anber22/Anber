@@ -77,13 +77,6 @@ class Index {
       method: 'get'
     })
   }
-  // 获取隐患未读未处理按时间排序前十列表
-  async hiddenDangerList(param) {
-    return await request({
-      url: `/apis/heartbeat/event/undone/unread/lastest/list/size/${param}`,
-      method: 'get'
-    })
-  }
 }
 export default new Index()
 
