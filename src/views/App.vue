@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <van-loading size="24px" vertical>
+      加载中...
+    </van-loading>
     <router-view />
   </div>
 </template>
