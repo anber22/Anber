@@ -24,11 +24,11 @@
         </p>
       </div>
     </div>
-    <div class="">
-      <div class="analysisTimeline">
-        <Pie v-if="data.monitorAnalysisFlag" :data="data.pieData" />
-      </div>
+    <!-- <div class=""> -->
+    <div class="analysisTimeline">
+      <Pie v-if="data.monitorAnalysisFlag" :data="data.pieData" />
     </div>
+    <!-- </div> -->
   </div>
 </template>
 
