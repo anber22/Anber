@@ -10,6 +10,9 @@
     <!-- end -->
 
     <!-- 详情列表 start -->
+    <van-loading size="24px" vertical>
+      加载中...
+    </van-loading>
     <div v-if="!loading" class="analysis-content">
       <div v-for="item in analysisList" :key="item.index" @click="showDetail(item.id)">
         <Adaptive :data="['94%','38.39%']" class="analysis-list-card">
