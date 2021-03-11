@@ -376,8 +376,8 @@ export default {
           this.lineData.xAxis.data.push(item.date.substring(4, 6) + '.' + item.date.substring(6, 8))
           this.lineData.series.data.push(item.count)
         })
-        this.lineDataFlag = true
       }
+      this.lineDataFlag = true
     },
     /**
      * 智慧视觉统计折线图（30天事件数，故障数）
