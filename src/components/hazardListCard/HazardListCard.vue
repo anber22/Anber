@@ -23,10 +23,10 @@
           {{ data.equipTypeName+"-"+data.placeName+"-"+data.equipAddress }}
           <!-- 安全帽监测-港湾一号-湾9栋401大门口 -->
         </div>
-        <a @click.stop="callPhone(data.placeId)">
+        <a class="hazardListCard-content-row-a" @click.stop="callPhone(data.placeId)">
           <img src="@/assets/images/equip/phone.png" alt="" class="hazardListCard-content-row-icon">
         </a>
-        <a @click.stop="toMap(data.placeId)">
+        <a class="hazardListCard-content-row-a" @click.stop="toMap(data.placeId)">
           <img src="@/assets/images/equip/navigation.png" alt="" class="hazardListCard-content-row-icon">
         </a>
       </div>
@@ -233,6 +233,9 @@ export default {
 .hazardListCard-content-row-icon{
   width: 19px;
   height: 19px;
+
+}
+.hazardListCard-content-row-a{
   margin-left: 5%;
 }
 </style>
