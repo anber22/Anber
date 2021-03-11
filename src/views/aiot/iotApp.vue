@@ -23,7 +23,7 @@
     <div class="iot-content">
       <!-- 卡片展示列表 start -->
       <div v-if="isCard">
-        <van-loading v-if="loadding" size="24px" vertical>
+        <van-loading v-show="loadding" size="24px" vertical>
           加载中...
         </van-loading>
         <div v-if="thisSubsystemId===5 && !loadding " class="show-list">
