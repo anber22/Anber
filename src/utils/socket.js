@@ -1,4 +1,5 @@
-const requestPath = 'ws://192.168.1.12:15654/ws'
+const requestPath = 'ws://server12.ctjt.cn:15654/ws'
+
 import Stomp from 'stompjs'
 // import localData from './local'
 import { cookieData, localData } from './local'
@@ -96,9 +97,8 @@ class Socket {
     switch (channelName) {
       case 'equipCount':
         channel =
-          '/exchange/notice_exchange_fanout/' +
-          (window.location.href.indexOf('/a') === -1 ? 'test-' : '') +
-          '11'
+          '/exchange/aiot-event-message/' +
+          '12345678'
         break
       case 'branchesCount':
         break

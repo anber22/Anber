@@ -10,7 +10,9 @@
         </div>
         <div v-if="data.count!==0" class="physicalUnionApplication-hidden-trouble">
           <van-badge :content="data.count" badge-size="14px">
-            <img src="@/assets/images/equip/risk-early-warning.png" alt="" class="physicalUnionApplication-hidden-trouble-icon">
+            <a @click.stop="callPhone(data.placeId)">
+              <img src="@/assets/images/equip/risk-early-warning.png" alt="" class="physicalUnionApplication-hidden-trouble-icon">
+            </a>
           </van-badge>
         </div>
       </div>
@@ -66,6 +68,8 @@
 
 <script>
 import EquipStatus from 'cmp/equipStatus/EquipStatus'
+import Api from '@/api/placeResource/placeResource'
+
 export default {
   components: {
     EquipStatus
@@ -90,6 +94,13 @@ export default {
     console.log('卡片信息', this.data)
   },
   methods: {
+    async  callPhone(e) {
+      const res = await Api.placeResourcDetail(e)
+      if (res.code === 200) {
+        const result = res.data
+        window.location.href = 'tel://' + result.phone
+      }
+    },
     showDetail(e) {
       console.log('网点id', e)
       this.$router.push({

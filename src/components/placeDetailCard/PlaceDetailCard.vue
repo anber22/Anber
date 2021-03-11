@@ -6,7 +6,7 @@
       </div>
       <div class="PlaceDetailCard-state">
         <!-- <div class="PlaceDetailCard-hidden-trouble">
-          两个隐患
+          两个隐患1
           <van-icon name="arrow" color="#ffff" class="PlaceDetailCard-hidden-trouble-icon" />
         </div> -->
         <div class="PlaceDetailCard-state-box">
@@ -25,7 +25,7 @@
           height="15px"
           fit="cover"
           style="vertical-align: text-top;"
-          src="/src/assets/images/equip/address.png"
+          :src="require('/src/assets/images/equip/address.png')"
           :show-error="false"
           :show-loading="false"
         />

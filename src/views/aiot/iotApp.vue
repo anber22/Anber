@@ -21,6 +21,9 @@
     <!-- end -->
     <!-- 内容 start -->
     <div class="iot-content">
+      <van-loading v-show="loadding" size="24px" vertical>
+        加载中...
+      </van-loading>
       <!-- 卡片展示列表 start -->
       <div v-if="isCard">
         <div v-if="thisSubsystemId===5 && !loadding " class="show-list">
@@ -122,7 +125,7 @@ export default {
       const params = {
         systemType: this.thisSubsystemId,
         page: 1,
-        size: 12,
+        size: 99999,
         conditionStr: (this.queryCondition.length < 1 ? '' : '?condition=' + this.queryCondition)
       }
       console.log('输出参数', params)

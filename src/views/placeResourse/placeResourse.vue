@@ -1,8 +1,11 @@
 <template>
-  <div class="placeResourc">
+  <div class="placeResource">
     <van-search v-model="queryCondition" placeholder="请输入搜索关键词" background="#101720" @search="onSearch" />
-    <div class="placeResourc-content">
-      <Adaptive v-for="item in placeResourcList" :key="item.index" :data="['94%','31.39%']" class="placeResourc-list-card">
+    <div class="placeResource-content">
+      <van-loading v-if="!placeResourcList" size="24px" vertical>
+        加载中...
+      </van-loading>
+      <Adaptive v-for="item in placeResourcList" :key="item.index" :data="['94%','31.39%']" class="placeResource-list-card">
         <PlaceResourcListCard :data="item" />
       </Adaptive>
     </div>
@@ -11,7 +14,7 @@
 
 <script>
 import PlaceResourcListCard from 'cmp/placeResourcListCard/PlaceResourcListCard'
-import Api from '@/api/placeResourc/placeResourc.js'
+import Api from '@/api/placeResource/placeResource.js'
 import promiseToList from '@/utils/promiseToList'
 
 export default {
@@ -53,20 +56,20 @@ export default {
 </script>
 
 <style>
-.placeResourc{
+.placeResource{
   width: 100%;
   height: 100%;
   position: fixed;
-  background-color: #101720
+  background-color: #101720;
 }
-.placeResourc-content{
+.placeResource-content{
 padding: 0px 3% 52% 3%;
   width: 100%;
   height: 80%;
   position: fixed;
   overflow: scroll;
 }
-.placeResourc-list-card{
+.placeResource-list-card{
   margin-top: 3%;
 }
 .van-search__content {

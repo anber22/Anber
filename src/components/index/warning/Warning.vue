@@ -3,8 +3,8 @@
   <div class="warin">
     <div class="hidden-trouble-detail">
       <div class="out-rect">
-        <div v-if="ulList" class="in-rect">
-          <img class="equip-img" :src="currentSystemtypeImage">
+        <div v-if="ulList.length>0" class="in-rect">
+          <img class="equip-img" :src="currentSystemtypeImage" alt="">
           <ul class="list">
             <li
               v-for="(rowItem, index) in ulList"
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import Socket from '../../../utils/socket'
+// import Socket from '../../../utils/socket'
 import Data from '@/utils/data.js'
 export default {
   components: {
@@ -61,6 +61,7 @@ export default {
       // 接收定时器
       timer: null,
       currentSystemtypeImage: ''
+
     }
   },
   computed: {
@@ -80,6 +81,8 @@ export default {
       if (this.ulList.length > 1) {
         this.currentSystemtypeImage = this.ulList[0].imgUrl
         setInterval(this.startPlay, 3000)
+      } else {
+        this.currentSystemtypeImage = this.ulList[0].imgUrl
       }
     }
     // Socket.initSocket('equipCount')
@@ -105,6 +108,7 @@ export default {
         that.play = false // 暂停播放
         that.ulList.push(that.ulList[0]) // 将第一条数据塞到最后一个
         that.ulList.shift() // 删除第一条数据
+
         // console.log('输出循环列表', that.ulList)
         this.currentSystemtypeImage = this.ulList[0].imgUrl
       }, 500)
@@ -182,7 +186,7 @@ export default {
   display: inline-block;
   text-align: center;
   height: 100%;
-  line-height: 350%;
+  line-height: 400%;
   overflow: hidden;
   margin-left: 2%
 }
@@ -224,6 +228,7 @@ li {
 .no-data{
   width: 100%;
   height: 20px;
+
   line-height:20px;
   color: #ffffff;
   font-size: 14px;

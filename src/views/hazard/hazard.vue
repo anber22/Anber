@@ -2,7 +2,7 @@
   <div class="analysis">
     <!-- 头部搜索栏 start -->
     <div class="analysis-input">
-      <van-search v-model="queryCondition" placeholder="设备名称/IMEI码" background="#101720" @search="onSearch" />
+      <van-search v-model="queryCondition" placeholder="网点名称/IMEI码" background="#101720" @search="onSearch" />
     </div>
     <div class="analysis-button">
       <img src="@/assets/images/public/screening.png" alt="" class="analysis-icon" @click="show = true">
@@ -10,6 +10,9 @@
     <!-- end -->
 
     <!-- 详情列表 start -->
+    <van-loading v-if="loading" size="24px" vertical>
+      加载中...
+    </van-loading>
     <div v-if="!loading" class="analysis-content">
       <div v-for="item in analysisList" :key="item.index" @click="showDetail(item.id)">
         <Adaptive :data="['94%','38.39%']" class="analysis-list-card">
@@ -108,7 +111,7 @@ export default {
       const params = {
         type: 0,
         page: 1,
-        size: 24,
+        size: 999,
         condition: this.formattingCondition()
       }
       const res = await Api.analysisList(params)
@@ -166,16 +169,16 @@ export default {
 
 <style>
 .analysis{
-    width: 100%;
-  height: 100%;
   position: fixed;
+  width: 100%;
+  height: 100%;
   background-color: #101720;
 }
 .analysis-content{
-padding: 0px 3% 52% 3%;
+  position: fixed;
+  padding: 0px 3% 52% 3%;
   width: 100%;
   height: 80%;
-  position: fixed;
   overflow: scroll;
 }
 .analysis-list-card{

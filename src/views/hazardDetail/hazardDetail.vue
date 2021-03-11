@@ -67,7 +67,7 @@
             <div class="hazardDetail-submit-content-info-row-value">
               {{ detailInfo.managerName+"-"+detailInfo.phone }}
             </div>
-            <a :href="'tel:' + detailInfo.phone">
+            <a @click.stop="callPhone(detailInfo.placeId)">
               <img src="@/assets/images/equip/phone.png" alt="" class="hazardDetail-submit-content-info-row-icon">
             </a>
           </div>
@@ -137,6 +137,7 @@
 import Api from '@/api/hazard/hazard.js'
 import dealData from '@/utils/data'
 import promiseToList from '@/utils/promiseToList'
+import PlaceApi from '@/api/placeResource/placeResource'
 
 export default {
   components: {
@@ -155,6 +156,13 @@ export default {
     this.getHazardDetail()
   },
   methods: {
+    async  callPhone(e) {
+      const res = await PlaceApi.placeResourcDetail(e)
+      if (res.code === 200) {
+        const result = res.data
+        window.location.href = 'tel://' + result.phone
+      }
+    },
     /**
      * 获取隐患详情信息
      */

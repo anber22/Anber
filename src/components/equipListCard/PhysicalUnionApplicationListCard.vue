@@ -15,7 +15,10 @@
           <div class="physicalUnionApplicationListCard-type">
             {{ data.equipTypeName }}
           </div>
-        </div><img src="@/assets/images/equip/phone.png" alt="" class="physicalUnionApplicationListCard-content-row-icon">
+        </div>
+        <a @click.stop="callPhone(data.placeId)">
+          <img src="@/assets/images/equip/phone.png" alt="" class="physicalUnionApplicationListCard-content-row-icon">
+        </a>
       </div>
       <div class="physicalUnionApplicationListCard-content-row">
         <div class="physicalUnionApplicationListCard-content-row-name">
@@ -31,6 +34,8 @@
 
 <script>
 import EquipStatus from 'cmp/equipStatus/EquipStatus'
+import Api from '@/api/placeResource/placeResource'
+
 import { mapGetters } from 'vuex'
 
 export default {
@@ -63,6 +68,13 @@ export default {
   mounted() {
   },
   methods: {
+    async  callPhone(e) {
+      const res = await Api.placeResourcDetail(e)
+      if (res.code === 200) {
+        const result = res.data
+        window.location.href = 'tel://' + result.phone
+      }
+    },
     showDetail(e) {
       console.log('网点id', e)
       this.$router.push({

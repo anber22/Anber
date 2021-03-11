@@ -2,9 +2,9 @@ import request from '@/utils/request'
 
 class IotApp {
   //  在线统计
-  async ststusCounting(param) {
+  async statusCounting(param) {
     return await request({
-      url: `/apis/equip/system/${param.system}/ststus/counting?type=${param.type}`,
+      url: `/apis/equip/system/${param.system}/status/counting?type=${param.type}`,
       method: 'get'
     })
   }

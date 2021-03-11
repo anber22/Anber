@@ -6,17 +6,17 @@
           <img src="@/assets/images/home/title-icon.png" alt="" class="iotApp-detail-title-icon">
           设备信息
         </div>
-        <InfoRow />
+        <!-- <InfoRow /> -->
       </van-tab>
     </van-tabs>
   </div>
 </template>
 
 <script>
-import InfoRow from 'cmp/infoRow/InfoRow'
+// import InfoRow from 'cmp/infoRow/InfoRow'
 export default {
   components: {
-    InfoRow
+    // InfoRow
   },
   data() {
     return {

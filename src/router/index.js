@@ -14,6 +14,8 @@ const Navbar = () => import('../../src/views/navbar/navbar')
 Vue.use(VueRouter)
 
 export default new VueRouter({
+  mode: 'history',
+  base: '/mobile',
   routes: [
     {
       path: '/',

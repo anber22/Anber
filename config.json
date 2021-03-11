@@ -145,9 +145,10 @@
     {
       "id":5,
       "name":"智慧视觉",
-      "imgUrl":"/src/assets/images/index/wisdom-visual.png"
+      "imgUrl": "/src/assets/images/index/wisdom-visual.png"
     },{
       "id":10,
+
       "name":"环境监测",
       "imgUrl":"/src/assets/images/index/environmental-monitoring.png"
     },{

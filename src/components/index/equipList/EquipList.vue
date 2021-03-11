@@ -4,7 +4,7 @@
     <div v-for="item in data" :key="item.id" @click="showCard()">
       <Adaptive :data="['100%','24.4%']" class="equipList-item">
         <div class="equipList-item-left">
-          <img class="equipList-equip-img" :src="item.imgUrl" alt>
+          <img class="equipList-equip-img" :src="item.imgUrl" alt="">
           <p class="equipList-item-title">
             {{ item.name }}
           </p>
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+
 export default {
   props: {
     data: {
@@ -74,6 +75,7 @@ export default {
 .equipList::-webkit-scrollbar {
     display: none;
 }
+
 .equipList-item{
   /* width: 100%;
   height: 10.6%; */
@@ -126,6 +128,7 @@ color: #A3D5FF;
   line-height: 5px;
   padding-left: 12px;
   color: #EFF0F1;
+
   margin-top:32%;
   margin-bottom: 0px;
   background: linear-gradient(125deg, rgba(16, 233, 255, 0) 8px,#00B5ED 9%,transparent 81%) left  ;

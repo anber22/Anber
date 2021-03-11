@@ -43,6 +43,9 @@
         应用列表
       </div>
     </Adaptive>
+    <van-loading v-if="loading" size="24px" vertical>
+      加载中...
+    </van-loading>
     <EquipList :data="equipList" />
     <!-- end -->
 
@@ -63,7 +66,7 @@
     <!-- end -->
     <!-- 监测分析，近一月/近一年/全部 -->
     <Adaptive :data="['100%', analysisHeight +'%']">
-      <MonitorAnalysis v-if="loading" :data="monitorAnalysisData" @timeType="getDateType" @systemType="getMonitorSystemType" />
+      <MonitorAnalysis v-if="!loading" :data="monitorAnalysisData" @timeType="getDateType" @systemType="getMonitorSystemType" />
     </Adaptive>
     <!-- legend 图例 -->
     <!-- <div class="legend">
@@ -74,7 +77,7 @@
     <!-- end -->
     <!-- 事件数故障数统计分析 start  -->
     <Adaptive :data="['100%','84%']">
-      <Events v-if="loading" :data="eventData" @systemType="getSystemType" />
+      <Events v-if="!loading" :data="eventData" @systemType="getSystemType" />
     </Adaptive>
     <!-- end -->
   </div>
@@ -86,7 +89,7 @@ import MaxPie from 'cmp/echarts/maxPie/MaxPie'
 import MaxLine from 'cmp/echarts/maxLine/MaxLine'
 import Api from '@/api/index'
 import EquipList from 'cmp/index/equipList/EquipList'
-import Warning from 'cmp/index/Warning/Warning'
+import Warning from 'cmp/index/warning/Warning'
 import Config from '/config.json'
 
 import DepartCount from 'cmp/index/departCount/DepartCount'
@@ -94,6 +97,7 @@ import Events from 'cmp/index/events/Events'
 import MonitorAnalysis from 'cmp/index/monitorAnalysis/MonitorAnalysis'
 import { mapGetters } from 'vuex'
 import store from '@/store'
+import CraneMonitoring from '@/assets/images/index/wisdom-visual.png'
 export default {
   components: {
     EquipList,
@@ -107,10 +111,24 @@ export default {
   },
   data() {
     return {
-      loading: false,
+      loading: true,
+      subsystemList: [
+        {
+          id: 5,
+          name: '智慧视觉',
+          imgUrl: require('/src/assets/images/index/wisdom-visual.png')
+        }, {
+          id: 10,
+          name: '环境监测',
+          imgUrl: require('/src/assets/images/index/environmental-monitoring.png')
+        }, {
+          id: 11,
+          name: '塔机监测',
+          imgUrl: require('/src/assets/images/index/crane-monitoring.png')
+        }
+      ],
       gaugeData: {
-        chartId: 'gaugeId',
-        onlinePercent: 0
+        chartId: 'gaugeId'
       },
       equipCountings: '',
       branchesCountings: '',
@@ -208,20 +226,24 @@ export default {
       }
     }
   },
-  async created() {
+  created() {
     // setTimeout(() => {
     //   this.socket()
     // }, 1000)
+    // this.subsystemList.forEach(item => {
+    //   item.imgUrl = require(item.imgUrl)
+    // })
     this.getHazardTypeList()
     this.getHiddenDangerList()
     this.getEquipCountings()
     this.getBranchesCountings()
     this.getEquipList()
     this.getDepartCounting()
+
     store.dispatch('generatePersistence')
-    console.log('设备类型', await this.equipType)
-    console.log('隐患类型', await this.hazardType)
-    console.log('网点类型', await this.placeType)
+    // console.log('设备类型', await this.equipType)
+    // console.log('隐患类型', await this.hazardType)
+    // console.log('网点类型', await this.placeType)
     this.getOnlinePercent()
   },
   methods: {
@@ -230,6 +252,7 @@ export default {
      */
     async getEquipCountings() {
       const res = await Api.equipCountings()
+
       if (res.code === 200) {
         this.equipCountings = parseInt(res.data).toLocaleString()
       }
@@ -252,28 +275,33 @@ export default {
     async getOnlinePercent() {
       const res = await Api.onlinePercent()
       if (res.code === 200) {
-        this.gaugeData.onlinePercent = res.data
+        Reflect.set(this.gaugeData, 'onlinePercent', res.data)
+        // this.gaugeData.onlinePercent = res.data
       }
     },
     /**
      * 获取应用列表
      */
     async getEquipList() {
+      this.loading = true
       const res = await Api.applicationlist()
       if (res.code === 200) {
         this.equipList = [...res.data]
       }
       console.log('设备数量', this.equipList)
 
-      const combined = Config.subsystemList.reduce((acc, cur) => {
+      const combined = this.subsystemList.reduce((acc, cur) => {
         const target = acc.find(e => e.id === cur.id)
         if (target) {
           Object.assign(target, cur)
+          // target.imgUrl = require(`/src/assets/images/index/${target.imgUrl}`)
         }
         return acc
       }, this.equipList)
       this.equipList = combined
-      console.log('应用列表', this.equipList)
+
+      // console.log(typeof '/src/assets/images/index/wisdom-visual.png')
+      // console.log('config', typeof Config.subsystemList[0].imgUrl)
       combined.forEach(item => {
         this.monitorAnalysisData.equipType.push({
           value: item.id,
@@ -289,7 +317,7 @@ export default {
       this.getAnalysisTimeline(combined[0].id)
       // 用应用列表里的第一个子系统获取监测分析全部数据
       this.getMonitorAnalysis(combined[0].id, this.monitorAnalysisData.dateType[0].value)
-      this.loading = true
+      this.loading = false
     },
     /**
      * 辖区统计选中的辖区ID，并筛选当前辖区的数据出来
@@ -429,10 +457,11 @@ export default {
         this.hiddenDangerList = [...res.data]
       }
       this.hiddenDangerList.forEach(hItem => {
-        Config.subsystemList.forEach(cItem => {
+        this.subsystemList.forEach(cItem => {
           if (hItem.type === cItem.id) {
             // Object.assign(hItem, cItem) assign后者会覆盖前者的同名属性的值
             hItem['imgUrl'] = cItem.imgUrl
+
             hItem['systemName'] = cItem.name
           }
         })
@@ -449,6 +478,7 @@ export default {
   height: auto;
   padding: 0px 4% 0px 4%;
   background-color: rgba(16, 23, 32, 1);
+  overflow: hidden
 }
 .equip-count{
   border-radius:5px;

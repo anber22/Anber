@@ -5,6 +5,8 @@ const path = require('path')
 
 module.exports = merge(base, {
   mode: 'production',
+  devtool: "source-map",
+ 
   plugins: [
     new CleanWebpackPlugin({
       cleanStaleWebpackAssets: true,
