@@ -187,6 +187,7 @@ export default {
      *  时间格式化
      */
     timeTransformation(e) {
+      console.log('隐患详情', e)
       return dealData.dataFormat(e)
     },
 

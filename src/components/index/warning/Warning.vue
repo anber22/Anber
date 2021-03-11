@@ -10,7 +10,7 @@
               v-for="(rowItem, index) in ulList"
               :key="index"
               :class="!index && play ? 'toUp' : ''"
-              @click="showDetail(rowItem.id)"
+              @click="showDetail(rowItem)"
             >
               <div class="colItem title">
                 {{ rowItem.systemName }}
@@ -92,11 +92,12 @@ export default {
   },
   methods: {
     showDetail(e) {
-      console.log('网点id', e)
+      console.log('选中隐患', e)
+      // console.log('网点id', e)
       this.$router.push({
         path: '/hazardDetail',
         query: {
-          hazardId: e
+          hazardId: e.id
         }
       })
     },

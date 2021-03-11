@@ -461,6 +461,7 @@ export default {
       if (res.code === 200) {
         this.hiddenDangerList = [...res.data]
       }
+
       this.hiddenDangerList.forEach(hItem => {
         this.subsystemList.forEach(cItem => {
           if (hItem.type === cItem.id) {
