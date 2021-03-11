@@ -33,7 +33,7 @@ export default {
 }
 @media (min-width: 351px) and (max-width: 374px) {
   #app{
-    zoom: 0.989333;
+    zoom: 0.936;
   }
 }
 @media (min-width: 375px) and (max-width: 379px) {
