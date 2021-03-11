@@ -122,7 +122,7 @@ export default {
         width: '24.55%',
         name: '雨量',
         value: detailData.rainFall ? detailData.rainFall + 'mm' : '-',
-        icon: '@/assets/images/equip/rainfall.png',
+        icon: require('/src/assets/images/equip/rainfall.png'),
         iconWidth: '13px',
         iconHeight: '10px'
       }, {
@@ -131,7 +131,7 @@ export default {
         width: '42%',
         name: '风速/风向',
         value: (detailData.windSpeed ? detailData.windSpeed + 'm/s/' : '-/') + (detailData.windDirection ? detailData.windDirection + '°' : '-'),
-        icon: '@/assets/images/equip/wind-speed.png',
+        icon: require('/src/assets/images/equip/wind-speed.png'),
         iconWidth: '16px',
         iconHeight: '10px'
       }, {
@@ -139,7 +139,7 @@ export default {
         width: '24.55%',
         name: '温度/湿度',
         value: (detailData.temperature ? detailData.temperature + '°/' : '-/') + (detailData.humidity ? detailData.humidity + '%RH' : '-'),
-        icon: '@/assets/images/equip/temperature.png',
+        icon: require('/src/assets/images/equip/temperature.png'),
         iconWidth: '8px',
         iconHeight: '16px'
       }]
