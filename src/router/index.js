@@ -55,7 +55,7 @@ export default new VueRouter({
           path: '/iotApp',
           component: () => import('@/views/aiot/iotApp'),
           meta: {
-            title: '智慧物联'
+            title: '物联应用'
           }
         },
         {

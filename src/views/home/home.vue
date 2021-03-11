@@ -51,7 +51,7 @@
                 :show-loading="false"
               />
             </Adaptive>
-            <p>联网应用</p>
+            <p>物联应用</p>
           </div>
           <div hidden>
             <Adaptive class="module-item" :data="['75.4%', '75.4%']">
