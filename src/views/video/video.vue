@@ -3,7 +3,7 @@
     <van-search v-model="searchValue" class="search-item" background="rgba(16, 23, 32, 1)" placeholder="请输入搜索关键词" />
     <div class="video-content">
       <van-collapse v-model="activeName" accordion :border="false" @change="changePlace">
-        <van-collapse-item v-for="(item, index) in placeList" :key="index" :title="item.placeName + '('+item.count?item.count:0+')'" :name="item.placeId">
+        <van-collapse-item v-for="(item, index) in placeList" :key="index" :title="item.placeName + '('+item.count+')'" :name="item.placeId">
           <div v-if="item.equips">
             <Video v-for="(iitem, iindex) in item.equips" :key="iindex" :data="iitem" :placename="item.placeName" />
           </div>
