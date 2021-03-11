@@ -31,9 +31,14 @@ export default {
     zoom: 0.93333;
   }
 }
-@media (min-width: 351px) and (max-width: 374px) {
+@media (min-width: 351px) and (max-width: 359px) {
   #app{
     zoom: 0.936;
+  }
+}
+@media (min-width: 360px) and (max-width: 374px) {
+  #app{
+    zoom: 0.96;
   }
 }
 @media (min-width: 375px) and (max-width: 379px) {
