@@ -353,7 +353,7 @@ export default {
             count: item.data.count
           })
         })
-        // 使用当前第一个辖区id去获取该辖区隐患分析数据---折线图数据
+        // 使用当前第一个辖区id去获取该辖区隐患分析数据---折线图数据1
         this.getTroubleAnalysis(dataArr[0].departId)
         this.departCountData = {
           online: dataArr[0].data.online,
