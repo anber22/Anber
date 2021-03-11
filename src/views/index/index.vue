@@ -182,15 +182,15 @@ export default {
         dateType: [
           {
             value: 1,
-            text: '全部'
-          },
-          {
-            value: 2,
             text: '近1月'
           },
           {
-            value: 3,
+            value: 2,
             text: '近1年'
+          },
+          {
+            value: 3,
+            text: '全部'
           }
         ],
         pieData: {
@@ -203,11 +203,10 @@ export default {
         monitorAnalysisFlag: false
       },
       monitorAnalysisLegendData: [],
-      // 监测分析当前选中的时间类型 默认全部
+      // 监测分析当前选中的时间类型 默认近1月
       analysisDateType: 1,
       // 监测分析当前选中的系统类型 默认智慧视觉
-      analysisSystemType: 1,
-
+      analysisSystemType: 5,
       hiddenDangerList: [],
       onlinePercent: 0,
       analysisHeight: 154
@@ -216,10 +215,10 @@ export default {
   computed: {
     ...mapGetters(['equipType', 'hazardType', 'placeType']),
     changeDateType() {
-      return function(type, system) {
-        if (type === 1) {
+      return function(system, type) {
+        if (type === 3) {
           return Api.monitorAnalysis(system)
-        } else if (type === 2) {
+        } else if (type === 1) {
           return Api.monitorAnalysisMonth(system)
         } else {
           return Api.monitorAnalysisYear(system)
@@ -314,7 +313,6 @@ export default {
         })
       })
       // this.eventData.equipType = this.monitorAnalysisData.equipType
-      this.analysisDateType = combined[0].id
       // 用应用列表里的第一个子系统获取15天事件和故障数统计数据
       this.getAnalysisTimeline(combined[0].id)
       // 用应用列表里的第一个子系统获取监测分析全部数据
@@ -405,7 +403,7 @@ export default {
      * 监测分析 type:1 (全部)、type:2 (近1月)、type: 3（近1年）
      */
     async getMonitorAnalysis(system, type) {
-      const apiUrl = this.changeDateType(type, system)
+      const apiUrl = this.changeDateType(system, type)
       const res = await apiUrl
       let color = []
       this.monitorAnalysisData.pieData.data = []
