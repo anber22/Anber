@@ -26,7 +26,9 @@
         <a @click.stop="callPhone(data.placeId)">
           <img src="@/assets/images/equip/phone.png" alt="" class="hazardListCard-content-row-icon">
         </a>
-        <img src="@/assets/images/equip/navigation.png" alt="" class="hazardListCard-content-row-icon">
+        <a @click.stop="toMap(data.placeId)">
+          <img src="@/assets/images/equip/navigation.png" alt="" class="hazardListCard-content-row-icon">
+        </a>
       </div>
       <div class="hazardListCard-content-row">
         <div class="hazardListCard-content-row-name">
@@ -69,6 +71,15 @@ export default {
     }
   },
   methods: {
+    /**
+     * 跳转地图
+     */
+    toMap() {
+
+    },
+    /**
+     * 跳转拨号
+     */
     async  callPhone(e) {
       const res = await Api.placeResourcDetail(e)
       if (res.code === 200) {
@@ -76,6 +87,9 @@ export default {
         window.location.href = 'tel://' + result.phone
       }
     },
+    /**
+     * 时间格式化
+     */
     timeTransformation(e) {
       return dealData.dataFormat(e)
     }

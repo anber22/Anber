@@ -1,5 +1,5 @@
 <template>
-  <div class="placeResourcListCard">
+  <div class="placeResourcListCard" @click="goJump(data.placeId)">
     <div class="placeResourcListCard-header">
       <div class="placeResourcListCard-title">
         {{ data.placeName }}
@@ -29,11 +29,13 @@
       <div class="placeResourcListCard-content-row">
         <div class="placeResourcListCard-content-row-name">
           <!-- {{ data.placeName }} -->
-          <span class="placeResourcListCard-content-row-adress-name" @click="goJump(data.placeId)">
+          <span class="placeResourcListCard-content-row-adress-name">
             {{ data.placeAddress }}
           </span>
         </div>
-        <img src="@/assets/images/equip/navigation.png" alt="" class="placeResourcListCard-content-row-icon">
+        <a @click.stop="toMap(data.placeId)">
+          <img src="@/assets/images/equip/navigation.png" alt="" class="placeResourcListCard-content-row-icon">
+        </a>
       </div>
     </div>
   </div>
@@ -64,6 +66,16 @@ export default {
     }
   },
   methods: {
+    /**
+     * 跳转地图
+     */
+    toMap() {
+
+    },
+
+    /**
+     * 跳转拨号
+     */
     async  callPhone(e) {
       const res = await Api.placeResourcDetail(e)
       if (res.code === 200) {
@@ -71,6 +83,9 @@ export default {
         window.location.href = 'tel://' + result.phone
       }
     },
+    /**
+     * 跳转页面
+     */
     goJump(id) {
       this.$router.push({
         path: '/placeResourcDetail',
@@ -92,8 +107,7 @@ export default {
   background-color:#0A0B29;
 }
 .placeResourcListCard-header{
-
-background: #131F3B;
+  background: #131F3B;
 }
 .placeResourcListCard-title{
   width: 35%;
@@ -115,7 +129,7 @@ background: #131F3B;
 .placeResourcListCard-equip-count{
   width: 50%;
   height: 25%;
-    font-size: 12px;
+  font-size: 12px;
   display: inline-block;
   font-family: PingFang SC;
   font-weight: 400;
@@ -129,7 +143,6 @@ background: #131F3B;
   width: auto;
   height: 100%;
   display: inline-block;
-
   color: #06F0FE;
 }
 .placeResourcListCard-content-row{
@@ -155,12 +168,9 @@ background: #131F3B;
   overflow: hidden;
 }
 .placeResourcListCard-content-row-adress-name{
-
-font-size: 12px;
-font-family: PingFang SC;
-font-weight: 400;
-text-decoration: underline;
-color: #06F0FE;
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 400;
 }
 .placeResourcListCard-type{
   width: auto;
