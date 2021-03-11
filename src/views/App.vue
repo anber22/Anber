@@ -21,11 +21,11 @@ export default {
   margin: 0px;
   padding: 0px;
 }
-/* @media (min-width: 300px) and (max-width: 320px) {
+@media (min-width: 300px) and (max-width: 320px) {
   #app{
     zoom: 0.8533;
   }
-} */
+}
 @media (min-width: 321px) and (max-width: 350px) {
   #app{
     zoom: 0.93333;
@@ -51,12 +51,6 @@ export default {
     zoom: 1.1013;
   }
 }
-
-/* @media (min-width: 401px) and (max-width: 413px) {
-  #app{
-    zoom: 1.1013;
-  }
-} */
 
 .AnalysisPie-echarts-tooltip{
   z-index: 9 !important;

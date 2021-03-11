@@ -57,7 +57,7 @@
       </div>
     </Adaptive>
     <DepartCount :data="departCountData" />
-    <van-loading v-if="!lineDataFlag || !maxPieDataFlag" size="24px" vertical>
+    <van-loading v-if=" !maxPieDataFlag" size="24px" vertical>
       加载中...
     </van-loading>
     <Adaptive :data="['100%','70%']">
