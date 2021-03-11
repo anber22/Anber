@@ -1,4 +1,4 @@
-const requestPath = 'ws://server12.ctjt.cn:15654/ws'
+const requestPath = 'ws://beta.zhgtwx.ctjt.cn/ws'
 
 import Stomp from 'stompjs'
 // import localData from './local'
