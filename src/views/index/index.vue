@@ -56,8 +56,9 @@
         辖区统计
       </div>
     </Adaptive>
+
     <DepartCount :data="departCountData" />
-    <van-loading v-if="!lineDataFlag || !maxPieDataFlag" size="24px" vertical>
+    <van-loading v-if="!lineDataFlag && !maxPieDataFlag" size="24px" vertical>
       加载中...
     </van-loading>
     <Adaptive :data="['100%','70%']">
@@ -340,6 +341,7 @@ export default {
      */
     async getDepartCounting() {
       const res = await Api.departCounting()
+      this.maxPieDataFlag = false
       if (res.code === 200) {
         this.departCountList = [...res.data]
         const dataArr = [...res.data]
@@ -351,15 +353,15 @@ export default {
             count: item.data.count
           })
         })
-        // 使用当前第一个辖区id去获取该辖区隐患分析数据---折线图数据
+        // 使用当前第一个辖区id去获取该辖区隐患分析数据---折线图数据1
         this.getTroubleAnalysis(dataArr[0].departId)
         this.departCountData = {
           online: dataArr[0].data.online,
           outline: dataArr[0].data.outline,
           trouble: dataArr[0].data.trouble
         }
-        this.maxPieDataFlag = true
       }
+      this.maxPieDataFlag = true
     },
     /**
      * 辖区统计联动，当前选中辖区的隐患分析（近15天）
@@ -459,7 +461,7 @@ export default {
       if (res.code === 200) {
         this.hiddenDangerList = [...res.data]
       }
-
+      console.log('获取隐患列表', this.hiddenDangerList)
       this.hiddenDangerList.forEach(hItem => {
         this.subsystemList.forEach(cItem => {
           if (hItem.type === cItem.id) {

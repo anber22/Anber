@@ -12,19 +12,19 @@
               :class="!index && play ? 'toUp' : ''"
               @click="showDetail(rowItem)"
             >
-              <div class="colItem title">
+              <div class="colItem title width-20">
                 {{ rowItem.systemName }}
               </div>
-              <div class="colItem content">
+              <div class="colItem content width-30">
                 {{ rowItem.onlineMsg }}
               </div>
-              <div class="colItem content">
+              <div class="colItem content width-30">
                 {{ rowItem.placeName }}
               </div>
               <!-- <div class="colItem content" style="color:red;">
                 未处理
               </div> -->
-              <div class="colItem content">
+              <div class="colItem content width-15">
                 <!-- 22.22 -->
                 {{ changeDate(rowItem.createTime) }}
               </div>
@@ -147,8 +147,8 @@ export default {
   display: inline-block;
 }
 .equip-img{
-      width: 7.8%;
-    height: 52.27%;
+    width: 7.9%;
+    height: 52.37%;
     margin: 2.865% 1% 3.865% 1%;
 }
 
@@ -181,15 +181,34 @@ export default {
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
+.width-10{
+  width: 10%;
+
+}
+.width-20{
+  width: 20%;
+
+}
+.width-15{
+  width: 15%;
+
+}
+.width-25{
+  width: 25%;
+
+}
+.width-30{
+  width: 30%;
+}
 
 .colItem{
-  width: auto;
+  /* width: auto; */
   display: inline-block;
   text-align: center;
   height: 100%;
   line-height: 400%;
   overflow: hidden;
-  margin-left: 2%
+  /* margin-left: 2% */
 }
 .content{
   font-size: 12px;
