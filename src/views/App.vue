@@ -52,6 +52,25 @@ export default {
   }
 }
 
+<<<<<<< HEAD
+=======
+@media (min-width: 414px) and (max-width: 420px) {
+  #app{
+    zoom: 1.104;
+  }
+
+}
+@media (min-width: 421px) and (max-width: 500px) {
+  #app{
+    zoom: 1.333333;
+  }
+}
+@media (min-width: 500px) and (max-width: 540px) {
+  #app{
+    zoom: 1.44;
+  }
+}
+>>>>>>> 37ad99b829a5df0f5acef0b2c0062fb183d72d8e
 .AnalysisPie-echarts-tooltip{
   z-index: 9 !important;
 }
