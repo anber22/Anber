@@ -21,11 +21,11 @@
     <!-- end -->
     <!-- 内容 start -->
     <div class="iot-content">
+      <van-loading v-show="loadding" size="24px" vertical>
+        加载中...
+      </van-loading>
       <!-- 卡片展示列表 start -->
       <div v-if="isCard">
-        <van-loading size="24px" vertical>
-          加载中...
-        </van-loading>
         <div v-if="thisSubsystemId===5 && !loadding " class="show-list">
           <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','49.9%']" class="physicalUnionApplication-card">
             <PhysicalUnionApplication :data="item" />
