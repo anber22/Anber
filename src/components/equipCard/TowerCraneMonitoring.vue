@@ -136,14 +136,14 @@ export default {
         width: '30.3%',
         name: '回旋角度',
         value: detailData.turningAngle ? detailData.turningAngle + '°' : '-',
-        icon: '@/assets/images/equip/angle.png',
+        icon: require('/src/assets/images/equip/angle.png'),
         iconWidth: '11px',
         iconHeight: '10px'
       }, {
         width: '30.3%',
         name: '幅度',
         value: detailData.amplitude ? detailData.amplitude + 'mm' : '-',
-        icon: '@/assets/images/equip/amplitude.png',
+        icon: require('/src/assets/images/equip/amplitude.png'),
         iconWidth: '13px',
         iconHeight: '13px'
       }, {
@@ -151,7 +151,7 @@ export default {
 
         name: '吊钩高度',
         value: detailData.hookHeight ? detailData.hookHeight + 'm' : '-',
-        icon: '@/assets/images/equip/hook-angle.png',
+        icon: require('/src/assets/images/equip/hook-angle.png'),
         iconWidth: '11px',
         iconHeight: '14px'
 
@@ -160,7 +160,7 @@ export default {
 
         name: '吊重',
         value: detailData.currentHoisting ? detailData.currentHoisting + 't' : '-',
-        icon: '@/assets/images/equip/hoisting.png',
+        icon: require('/src/assets/images/equip/hoisting.png'),
         iconWidth: '14px',
         iconHeight: '14px'
       }, {
@@ -168,7 +168,7 @@ export default {
 
         name: '安全吊重',
         value: detailData.safetyHoisting ? detailData.safetyHoisting + 't' : '-',
-        icon: '@/assets/images/equip/safe.png',
+        icon: require('/src/assets/images/equip/safe.png'),
         iconWidth: '10px',
         iconHeight: '12px'
       }, {
@@ -176,7 +176,7 @@ export default {
 
         name: '力矩百分比',
         value: detailData.torquePrecentage ? detailData.torquePrecentage + '%' : '-',
-        icon: '@/assets/images/equip/torque.png',
+        icon: require('/src/assets/images/equip/torque.png'),
         iconWidth: '12px',
         iconHeight: '12px'
 
@@ -185,7 +185,7 @@ export default {
 
         name: '风速',
         value: detailData.windSpeed ? detailData.windSpeed + 'm/s' : '-',
-        icon: '@/assets/images/equip/wind-speed.png',
+        icon: require('/src/assets/images/equip/wind-speed.png'),
         iconWidth: '13px',
         iconHeight: '9px'
 
@@ -194,7 +194,7 @@ export default {
 
         name: '塔机倾斜角度',
         value: detailData.tiltAngle ? detailData.tiltAngle + '°' : '-',
-        icon: '@/assets/images/equip/angle.png',
+        icon: require('/src/assets/images/equip/angle.png'),
         iconWidth: '10px',
         iconHeight: '10px'
       }, {
@@ -202,7 +202,7 @@ export default {
 
         name: '塔机方向',
         value: detailData.towerDirection ? detailData.towerDirection + '°' : '-',
-        icon: '@/assets/images/equip/direction-of-tower-crane.png',
+        icon: require('/src/assets/images/equip/direction-of-tower-crane.png'),
         iconWidth: '12px',
         iconHeight: '12px'
       }, {
@@ -210,7 +210,7 @@ export default {
 
         name: '吊绳倍率',
         value: detailData.wireRatio ? detailData.wireRatio : '-',
-        icon: '@/assets/images/equip/wire-ratio.png',
+        icon: require('/src/assets/images/equip/wire-ratio.png'),
         iconWidth: '15px',
         iconHeight: '9px'
 

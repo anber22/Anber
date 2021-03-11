@@ -23,10 +23,12 @@
           {{ data.equipTypeName+"-"+data.placeName+"-"+data.equipAddress }}
           <!-- 安全帽监测-港湾一号-湾9栋401大门口 -->
         </div>
-        <a @click.stop="callPhone(data.placeId)">
+        <a class="hazardListCard-content-row-a" @click.stop="callPhone(data.placeId)">
           <img src="@/assets/images/equip/phone.png" alt="" class="hazardListCard-content-row-icon">
         </a>
-        <img src="@/assets/images/equip/navigation.png" alt="" class="hazardListCard-content-row-icon">
+        <a class="hazardListCard-content-row-a" @click.stop="toMap(data.placeId)">
+          <img src="@/assets/images/equip/navigation.png" alt="" class="hazardListCard-content-row-icon">
+        </a>
       </div>
       <div class="hazardListCard-content-row">
         <div class="hazardListCard-content-row-name">
@@ -69,6 +71,15 @@ export default {
     }
   },
   methods: {
+    /**
+     * 跳转地图
+     */
+    toMap() {
+
+    },
+    /**
+     * 跳转拨号
+     */
     async  callPhone(e) {
       const res = await Api.placeResourcDetail(e)
       if (res.code === 200) {
@@ -76,6 +87,9 @@ export default {
         window.location.href = 'tel://' + result.phone
       }
     },
+    /**
+     * 时间格式化
+     */
     timeTransformation(e) {
       return dealData.dataFormat(e)
     }
@@ -219,6 +233,9 @@ export default {
 .hazardListCard-content-row-icon{
   width: 19px;
   height: 19px;
+
+}
+.hazardListCard-content-row-a{
   margin-left: 5%;
 }
 </style>

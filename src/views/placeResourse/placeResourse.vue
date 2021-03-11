@@ -29,7 +29,9 @@ export default {
     }
   },
   mounted() {
-    this.getPlaceResourcList()
+    if (this.placeResourcList.length === 0) {
+      this.getPlaceResourcList()
+    }
   },
   methods: {
     async getPlaceResourcList() {
