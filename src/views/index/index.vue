@@ -44,7 +44,7 @@
       </div>
     </Adaptive>
     <EquipList :data="equipList" />
-    <van-loading size="24px" vertical>
+    <van-loading v-if="!equipList" size="24px" vertical>
       加载中...
     </van-loading>
     <!-- end -->
