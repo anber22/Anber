@@ -13,9 +13,13 @@ export default {
   },
   data() {
     return {
+      percent: 8.18
     }
   },
   mounted() {
+    if (this.data.onlinePercent) {
+      this.percent = this.data.onlinePercent
+    }
     var myChart = this.$echarts.init(document.getElementById(this.data.chartId))
     var option = {
       animation: true,
@@ -87,7 +91,7 @@ export default {
           color: 'auto'
         },
         data: [{
-          value: this.data.onlinePercent
+          value: this.percent
         }],
         zlevel: 3
       }, {
@@ -436,9 +440,17 @@ export default {
     }
     myChart.setOption(option, true)
     setInterval(function() {
-      option.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0
+      option.series[0].data[0].value = (Math.random() * 4 + 8).toFixed(2)
       myChart.setOption(option, true)
-    }, 5000)
+    }, 4000)
+  },
+  methods: {
+    // action() {
+    //   setInterval(function() {
+    //     this.option.series[0].data[0].value = (Math.random() * 10).toFixed(2) - 0
+    //     this.myChart.setOption(this.option, true)
+    //   }, 5000)
+    // }
   }
 }
 </script>

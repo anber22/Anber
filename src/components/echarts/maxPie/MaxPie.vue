@@ -1,5 +1,5 @@
 <template>
-  <div class="maxPie-box">
+  <div class="maxPie-box" :style="`zoom:${zoom};transform:scale(${1/zoom});transform-origin: 0 0;`">
     <div :id="data.chartId" class="maxPie-content" />
     <div class="active-text">
       <p>
@@ -26,7 +26,8 @@ export default {
       index: null,
       activeType: {},
       departName: '',
-      count: null
+      count: null,
+      zoom: null
     }
   },
   watch: {
@@ -39,6 +40,13 @@ export default {
   },
   mounted() {
     this.init()
+    const width = document.documentElement.clientWidth || document.body.clientWidth
+    this.zoom = 1 / (width / 375)
+    console.log(this.zoom, 'zoom')
+    window.addEventListener('resize', () => {
+      const width = document.documentElement.clientWidth || document.body.clientWidth
+      this.zoom = 1 / (width / 375)
+    })
   },
   methods: {
     init() {

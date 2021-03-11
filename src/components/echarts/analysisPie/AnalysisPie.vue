@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :style="`zoom:${zoom};transform:scale(${1/zoom});transform-origin: 0 0;`">
     <div :id="data.chartId" class="pie-content" />
   </div>
 </template>
@@ -14,11 +14,18 @@ export default {
   },
   data() {
     return {
-
+      zoom: null
     }
   },
   mounted() {
     this.init()
+    const width = document.documentElement.clientWidth || document.body.clientWidth
+    this.zoom = 1 / (width / 375)
+    console.log(this.zoom, 'zoom')
+    window.addEventListener('resize', () => {
+      const width = document.documentElement.clientWidth || document.body.clientWidth
+      this.zoom = 1 / (width / 375)
+    })
   },
   methods: {
     init() {

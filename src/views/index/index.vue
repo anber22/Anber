@@ -109,8 +109,7 @@ export default {
     return {
       loading: false,
       gaugeData: {
-        chartId: 'gaugeId',
-        onlinePercent: 0
+        chartId: 'gaugeId'
       },
       equipCountings: '',
       branchesCountings: '',
@@ -252,7 +251,8 @@ export default {
     async getOnlinePercent() {
       const res = await Api.onlinePercent()
       if (res.code === 200) {
-        this.gaugeData.onlinePercent = res.data
+        Reflect.set(this.gaugeData, 'onlinePercent', res.data)
+        // this.gaugeData.onlinePercent = res.data
       }
     },
     /**
@@ -450,6 +450,7 @@ export default {
   height: auto;
   padding: 0px 4% 0px 4%;
   background-color: rgba(16, 23, 32, 1);
+  overflow: hidden
 }
 .equip-count{
   border-radius:5px;
