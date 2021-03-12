@@ -1,89 +1,93 @@
 <template>
-  <div class="index">
-    <!-- 顶部设备网点数量统计 start -->
-    <Adaptive class="equip-count" :data="['47.9%','18.67%']">
-      <div class="count-title">
-        设备总数
-      </div>
-      <div class="count-value">
-        {{ equipCountings }}
-      </div>
-    </Adaptive>
-    <Adaptive class="branches-count" :data="['47.9%','18.67%']">
-      <div class="count-title">
-        网点数
-      </div>
-      <div class="count-value">
-        {{ branchesCountings }}
-      </div>
-    </Adaptive>
-    <!-- end -->
-    <!-- 设备在线率 start -->
-    <Adaptive :data="['100%','60%']">
-      <Gauge :data="gaugeData" />
-    </Adaptive>
-    <!-- 分割线line -->
-    <div style="width: 100%;height: 8px;background: #131B25;margin-top: 14px" />
-    <!-- end -->
-    <!-- 实时预警 start -->
-    <Adaptive :data="['100%','5.57%']" class="title-box">
-      <div class="title-style" />
-      <div class="title-name">
-        实时预警
-      </div>
-    </Adaptive>
-    <Adaptive :data="['100%','12.75%']" class="warning-box">
-      <Warning v-if="hiddenDangerList.length>0" class="warning" :data="hiddenDangerList" />
-    </Adaptive>
-    <!-- end -->
-    <!-- 应用列表 start -->
-    <Adaptive :data="['100%','5.57%']" class="title-box">
-      <div class="title-style" />
-      <div class="title-name">
-        应用列表
-      </div>
-    </Adaptive>
-    <van-loading v-if="loading" size="24px" vertical>
-      加载中...
-    </van-loading>
-    <EquipList :data="equipList" />
-    <!-- end -->
+  <div>
+    <div class="index-bg">
+      <div class="index">
+        <!-- 顶部设备网点数量统计 start -->
+        <Adaptive class="equip-count" :data="['47.9%','18.67%']">
+          <div class="count-title">
+            设备总数
+          </div>
+          <div class="count-value">
+            {{ equipCountings }}
+          </div>
+        </Adaptive>
+        <Adaptive class="branches-count" :data="['47.9%','18.67%']">
+          <div class="count-title">
+            网点数
+          </div>
+          <div class="count-value">
+            {{ branchesCountings }}
+          </div>
+        </Adaptive>
+        <!-- end -->
+        <!-- 设备在线率 start -->
+        <Adaptive :data="['100%','60%']">
+          <Gauge :data="gaugeData" />
+        </Adaptive>
+        <!-- 分割线line -->
+        <div style="width: 100%;height: 8px;background: #131B25;margin-top: 14px" />
+        <!-- end -->
+        <!-- 实时预警 start -->
+        <Adaptive :data="['100%','5.57%']" class="title-box">
+          <div class="title-style" />
+          <div class="title-name">
+            实时预警
+          </div>
+        </Adaptive>
+        <Adaptive :data="['100%','12.75%']" class="warning-box">
+          <Warning v-if="hiddenDangerList.length>0" class="warning" :data="hiddenDangerList" />
+        </Adaptive>
+        <!-- end -->
+        <!-- 应用列表 start -->
+        <Adaptive :data="['100%','5.57%']" class="title-box">
+          <div class="title-style" />
+          <div class="title-name">
+            应用列表
+          </div>
+        </Adaptive>
+        <van-loading v-if="loading" size="24px" vertical>
+          加载中...
+        </van-loading>
+        <EquipList :data="equipList" />
+        <!-- end -->
 
-    <!-- 辖区统计 start  -->
-    <Adaptive :data="['100%','5.57%']" class="title-box">
-      <div class="title-style" />
-      <div class="title-name">
-        辖区统计
-      </div>
-    </Adaptive>
+        <!-- 辖区统计 start  -->
+        <Adaptive :data="['100%','5.57%']" class="title-box">
+          <div class="title-style" />
+          <div class="title-name">
+            辖区统计
+          </div>
+        </Adaptive>
 
-    <DepartCount :data="departCountData" />
-    <van-loading v-if="!lineDataFlag && !maxPieDataFlag" size="24px" vertical>
-      加载中...
-    </van-loading>
-    <Adaptive :data="['100%','70%']">
-      <MaxPie v-if="maxPieDataFlag" :data="maxPieData" @activeType="activeType" />
-    </Adaptive>
-    <Adaptive :data="['100%','56%']">
-      <MaxLine v-if="lineDataFlag" :data="lineData" />
-    </Adaptive>
-    <!-- end -->
-    <!-- 监测分析，近一月/近一年/全部 -->
-    <Adaptive :data="['100%', analysisHeight +'%']">
-      <MonitorAnalysis v-if="!loading" :data="monitorAnalysisData" @timeType="getDateType" @systemType="getMonitorSystemType" />
-    </Adaptive>
-    <!-- legend 图例 -->
-    <!-- <div class="legend">
+        <DepartCount :data="departCountData" />
+        <van-loading v-if="!lineDataFlag && !maxPieDataFlag" size="24px" vertical>
+          加载中...
+        </van-loading>
+        <Adaptive :data="['100%','70%']">
+          <MaxPie v-if="maxPieDataFlag" :data="maxPieData" @activeType="activeType" />
+        </Adaptive>
+        <Adaptive :data="['100%','56%']">
+          <MaxLine v-if="lineDataFlag" :data="lineData" />
+        </Adaptive>
+        <!-- end -->
+        <!-- 监测分析，近一月/近一年/全部 -->
+        <Adaptive :data="['100%', analysisHeight +'%']">
+          <MonitorAnalysis v-if="!loading" :data="monitorAnalysisData" @timeType="getDateType" @systemType="getMonitorSystemType" />
+        </Adaptive>
+        <!-- legend 图例 -->
+        <!-- <div class="legend">
       <p v-for="(item, index) in monitorAnalysisData.pieData.data" :key="index">
         <span :style="{ background: item.color }" />{{ item.name }}&emsp;&emsp;{{ item.value }}次&emsp;&emsp;&ensp;{{ item.precent }}%
       </p>
     </div> -->
-    <!-- end -->
-    <!-- 事件数故障数统计分析 start  -->
-    <Adaptive :data="['100%','84%']">
-      <Events v-if="!loading" :data="eventData" @systemType="getSystemType" />
-    </Adaptive>
-    <!-- end -->
+        <!-- end -->
+        <!-- 事件数故障数统计分析 start  -->
+        <Adaptive :data="['100%','76%']">
+          <Events v-if="!loading" :data="eventData" @systemType="getSystemType" />
+        </Adaptive>
+        <!-- end -->
+      </div>
+    </div>
   </div>
 </template>
 
@@ -483,10 +487,10 @@ export default {
 <style scoped>
 .index{
   width: 92%;
-  height: auto;
+  height: 100%;
   padding: 0px 4% 0px 4%;
-  background-color: rgba(16, 23, 32, 1);
-  overflow: hidden
+  /* background-color: rgba(16, 23, 32, 1); */
+  overflow: scroll;
 }
 .equip-count{
   border-radius:5px;
@@ -572,5 +576,12 @@ export default {
   background-color: #008EFF;
   height: 9px;
   margin-right: 10px;
+}
+.index-bg{
+  width: 100%;
+  height: max-content;
+  background-image: url('@/assets/images/index/zhgt-bg.png');
+  background-repeat: no-repeat;
+  background-size:100% 100%;
 }
 </style>

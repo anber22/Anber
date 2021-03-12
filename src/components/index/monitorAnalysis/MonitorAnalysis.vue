@@ -83,7 +83,7 @@ export default {
 }
 /* option样式 */
 .monitorAnalysis-content .van-cell{
-  background-color: #101720;
+  background-color: transparent;
   width: 100%;
   font-size: 20px;
   color: #B9CEE9;

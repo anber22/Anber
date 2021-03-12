@@ -49,9 +49,12 @@ export default {
       const res = await videoApi.videoPlaceList(type)
       if (res.code === 200) {
         this.placeList = [...res.data]
-        this.activeName = this.placeList[0].placeId
+        // this.activeName = this.placeList[0].placeId
         // 默认展开第一列（获取第一列数据）
-        this.getVideoPlaceEquipList(this.placeList[0].placeId, 5)
+        // this.getVideoPlaceEquipList(this.placeList[0].placeId, 5)
+        this.placeList.forEach(item => {
+          this.getVideoPlaceEquipList(item.placeId, 5)
+        })
       }
     },
     /**

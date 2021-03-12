@@ -43,10 +43,11 @@ export default {
       this.$router.push({
         path: '/videoPlayer',
         query: {
-          imei: 123456,
+          imei: this.data.imei,
           placeName: this.placename,
           equipTypeName: this.data.equipTypeName,
-          equipAddress: this.data.equipAddress
+          equipAddress: this.data.equipAddress,
+          equipId: this.data.equipId
         }
       })
     }
