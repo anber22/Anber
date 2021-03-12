@@ -44,7 +44,6 @@ const persistence = {
       if (persistence.state[param].length < 1) {
         if (param === 'hazardType') {
           result = await Api.hazardTypeList(0)
-          console.log('隐患类型', result)
           if (result.code === 200) {
             commit('SET_HAZARD_TYPE', result.data)
           }

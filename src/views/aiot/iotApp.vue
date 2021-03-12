@@ -57,7 +57,7 @@
 
 <script>
 import PhysicalUnionApplication from 'cmp/equipCard/PhysicalUnionApplication.vue'
-import PhysicalUnionApplicationListCard from 'cmp/equipListCard/PhysicalUnionApplicationListCard.vue'
+import PhysicalUnionApplicationListCard from 'cmp/equipListCard/EquipListCard.vue'
 import EnvironmentalMonitoring from 'cmp/equipCard/EnvironmentalMonitoring.vue'
 import TowerCraneMonitoring from 'cmp/equipCard/TowerCraneMonitoring.vue'
 import Api from '@/api/aiot/iotApp.js'
@@ -128,7 +128,6 @@ export default {
         size: 99999,
         conditionStr: (this.queryCondition.length < 1 ? '' : '?condition=' + this.queryCondition)
       }
-      console.log('输出参数', params)
       const res = await Api.equipInfoList(params)
       if (res.code === 200) {
         this.equipInfoList = [...res.data.rows]
@@ -149,7 +148,6 @@ export default {
         }, this.equipInfoList)
       }
       this.equipInfoList = combined
-      console.log('设备列表', this.equipInfoList)
       // this.equipInfoList.forEach(item => {
       //   promiseToList.conversion('equipType', item.)
       // })
@@ -175,10 +173,8 @@ export default {
             return acc
           }, this.equipInfoList)
         }
-        console.log(combined, 'combined')
         this.equipInfoList = combined
       }
-      console.log('最后输出卡片列表', this.equipInfoList)
       this.loadding = false
     }
   }

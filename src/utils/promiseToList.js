@@ -16,8 +16,6 @@ class PromiseToList {
   */
   async conversion(typeName, propertyName, newPropertyName, infoList) {
     const typeList = await store.getters[typeName]
-    console.log('aaaa', typeList)
-    // console.log('转换', typeList, typeName, typeId)
     if (typeName === 'hazardType') {
       infoList.forEach(item => {
         typeList.forEach(element => {

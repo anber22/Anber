@@ -251,9 +251,7 @@ export default {
     this.getDepartCounting()
 
     store.dispatch('generatePersistence')
-    // console.log('设备类型', await this.equipType)
-    // console.log('隐患类型', await this.hazardType)
-    // console.log('网点类型', await this.placeType)
+
     this.getOnlinePercent()
   },
   methods: {
@@ -268,9 +266,7 @@ export default {
       }
     },
     async getHazardTypeList() {
-      // console.log('index111', await store.getters.hazardType)
 
-      // console.log('index2222', await store.getters.hazardType)
     },
     /**
      * 获取网点总数
@@ -298,7 +294,6 @@ export default {
       if (res.code === 200) {
         this.equipList = [...res.data]
       }
-      console.log('设备数量', this.equipList)
 
       const combined = this.subsystemList.reduce((acc, cur) => {
         const target = acc.find(e => e.id === cur.id)
@@ -310,8 +305,6 @@ export default {
       }, this.equipList)
       this.equipList = combined
 
-      // console.log(typeof '/src/assets/images/index/wisdom-visual.png')
-      // console.log('config', typeof Config.subsystemList[0].imgUrl)
       combined.forEach(item => {
         this.monitorAnalysisData.equipType.push({
           value: item.id,
@@ -467,7 +460,6 @@ export default {
       if (res.code === 200) {
         this.hiddenDangerList = [...res.data]
       }
-      console.log('获取隐患列表', this.hiddenDangerList)
       this.hiddenDangerList.forEach(hItem => {
         this.subsystemList.forEach(cItem => {
           if (hItem.type === cItem.id) {
@@ -478,7 +470,6 @@ export default {
           }
         })
       })
-      console.log('隐患列表', this.hiddenDangerList)
     }
   }
 }

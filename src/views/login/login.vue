@@ -155,7 +155,9 @@ export default {
         this.yzm_state = 0
       }
     },
-    // 短信登录
+    /**
+     * 短信登录
+     */
     async isSMSLogin() {
       const param = {
         phone: this.isSMSData.phone,
@@ -185,8 +187,8 @@ export default {
       //   this.$Toast(res.message)
       // }
     },
-    /** 密码登录
-     *
+    /**
+     *密码登录
      */
     async isPasswordLogin() {
       const param = {

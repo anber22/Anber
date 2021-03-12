@@ -156,6 +156,9 @@ export default {
     this.getHazardDetail()
   },
   methods: {
+    /**
+     * 拨号
+     */
     async  callPhone(e) {
       const res = await PlaceApi.placeResourcDetail(e)
       if (res.code === 200) {
@@ -174,10 +177,8 @@ export default {
       if (res.code === 200) {
         this.detailInfo = { ...res.data }
       }
-      console.log('详情', this.detailInfo)
       this.detailInfo = await promiseToList.conversion('hazardType', 'hazardType', 'hazardTypeName', [this.detailInfo])
       this.detailInfo = this.detailInfo[0]
-      console.log('详情1', this.detailInfo)
       if (this.detailInfo.isDone === 1) {
         this.getHazardDealInfo()
       }
@@ -187,7 +188,6 @@ export default {
      *  时间格式化
      */
     timeTransformation(e) {
-      console.log('隐患详情', e)
       return dealData.dataFormat(e)
     },
 

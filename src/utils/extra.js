@@ -5,7 +5,6 @@ import store from '../store'
 Vue.directive('permission', {
   inserted: (el, binding, vnode) => {
     // TODO: 截取自定义组件 component的 name
-    // console.log(""vnode.tag)
     let [,,, componentName] = vnode.tag.split('-')
     // TODO: 满足部分需要父子组件一同管理的组件 (非固化父子关系的组件, 不推荐使用)
     if (binding.arg === 'parent') {

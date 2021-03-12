@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 class Analysis {
   //  获取隐患列表
-  async analysisList(param) {
+  async hazardList(param) {
     return await request({
       url: `/apis/heartbeat/equip/type/${param.type}/list/page/${param.page}/size/${param.size}${param.condition}`,
       method: 'get'

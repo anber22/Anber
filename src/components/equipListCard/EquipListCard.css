@@ -1,0 +1,77 @@
+.equipListCard{
+  width: 100%;
+  height: 100%;
+  border: 1px solid #4D628F;
+  background-color:#0A0B29;
+}
+.equipListCard-header{
+  background: #131F3B;
+}
+.equipListCard-title{
+  width: 40%;
+  height: 25%;
+  font-size: 15px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #FFFFFF;
+  padding: 1% 5% 1% 3%;
+  margin-top: 1%;
+  display: inline-block;
+  float: left;
+}
+.equipListCard-content{
+  width: 100%;
+  height: 55%;
+  margin-top: 2.7%;
+}
+.equipListCard-state{
+  width: 48%;
+  height: 25%;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 2.1% 1% 1% 3%;
+}
+.equipListCard-content-row{
+  height: 45.5%;
+  width: 100%;
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  vertical-align: middle
+}
+.equipListCard-content-row-name{
+  width: 89%;
+  text-align: left;
+  padding-left: 3%;
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #6F85A2;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.equipListCard-content-row-place-name{
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  text-decoration: underline;
+  color: #06F0FE;
+}
+.equipListCard-type{
+  width: auto;
+  background: #1B2B29;
+  border: 1px solid #70C7BE;
+  border-radius: 2px;
+  padding: 0.5% 1% 0.5% 1%;
+  margin-left: 2%;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.equipListCard-content-row-icon{
+  width: 19px;
+  height: 19px;
+}

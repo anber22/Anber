@@ -67,14 +67,11 @@ export default {
   computed: {
     changeDate: function() {
       return function(val) {
-        // console.log('组件传入时间', val)
-
         return this.dateFormat(val)
       }
     }
   },
   created() {
-    console.log('页面创建', this.data, this.ulList)
     this.ulList = this.data
 
     if (this.ulList !== null) {
@@ -92,8 +89,6 @@ export default {
   },
   methods: {
     showDetail(e) {
-      console.log('选中隐患', e)
-      // console.log('网点id', e)
       this.$router.push({
         path: '/hazardDetail',
         query: {
@@ -110,17 +105,13 @@ export default {
         that.ulList.push(that.ulList[0]) // 将第一条数据塞到最后一个
         that.ulList.shift() // 删除第一条数据
 
-        // console.log('输出循环列表', that.ulList)
         this.currentSystemtypeImage = this.ulList[0].imgUrl
       }, 500)
-
-      // console.log(that.timer)
     },
     /**
      * 时间格式转换
      */
     dateFormat(date) {
-      // console.log('传出时间', Data.dateDifference(date))
       return Data.dateDifference(date)
     }
   }
@@ -128,130 +119,6 @@ export default {
 }
 </script>
 
-<style  scoped  >
-.warin{
-  width: 100%;
-  height: 100%;
-  /* background: rgba(0, 133, 247, 0.1); */
-}
-.equip-type{
-  width: 22.3%;
-  height: 100%;
-  float: left;
- opacity: 0.9;
+<style  scoped  src="./Warning.css">
 
-}
-.hidden-trouble-detail{
-  width: 99.2%;
-  height: 100%;
-  display: inline-block;
-}
-.equip-img{
-    width: 7.9%;
-    height: 52.37%;
-    margin: 2.865% 1% 3.865% 1%;
-}
-
-.title{
-  font-size: 12px;
-  font-family: PingFang SC;
-  font-weight: 400;
-  color: #A3D5FF;
-}
-.out-rect {
-  width: 100%;
-  height: 100%; /*关键样式*/
-  line-height: 350%;
-  /* background: linear-gradient(45deg, transparent 4.67%, rgba(0, 186, 255, 1) 0%,#010F1F 48%)  right; */
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  /* box-shadow: 4px 0 10px rgba(226, 226, 226, 0.3); */
-  padding: 0.5%;
-  font-size: 14px;
-  display: flex;
-}
-.in-rect{
-  width: 99%;
-  height: 99.9%;
-  /* line-height: 55px; */
-  display: flex;
-  padding: 0px  3%;
-  margin-top: 0.03%;
-   background-image: url('@/assets/images/index/hidden-trouble-to-push-bg.png');
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-}
-.width-10{
-  width: 10%;
-
-}
-.width-20{
-  width: 20%;
-
-}
-.width-15{
-  width: 15%;
-
-}
-.width-25{
-  width: 25%;
-
-}
-.width-30{
-  width: 30%;
-}
-
-.colItem{
-  /* width: auto; */
-  display: inline-block;
-  text-align: center;
-  height: 100%;
-  line-height: 400%;
-  overflow: hidden;
-  /* margin-left: 2% */
-}
-.content{
-  font-size: 12px;
-  font-family: PingFang SC;
-  font-weight: 400;
-  color: rgba(1, 255, 252, 1);
-}
-.roll-line {
-  width: 2px;
-  height: 100%;
-  /* background: #dee2e6; */
-  margin: 0 20px 0 -20px;
-}
-.el-icon-bell {
-  color: #343a40;
-  line-height: 55px; /*key code*/
-  margin-right: 10px;
-}
-.toUp {
-  margin-top: -55px; /*key code*/
-  transition: all 1s; /*key code*/
-}
-.list {
-  list-style: none;
-  width: 100%;
-  text-align: center;
-  overflow: hidden; /*key code*/
-  height: 100%; /*key code*/
-  padding: 0;
-  margin-left: 3%;
-  overflow: hidden;
-}
-li {
-  height: 100%;
-  text-align: left;
-}
-.no-data{
-  width: 100%;
-  height: 20px;
-
-  line-height:20px;
-  color: #ffffff;
-  font-size: 14px;
-  text-align: center
-}
 </style>

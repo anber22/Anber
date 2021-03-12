@@ -45,42 +45,6 @@ export default {
 }
 </script>
 
-<style>
-.equip-status{
-  height: 19px;
-  width: 90px;
-  /* display: inline-block; */
-  color: #ffffff;
-  float: right;
-}
-.wifi{
-  width: 13px;
-  height: 10px;
-  float: right;
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 10%;
-  margin-top: 7%
-}
-.battery{
-  width: 13px;
-  height: 10px;
-  vertical-align: middle;
-  margin-left: 10%;
-  float: right;
-  display: inline-block;
-  margin-top: 7%
-}
-.status-name{
-  width: 25px;
-  height: 21px;
-  line-height: 21px;
-  font-size: 12px;
-  font-family: PingFang SC;
-  font-weight: 600;
-  /* color: #29CF7B; */
-  margin-left: 10%;
-  display: inline-block;
-  float: right;
-}
+<style src='./EquipStatus.css'>
+
 </style>

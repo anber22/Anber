@@ -41,7 +41,6 @@ export default {
         size: 999,
         condition: (this.queryCondition.length < 1 ? '' : ('?condition=' + this.queryCondition))
       }
-      console.log('参数', params)
       const res = await Api.placeResourcList(params)
       if (res.code === 200) {
         let listData = [...res.data.rows]
@@ -50,6 +49,9 @@ export default {
         this.placeResourcList = listData
       }
     },
+    /**
+     * 搜索触发事件
+     */
     onSearch(e) {
       this.getPlaceResourcList()
     }

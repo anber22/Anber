@@ -18,6 +18,5 @@ const store = new Vuex.Store({
   },
   getters
 })
-console.log('store开始')
 
 export default store

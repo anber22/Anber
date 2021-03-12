@@ -151,10 +151,8 @@ export default {
       if (res.code === 200) {
         this.placeResourcDetail = res.data
       }
-      console.log('网点详情', this.placeResourcDetail)
       this.placeResourcDetail = await promiseToList.conversion('placeType', 'placeTypeId', 'placeTypeName', [this.placeResourcDetail])
       this.placeResourcDetail = this.placeResourcDetail[0]
-      console.log('网点详情', this.placeResourcDetail)
       this.loading = false
     },
     /**

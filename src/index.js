@@ -30,7 +30,6 @@ Vue.prototype.$Toast = Toast
 // Vue.prototype.$video = video
 // const hls = require('videojs-contrib-hls')
 // Vue.use(hls)
-// console.log(hls, 'hls')
 
 // 开发环境
 console.log(`${process.env.NODE_ENV}`, 'process')

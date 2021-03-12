@@ -1,11 +1,11 @@
 <template>
-  <div class="analysis">
+  <div class="hazard">
     <!-- 头部搜索栏 start -->
-    <div class="analysis-input">
+    <div class="hazard-input">
       <van-search v-model="queryCondition" placeholder="网点名称/IMEI码" background="#101720" @search="onSearch" />
     </div>
-    <div class="analysis-button">
-      <img src="@/assets/images/public/screening.png" alt="" class="analysis-icon" @click="show = true">
+    <div class="hazard-button">
+      <img src="@/assets/images/public/screening.png" alt="" class="hazard-icon" @click="show = true">
     </div>
     <!-- end -->
 
@@ -13,9 +13,9 @@
     <van-loading v-if="loading" size="24px" vertical>
       加载中...
     </van-loading>
-    <div v-if="!loading" class="analysis-content">
-      <div v-for="item in analysisList" :key="item.index" @click="showDetail(item.id)">
-        <Adaptive :data="['94%','38.39%']" class="analysis-list-card">
+    <div v-if="!loading" class="hazard-content">
+      <div v-for="item in hazardList" :key="item.index" @click="showDetail(item.id)">
+        <Adaptive :data="['94%','38.39%']" class="hazard-list-card">
           <HazardListCard :data="item" />
         </Adaptive>
       </div>
@@ -48,7 +48,7 @@ export default {
   },
   data() {
     return {
-      analysisList: [],
+      hazardList: [],
       queryCondition: '',
       equipType: 0,
       columns: [
@@ -78,7 +78,6 @@ export default {
      * 跳转详情
      */
     showDetail(e) {
-      console.log('网点id', e)
       this.$router.push({
         path: '/hazardDetail',
         query: {
@@ -114,13 +113,12 @@ export default {
         size: 999,
         condition: this.formattingCondition()
       }
-      const res = await Api.analysisList(params)
+      const res = await Api.hazardList(params)
       if (res.code === 200) {
-        this.analysisList = [...res.data.rows]
+        this.hazardList = [...res.data.rows]
       }
-      this.analysisList = await promiseToList.conversion('hazardType', 'hazardType', 'hazardTypeName', this.analysisList)
-      this.analysisList = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', this.analysisList)
-      console.log(this.analysisList, 'analysisList')
+      this.hazardList = await promiseToList.conversion('hazardType', 'hazardType', 'hazardTypeName', this.hazardList)
+      this.hazardList = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', this.hazardList)
       this.loading = false
     },
     /**
@@ -167,55 +165,6 @@ export default {
 }
 </script>
 
-<style>
-.analysis{
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: #101720;
-}
-.analysis-content{
-  position: fixed;
-  padding: 0px 3% 52% 3%;
-  width: 100%;
-  height: 80%;
-  overflow: scroll;
-}
-.analysis-list-card{
-  margin-top: 3%;
-}
-.van-search__content {
-  background-color: #1A212B;
-}
-input::-webkit-input-placeholder{
-  color: #373F4A !important;
-  font-size: 12px
-}
-.analysis-input{
-  width: 90%;
-  display: inline-block;
-}
-.analysis-button{
-  width: 5%;
-  display: inline-block;
-}
-.analysis-icon{
-width: 20px;
-height: 20px;
-}
-.van-picker__columns {
-  background-color: #10161F;
-}
-.van-picker__mask{
-  background-image: linear-gradient(180deg,hsla(216, 32%, 9%, .4),hsla(216, 32%, 9%, .9)),linear-gradient(0deg,hsla(216, 32%, 9%, .4),hsla(216, 32%, 9%, .9));
-}
-.van-picker-column__item {
-  color:#B9CEE9
-}
-.van-picker__toolbar{
-  background-color: #10161F
-}
-.van-picker__title{
-  color:#B9CEE9
-}
+<style src="./hazard.css">
+
 </style>
