@@ -238,7 +238,11 @@ export default {
     // this.subsystemList.forEach(item => {
     //   item.imgUrl = require(item.imgUrl)
     // })
-    // Regular.d
+    Regular.determineNull({})
+    Regular.determineNull([])
+    Regular.determineNull('')
+    Regular.determineNull(0)
+
     this.getHazardTypeList()
     this.getHiddenDangerList()
     this.getEquipCountings()

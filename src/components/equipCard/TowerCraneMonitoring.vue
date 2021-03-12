@@ -244,11 +244,17 @@ export default {
   height: 12.5%;
   /* background: black; */
   font-size: 15px;
+    white-space: nowrap;
+overflow-x:scroll;
+overflow-y: hidden;
   font-family: PingFang SC;
   font-weight: 400;
   color: #FFFFFF;
   padding: 2% 5% 1% 3%;
   display: inline-block;
+}
+::-webkit-scrollbar{
+  display: none;
 }
 .towerCraneMonitoring-state{
   width: 55%;
