@@ -55,14 +55,12 @@ export default {
         source = '/kkvideo/mag/hls/d52ef1c486394c7fa5159b4eb374d4fc/0/live.m3u8'
       } else if (imei === '21024125409SLB000464') {
         source = '/kkvideo/mag/hls/5a481c8114ea4abe89f89c4dce67f82c/0/live.m3u8'
-      } else if (imei === '21024125049SLB000450') {
-        source = '/kkvideo/mag/hls/ee590462b44541858542455190786c28/1/live.m3u8'
-      } else if (imei === '21024125049SLB000473') {
-        source = '/kkvideo/mag/hls/6374ba29f92e41408ec2aa8b934313ec/1/live.m3u8'
       } else if (this.$route.query.equipId === '101') {
         source = '/kkvideo/mag/hls/34f7347c91eb4104b3d20ef12db64982/1/live.m3u8'
       } else if (this.$route.query.equipId === '100') {
         source = '/kkvideo/mag/hls/09c090c544e344888a91f9e673c1fb06/1/live.m3u8'
+      } else if (this.$route.query.equipId === '102') {
+        source = '/kkvideo/mag/hls/d7e2094c10174d0198a0596b9629c7b7/1/live.m3u8'
       } else {
         source = '/zjvideo/hls/03428523308467170101_src.m3u8'
       }

@@ -585,6 +585,7 @@ export default {
   width: 100%;
   height: max-content;
   background-image: url('@/assets/images/index/zhgt-bg.png');
+  background-color: rgba(16, 23, 32, 1);
   background-repeat: no-repeat;
   background-size:100% 100%;
 }
