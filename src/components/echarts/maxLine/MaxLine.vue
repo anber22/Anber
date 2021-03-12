@@ -33,7 +33,7 @@ export default {
       if (_xAxisData.length < 7) {
         interval = 0
       } else if (_xAxisData.length > 6 && _xAxisData.length < 12) {
-        interval = 1
+        interval = 2
       }
       // 基于准备好的dom，初始化echarts实例
       var myChart = this.$echarts.init(document.getElementById(this.data.chartId))
@@ -94,6 +94,8 @@ export default {
             show: false
           },
           axisLabel: {
+            showMaxLabel: true,
+            showMinLabel: true,
             interval: interval, // 如果设置为 1，表示『隔一个标签显示一个标签』，如果值为 2，表示隔两个标签显示一个标签，以此类推
             show: true,
             textStyle: {
@@ -120,7 +122,12 @@ export default {
             fontSize: 10
           },
           splitLine: { // 设置网格线颜色
-            show: false
+            show: true,
+            lineStyle: {
+              color: 'rgba(255, 255, 255, 0.1)',
+              width: 1,
+              opacity: 0.4
+            }
           }
         },
         series: [{
