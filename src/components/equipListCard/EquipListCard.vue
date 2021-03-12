@@ -5,7 +5,7 @@
         {{ data.equipName }}
       </div>
       <div class="equipListCard-state">
-        <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" />
+        <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" :status="data.onlineType" />
       </div>
     </div>
     <div class="equipListCard-content">

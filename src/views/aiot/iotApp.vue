@@ -175,6 +175,7 @@ export default {
         }
         this.equipInfoList = combined
       }
+      console.log('应用列表', this.equipInfoList)
       this.loadding = false
     }
   }

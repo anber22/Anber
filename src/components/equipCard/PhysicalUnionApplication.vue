@@ -6,7 +6,7 @@
       </div>
       <div class="physicalUnionApplication-state">
         <div class="physicalUnionApplication-state-box">
-          <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" />
+          <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" :status="data.onlineType" />
         </div>
         <div v-if="data.count!==0" class="physicalUnionApplication-hidden-trouble">
           <van-badge :content="data.count" badge-size="14px">
@@ -91,6 +91,7 @@ export default {
     }
   },
   mounted() {
+    console.log('组件', this.data)
   },
   methods: {
     async  callPhone(e) {

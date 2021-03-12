@@ -1,7 +1,7 @@
 <template>
   <div class="equip-status">
-    <div class="status-name" :style="'color:'+ ((electricity===0 || ( 95> signal && signal >=105))?'#FF1743':'#29CF7B')">
-      {{ (electricity===0 || ( -95> signal && signal >=105))?"故障":"正常" }}
+    <div class="status-name" :style="'color:'+ (status===0?'#FF1743':'#29CF7B')">
+      {{ status === 0 ? "故障":"正常" }}
     </div>
 
     <img v-if="electricity>0 && electricity<=30" src="@/assets/images/equip/battery-yellow.png" alt="" class="battery">
@@ -30,6 +30,11 @@ export default {
       type: Number,
       // eslint-disable-next-line vue/require-valid-default-prop
       default: 0
+    },
+    status: {
+      type: Number,
+      // eslint-disable-next-line vue/require-valid-default-prop
+      default: 0
     }
   },
   data() {
@@ -38,6 +43,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.status)
   },
   methods: {
 
