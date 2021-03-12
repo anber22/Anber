@@ -134,11 +134,18 @@ export default {
   width: 35%;
   height: 11.5%;
   font-size: 15px;
+
+white-space: nowrap;
+overflow-x:scroll;
+overflow-y: hidden;
   font-family: PingFang SC;
   font-weight: 400;
   color: #FFFFFF;
   padding: 3% 5% 2% 3%;
   display: inline-block;
+}
+::-webkit-scrollbar{
+  display: none;
 }
 .physicalUnionApplication-state{
   width: 55%;

@@ -31,9 +31,14 @@ export default {
     zoom: 0.93333;
   }
 }
-@media (min-width: 351px) and (max-width: 374px) {
+@media (min-width: 351px) and (max-width: 359px) {
   #app{
-    zoom: 0.989333;
+    zoom: 0.936;
+  }
+}
+@media (min-width: 360px) and (max-width: 374px) {
+  #app{
+    zoom: 0.96;
   }
 }
 @media (min-width: 375px) and (max-width: 379px) {
@@ -41,9 +46,14 @@ export default {
     zoom: 1;
   }
 }
-@media (min-width: 380px) and (max-width: 400px) {
+@media (min-width: 380px) and (max-width: 389px) {
   #app{
-    zoom: 1.067;
+    zoom: 1.013333;
+  }
+}
+@media (min-width: 390px) and (max-width: 400px) {
+  #app{
+    zoom: 1.04;
   }
 }
 @media (min-width: 401px) and (max-width: 413px) {
@@ -75,6 +85,16 @@ export default {
 @media (min-width: 481px) and (max-width: 500px) {
   #app{
     zoom: 1.33333333;
+  }
+}
+@media (min-width: 501px) and (max-width: 520px) {
+  #app{
+    zoom: 1.3866666;
+  }
+}
+@media (min-width: 521px) and (max-width: 530px) {
+  #app{
+    zoom: 1.413333;
   }
 }
 .AnalysisPie-echarts-tooltip{

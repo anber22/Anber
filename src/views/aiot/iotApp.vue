@@ -224,7 +224,8 @@ export default {
   padding: 0px 3%;
   vertical-align: middle;
   position: relative;
-  top: 0;
+  top: -1;
+  background-color: #101720;
 }
 .header-picker{
   width: 30%;
@@ -268,12 +269,12 @@ export default {
 
 }
 .iotApp .van-search__content{
-  background-color: rgba(26, 33, 43, 1);
+  background-color: #101720;
   padding-left: 0px;
 }
 
 .iotApp .van-dropdown-menu__bar{
-  background-color:  rgba(16, 23, 32, 1) ;
+  background-color:  #101720 ;
 }
 .iotApp .van-dropdown-menu__title{
 

@@ -1,4 +1,4 @@
-const requestPath = 'ws://server12.ctjt.cn:15654/ws'
+const requestPath = 'wss://beta.zhgtwx.ctjt.cn/ws'
 
 import Stomp from 'stompjs'
 // import localData from './local'
@@ -28,7 +28,6 @@ class Socket {
   initSocket(channelName) {
     // 先识别对应的频道
     this.identificationOfTheChannel(channelName)
-
     if (channel === []) { return '' }
 
     // 我们的socket是socket包装的websocket 所以用Stomp.over(socket)

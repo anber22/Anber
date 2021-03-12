@@ -104,6 +104,7 @@ import DepartCount from 'cmp/index/departCount/DepartCount'
 import Events from 'cmp/index/events/Events'
 import MonitorAnalysis from 'cmp/index/monitorAnalysis/MonitorAnalysis'
 import { mapGetters } from 'vuex'
+import Regular from '@/utils/regular.js'
 import store from '@/store'
 import CraneMonitoring from '@/assets/images/index/wisdom-visual.png'
 export default {
@@ -241,6 +242,7 @@ export default {
     // this.subsystemList.forEach(item => {
     //   item.imgUrl = require(item.imgUrl)
     // })
+    // Regular.d
     this.getHazardTypeList()
     this.getHiddenDangerList()
     this.getEquipCountings()
@@ -357,7 +359,7 @@ export default {
             count: item.data.count
           })
         })
-        // 使用当前第一个辖区id去获取该辖区隐患分析数据---折线图数据1
+        // 使用当前第一个辖区id去获取该辖区隐患分析数据---折线图数据
         this.getTroubleAnalysis(dataArr[0].departId)
         this.departCountData = {
           online: dataArr[0].data.online,
