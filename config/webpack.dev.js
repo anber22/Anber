@@ -30,7 +30,7 @@ module.exports = merge(base, {
 
       },
       "/kkvideo": {
-        target: "http://10.9.0.11:6713",
+        target: "http://221.4.210.181:6713",
         // target: "http://47.106.116.164:8017",
         pathRewrite: { "^/kkvideo": "" },
         changeOrigin: true,
