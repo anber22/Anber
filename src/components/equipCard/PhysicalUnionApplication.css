@@ -15,7 +15,7 @@
 }
 .physicalUnionApplication-title{
   width: 35%;
-  height: 11.5%;
+  height: 10.5%;
   font-size: 15px;
   white-space: nowrap;
   overflow-x:scroll;
@@ -31,7 +31,7 @@
 }
 .physicalUnionApplication-state{
   width: 55%;
-  height: 15.5%;
+  height: 12.5%;
   display: inline-block;
 }
 .physicalUnionApplication-state-box{
