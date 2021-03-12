@@ -1,7 +1,7 @@
 .equipDetialCard{
   display: inline-block;
   border-radius: 2px;
-  border: 0.01px solid #008797;
+  border: 0.02px solid #008797;
 }
 .equipDetialCard-name{
   height: 26px;
