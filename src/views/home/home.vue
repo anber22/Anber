@@ -142,6 +142,9 @@ export default {
   mounted() {
   },
   methods: {
+    /**
+     * 跳转页面
+     */
     goJump(path) {
       this.$router.push(path)
     }

@@ -50,7 +50,6 @@ export default {
       let source
       this.title = this.$route.query.equipTypeName + '-' + this.$route.query.placeName + this.$route.query.equipAddress
       const imei = this.$route.query.imei
-      console.log(imei, 'this.$route.query.imei')
       if (imei === '21024125409SLB000873') {
         source = '/kkvideo/mag/hls/d52ef1c486394c7fa5159b4eb374d4fc/0/live.m3u8'
       } else if (imei === '21024125409SLB000464') {
@@ -71,11 +70,9 @@ export default {
   },
   methods: {
     onPlayerPlay(player) {
-      console.log('player play!', player)
       this.player.play()
     },
     onPlayerReady(player) {
-      console.log('player ready!', player)
       this.player.play()
     },
     playVideo(source) {

@@ -33,6 +33,9 @@ export default {
     this.title = this.$route.meta.title
   },
   methods: {
+    /**
+     * 返回
+     */
     onClickLeft() {
       this.$router.back()
     }

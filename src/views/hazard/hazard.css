@@ -1,0 +1,50 @@
+.hazard{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #101720;
+}
+.hazard-content{
+  position: fixed;
+  padding: 0px 3% 52% 3%;
+  width: 100%;
+  height: 80%;
+  overflow: scroll;
+}
+.hazard-list-card{
+  margin-top: 3%;
+}
+.van-search__content {
+  background-color: #1A212B;
+}
+input::-webkit-input-placeholder{
+  color: #373F4A !important;
+  font-size: 12px
+}
+.hazard-input{
+  width: 90%;
+  display: inline-block;
+}
+.hazard-button{
+  width: 5%;
+  display: inline-block;
+}
+.hazard-icon{
+width: 20px;
+height: 20px;
+}
+.van-picker__columns {
+  background-color: #10161F;
+}
+.van-picker__mask{
+  background-image: linear-gradient(180deg,hsla(216, 32%, 9%, .4),hsla(216, 32%, 9%, .9)),linear-gradient(0deg,hsla(216, 32%, 9%, .4),hsla(216, 32%, 9%, .9));
+}
+.van-picker-column__item {
+  color:#B9CEE9
+}
+.van-picker__toolbar{
+  background-color: #10161F
+}
+.van-picker__title{
+  color:#B9CEE9
+}

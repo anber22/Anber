@@ -20,7 +20,6 @@ export default {
     this.init()
     const width = document.documentElement.clientWidth || document.body.clientWidth
     this.zoom = 1 / (width / 375)
-    console.log(this.zoom, 'zoom')
     window.addEventListener('resize', () => {
       const width = document.documentElement.clientWidth || document.body.clientWidth
       this.zoom = 1 / (width / 375)

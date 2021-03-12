@@ -1,0 +1,128 @@
+.physicalUnionApplication{
+  width: 100%;
+  /* padding: 0px 1% 0px 1%; */
+  border: 1px solid #4D628F;
+  background-color:#0A0B29;
+}
+
+.physicalUnionApplication-header{
+  background: #131F3B;
+  background-image: url('@/assets/images/equip/card-header.png');
+  background-position: right top;
+  background-repeat: no-repeat;
+  background-size:100% 100%;
+
+}
+.physicalUnionApplication-title{
+  width: 35%;
+  height: 11.5%;
+  font-size: 15px;
+  white-space: nowrap;
+  overflow-x:scroll;
+  overflow-y: hidden;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #FFFFFF;
+  padding: 3% 5% 2% 3%;
+  display: inline-block;
+}
+::-webkit-scrollbar{
+  display: none;
+}
+.physicalUnionApplication-state{
+  width: 55%;
+  height: 15.5%;
+  display: inline-block;
+}
+.physicalUnionApplication-state-box{
+  float: right;
+}
+.physicalUnionApplication-hidden-trouble{
+  width: 11%;
+  height: 70%;
+  /* background-color: red; */
+  display: inline-block;
+  font-size: 10px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  float: right;
+  color: #FFEAEE;
+  padding: 0.5% 1% 0.5% 2%;
+  margin-left: 7%;
+  border-radius: 5px
+}
+/* .physicalUnionApplication-hidden-trouble-icon{
+  position: absolute;
+  top: 9.5%;
+} */
+.physicalUnionApplication-content{
+  width: 100%;
+  display: inline-block;
+  background-image: url('@/assets/images/equip/camera-bg-img.png');
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size:160px 110px;
+}
+.physicalUnionApplication-content-img{
+  width: 40%;
+  position: relative;
+}
+.physicalUnionApplication-content-row{
+  height: 15.5%;
+  width: 97%;
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  padding-left: 3%;
+  align-items: center;
+  vertical-align: middle
+}
+.physicalUnionApplication-content-row-name{
+  width:19.5%;
+  text-align: right;
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #6F85A2;
+}
+.physicalUnionApplication-content-row-value{
+  width: 60%;
+  font-size: 12px;
+  height: 16px;
+  line-height: 16px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #B9CEE9;
+  padding-left: 5%;
+}
+.physicalUnionApplication-hidden-trouble-icon{
+  width: 18px;
+  height: 19px;
+}
+.address-font{
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  text-decoration: underline;
+  color: #06F0FE;
+  position: relative;
+  top: -4px;
+}
+.address-icon{
+  width: 11px;
+  height: 16px;
+  position: relative;
+  top: 3px;
+  left: 10px;
+}
+.camera-bg-img{
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+.van-badge{
+  border: none
+}
+.van-badge--fixed{
+  top: 4px
+}
