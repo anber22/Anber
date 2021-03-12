@@ -224,7 +224,7 @@ export default {
   padding: 0px 3%;
   vertical-align: middle;
   position: relative;
-  top: 0;
+  top: -1;
   background-color: #101720;
 }
 .header-picker{
