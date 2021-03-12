@@ -131,7 +131,7 @@ export default {
 
 }
 .physicalUnionApplication-title{
-  width: 37%;
+  width: 35%;
   height: 11.5%;
   font-size: 15px;
 
@@ -148,7 +148,7 @@ overflow-y: hidden;
   display: none;
 }
 .physicalUnionApplication-state{
-  width: 53%;
+  width: 55%;
   height: 10.5%;
   display: inline-block;
 }
