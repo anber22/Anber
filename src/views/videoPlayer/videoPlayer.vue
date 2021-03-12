@@ -52,9 +52,9 @@ export default {
       const imei = this.$route.query.imei
       console.log(imei, 'this.$route.query.imei')
       if (imei === '21024125409SLB000873') {
-        source = '/kkvideo/mag/hls/5b0536b81bf142559720059c7689a5b2/1/live.m3u8'
+        source = '/kkvideo/mag/hls/d52ef1c486394c7fa5159b4eb374d4fc/0/live.m3u8'
       } else if (imei === '21024125409SLB000464') {
-        source = '/kkvideo/mag/hls/23afc05810e24b9aa912b31460214959/1/live.m3u8'
+        source = '/kkvideo/mag/hls/5a481c8114ea4abe89f89c4dce67f82c/0/live.m3u8'
       } else if (imei === '21024125049SLB000450') {
         source = '/kkvideo/mag/hls/ee590462b44541858542455190786c28/1/live.m3u8'
       } else if (imei === '21024125049SLB000473') {

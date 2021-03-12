@@ -579,7 +579,7 @@ export default {
 }
 .index-bg{
   width: 100%;
-  height: 100%;
+  height: max-content;
   background-image: url('@/assets/images/index/zhgt-bg.png');
   background-repeat: no-repeat;
   background-size:100% 100%;
