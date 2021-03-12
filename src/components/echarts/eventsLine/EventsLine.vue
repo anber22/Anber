@@ -36,7 +36,7 @@ export default {
       } else if (_xAxisData.length > 13 && _xAxisData.length < 20) {
         interval = 2
       } else if (_xAxisData.length > 19 && _xAxisData.length < 26) {
-        interval = 3
+        interval = 4
       } else {
         interval = 4
       }
@@ -107,6 +107,8 @@ export default {
             show: false
           },
           axisLabel: {
+            showMaxLabel: true,
+            showMinLabel: true,
             interval: interval, // 如果设置为 1，表示『隔一个标签显示一个标签』，如果值为 2，表示隔两个标签显示一个标签，以此类推
             show: true,
             textStyle: {
@@ -133,7 +135,12 @@ export default {
             fontSize: 10
           },
           splitLine: { // 设置网格线颜色
-            show: false
+            show: true,
+            lineStyle: {
+              color: 'rgba(255, 255, 255, 0.1)',
+              width: 1,
+              opacity: 0.4
+            }
           }
         },
         series: [{
