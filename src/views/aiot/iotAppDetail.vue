@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import InfoRow from '@/components/infoRow/InfoRow'
+import InfoRow from '@/components/infoRows/InfoRows'
 import Api from '@/api/aiot/iotApp.js'
 import promiseToList from '@/utils/promiseToList'
 export default {

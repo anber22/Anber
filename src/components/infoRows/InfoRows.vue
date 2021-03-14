@@ -1,5 +1,5 @@
 <template>
-  <div class="infoRow">
+  <div class="infoRows">
     <div class="row-name">
       {{ data.name }}
     </div>
@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style>
-.infoRow{
+.infoRows{
   width: 100%;
   height: 4%;;
   font-size: 12px;
