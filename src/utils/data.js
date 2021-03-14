@@ -125,9 +125,9 @@ class Data {
     const nowStamp = (Date.parse(new Date())) / 1000
 
     // 总时差 单位/秒
-    var date3 = (nowStamp - (input / 1000))
+    const date3 = (nowStamp - (input / 1000))
     // 计算相差分钟数
-    var minutes = Math.floor(date3 / (60))
+    const minutes = Math.floor(date3 / (60))
 
     if (minutes >= 10) {
       const dt = new Date(input)

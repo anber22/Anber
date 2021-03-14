@@ -1,5 +1,6 @@
 <template>
   <div class="equipListCard">
+    <!-- 标题 start -->
     <div class="equipListCard-header">
       <div class="equipListCard-title">
         {{ data.equipName }}
@@ -8,6 +9,9 @@
         <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" :status="data.onlineType" />
       </div>
     </div>
+    <!-- end -->
+
+    <!-- 内容 start -->
     <div class="equipListCard-content">
       <div class="equipListCard-content-row">
         <div class="equipListCard-content-row-name">
@@ -29,6 +33,7 @@
         <img src="@/assets/images/equip/navigation.png" alt="" class="equipListCard-content-row-icon">
       </div>
     </div>
+    <!-- end -->
   </div>
 </template>
 

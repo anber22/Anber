@@ -44,9 +44,11 @@
       <!-- 列表卡片 start -->
       <div v-if="!isCard">
         <div v-if="!loadding" class="show-list">
-          <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','31.39%']" class="physicalUnionApplication-list-card">
-            <PhysicalUnionApplicationListCard :data="item" />
-          </Adaptive>
+          <div v-for="item in equipInfoList" :key="item.index" @click="toDetailInfo(item.equipId)">
+            <Adaptive :data="['100%','31.39%']" class="physicalUnionApplication-list-card">
+              <PhysicalUnionApplicationListCard :data="item" />
+            </Adaptive>
+          </div>
         </div>
       </div>
       <!-- end -->
@@ -105,6 +107,15 @@ export default {
     onSearch(e) {
       this.getEquipInfoList()
     },
+    toDetailInfo(equipId) {
+      console.log('eqid', equipId)
+      this.$router.push({
+        path: '/iotAppDetail',
+        query: {
+          id: equipId
+        }
+      })
+    },
     /**
      * 切换子系统
      */
@@ -132,13 +143,17 @@ export default {
       if (res.code === 200) {
         this.equipInfoList = [...res.data.rows]
       }
-      var ids = this.equipInfoList.map(item => { return item.equipId })
 
+      // 获取设备列表集合的
+      const ids = this.equipInfoList.map(item => { return item.equipId })
+
+      // 获取设备列表ids对应的未处理事件数
       const hazardCountList = await Api.equipUntreatedEventList(ids)
 
+      // 根据设备类型id获取对应的设备类型名称
       this.equipInfoList = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', this.equipInfoList)
       let combined = []
-      if (res.code === 200) {
+      if (hazardCountList.code === 200) {
         combined = hazardCountList.data.reduce((acc, cur) => {
           const target = acc.find(e => e.equipId === cur.equipId)
           if (target) {
@@ -148,10 +163,8 @@ export default {
         }, this.equipInfoList)
       }
       this.equipInfoList = combined
-      // this.equipInfoList.forEach(item => {
-      //   promiseToList.conversion('equipType', item.)
-      // })
-      // 如果选择的是 thisSubsystemId ===1 的环境监测系统
+
+      // 如果是环境监测或者是塔机监测就需要吧详细数据加载进来
       if (this.thisSubsystemId === 10 || this.thisSubsystemId === 11) {
         this.loadding = true
         // 根据对应的设备类型去请求相对应系统的接口
@@ -162,10 +175,10 @@ export default {
           system = 'tower'
         }
         // 获取ids去查询对应设备的详细数据
-        const temp = await Api.equipRealTimeInfoList(ids, system)
+        const realTimeList = await Api.equipRealTimeInfoList(ids, system)
         // 把两个数组对象根据equipId来合并
-        if (res.code === 200) {
-          combined = temp.data.reduce((acc, cur) => {
+        if (realTimeList.code === 200) {
+          combined = realTimeList.data.reduce((acc, cur) => {
             const target = acc.find(e => e.equipId === cur.equipId)
             if (target) {
               Object.assign(target, cur)
@@ -175,7 +188,7 @@ export default {
         }
         this.equipInfoList = combined
       }
-      console.log('应用列表', this.equipInfoList)
+      console.log('设备列表', this.equipInfoList)
       this.loadding = false
     }
   }

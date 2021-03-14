@@ -1,5 +1,6 @@
 <template>
   <div class="physicalUnionApplication">
+    <!-- 标题 start -->
     <div class="physicalUnionApplication-header">
       <div class="physicalUnionApplication-title">
         {{ data.equipName }}
@@ -17,6 +18,8 @@
         </div>
       </div>
     </div>
+    <!-- end -->
+    <!-- 内容 start -->
     <div class="physicalUnionApplication-content">
       <div class="physicalUnionApplication-content-row">
         <div class="physicalUnionApplication-content-row-name">
@@ -60,6 +63,7 @@
         </div>
       </div>
     </div>
+    <!-- end -->
     <!-- <Adaptive :data="['37%','36%']" class="physicalUnionApplication-content-img">
       <img src="/src/assets/images/equip/camera-bg-img.png" alt="" class="camera-bg-img">
     </Adaptive> -->
@@ -91,9 +95,11 @@ export default {
     }
   },
   mounted() {
-    console.log('组件', this.data)
   },
   methods: {
+    /**
+     * 拨号
+     */
     async  callPhone(e) {
       const res = await Api.placeResourcDetail(e)
       if (res.code === 200) {
@@ -101,6 +107,9 @@ export default {
         window.location.href = 'tel://' + result.phone
       }
     },
+    /**
+     * 跳转网点详情
+     */
     showDetail(e) {
       this.$router.push({
         path: '/placeResourcDetail',

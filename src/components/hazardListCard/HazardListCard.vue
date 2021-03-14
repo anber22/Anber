@@ -1,5 +1,7 @@
 <template>
+  <!-- 隐患列表卡片 start -->
   <div class="hazardListCard">
+    <!-- 隐患列表卡片 头部标题 start -->
     <div class="hazardListCard-header">
       <div v-if="data.isDone===1" class="hazardListCard-status-deal">
         已处理
@@ -17,6 +19,9 @@
         </div>
       </div>
     </div>
+    <!-- end -->
+
+    <!-- 隐患列表内容 start -->
     <div class="hazardListCard-content">
       <div class="hazardListCard-content-row">
         <div class="hazardListCard-content-row-name">
@@ -43,7 +48,9 @@
         </div>
       </div>
     </div>
+    <!-- end -->
   </div>
+  <!-- end -->
 </template>
 
 <script>

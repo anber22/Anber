@@ -1,5 +1,5 @@
 import Api from '@/api/communal.js'
-var typeList = [
+const typeList = [
   // 隐患类型列表
   'hazardType',
   // 网点类型列表

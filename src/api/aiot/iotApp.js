@@ -55,5 +55,12 @@ class IotApp {
       data: param
     })
   }
+  //  获取物联应用未处理事件数
+  async equipDtailInfo(param) {
+    return await request({
+      url: `/apis/equip/id/${param}`,
+      method: 'get'
+    })
+  }
 }
 export default new IotApp()
