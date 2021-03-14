@@ -41,9 +41,9 @@ export default {
         interval = 4
       }
       // 基于准备好的dom，初始化echarts实例
-      var myChart = this.$echarts.init(document.getElementById(this.data.chartId))
+      const myChart = this.$echarts.init(document.getElementById(this.data.chartId))
       // 指定图表的配置项和数据
-      var option = {
+      const option = {
         color: ['rgba(0, 133, 247, 1)', 'rgba(40, 255, 187, 1)'],
         title: {
           text: this.data.title,
@@ -68,9 +68,9 @@ export default {
           triggerOn: 'mousemove|click',
           className: 'EventsLine-echarts-tooltip',
           formatter: function(params) {
-            var result = ''
-            var dotHtml = '<span style="display:inline-block;margin-right:5px;margin-bottom: 4px;width:13px;height:2px;background-color:rgba(40, 255, 187, 1)"></span>'
-            var dotHtml2 = '<span style="display:inline-block;margin-right:5px;margin-bottom: 4px;width:13px;height:2px;background-color:rgba(116, 102, 248, 1)"></span>'
+            let result = ''
+            const dotHtml = '<span style="display:inline-block;margin-right:5px;margin-bottom: 4px;width:13px;height:2px;background-color:rgba(40, 255, 187, 1)"></span>'
+            const dotHtml2 = '<span style="display:inline-block;margin-right:5px;margin-bottom: 4px;width:13px;height:2px;background-color:rgba(116, 102, 248, 1)"></span>'
             result += dotHtml + '事件数 ' + params[0].data + '</br>' + dotHtml2 + '故障数 ' + params[1].data
             return result
           },

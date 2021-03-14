@@ -52,8 +52,8 @@ export default {
     init() {
       this.departName = this.data.data[0].name
       this.count = this.data.data[0].count
-      var myChart = this.$echarts.init(document.getElementById(this.data.chartId))
-      var option = {
+      const myChart = this.$echarts.init(document.getElementById(this.data.chartId))
+      const option = {
         tooltip: {
           show: false
         },
@@ -217,7 +217,7 @@ export default {
             // 图形的样式设置，
             itemStyle: {
               color: function(params) {
-                var colorList = [
+                const colorList = [
                   {
                     c1: 'rgba(71, 167, 234, 0)', // 管理
                     c2: 'rgba(71, 167, 234, 0.2)'

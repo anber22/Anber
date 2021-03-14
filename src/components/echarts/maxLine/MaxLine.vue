@@ -36,9 +36,9 @@ export default {
         interval = 2
       }
       // 基于准备好的dom，初始化echarts实例
-      var myChart = this.$echarts.init(document.getElementById(this.data.chartId))
+      const myChart = this.$echarts.init(document.getElementById(this.data.chartId))
       // 指定图表的配置项和数据
-      var option = {
+      const option = {
         color: ['rgba(24, 237, 250, 0.5)'],
         backgroundColor: 'rgba(0, 133, 247, 0)',
         title: {
@@ -67,8 +67,8 @@ export default {
           triggerOn: 'mousemove|click',
           className: 'MaxLine-echarts-tooltip',
           formatter: function(params) {
-            var result = ''
-            var dotHtml = '<span style="display:inline-block;margin-right:5px;margin-bottom: 4px;width:13px;height:2px;background-color:rgba(24, 237, 250, 1)"></span>'
+            let result = ''
+            const dotHtml = '<span style="display:inline-block;margin-right:5px;margin-bottom: 4px;width:13px;height:2px;background-color:rgba(24, 237, 250, 1)"></span>'
             result += dotHtml + '隐患数 ' + params[0].data + '</br>'
             return result
           }
