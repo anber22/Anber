@@ -122,11 +122,11 @@ class MatchUUID {
         address: '湾6门前停车场围墙A',
         imei: '2102353PJCWMM1000002'
       },
-      // {
-      //   uuid: '004379a3f3cd4daa96245ceaff0e5495',
-      //   address: '湾区6栋后门违停监测B',
-      //   imei: ''
-      // },
+      {
+        uuid: '004379a3f3cd4daa96245ceaff0e5495',
+        address: '湾区6栋后门违停监测B',
+        imei: ''
+      },
       {
         uuid: 'cd04f4cc9bb24e65850d3b67cd1e7fea',
         address: '湾区10栋后门违停监测',
@@ -151,33 +151,32 @@ class MatchUUID {
         uuid: '910cf3c8c118437aac6ce0a1905fd78d',
         address: '1号公馆高点广角',
         imei: '2102412551LTLC000342'
+      },
+      {
+        uuid: '4348f5e0a7b3418db77c2bb043290f49',
+        address: '唐一工地后门态势',
+        imei: ''
+      },
+      {
+        uuid: '44a110c890eb4fb1bd8245e432e6d9ca',
+        address: '唐一工地生活区态势A',
+        imei: ''
+      },
+      {
+        uuid: '513d137407dc422db54611047042ea59',
+        address: '唐一工地正门安全帽',
+        imei: ''
+      },
+      {
+        uuid: 'd950c2f793d846568fa05754dff2e3f5',
+        address: '唐一工地后门安全帽',
+        imei: ''
+      },
+      {
+        uuid: '6684e54d7d384c629715804e0593bd57',
+        address: '唐一工地生活区态势B',
+        imei: ''
       }
-      // ,
-      // {
-      //   uuid: '4348f5e0a7b3418db77c2bb043290f49',
-      //   address: '唐一工地后门态势',
-      //   imei: ''
-      // },
-      // {
-      //   uuid: '44a110c890eb4fb1bd8245e432e6d9ca',
-      //   address: '唐一工地生活区态势A',
-      //   imei: ''
-      // },
-      // {
-      //   uuid: '513d137407dc422db54611047042ea59',
-      //   address: '唐一工地正门安全帽',
-      //   imei: ''
-      // },
-      // {
-      //   uuid: 'd950c2f793d846568fa05754dff2e3f5',
-      //   address: '唐一工地后门安全帽',
-      //   imei: ''
-      // },
-      // {
-      //   uuid: '6684e54d7d384c629715804e0593bd57',
-      //   address: '唐一工地生活区态势B',
-      //   imei: ''
-      // }
     ]
   }
 
