@@ -20,8 +20,8 @@ export default {
     if (this.data.onlinePercent) {
       this.percent = this.data.onlinePercent
     }
-    var myChart = this.$echarts.init(document.getElementById(this.data.chartId))
-    var option = {
+    const myChart = this.$echarts.init(document.getElementById(this.data.chartId))
+    const option = {
       animation: true,
       series: [{
         type: 'gauge',

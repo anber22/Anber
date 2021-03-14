@@ -38,8 +38,8 @@ export default {
       } else {
         _data = this.data.data
       }
-      var myChart = this.$echarts.init(document.getElementById(this.data.chartId))
-      var option = {
+      const myChart = this.$echarts.init(document.getElementById(this.data.chartId))
+      const option = {
         color: this.data.color,
         tooltip: {
           show: true,
