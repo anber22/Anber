@@ -117,7 +117,7 @@ export default {
       })
     },
     /**
-     * 切换子系统
+     * 切换子系统11
      */
     changeSystem() {
       this.getEquipInfoList()
