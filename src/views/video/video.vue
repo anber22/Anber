@@ -93,25 +93,7 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.video-view{
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(16, 23, 32, 1);
-  color: #fff;
-  min-height: 100%;
-}
-.video-content{
-  position: fixed;
-  width: 92%;
-
-  height: 90%;
-  overflow: scroll;
-  padding: 0 4%;
-}
-</style>
+<style scoped src='./video.css'></style>
 <style>
 .video-view .van-search__content{
   background-color: rgba(26, 33, 43, 1);

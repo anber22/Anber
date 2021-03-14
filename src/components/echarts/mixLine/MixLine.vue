@@ -20,7 +20,6 @@ export default {
     this.init()
     const width = document.documentElement.clientWidth || document.body.clientWidth
     this.zoom = 1 / (width / 375)
-    console.log(this.zoom, 'zoom')
     window.addEventListener('resize', () => {
       const width = document.documentElement.clientWidth || document.body.clientWidth
       this.zoom = 1 / (width / 375)
@@ -172,10 +171,4 @@ export default {
   }
 }
 </script>
-<style scoped>
-.line-content{
-  z-index: 10;
-  width: 100%;
-  height: 100%
-}
-</style>
+<style scoped src='./MixLine.css'></style>

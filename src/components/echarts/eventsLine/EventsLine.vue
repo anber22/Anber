@@ -220,10 +220,4 @@ export default {
   }
 }
 </script>
-<style scoped>
-.lineMain{
-  z-index: 10;
-  width: 100%;
-  height: 100%
-}
-</style>
+<style scoped src='./EventsLine.css'></style>

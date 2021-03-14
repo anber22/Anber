@@ -115,12 +115,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.pie-content{
-  width: 100%;
-  height: 100%;
-}
-.AnalysisPie-echarts-tooltip{
-  z-index: 9
-}
-</style>
+<style scoped src='./AnalysisPie.css'></style>

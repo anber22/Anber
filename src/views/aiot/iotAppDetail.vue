@@ -49,7 +49,6 @@ export default {
     async getEquipDetailInfo() {
       const res = await Api.equipDtailInfo(this.equipId)
       let temp = { ...res.data }
-      console.log('设备详细信息', temp)
       temp = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', temp)
       this.rowList = [
         {

@@ -1,0 +1,83 @@
+.index{
+  width: 92%;
+  height: 100%;
+  padding: 0px 4% 0px 4%;
+  /* background-color: rgba(16, 23, 32, 1); */
+  overflow: scroll;
+}
+.equip-count{
+  border-radius:5px;
+  margin-top: 5%;
+  padding-right: 0px;
+  display: inline-block;
+  background-image: url('@/assets/images/index/equip-count.png');
+  background-repeat:no-repeat ;
+  background-size: cover;
+}
+.branches-count{
+  padding-right: 0px;
+  border-radius:5px;
+  margin-top: 5%;
+  display: inline-block;
+  margin-left: 2.7%;
+  background-image: url('@/assets/images/index/branches-count.png');
+  background-repeat:no-repeat;
+  background-size: cover;
+}
+.warning-box{
+  padding-right: 0px;
+  margin-top: 8%;
+}
+.count-title{
+  width: 100%;
+  margin: 0px;
+  padding-top: 8%;
+  text-align: center;
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #FFFFFF;
+}
+.count-value{
+  width: 100%;
+  margin: 0px;
+  text-align: center;
+  font-size: 21px;
+  font-family: PingFang SC;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+/* 标题  start*/
+.title-box{
+  margin-top: 8%;
+  margin-bottom: 2%;
+}
+.title-style{
+  width: 1.2%;
+  height: 100%;
+  background:-webkit-gradient(linear, 100% 100%, 0% 100%,from(#008EFF), to(#1DF2FF));
+  display: inline-block;
+  border-top-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+.title-name{
+  width: 80%;
+  height: 100%;
+  display: inline-block;
+  font-size: 20px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #B9CEE9;
+}
+/* end */
+.equipList-box{
+  padding-right: 0px;
+}
+.index-bg{
+  width: 100%;
+  height: max-content;
+  background-image: url('@/assets/images/index/zhgt-bg.png');
+  background-color: rgba(16, 23, 32, 1);
+  background-repeat: no-repeat;
+  background-size:100% 100%;
+}

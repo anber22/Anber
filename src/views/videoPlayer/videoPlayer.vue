@@ -88,40 +88,7 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.videoPlayer-box{
-  /* position: absolute !important; */
-  width: 100%;
-  height: 100%;
-  background-color: #000;
-  position: fixed
-}
-.video-center {
-  position: fixed;
-  top: 45%;
-  left: 50%;
-  width: 100%;
-  position: absolute;
-  padding-bottom: 76%;
-  -webkit-transform: translateX(-50%) translateY(-50%);
-}
-.video-content{
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: #000;
-}
-.title{
-  color: #8BA3C2;
-  font-size: 15px;
-  overflow: hidden;
-  text-overflow:ellipsis;
-  white-space: nowrap;
-  line-height: 40px;
-  margin-left: 8px;
-}
-</style>
+<style scoped src='./videoPlayer.css'></style>
 <style>
 .videoPlayer-box .vjs-custom-skin .video-js {
   width: 100% !important;

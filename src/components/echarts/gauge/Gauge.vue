@@ -454,10 +454,4 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.gauge-content{
-  width: 100%;
-  height: 100%
-}
-</style>
+<style scoped src='./Gauge.css'></style>

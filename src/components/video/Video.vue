@@ -54,47 +54,7 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.video-component{
-  color: #fff;
-  font-size: 0
-}
-.item{
-  box-sizing: border-box;
-  display: inline-block;
-  margin-bottom: 16px;
-  font-size: 14px;
-  width: 48%
-}
-.item:nth-child(odd){
-  margin-right: 4%;
-}
-.image-item{
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-.title{
-  font-size: 15px;
-  padding-top: 8px
-}
-.title2{
-  font-size: 12px;
-  color: rgba(111, 133, 162, 1);
-  padding-top: 4px
-}
-.title3{
-  font-size: 12px;
-  color: rgba(111, 133, 162, 1);
-  padding-top: 4px
-}
-.item .text p{
-  overflow: hidden;
-  text-overflow:ellipsis;
-  white-space: nowrap;
-}
-</style>
+<style scoped src='./Video.css'></style>
 <style>
 .video-component .item .van-image__img{
   height: auto;

@@ -108,7 +108,6 @@ export default {
       this.getEquipInfoList()
     },
     toDetailInfo(equipId) {
-      console.log('eqid', equipId)
       this.$router.push({
         path: '/iotAppDetail',
         query: {
@@ -188,7 +187,6 @@ export default {
         }
         this.equipInfoList = combined
       }
-      console.log('设备列表', this.equipInfoList)
       this.loadding = false
     }
   }
