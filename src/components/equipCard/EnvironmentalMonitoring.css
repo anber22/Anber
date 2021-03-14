@@ -19,7 +19,7 @@
 }
 .environmentalMonitoring-title{
   width: 35%;
-  height: 38.5%;
+  height: 100%;
   /* background: black; */
   font-size: 15px;
   white-space: nowrap;
@@ -27,20 +27,30 @@
   overflow-y: hidden;
   font-family: PingFang SC;
   font-weight: 400;
+ line-height: 265%;
+
   color: #FFFFFF;
-  padding: 2% 5% 2% 3%;
+  padding: 0% 5% 0% 3%;
   display: inline-block;
+  float: left;
+
 }
 ::-webkit-scrollbar{
   display: none;
 }
 .environmentalMonitoring-state{
   width: 55%;
-  height: 12.5%;
+
+  height: 100%;
+  vertical-align: middle;
   display: inline-block;
+  float: left;
+  line-height: 300%;
 }
 .environmentalMonitoring-state-box{
   float: right;
+  padding-top: 4%;
+
 }
 .environmentalMonitoring-hidden-trouble{
   width: 15%;

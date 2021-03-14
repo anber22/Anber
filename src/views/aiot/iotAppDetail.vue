@@ -6,17 +6,19 @@
           <img src="@/assets/images/home/title-icon.png" alt="" class="iotApp-detail-title-icon">
           设备信息
         </div>
-        <!-- <InfoRow /> -->
+        <InfoRow v-for="(rowItem,index) in rowList" :key="index" :data="rowItem" />
       </van-tab>
     </van-tabs>
   </div>
 </template>
 
 <script>
-// import InfoRow from 'cmp/infoRow/InfoRow'
+import InfoRow from 'cmp/infoRow/InfoRow'
+import Api from '@/api/aiot/iotApp.js'
+import promiseToList from '@/utils/promiseToList'
 export default {
   components: {
-    // InfoRow
+    InfoRow
   },
   data() {
     return {
@@ -35,28 +37,68 @@ export default {
           title: '绑定日志'
         }
       ],
-      rowItem: [
-        {
-          name: '设备状态：',
-          content: 'statusCard'
-        }, {
-          name: '设备名称：',
-          content: '珠海市唐家湾镇88号'
-        }, {
-          name: '设备型号：',
-          content: 'YD100枪型'
-        }, {
-          name: '设备类型：',
-          content: '安全帽监测'
-        }
-      ]
+      rowList: [],
+      equipId: 0
     }
   },
   mounted() {
-
+    this.equipId = this.$route.query.id
+    this.getEquipDetailInfo()
   },
   methods: {
-
+    async getEquipDetailInfo() {
+      const res = await Api.equipDtailInfo(this.equipId)
+      let temp = { ...res.data }
+      console.log('设备详细信息', temp)
+      temp = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', temp)
+      this.rowList = [
+        {
+          name: '设备状态:',
+          content: {
+            equipPower: temp.equipPower,
+            equipSignal: temp.equipSignal,
+            onlineType: temp.onlineType
+          },
+          typed: 'status'
+        }, {
+          name: '设备名称:',
+          content: temp.equipName,
+          typed: 'info'
+        }, {
+          name: '设备型号：',
+          content: temp.equipModel,
+          typed: 'info'
+        }, {
+          name: '设备类型:',
+          content: temp.equipTypeName,
+          typed: 'info'
+        }, {
+          name: 'IMEI码:',
+          content: temp.imei,
+          typed: 'info'
+        },
+        {
+          name: '所属辖区:',
+          content: temp.departName,
+          typed: 'info'
+        },
+        {
+          name: '安装位置:',
+          content: temp.equipAddress,
+          typed: 'info'
+        },
+        {
+          name: '所属网点:',
+          content: '港湾一号',
+          typed: 'place'
+        },
+        {
+          name: '物联网平台:',
+          content: 'OneNet',
+          typed: 'info'
+        }
+      ]
+    }
   }
 }
 </script>

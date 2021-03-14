@@ -1,10 +1,16 @@
 <template>
   <div class="infoRow">
     <div class="row-name">
-      123213:
+      {{ data.name }}
     </div>
-    <div class="row-value">
-      3123213
+    <div v-if="data.typed==='info'" class="row-info-value">
+      {{ data.content }}
+    </div>
+    <div v-else-if="data.typed==='status'" class="row-status-value">
+      {{ data.content }}
+    </div>
+    <div v-else-if="data.typed==='place'" class="row-place-value">
+      {{ data.content }}
     </div>
   </div>
 </template>
@@ -14,6 +20,13 @@
 export default {
   components: {
 
+  },
+  props: {
+    data: {
+      type: Object,
+      // eslint-disable-next-line vue/require-valid-default-prop
+      default: {}
+    }
   },
   data() {
     return {
@@ -46,7 +59,7 @@ export default {
   align-items: center;
   flex-direction: row-reverse;
 }
-.row-value{
+.row-info-value{
   height: 100%;
   color: #B9CEE9;
   width: 64%;

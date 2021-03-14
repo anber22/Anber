@@ -1,12 +1,13 @@
 <template>
   <div class="physicalUnionApplication">
+    <!-- 标题 start -->
     <div class="physicalUnionApplication-header">
       <div class="physicalUnionApplication-title">
         {{ data.equipName }}
       </div>
       <div class="physicalUnionApplication-state">
         <div class="physicalUnionApplication-state-box">
-          <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" />
+          <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" :status="data.onlineType" />
         </div>
         <div v-if="data.count!==0" class="physicalUnionApplication-hidden-trouble">
           <van-badge :content="data.count" badge-size="14px">
@@ -17,6 +18,8 @@
         </div>
       </div>
     </div>
+    <!-- end -->
+    <!-- 内容 start -->
     <div class="physicalUnionApplication-content">
       <div class="physicalUnionApplication-content-row">
         <div class="physicalUnionApplication-content-row-name">
@@ -60,6 +63,7 @@
         </div>
       </div>
     </div>
+    <!-- end -->
     <!-- <Adaptive :data="['37%','36%']" class="physicalUnionApplication-content-img">
       <img src="/src/assets/images/equip/camera-bg-img.png" alt="" class="camera-bg-img">
     </Adaptive> -->
@@ -93,6 +97,9 @@ export default {
   mounted() {
   },
   methods: {
+    /**
+     * 拨号
+     */
     async  callPhone(e) {
       const res = await Api.placeResourcDetail(e)
       if (res.code === 200) {
@@ -100,6 +107,9 @@ export default {
         window.location.href = 'tel://' + result.phone
       }
     },
+    /**
+     * 跳转网点详情
+     */
     showDetail(e) {
       this.$router.push({
         path: '/placeResourcDetail',

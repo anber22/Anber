@@ -93,16 +93,14 @@ class Socket {
    * @param {*} channelName
    */
   identificationOfTheChannel(channelName) {
-    switch (channelName) {
-      case 'equipCount':
-        channel =
+    if (channelName === 'equipCount') {
+      channel =
           '/exchange/aiot-event-message/' +
           '12345678'
-        break
-      case 'branchesCount':
-        break
-      case 'singleVideo':
-        break
+    } else if (channelName === 'branchesCount') {
+      return
+    } else if (channelName === 'singleVideo') {
+      return
     }
   }
 }

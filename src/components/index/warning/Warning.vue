@@ -21,11 +21,8 @@
               <div class="colItem content width-30">
                 {{ rowItem.placeName }}
               </div>
-              <!-- <div class="colItem content" style="color:red;">
-                未处理
-              </div> -->
+
               <div class="colItem content width-15">
-                <!-- 22.22 -->
                 {{ changeDate(rowItem.createTime) }}
               </div>
             </li>
@@ -88,6 +85,9 @@ export default {
     clearInterval(this.timer)
   },
   methods: {
+    /**
+     * 显示详情
+     */
     showDetail(e) {
       this.$router.push({
         path: '/hazardDetail',
@@ -96,6 +96,10 @@ export default {
         }
       })
     },
+
+    /**
+     * 开始轮播
+     */
     startPlay() {
       const that = this
       that.play = true // 开始播放

@@ -47,8 +47,8 @@
 
 
   - infoRow                #基本信息行
-    -infoRow.vue
-    -infoRow.css 
+    -InfoRow.vue
+    -InfoRow.css 
 
 
 
@@ -60,12 +60,8 @@
    
 
  - equipListCard           #设备列表卡片
-    - PhysicalUnionApplicationListCard.vue     智慧物联列表卡片
-    - PhysicalUnionApplicationListCard.css   
-    - EnvironmentalMonitoringListCard.vue      环境监测列表卡片
-    - EnvironmentalMonitoringListCard.css  
-    - TowerCraneMonitoringListCard.vue         塔机监测列表卡片
-    - TowerCraneMonitoringListCard.css
+    - EquipListCard.vue     
+    - EquipListCard.css   
 
   - equipStatus             #设备电量信号在线状态
     - EquipStatus.vue

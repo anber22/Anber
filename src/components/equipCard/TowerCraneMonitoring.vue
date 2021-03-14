@@ -1,13 +1,14 @@
 <template>
   <div class="towerCraneMonitoring">
     <Adaptive :data="['100%','60.9%']">
+      <!-- 标题 start -->
       <div class="towerCraneMonitoring-header">
         <div class="towerCraneMonitoring-title">
           {{ data.equipName }}
         </div>
         <div class="towerCraneMonitoring-state">
           <div class="towerCraneMonitoring-state-box">
-            <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" />
+            <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" :status="data.onlineType" />
           </div>
           <!-- <div v-if="data.count!==0" class="towerCraneMonitoring-hidden-trouble">
             <van-badge :content="data.count" badge-size="14px">
@@ -16,6 +17,8 @@
           </div> -->
         </div>
       </div>
+      <!-- end -->
+      <!-- 内容 start -->
       <div class="towerCraneMonitoring-content">
         <div class="towerCraneMonitoring-content-row">
           <div class="towerCraneMonitoring-content-row-name">
@@ -53,7 +56,7 @@
           <div class="towerCraneMonitoring-content-row-name">
             所属网点:
           </div>
-          <div class="towerCraneMonitoring-content-row-value address-font" @click="showDetail(data.placeId)">
+          <div class="towerCraneMonitoring-content-row-value address-font" @click="showPlaceDetail(data.placeId)">
             {{ data.placeName }}
             <img src="@/assets/images/equip/address.png" alt="" class="address-icon">
           </div>
@@ -68,10 +71,13 @@
           </div>
         </div>
       </div>
+      <!-- end -->
     </Adaptive>
+    <!-- 详细数据 start -->
     <div class="tEquipDetialCard-for-box">
-      <EquipDetialCard v-for="item in filterData(equipDetialCardList) " :key="item.index" :layout="item" class="tEquipDetialCard-box" />
+      <EquipDetialCard v-for="item in format(equipDetialCardList) " :key="item.index" :layout="item" class="tEquipDetialCard-box" />
     </div>
+    <!-- end -->
   </div>
 
   <!-- <Adaptive :data="['37%','36%']" class="towerCraneMonitoring-content-img">
@@ -105,13 +111,20 @@ export default {
     }
   },
   computed: {
-
+    format() {
+      return function(val) {
+        return this.filterData(val)
+      }
+    }
   },
   mounted() {
     this.setEquipDetailCardListData()
   },
   methods: {
-    showDetail(e) {
+    /**
+    * 跳转网点详情
+    */
+    showPlaceDetail(e) {
       this.$router.push({
         path: '/placeResourcDetail',
         query: {
@@ -119,6 +132,9 @@ export default {
         }
       })
     },
+    /**
+     * 格式化日期
+     */
     filterData: function(e) {
       if (this.isShowMore) {
         return this.equipDetialCardList
@@ -126,9 +142,15 @@ export default {
         return this.equipDetialCardList.slice(0, 3)
       }
     },
+    /**
+     * 点开收起或者展开
+     */
     showMore() {
       this.isShowMore = !this.isShowMore
     },
+    /**
+     * 设置卡片详情信息卡片的样式和值
+     */
     setEquipDetailCardListData() {
       const detailData = this.data
       this.equipDetialCardList = [{

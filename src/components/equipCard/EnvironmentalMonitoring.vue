@@ -1,12 +1,13 @@
 <template>
   <div class="environmentalMonitoring">
+    <!-- 标题 start -->
     <div class="environmentalMonitoring-header">
       <div class="environmentalMonitoring-title">
         {{ data.equipName }}
       </div>
       <div class="environmentalMonitoring-state">
         <div class="environmentalMonitoring-state-box">
-          <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" />
+          <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" :status="data.onlineType" />
         </div>
         <div v-if="data.count!==0" class="environmentalMonitoring-hidden-trouble">
           <van-badge :content="data.count" badge-size="14px">
@@ -15,6 +16,8 @@
         </div>
       </div>
     </div>
+    <!-- end -->
+    <!-- 内容 start -->
     <div class="environmentalMonitoring-content">
       <div class="environmentalMonitoring-content-row">
         <div class="environmentalMonitoring-content-row-name">
@@ -67,6 +70,7 @@
         <EquipDetialCard v-for="item in equipDetialCardList" :key="item.index" class="equipDetialCard-box" :layout="item" :content="data" />
       </div>
     </div>
+    <!-- end -->
 
     <!-- <Adaptive :data="['37%','36%']" class="environmentalMonitoring-content-img">
       <img src="@/assets/images/equip/camera-bg-img.png" alt="" class="camera-bg-img">
