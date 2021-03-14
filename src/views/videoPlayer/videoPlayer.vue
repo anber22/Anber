@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       title: '',
-      // nowPlayVideoUrl: 'http://ivi.bupt.edu.cn/hls/cctv6hd.m3u8', // cctv6的hls视频流，测试用
+      // nowPlayVideoUrl: 'http://ivi.bupt.edu.cn/hls/cctv6hd.m3u8', // cctv6的hls视频流，测试用de
       playerOptions: {
         autoplay: true,
         controls: true,
