@@ -102,7 +102,7 @@ export default {
   },
   methods: {
     /**
-     * 查询
+     * 查询111
      */
     onSearch(e) {
       this.getEquipInfoList()
@@ -116,7 +116,7 @@ export default {
       })
     },
     /**
-     * 切换子系统
+     * 切换子系统11
      */
     changeSystem() {
       this.getEquipInfoList()
