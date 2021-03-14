@@ -89,7 +89,7 @@ export default {
         },
         {
           name: '所属网点:',
-          content: '港湾一号',
+          content: temp.placeName,
           typed: 'place'
         },
         {
