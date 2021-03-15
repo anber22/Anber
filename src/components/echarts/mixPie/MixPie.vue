@@ -12,7 +12,6 @@
 </template>
 
 <script>
-// import echarts from 'echarts'
 import * as echarts from 'echarts'
 export default {
   props: {
@@ -27,7 +26,9 @@ export default {
       activeType: {},
       departName: '',
       count: null,
-      zoom: null
+      zoom: null,
+      myChart: null,
+      option: null
     }
   },
   watch: {
@@ -51,22 +52,21 @@ export default {
     init() {
       this.departName = this.data.data[0].name
       this.count = this.data.data[0].count
-      const myChart = this.$echarts.init(this.$refs.chartId)
-      const option = {
+      this.myChart = this.$echarts.init(this.$refs.chartId)
+      this.option = {
         tooltip: {
           show: false
         },
         legend: {
           show: false
         },
-        avoidLabelOverlap: true,
         selectedOffset: 0,
         series: [
           {
-            name: '访问来源',
+            name: '最外层环形圈',
             type: 'pie',
             radius: ['70%', '82%'],
-            avoidLabelOverlap: false,
+            avoidLabelOverlap: false, // 是否启用防止标签重叠策略，默认开启
             label: {
               textStyle: {
                 color: 'rgba(239, 240, 241, 1)', // 改变标示文字的颜色
@@ -218,23 +218,22 @@ export default {
               color: function(params) {
                 const colorList = [
                   {
-                    c1: 'rgba(71, 167, 234, 0)', // 管理
+                    c1: 'rgba(71, 167, 234, 0)',
                     c2: 'rgba(71, 167, 234, 0.2)'
                   },
                   {
-                    c1: 'rgba(255,255,255,0)', // 实践
+                    c1: 'rgba(255,255,255,0)',
                     c2: 'rgba(255,255,255,0)'
                   },
                   {
-                    c1: 'rgba(255,255,255,0)', // 操作
+                    c1: 'rgba(255,255,255,0)',
                     c2: 'rgba(255,255,255,0)'
                   },
                   {
-                    c1: 'rgba(255,255,255,0)', // 操作
+                    c1: 'rgba(255,255,255,0)',
                     c2: 'rgba(255,255,255,0)'
                   }]
                 return new echarts.graphic.LinearGradient(1, 0, 0, 0, [{ // 颜色渐变函数 前四个参数分别表示四个位置依次为左、下、右、上
-
                   offset: 0,
                   color: colorList[params.dataIndex].c1
                 }, {
@@ -253,34 +252,35 @@ export default {
               show: false
             },
             data: [
-              { value: 50, name: '搜索引擎' },
-              { value: 50, name: '搜索引擎' },
-              { value: 50, name: '搜索引擎' },
-              { value: 50, name: '搜索引擎' }],
+              { value: 50, name: '扇形1' },
+              { value: 50, name: '扇形2' },
+              { value: 50, name: '扇形3' },
+              { value: 50, name: '扇形4' }],
             zlevel: 2
           }
         ]
       }
-      myChart.setOption(option, true)
+      this.myChart.setOption(this.option, true)
       // 设置默认选中高亮部分
-      myChart.dispatchAction({ type: 'highlight', seriesIndex: 0, dataIndex: 0 })
+      this.myChart.dispatchAction({ type: 'highlight', seriesIndex: 0, dataIndex: 0 })
       // 当鼠标移入时，如果不是第一项，则把当前项置为选中，如果是第一项，则设置第一项为当前项
-      myChart.on('click', (e) => {
+      this.myChart.on('click', (e) => {
         this.activeType = e.data.type
-        if (e.dataIndex === 0) {
-          if (this.index) {
-            myChart.dispatchAction({ type: 'downplay', seriesIndex: 0, dataIndex: this.index })
-          }
-          myChart.dispatchAction({ type: 'highlight', seriesIndex: 0, dataIndex: 0 })
+        if (e.dataIndex === 0 && this.index) { // 如果选中其他扇之后再选中第一个扇，则把其他扇去除高亮，第一个扇高亮
+          this.changeStatus('downplay', this.index)
         } else {
-          if (this.index) {
-            myChart.dispatchAction({ type: 'downplay', seriesIndex: 0, dataIndex: this.index })
+          if (this.index) { // 如果选中其他扇之后再选中非第一个扇，则把选中高亮切换为当前项
+            this.changeStatus('downplay', this.index)
+          } else {
+            this.changeStatus('downplay', 0)
           }
-          myChart.dispatchAction({ type: 'downplay', seriesIndex: 0, dataIndex: 0 })
-          myChart.dispatchAction({ type: 'highlight', seriesIndex: 0, dataIndex: e.dataIndex })
+          this.changeStatus('highlight', e.dataIndex)
           this.index = e.dataIndex
         }
       })
+    },
+    changeStatus(type, index) {
+      this.myChart.dispatchAction({ type: type, seriesIndex: 0, dataIndex: index })
     }
   }
 }
