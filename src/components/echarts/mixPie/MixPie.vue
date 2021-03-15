@@ -1,6 +1,6 @@
 <template>
   <div class="maxPie-box" :style="`zoom:${zoom};transform:scale(${1/zoom});transform-origin: 0 0;`">
-    <div :id="data.chartId" class="maxPie-content" />
+    <div ref="chartId" class="maxPie-content" />
     <div class="active-text">
       <p>
         <span class="depart-name">{{ departName }}</span>
@@ -51,7 +51,7 @@ export default {
     init() {
       this.departName = this.data.data[0].name
       this.count = this.data.data[0].count
-      const myChart = this.$echarts.init(document.getElementById(this.data.chartId))
+      const myChart = this.$echarts.init(this.$refs.chartId)
       const option = {
         tooltip: {
           show: false

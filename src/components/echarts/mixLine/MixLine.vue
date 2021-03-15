@@ -1,6 +1,6 @@
 <template>
   <div :style="`zoom:${zoom};transform:scale(${1/zoom});transform-origin: 0 0;`">
-    <div :id="data.chartId" class="line-content" />
+    <div ref="chartId" class="line-content" />
   </div>
 </template>
 <script>
@@ -35,7 +35,7 @@ export default {
         interval = 2
       }
       // 基于准备好的dom，初始化echarts实例
-      const myChart = this.$echarts.init(document.getElementById(this.data.chartId))
+      const myChart = this.$echarts.init(this.$refs.chartId)
       // 指定图表的配置项和数据
       const option = {
         color: ['rgba(24, 237, 250, 0.5)'],

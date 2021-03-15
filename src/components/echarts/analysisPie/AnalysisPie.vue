@@ -1,6 +1,6 @@
 <template>
   <div :style="`zoom:${zoom};transform:scale(${1/zoom});transform-origin: 0 0;`">
-    <div :id="data.chartId" class="pie-content" />
+    <div ref="chartId" class="pie-content" />
   </div>
 </template>
 
@@ -38,7 +38,7 @@ export default {
       } else {
         _data = this.data.data
       }
-      const myChart = this.$echarts.init(document.getElementById(this.data.chartId))
+      const myChart = this.$echarts.init(this.$refs.chartId)
       const option = {
         color: this.data.color,
         tooltip: {
