@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { number } from 'echarts'
 
-class Regular {
+export default class Regular {
   /**
    * 判空 覆盖 [],{},undefined,null,'undefined' 大小写,'null' 大小写,''
    * 返回true 为空 false 不为空

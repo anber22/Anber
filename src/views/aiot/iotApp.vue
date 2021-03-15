@@ -7,7 +7,7 @@
     <div class="header-conditions">
       <div class="header-picker">
         <van-dropdown-menu>
-          <van-dropdown-item v-model="thisSubsystemId" :options="subsystemList" @change="changeSystem()" />
+          <van-dropdown-item v-model="thisSubsystemId" :options="subsystemList" @closed="changeSystem()" />
         </van-dropdown-menu>
       </div>
       <div class="header-input">
@@ -107,12 +107,19 @@ export default {
       this.getEquipInfoList()
     },
     toDetailInfo(equipId) {
-      this.$router.push({
-        path: '/iotAppDetail',
-        query: {
-          id: equipId
-        }
-      })
+      // this.$router.push({
+      //   path: '/iotAppDetail',
+      //   query: {
+      //     id: equipId
+      //   }
+      // })
+    },
+    /**
+     * 输入框内容变化改变
+     */
+    conditionChange(value) {
+      console.log(value)
+      this.queryCondition = value
     },
     /**
      * 切换子系统11
@@ -131,6 +138,7 @@ export default {
      */
     async getEquipInfoList() {
       this.loadding = true
+      console.log('查询')
       const params = {
         systemType: this.thisSubsystemId,
         page: 1,
