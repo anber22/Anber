@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import dealData from '@/utils/dateTransformation'
+import DateFormat from '@/utils/dateTransformation'
 import Api from '@/api/placeResource/placeResource'
 export default {
   components: {
@@ -98,7 +98,8 @@ export default {
      * 时间格式化
      */
     timeTransformation(e) {
-      return dealData.dataFormat(e)
+      var date = new DateFormat()
+      return date.dataFormat(e)
     }
   }
 }

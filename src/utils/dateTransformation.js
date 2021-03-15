@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-export class DateTransformation {
+export default class DateTransformation {
   appendZero(obj) {
     if (obj < 10) {
       return '0' + obj
@@ -104,4 +104,3 @@ export class DateTransformation {
     }
   }
 }
-export default DateTransformation

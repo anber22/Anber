@@ -9,11 +9,9 @@
         <div class="physicalUnionApplication-state-box">
           <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" :status="data.onlineType" />
         </div>
-        <div v-if="data.count!==0" class="physicalUnionApplication-hidden-trouble">
+        <div v-if="data.count!==0" class="physicalUnionApplication-hidden-trouble" @click="showHazardDetail(data.equipId)">
           <van-badge :content="data.count" badge-size="14px" max="99">
-            <a @click.stop="callPhone(data.placeId)">
-              <img src="@/assets/images/equip/risk-early-warning.png" alt="" class="physicalUnionApplication-hidden-trouble-icon">
-            </a>
+            <img src="@/assets/images/equip/risk-early-warning.png" alt="" class="physicalUnionApplication-hidden-trouble-icon">
           </van-badge>
         </div>
       </div>
@@ -106,6 +104,18 @@ export default {
         const result = res.data
         window.location.href = 'tel://' + result.phone
       }
+    },
+    /**
+     * 跳转详情
+     */
+    showHazardDetail(e) {
+      console.log('设备id', e)
+      this.$router.push({
+        path: '/hazard',
+        query: {
+          equipId: e
+        }
+      })
     },
     /**
      * 跳转网点详情

@@ -65,10 +65,12 @@ export default {
       hazardTypeList: [],
       show: false,
       status: 0,
-      loading: true
+      loading: true,
+      equipId: 0
     }
   },
   mounted() {
+    this.equipId = this.$route.query ? this.$route.query.equipId : 0
     this.getAnalysisList()
     this.getHazardTypeList()
   },
@@ -112,10 +114,12 @@ export default {
         size: 999,
         condition: this.formattingCondition()
       }
+
       const res = await Api.hazardList(params)
       if (res.code === 200) {
-        this.hazardList = [...res.data.rows]
+        this.hazardList = res.data.rows
       }
+      console.log('隐患列表', this.hazardList)
       this.hazardList = await this.ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', this.hazardList)
       this.hazardList = await this.ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', this.hazardList)
       this.loading = false
@@ -136,6 +140,7 @@ export default {
      * 格式化path传参
      */
     formattingCondition() {
+      console.log('格式化')
       let conditionStr = ''
       let first = false
       if (this.queryCondition.length > 0) {
@@ -156,8 +161,14 @@ export default {
         } else {
           conditionStr = conditionStr + '&isDone=' + (this.status - 1)
         }
+      } console.log('进入拼接', this.equipId)
+      if (this.equipId > 0) {
+        if (!first) {
+          conditionStr = conditionStr + '?equipId=' + (this.equipId)
+        } else {
+          conditionStr = conditionStr + '&equipId=' + (this.equipId)
+        }
       }
-
       return conditionStr
     }
   }
