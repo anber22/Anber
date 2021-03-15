@@ -81,7 +81,7 @@ export default {
       if (res.code === 200) {
         // 去vuex获取该网点的设备类型名称，放到数组集合里
         res.data = await this.ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', res.data)
-
+        // const videoData = res.data.filter(item => item.imei !== null)
         for (const i in this.placeList) {
           if (param.id === this.placeList[i].placeId) {
             this.$set(this.placeList[i], 'equips', res.data)
