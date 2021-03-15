@@ -123,12 +123,14 @@ export default {
               show: false,
               scale: false
             },
+            // 取消点击事件
+            silent: true,
             // 标示文字引导线设置
             labelLine: {
               show: false
             },
             data: [
-              { value: 1048, name: '搜索引擎' }],
+              { value: 1048, name: '内阴影圈1' }],
             zlevel: 5
           }, {
             name: '蚂蚁线',
@@ -170,6 +172,8 @@ export default {
             title: {
               show: false
             },
+            // 取消点击事件
+            silent: true,
             // 仪表盘详情，用于显示数据。
             detail: {
               show: false,
@@ -199,6 +203,8 @@ export default {
               show: false,
               scale: false
             },
+            // 取消点击事件
+            silent: true,
             // 标示文字引导线设置
             labelLine: {
               show: false
@@ -213,6 +219,8 @@ export default {
             label: {
               show: false
             },
+            // 取消点击事件
+            silent: true,
             // 图形的样式设置，
             itemStyle: {
               color: function(params) {
@@ -268,12 +276,12 @@ export default {
         this.activeType = e.data.type
         if (e.dataIndex === 0 && this.index) { // 如果选中其他扇之后再选中第一个扇，则把其他扇去除高亮，第一个扇高亮
           this.changeStatus('downplay', this.index)
+          this.changeStatus('highlight', 0)
         } else {
           if (this.index) { // 如果选中其他扇之后再选中非第一个扇，则把选中高亮切换为当前项
             this.changeStatus('downplay', this.index)
-          } else {
-            this.changeStatus('downplay', 0)
           }
+          this.changeStatus('downplay', 0)
           this.changeStatus('highlight', e.dataIndex)
           this.index = e.dataIndex
         }
