@@ -57,9 +57,10 @@ export default {
       const imei = this.$route.query.imei
       if (videoUUID.match(imei)) {
         source = videoUrl + '/mag/hls/' + videoUUID.match(imei) + '/0/live.m3u8'
-      } else {
-        source = videoUrl + '/mag/hls/d52ef1c486394c7fa5159b4eb374d4fc/0/live.m3u8'
       }
+      // else {
+      //   source = videoUrl + '/mag/hls/d52ef1c486394c7fa5159b4eb374d4fc/0/live.m3u8'
+      // }
       this.playVideo(source)
     }
   },
