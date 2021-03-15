@@ -122,6 +122,18 @@ export default {
   },
   methods: {
     /**
+     * 跳转详情
+     */
+    showHazardDetail(e) {
+      console.log('设备id', e)
+      this.$router.push({
+        path: '/hazard',
+        query: {
+          equipId: e
+        }
+      })
+    },
+    /**
     * 跳转网点详情
     */
     showPlaceDetail(e) {

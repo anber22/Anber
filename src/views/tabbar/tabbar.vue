@@ -14,7 +14,7 @@
           <img :src="props.active ? indexIcon.active : indexIcon.inactive">
         </template>
       </van-tabbar-item>
-      <van-tabbar-item replace to="/personalCenter" icon="search">
+      <van-tabbar-item replace icon="search">
         <span>我的</span>
         <template #icon="props">
           <img :src="props.active ? personalCenterIcon.active : personalCenterIcon.inactive">
