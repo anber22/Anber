@@ -2,20 +2,28 @@
   <div class="iotApp-detail">
     <van-tabs v-model="active" swipeable color="#06F0FE" title-active-color="#06F0FE" title-inactive-color="#8BA3C2" background="rgba(16, 23, 32, 1)" sticky ellipsis>
       <van-tab v-for="item in tabList" :key="item.index" :title="item.title" class="tab-content">
-        <div class="iotApp-detail-title">
-          <img src="@/assets/images/home/title-icon.png" alt="" class="iotApp-detail-title-icon">
-          设备信息
+        <div v-if="item.index===0">
+          <div class="iotApp-detail-title">
+            <img src="@/assets/images/home/title-icon.png" alt="" class="iotApp-detail-title-icon">
+            设备信息
+          </div>
+          <InfoRow v-for="(rowItem,index) in rowList" :key="index" :data="rowItem" />
         </div>
-        <InfoRow v-for="(rowItem,index) in rowList" :key="index" :data="rowItem" />
+        <div v-if="item.index===1">
+          视频
+        </div>
+        <div v-if="item.index===2">
+          日志
+        </div>
       </van-tab>
     </van-tabs>
   </div>
 </template>
 
 <script>
+
 import InfoRow from '@/components/infoRows/InfoRows'
 import Api from '@/api/aiot/iotApp.js'
-import promiseToList from '@/utils/promiseToList'
 export default {
   components: {
     InfoRow
@@ -48,48 +56,58 @@ export default {
   methods: {
     async getEquipDetailInfo() {
       const res = await Api.equipDtailInfo(this.equipId)
-      let temp = { ...res.data }
-      console.log('设备详细信息', res)
-      temp = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', temp)
+
+      let equipDetailInfo = {}
+      if (res.code === 200) {
+        equipDetailInfo = { ...res.data }
+      }
+      equipDetailInfo = await this.ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', equipDetailInfo)
+      console.log('设备类型', equipDetailInfo)
+      equipDetailInfo = await this.ReadTypeNameOnVuex.conversion('platformList', 'platformId', 'platformName', equipDetailInfo)
+      console.log('平台类型', equipDetailInfo)
+
       this.rowList = [
         {
           name: '设备状态:',
           content: {
-            equipPower: temp.equipPower,
-            equipSignal: temp.equipSignal,
-            onlineType: temp.onlineType
+            equipPower: equipDetailInfo.equipPower,
+            equipSignal: equipDetailInfo.equipSignal,
+            onlineType: equipDetailInfo.onlineType
           },
           typed: 'status'
         }, {
           name: '设备名称:',
-          content: temp.equipName,
+          content: equipDetailInfo.equipName,
           typed: 'info'
         }, {
-          name: '设备型号：',
-          content: temp.equipModel,
+          name: '设备型号:',
+          content: equipDetailInfo.equipModel,
           typed: 'info'
         }, {
           name: '设备类型:',
-          content: temp.equipTypeName,
+          content: equipDetailInfo.equipName,
           typed: 'info'
         }, {
           name: 'IMEI码:',
-          content: temp.imei,
+          content: equipDetailInfo.imei,
           typed: 'info'
         },
         {
           name: '所属辖区:',
-          content: temp.departName,
+          content: equipDetailInfo.departName,
           typed: 'info'
         },
         {
           name: '安装位置:',
-          content: temp.equipAddress,
+          content: equipDetailInfo.equipAddress,
           typed: 'info'
         },
         {
           name: '所属网点:',
-          content: '港湾一号',
+          content: {
+            name: '港湾一号',
+            placeId: equipDetailInfo.placeId
+          },
           typed: 'place'
         },
         {

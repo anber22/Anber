@@ -63,7 +63,6 @@ import PhysicalUnionApplicationListCard from 'cmp/equipListCard/EquipListCard.vu
 import EnvironmentalMonitoring from 'cmp/equipCard/EnvironmentalMonitoring.vue'
 import TowerCraneMonitoring from 'cmp/equipCard/TowerCraneMonitoring.vue'
 import Api from '@/api/aiot/iotApp.js'
-import promiseToList from '@/utils/promiseToList'
 
 export default {
   components: {
@@ -102,7 +101,7 @@ export default {
   },
   methods: {
     /**
-     * 查询111
+     * 查询
      */
     onSearch(e) {
       this.getEquipInfoList()
@@ -151,7 +150,7 @@ export default {
       const hazardCountList = await Api.equipUntreatedEventList(ids)
 
       // 根据设备类型id获取对应的设备类型名称
-      this.equipInfoList = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', this.equipInfoList)
+      this.equipInfoList = await this.ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', this.equipInfoList)
       let combined = []
       if (hazardCountList.code === 200) {
         combined = hazardCountList.data.reduce((acc, cur) => {

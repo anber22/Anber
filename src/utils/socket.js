@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const requestPath = 'wss://beta.zhgtwx.ctjt.cn/ws'
 
 import Stomp from 'stompjs'
@@ -105,4 +106,3 @@ class Socket {
   }
 }
 
-export default new Socket()

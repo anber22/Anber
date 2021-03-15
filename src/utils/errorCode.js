@@ -47,4 +47,3 @@ class ErrorCode {
 }
 
 export default new ErrorCode()
-// module.exports = new ErrorCode() ==> const ec = require('....')

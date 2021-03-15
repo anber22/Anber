@@ -38,7 +38,6 @@
 
 <script>
 import HazardListCard from 'cmp/hazardListCard/HazardListCard'
-import promiseToList from '@/utils/promiseToList'
 
 import Api from '@/api/hazard/hazard.js'
 
@@ -117,8 +116,8 @@ export default {
       if (res.code === 200) {
         this.hazardList = [...res.data.rows]
       }
-      this.hazardList = await promiseToList.conversion('hazardType', 'hazardType', 'hazardTypeName', this.hazardList)
-      this.hazardList = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', this.hazardList)
+      this.hazardList = await this.ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', this.hazardList)
+      this.hazardList = await this.ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', this.hazardList)
       this.loading = false
     },
     /**

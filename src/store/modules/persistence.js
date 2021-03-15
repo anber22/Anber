@@ -5,8 +5,11 @@ const typeList = [
   // 网点类型列表
   'placeType',
   // 设备类型列表
-  'equipType'
+  'equipType',
+  // 物联网平台列表
+  'platformList'
 ]
+
 const persistence = {
   state: {
     // 当前页面加载状态
@@ -16,7 +19,9 @@ const persistence = {
     // 网点类型列表
     placeType: [],
     // 设备类型列表
-    equipType: []
+    equipType: [],
+    // 物联网平台列表
+    platformList: []
   },
   mutations: {
     SET_LOADING_STATUS: (state, data) => { // 当前页面加载状态
@@ -30,6 +35,9 @@ const persistence = {
     },
     SET_EQUIP_TYPE: (state, data) => { // 设备类型列表
       state.equipType = data
+    },
+    SET_PLATFORM_LIST: (state, data) => { // 设备类型列表
+      state.platformList = data
     }
   },
   actions: {
@@ -56,6 +64,12 @@ const persistence = {
           result = await Api.equipTypeList(0)
           if (result.code === 200) {
             commit('SET_EQUIP_TYPE', result.data)
+          }
+        } else if (param === 'platformList') {
+          result = await Api.platformList()
+          console.log('平台列表', result)
+          if (result.code === 200) {
+            commit('SET_PLATFORM_LIST', result.data)
           }
         }
       }

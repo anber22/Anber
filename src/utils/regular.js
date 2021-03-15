@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { number } from 'echarts'
 
 class Regular {
@@ -42,4 +43,3 @@ class Regular {
     }
   }
 }
-export default new Regular()

@@ -38,7 +38,7 @@
 
 <script>
 // import Socket from '../../../utils/socket'
-import Data from '@/utils/data.js'
+import DateTransformation from '@/utils/dateTransformation.js'
 export default {
   components: {
 
@@ -116,10 +116,10 @@ export default {
      * 时间格式转换
      */
     dateFormat(date) {
-      return Data.dateDifference(date)
+      var dateFormat = new DateTransformation()
+      return dateFormat.dateDifference(date)
     }
   }
-
 }
 </script>
 

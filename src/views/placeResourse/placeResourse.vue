@@ -1,6 +1,6 @@
 <template>
   <div class="placeResource">
-    <van-search v-model="queryCondition" placeholder="请输入搜索关键词" background="#101720" @search="onSearch" />
+    <van-search v-model="queryCondition" placeholder="网点名称/网点地址" background="#101720" @search="onSearch" />
     <div class="placeResource-content">
       <van-loading v-if="!placeResourcList" size="24px" vertical>
         加载中...
@@ -15,7 +15,6 @@
 <script>
 import PlaceResourcListCard from 'cmp/placeResourcListCard/PlaceResourcListCard'
 import Api from '@/api/placeResource/placeResource.js'
-import promiseToList from '@/utils/promiseToList'
 
 export default {
   components: {
@@ -45,7 +44,7 @@ export default {
       if (res.code === 200) {
         let listData = [...res.data.rows]
         // 去vuex获取该网点的网点类型名称，放到数组集合里
-        listData = await promiseToList.conversion('placeType', 'placeTypeId', 'placeTypeName', listData)
+        listData = await this.ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', listData)
         this.placeResourcList = listData
       }
     },

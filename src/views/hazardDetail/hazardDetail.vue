@@ -135,8 +135,7 @@
 
 <script>
 import Api from '@/api/hazard/hazard.js'
-import dealData from '@/utils/data'
-import promiseToList from '@/utils/promiseToList'
+import dealData from '@/utils/dateTransformation'
 import PlaceApi from '@/api/placeResource/placeResource'
 
 export default {
@@ -177,7 +176,7 @@ export default {
       if (res.code === 200) {
         this.detailInfo = { ...res.data }
       }
-      this.detailInfo = await promiseToList.conversion('hazardType', 'hazardType', 'hazardTypeName', [this.detailInfo])
+      this.detailInfo = await this.ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', [this.detailInfo])
       this.detailInfo = this.detailInfo[0]
       if (this.detailInfo.isDone === 1) {
         this.getHazardDealInfo()

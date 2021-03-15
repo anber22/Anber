@@ -9,9 +9,7 @@
     </div>
     <div class="equipDetialCard-value">
       <div class="value-font">
-        <!-- {{ subValue===''?content[layout.typed]:subValue }} -->
         {{ layout.value }}
-        <!-- 21111 -->
       </div>
     </div>
     <!-- end -->

@@ -10,4 +10,4 @@ class IviewMsg {
   }
 }
 
-export default new IviewMsg()
+export default IviewMsg
