@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="index">
     <div class="index-bg">
       <div class="index">
         <!-- 顶部设备网点数量统计 start -->
@@ -136,20 +136,15 @@ export default {
           imgUrl: require('/src/assets/images/index/crane-monitoring.png')
         }
       ],
-      gaugeData: {
-        chartId: 'gaugeId'
-      },
+      gaugeData: {},
       equipCountings: '',
       branchesCountings: '',
       equipList: [],
       maxPieData: {
-        chartId: 'maxPieChartId',
         data: []
       },
       maxPieDataFlag: false,
       lineData: {
-        // 饼图的id
-        chartId: 'lineChartId',
         title: '隐患分析（近15天)',
         xAxis: {
           data: []
@@ -169,8 +164,6 @@ export default {
       eventData: {
         equipType: [],
         analysisTimelineData: {
-          // 双折线图的id
-          chartId: 'analysisTimelineChartId',
           xAxis: {
             data: []
           },
@@ -203,8 +196,6 @@ export default {
           }
         ],
         pieData: {
-          // 饼图的id
-          chartId: 'monitorAnalysisChartId',
           data: [],
           title: '',
           color: []
@@ -218,7 +209,8 @@ export default {
       analysisSystemType: 5,
       hiddenDangerList: [],
       onlinePercent: 0,
-      analysisHeight: 154
+      analysisHeight: 154,
+      screenWidth: null
     }
   },
   computed: {

@@ -41,11 +41,12 @@ export default {
   },
   mounted() {
     this.init()
-    const width = document.documentElement.clientWidth || document.body.clientWidth
-    this.zoom = 1 / (width / 375)
+    // 解决zoom影响图表位置偏差
+    const width = this.$el.clientWidth
+    this.zoom = 1 / (width / 345)
     window.addEventListener('resize', () => {
-      const width = document.documentElement.clientWidth || document.body.clientWidth
-      this.zoom = 1 / (width / 375)
+      const width = this.$el.clientWidth
+      this.zoom = 1 / (width / 345)
     })
   },
   methods: {
