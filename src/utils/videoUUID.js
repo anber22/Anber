@@ -125,22 +125,17 @@ class MatchUUID {
       {
         uuid: '004379a3f3cd4daa96245ceaff0e5495',
         address: '湾区6栋后门违停监测B',
-        imei: ''
+        imei: '2102352KCPWMLC002429'
       },
       {
         uuid: 'cd04f4cc9bb24e65850d3b67cd1e7fea',
         address: '湾区10栋后门违停监测',
-        imei: '2102352KCPWMLC002576'
-      },
-      {
-        uuid: 'bc2cd07e2579411e9f6ad9ce168a811d',
-        address: '湾区6栋后门违停监测A',
-        imei: '2102353PJCWMM1000002'
+        imei: '2102412024LTLA000365'
       },
       {
         uuid: '1da2d20615ca40a3beef403c18da4fd9',
         address: '湾区9栋后门违停监测',
-        imei: '2102412024LTLA000365'
+        imei: '2102352KCPWMLC002408'
       },
       {
         uuid: '3902606c2a924ae793cb4d36821b9148',
@@ -153,29 +148,49 @@ class MatchUUID {
         imei: '2102412551LTLC000342'
       },
       {
+        uuid: '558228fec8194e33a497270efdb532c9',
+        address: '创意云端楼顶A广角',
+        imei: '2102412551LTLC000241'
+      },
+      {
+        uuid: 'db1fad682e50480ab5380cf0c0a496f3',
+        address: '创意云端楼顶A特写',
+        imei: '2102412551LTLC000241'
+      },
+      {
+        uuid: '8c3ee91104964690b284b972b3f28a1a',
+        address: '创意云端楼顶B特写',
+        imei: '2102412551LTLC000165'
+      },
+      {
+        uuid: 'd3599b22413d481d96ec3bff8b9fc185',
+        address: '创意云端楼顶B广角',
+        imei: '2102412551LTLC000165'
+      },
+      {
         uuid: '4348f5e0a7b3418db77c2bb043290f49',
         address: '唐一工地后门态势',
-        imei: ''
+        imei: '2102412464WLL4005199'
       },
       {
         uuid: '44a110c890eb4fb1bd8245e432e6d9ca',
         address: '唐一工地生活区态势A',
-        imei: ''
+        imei: '2102412464WLL4005189'
       },
       {
         uuid: '513d137407dc422db54611047042ea59',
         address: '唐一工地正门安全帽',
-        imei: ''
+        imei: '2102352KCPWMLC002545'
       },
       {
         uuid: 'd950c2f793d846568fa05754dff2e3f5',
         address: '唐一工地后门安全帽',
-        imei: ''
+        imei: '2102352KCPWMLC002473'
       },
       {
         uuid: '6684e54d7d384c629715804e0593bd57',
         address: '唐一工地生活区态势B',
-        imei: ''
+        imei: '2102412464WLL4005194'
       }
     ]
   }
