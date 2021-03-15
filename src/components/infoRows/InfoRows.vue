@@ -7,18 +7,21 @@
       {{ data.content }}
     </div>
     <div v-else-if="data.typed==='status'" class="row-status-value">
-      {{ data.content }}
+      <EquipStatus :electricity="data.content.equipPower" :signal="data.content.equipSignal" :status="data.content.onlineType" />
     </div>
-    <div v-else-if="data.typed==='place'" class="row-place-value">
-      {{ data.content }}
+    <div v-else-if="data.typed==='place'" class="row-place-value" @click="showDetail(data.content.placeId)">
+      {{ data.content.name }}
+      <img src="@/assets/images/equip/address.png" alt="" class="infoRows-address-icon">
     </div>
   </div>
 </template>
 
 <script>
+import EquipStatus from 'cmp/equipStatus/EquipStatus'
+
 export default {
   components: {
-
+    EquipStatus
   },
   props: {
     data: {
@@ -35,7 +38,14 @@ export default {
   mounted() {
   },
   methods: {
-
+    showDetail(e) {
+      this.$router.push({
+        path: '/placeResourcDetail',
+        query: {
+          placeId: e
+        }
+      })
+    }
   }
 }
 </script>
@@ -65,5 +75,30 @@ export default {
   display: flex;
   padding-left: 6%;
   align-items: center;
+}
+.row-status-value{
+  height:100% ;
+  width: 64%;
+  display: flex;
+  align-items: center;
+}
+.row-place-value{
+  height: 100%;
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  text-decoration: underline;
+  color: #06F0FE;
+  width: 64%;
+  display: flex;
+  padding-left: 6%;
+  align-items: center;
+}
+.infoRows-address-icon{
+  vertical-align: middle;
+
+  width: 11px;
+  height: 16px;
+  margin-left: 8px;
 }
 </style>

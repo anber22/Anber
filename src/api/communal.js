@@ -22,5 +22,13 @@ class Communal {
       method: 'get'
     })
   }
+
+  //  设备类型列表
+  async platformList() {
+    return await request({
+      url: `/apis/equip/platform/list`,
+      method: 'get'
+    })
+  }
 }
 export default new Communal()

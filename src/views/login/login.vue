@@ -127,12 +127,14 @@ export default {
     },
     // 获取手机号验证码
     async getPhoneCode() {
+      var regular = new Regular()
+
       const param = this.isSMSData.phone
       if (!param) {
         this.$Toast('手机号不能为空')
         return
       }
-      if (!Regular.phone(param)) {
+      if (!regular.phone(param)) {
         this.$Toast('手机号码输入有误')
         return
       }
@@ -159,6 +161,7 @@ export default {
      * 短信登录
      */
     async isSMSLogin() {
+      var regular = new Regular()
       const param = {
         phone: this.isSMSData.phone,
         code: this.isSMSData.code
@@ -167,7 +170,7 @@ export default {
         this.$Toast('账号不能为空')
         return
       }
-      if (!Regular.phone(param.phone)) {
+      if (!regular.phone(param.phone)) {
         this.$Toast('手机号码输入有误')
         return
       }
@@ -191,6 +194,7 @@ export default {
      *密码登录
      */
     async isPasswordLogin() {
+      var regular = new Regular()
       const param = {
         phone: this.isPasswordData.userName,
         password: this.isPasswordData.password,
@@ -200,7 +204,7 @@ export default {
         this.$Toast('账号不能为空')
         return
       }
-      if (!Regular.phone(param.phone)) {
+      if (!regular.phone(param.phone)) {
         this.$Toast('手机号码输入有误')
         return
       }

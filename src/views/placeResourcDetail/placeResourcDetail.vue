@@ -123,7 +123,6 @@
 <script>
 import Api from '@/api/placeResource/placeResource'
 import PlaceDetailCard from 'cmp/placeDetailCard/PlaceDetailCard'
-import promiseToList from '@/utils/promiseToList'
 
 export default {
   components: {
@@ -148,10 +147,11 @@ export default {
       this.loading = true
 
       const res = await Api.placeResourcDetail(id)
+      console.log('获取当前网点', res)
       if (res.code === 200) {
         this.placeResourcDetail = res.data
       }
-      this.placeResourcDetail = await promiseToList.conversion('placeType', 'placeTypeId', 'placeTypeName', [this.placeResourcDetail])
+      this.placeResourcDetail = await this.ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', [this.placeResourcDetail])
       this.placeResourcDetail = this.placeResourcDetail[0]
       this.loading = false
     },

@@ -9,7 +9,8 @@ const getters = {
   permissions: state => state.user.permissions,
   hazardType: state => get(state, 'hazardType'),
   placeType: state => get(state, 'placeType'),
-  equipType: state => get(state, 'equipType')
+  equipType: state => get(state, 'equipType'),
+  platformList: state => get(state, 'platformList')
 }
 /**
  * 判断对应的值是否为空，如果有直接返回。如果没有就去获取

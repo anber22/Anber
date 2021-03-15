@@ -10,7 +10,7 @@
           <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" :status="data.onlineType" />
         </div>
         <div v-if="data.count!==0" class="physicalUnionApplication-hidden-trouble">
-          <van-badge :content="data.count" badge-size="14px">
+          <van-badge :content="data.count" badge-size="14px" max="99">
             <a @click.stop="callPhone(data.placeId)">
               <img src="@/assets/images/equip/risk-early-warning.png" alt="" class="physicalUnionApplication-hidden-trouble-icon">
             </a>

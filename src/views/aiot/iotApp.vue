@@ -7,7 +7,7 @@
     <div class="header-conditions">
       <div class="header-picker">
         <van-dropdown-menu>
-          <van-dropdown-item v-model="thisSubsystemId" :options="subsystemList" @change="changeSystem()" />
+          <van-dropdown-item v-model="thisSubsystemId" :options="subsystemList" @closed="changeSystem()" />
         </van-dropdown-menu>
       </div>
       <div class="header-input">
@@ -63,7 +63,6 @@ import PhysicalUnionApplicationListCard from 'cmp/equipListCard/EquipListCard.vu
 import EnvironmentalMonitoring from 'cmp/equipCard/EnvironmentalMonitoring.vue'
 import TowerCraneMonitoring from 'cmp/equipCard/TowerCraneMonitoring.vue'
 import Api from '@/api/aiot/iotApp.js'
-import promiseToList from '@/utils/promiseToList'
 
 export default {
   components: {
@@ -102,18 +101,25 @@ export default {
   },
   methods: {
     /**
-     * 查询111
+     * 查询
      */
     onSearch(e) {
       this.getEquipInfoList()
     },
     toDetailInfo(equipId) {
-      this.$router.push({
-        path: '/iotAppDetail',
-        query: {
-          id: equipId
-        }
-      })
+      // this.$router.push({
+      //   path: '/iotAppDetail',
+      //   query: {
+      //     id: equipId
+      //   }
+      // })
+    },
+    /**
+     * 输入框内容变化改变
+     */
+    conditionChange(value) {
+      console.log(value)
+      this.queryCondition = value
     },
     /**
      * 切换子系统11
@@ -132,6 +138,7 @@ export default {
      */
     async getEquipInfoList() {
       this.loadding = true
+      console.log('查询')
       const params = {
         systemType: this.thisSubsystemId,
         page: 1,
@@ -150,7 +157,7 @@ export default {
       const hazardCountList = await Api.equipUntreatedEventList(ids)
 
       // 根据设备类型id获取对应的设备类型名称
-      this.equipInfoList = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', this.equipInfoList)
+      this.equipInfoList = await this.ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', this.equipInfoList)
       let combined = []
       if (hazardCountList.code === 200) {
         combined = hazardCountList.data.reduce((acc, cur) => {

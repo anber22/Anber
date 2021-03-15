@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import dealData from '@/utils/data'
+import dealData from '@/utils/dateTransformation'
 import Api from '@/api/placeResource/placeResource'
 export default {
   components: {

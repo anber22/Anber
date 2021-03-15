@@ -26,7 +26,7 @@
       </div>
       <div class="equipListCard-content-row">
         <div class="equipListCard-content-row-name">
-          <span class="equipListCard-content-row-place-name" @click="showDetail(data.placeId)">
+          <span class="equipListCard-content-row-place-name" @click.stop="showDetail(data.placeId)">
             {{ data.placeName }}
           </span>
         </div>
