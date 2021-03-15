@@ -97,6 +97,10 @@ export default {
   },
   mounted() {
     // 渲染页面查询卡片列表片数据
+    // console.log('首页', this.$route.query.systemId)
+    // if (this.$route.query) {
+    //   this.thisSubsystemId = this.$route.query.systemId
+    // }
     this.getEquipInfoList()
   },
   methods: {

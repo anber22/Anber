@@ -9,8 +9,8 @@
         <div class="environmentalMonitoring-state-box">
           <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" :status="data.onlineType" />
         </div>
-        <div v-if="data.count!==0" class="environmentalMonitoring-hidden-trouble">
-          <van-badge :content="data.count" badge-size="14px">
+        <div v-if="data.count!==0" class="environmentalMonitoring-hidden-trouble" @click="showHazardDetail(data.equipId)">
+          <van-badge :content="data.count" badge-size="14px" max="99">
             <img src="@/assets/images/equip/risk-early-warning.png" alt="" class="environmentalMonitoring-hidden-trouble-icon">
           </van-badge>
         </div>
@@ -110,6 +110,18 @@ export default {
   },
 
   methods: {
+    /**
+     * 跳转详情
+     */
+    showHazardDetail(e) {
+      console.log('设备id', e)
+      this.$router.push({
+        path: '/hazard',
+        query: {
+          equipId: e
+        }
+      })
+    },
     showDetail(e) {
       this.$router.push({
         path: '/placeResourcDetail',

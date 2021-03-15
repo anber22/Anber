@@ -296,7 +296,7 @@ export default {
         return acc
       }, this.equipList)
       this.equipList = combined
-
+      console.log('应用应用列表', this.equipList)
       combined.forEach(item => {
         this.monitorAnalysisData.equipType.push({
           value: item.id,
