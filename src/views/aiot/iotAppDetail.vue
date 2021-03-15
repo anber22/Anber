@@ -56,21 +56,14 @@ export default {
   methods: {
     async getEquipDetailInfo() {
       const res = await Api.equipDtailInfo(this.equipId)
-<<<<<<< HEAD
 
       let equipDetailInfo = {}
       if (res.code === 200) {
         equipDetailInfo = { ...res.data }
       }
       equipDetailInfo = await this.ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', equipDetailInfo)
-      console.log('设备类型', equipDetailInfo)
       equipDetailInfo = await this.ReadTypeNameOnVuex.conversion('platformList', 'platformId', 'platformName', equipDetailInfo)
-      console.log('平台类型', equipDetailInfo)
 
-=======
-      let temp = { ...res.data }
-      temp = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', temp)
->>>>>>> 4adb8d788b2607b286ccbbe40a3bf27c95be7830
       this.rowList = [
         {
           name: '设备状态:',
