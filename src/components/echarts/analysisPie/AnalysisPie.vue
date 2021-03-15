@@ -19,12 +19,11 @@ export default {
   },
   mounted() {
     this.init()
-    // 解决zoom影响图表位置偏差
-    const width = this.$el.clientWidth
-    this.zoom = 1 / (width / 345)
+    const width = document.documentElement.clientWidth || document.body.clientWidth
+    this.zoom = 1 / (width / 375)
     window.addEventListener('resize', () => {
-      const width = this.$el.clientWidth
-      this.zoom = 1 / (width / 345)
+      const width = document.documentElement.clientWidth || document.body.clientWidth
+      this.zoom = 1 / (width / 375)
     })
   },
   methods: {
