@@ -1,6 +1,6 @@
 <template>
   <div class="maxPie-box" :style="`zoom:${zoom};transform:scale(${1/zoom});transform-origin: 0 0;`">
-    <div :id="data.chartId" class="maxPie-content" />
+    <div ref="chartId" class="maxPie-content" />
     <div class="active-text">
       <p>
         <span class="depart-name">{{ departName }}</span>
@@ -12,7 +12,6 @@
 </template>
 
 <script>
-// import echarts from 'echarts'
 import * as echarts from 'echarts'
 export default {
   props: {
@@ -27,7 +26,9 @@ export default {
       activeType: {},
       departName: '',
       count: null,
-      zoom: null
+      zoom: null,
+      myChart: null,
+      option: null
     }
   },
   watch: {
@@ -42,7 +43,6 @@ export default {
     this.init()
     const width = document.documentElement.clientWidth || document.body.clientWidth
     this.zoom = 1 / (width / 375)
-    console.log(this.zoom, 'zoom')
     window.addEventListener('resize', () => {
       const width = document.documentElement.clientWidth || document.body.clientWidth
       this.zoom = 1 / (width / 375)
@@ -52,22 +52,21 @@ export default {
     init() {
       this.departName = this.data.data[0].name
       this.count = this.data.data[0].count
-      const myChart = this.$echarts.init(document.getElementById(this.data.chartId))
-      const option = {
+      this.myChart = this.$echarts.init(this.$refs.chartId)
+      this.option = {
         tooltip: {
           show: false
         },
         legend: {
           show: false
         },
-        avoidLabelOverlap: true,
         selectedOffset: 0,
         series: [
           {
-            name: '访问来源',
+            name: '最外层环形圈',
             type: 'pie',
             radius: ['70%', '82%'],
-            avoidLabelOverlap: false,
+            avoidLabelOverlap: false, // 是否启用防止标签重叠策略，默认开启
             label: {
               textStyle: {
                 color: 'rgba(239, 240, 241, 1)', // 改变标示文字的颜色
@@ -124,12 +123,14 @@ export default {
               show: false,
               scale: false
             },
+            // 取消点击事件
+            silent: true,
             // 标示文字引导线设置
             labelLine: {
               show: false
             },
             data: [
-              { value: 1048, name: '搜索引擎' }],
+              { value: 1048, name: '内阴影圈1' }],
             zlevel: 5
           }, {
             name: '蚂蚁线',
@@ -171,6 +172,8 @@ export default {
             title: {
               show: false
             },
+            // 取消点击事件
+            silent: true,
             // 仪表盘详情，用于显示数据。
             detail: {
               show: false,
@@ -200,6 +203,8 @@ export default {
               show: false,
               scale: false
             },
+            // 取消点击事件
+            silent: true,
             // 标示文字引导线设置
             labelLine: {
               show: false
@@ -214,28 +219,29 @@ export default {
             label: {
               show: false
             },
+            // 取消点击事件
+            silent: true,
             // 图形的样式设置，
             itemStyle: {
               color: function(params) {
                 const colorList = [
                   {
-                    c1: 'rgba(71, 167, 234, 0)', // 管理
+                    c1: 'rgba(71, 167, 234, 0)',
                     c2: 'rgba(71, 167, 234, 0.2)'
                   },
                   {
-                    c1: 'rgba(255,255,255,0)', // 实践
+                    c1: 'rgba(255,255,255,0)',
                     c2: 'rgba(255,255,255,0)'
                   },
                   {
-                    c1: 'rgba(255,255,255,0)', // 操作
+                    c1: 'rgba(255,255,255,0)',
                     c2: 'rgba(255,255,255,0)'
                   },
                   {
-                    c1: 'rgba(255,255,255,0)', // 操作
+                    c1: 'rgba(255,255,255,0)',
                     c2: 'rgba(255,255,255,0)'
                   }]
                 return new echarts.graphic.LinearGradient(1, 0, 0, 0, [{ // 颜色渐变函数 前四个参数分别表示四个位置依次为左、下、右、上
-
                   offset: 0,
                   color: colorList[params.dataIndex].c1
                 }, {
@@ -254,68 +260,37 @@ export default {
               show: false
             },
             data: [
-              { value: 50, name: '搜索引擎' },
-              { value: 50, name: '搜索引擎' },
-              { value: 50, name: '搜索引擎' },
-              { value: 50, name: '搜索引擎' }],
+              { value: 50, name: '扇形1' },
+              { value: 50, name: '扇形2' },
+              { value: 50, name: '扇形3' },
+              { value: 50, name: '扇形4' }],
             zlevel: 2
           }
         ]
       }
-      myChart.setOption(option, true)
+      this.myChart.setOption(this.option, true)
       // 设置默认选中高亮部分
-      myChart.dispatchAction({ type: 'highlight', seriesIndex: 0, dataIndex: 0 })
+      this.myChart.dispatchAction({ type: 'highlight', seriesIndex: 0, dataIndex: 0 })
       // 当鼠标移入时，如果不是第一项，则把当前项置为选中，如果是第一项，则设置第一项为当前项
-      myChart.on('click', (e) => {
+      this.myChart.on('click', (e) => {
         this.activeType = e.data.type
-        if (e.dataIndex === 0) {
-          if (this.index) {
-            myChart.dispatchAction({ type: 'downplay', seriesIndex: 0, dataIndex: this.index })
-          }
-          myChart.dispatchAction({ type: 'highlight', seriesIndex: 0, dataIndex: 0 })
+        if (e.dataIndex === 0 && this.index) { // 如果选中其他扇之后再选中第一个扇，则把其他扇去除高亮，第一个扇高亮
+          this.changeStatus('downplay', this.index)
+          this.changeStatus('highlight', 0)
         } else {
-          if (this.index) {
-            myChart.dispatchAction({ type: 'downplay', seriesIndex: 0, dataIndex: this.index })
+          if (this.index) { // 如果选中其他扇之后再选中非第一个扇，则把选中高亮切换为当前项
+            this.changeStatus('downplay', this.index)
           }
-          myChart.dispatchAction({ type: 'downplay', seriesIndex: 0, dataIndex: 0 })
-          myChart.dispatchAction({ type: 'highlight', seriesIndex: 0, dataIndex: e.dataIndex })
+          this.changeStatus('downplay', 0)
+          this.changeStatus('highlight', e.dataIndex)
           this.index = e.dataIndex
         }
       })
+    },
+    changeStatus(type, index) {
+      this.myChart.dispatchAction({ type: type, seriesIndex: 0, dataIndex: index })
     }
   }
 }
 </script>
-
-<style scoped>
-.maxPie-content{
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  position: relative;
-}
-.active-text{
-  position: absolute;
-  width: 30%;
-  height: 30%;
-  text-align: center;
-  margin: auto;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-}
-.depart-name{
-  color: rgba(239, 240, 241, 1);
-  font-size: 12px;
-  line-height: 2
-}
-.depart-count{
-  color: rgba(70, 255, 235, 1);
-  font-size: 12px;
-  ;line-height: 2
-}
-</style>
+<style scoped src='./MixPie.css'></style>

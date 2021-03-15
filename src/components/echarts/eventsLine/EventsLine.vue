@@ -1,6 +1,6 @@
 <template>
   <div :style="`zoom:${zoom};transform:scale(${1/zoom});transform-origin: 0 0;`">
-    <div :id="data.chartId" class="lineMain" />
+    <div ref="chartId" class="lineMain" />
   </div>
 </template>
 <script>
@@ -41,7 +41,7 @@ export default {
         interval = 4
       }
       // 基于准备好的dom，初始化echarts实例
-      const myChart = this.$echarts.init(document.getElementById(this.data.chartId))
+      const myChart = this.$echarts.init(this.$refs.chartId)
       // 指定图表的配置项和数据
       const option = {
         color: ['rgba(0, 133, 247, 1)', 'rgba(40, 255, 187, 1)'],
@@ -220,10 +220,4 @@ export default {
   }
 }
 </script>
-<style scoped>
-.lineMain{
-  z-index: 10;
-  width: 100%;
-  height: 100%
-}
-</style>
+<style scoped src='./EventsLine.css'></style>

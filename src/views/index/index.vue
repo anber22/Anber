@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="index">
     <div class="index-bg">
       <div class="index">
         <!-- 顶部设备网点数量统计 start -->
@@ -93,8 +93,8 @@
 
 <script>
 import Gauge from 'cmp/echarts/gauge/Gauge'
-import MaxPie from 'cmp/echarts/maxPie/MaxPie'
-import MaxLine from 'cmp/echarts/maxLine/MaxLine'
+import MaxPie from 'cmp/echarts/mixPie/MixPie'
+import MaxLine from 'cmp/echarts/mixLine/MixLine'
 import Api from '@/api/index'
 import EquipList from 'cmp/index/equipList/EquipList'
 import Warning from 'cmp/index/warning/Warning'
@@ -136,20 +136,15 @@ export default {
           imgUrl: require('/src/assets/images/index/crane-monitoring.png')
         }
       ],
-      gaugeData: {
-        chartId: 'gaugeId'
-      },
+      gaugeData: {},
       equipCountings: '',
       branchesCountings: '',
       equipList: [],
       maxPieData: {
-        chartId: 'maxPieChartId',
         data: []
       },
       maxPieDataFlag: false,
       lineData: {
-        // 饼图的id
-        chartId: 'lineChartId',
         title: '隐患分析（近15天)',
         xAxis: {
           data: []
@@ -169,8 +164,6 @@ export default {
       eventData: {
         equipType: [],
         analysisTimelineData: {
-          // 双折线图的id
-          chartId: 'analysisTimelineChartId',
           xAxis: {
             data: []
           },
@@ -203,8 +196,6 @@ export default {
           }
         ],
         pieData: {
-          // 饼图的id
-          chartId: 'monitorAnalysisChartId',
           data: [],
           title: '',
           color: []
@@ -218,7 +209,8 @@ export default {
       analysisSystemType: 5,
       hiddenDangerList: [],
       onlinePercent: 0,
-      analysisHeight: 154
+      analysisHeight: 154,
+      screenWidth: null
     }
   },
   computed: {
@@ -474,106 +466,4 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.index{
-  width: 92%;
-  height: 100%;
-  padding: 0px 4% 0px 4%;
-  /* background-color: rgba(16, 23, 32, 1); */
-  overflow: scroll;
-}
-.equip-count{
-  border-radius:5px;
-  margin-top: 5%;
-  padding-right: 0px;
-  display: inline-block;
-  background-image: url('@/assets/images/index/equip-count.png');
-  background-repeat:no-repeat ;
-  background-size: cover;
-}
-.branches-count{
-  padding-right: 0px;
-  border-radius:5px;
-  margin-top: 5%;
-  display: inline-block;
-  margin-left: 2.7%;
-  background-image: url('@/assets/images/index/branches-count.png');
-  background-repeat:no-repeat;
-  background-size: cover;
-}
-.warning-box{
-  padding-right: 0px;
-  margin-top: 8%;
-}
-.count-title{
-  width: 100%;
-  margin: 0px;
-  padding-top: 8%;
-  text-align: center;
-  font-size: 12px;
-  font-family: PingFang SC;
-  font-weight: 400;
-  color: #FFFFFF;
-}
-.count-value{
-  width: 100%;
-  margin: 0px;
-  text-align: center;
-  font-size: 21px;
-  font-family: PingFang SC;
-  font-weight: 600;
-  color: #FFFFFF;
-}
-/* 标题  start*/
-.title-box{
-  margin-top: 8%;
-  margin-bottom: 2%;
-}
-.title-style{
-  width: 1.2%;
-  height: 100%;
-  background:-webkit-gradient(linear, 100% 100%, 0% 100%,from(#008EFF), to(#1DF2FF));
-  display: inline-block;
-  border-top-right-radius: 6px;
-  border-bottom-left-radius: 6px;
-}
-.title-name{
-  width: 80%;
-  height: 100%;
-  display: inline-block;
-  font-size: 20px;
-  font-family: PingFang SC;
-  font-weight: 500;
-  color: #B9CEE9;
-}
-/* end */
-.equipList-box{
-  padding-right: 0px;
-}
-
-.legend{
-  /* text-align: center; */
-  font-size: 12px;
-  color: #fff;
-  padding-left: 18%;
-}
-.legend p{
-  line-height: 2.5
-}
-.legend p span{
-  display: inline-block;
-  width: 11px;
-  background-color: #008EFF;
-  height: 9px;
-  margin-right: 10px;
-}
-.index-bg{
-  width: 100%;
-  height: max-content;
-  background-image: url('@/assets/images/index/zhgt-bg.png');
-  background-color: rgba(16, 23, 32, 1);
-  background-repeat: no-repeat;
-  background-size:100% 100%;
-}
-</style>
+<style scoped src='./index.css'></style>

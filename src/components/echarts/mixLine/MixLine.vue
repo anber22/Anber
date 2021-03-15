@@ -1,6 +1,6 @@
 <template>
   <div :style="`zoom:${zoom};transform:scale(${1/zoom});transform-origin: 0 0;`">
-    <div :id="data.chartId" class="line-content" />
+    <div ref="chartId" class="line-content" />
   </div>
 </template>
 <script>
@@ -20,7 +20,6 @@ export default {
     this.init()
     const width = document.documentElement.clientWidth || document.body.clientWidth
     this.zoom = 1 / (width / 375)
-    console.log(this.zoom, 'zoom')
     window.addEventListener('resize', () => {
       const width = document.documentElement.clientWidth || document.body.clientWidth
       this.zoom = 1 / (width / 375)
@@ -36,7 +35,7 @@ export default {
         interval = 2
       }
       // 基于准备好的dom，初始化echarts实例
-      const myChart = this.$echarts.init(document.getElementById(this.data.chartId))
+      const myChart = this.$echarts.init(this.$refs.chartId)
       // 指定图表的配置项和数据
       const option = {
         color: ['rgba(24, 237, 250, 0.5)'],
@@ -172,10 +171,4 @@ export default {
   }
 }
 </script>
-<style scoped>
-.line-content{
-  z-index: 10;
-  width: 100%;
-  height: 100%
-}
-</style>
+<style scoped src='./MixLine.css'></style>

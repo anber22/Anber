@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :id="data.chartId" class="gauge-content" />
+    <div ref="chartId" class="gauge-content" />
   </div>
 </template>
 <script>
@@ -20,7 +20,7 @@ export default {
     if (this.data.onlinePercent) {
       this.percent = this.data.onlinePercent
     }
-    const myChart = this.$echarts.init(document.getElementById(this.data.chartId))
+    const myChart = this.$echarts.init(this.$refs.chartId)
     const option = {
       animation: true,
       series: [{
@@ -454,10 +454,4 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.gauge-content{
-  width: 100%;
-  height: 100%
-}
-</style>
+<style scoped src='./Gauge.css'></style>
