@@ -209,7 +209,7 @@ export default {
       analysisSystemType: 5,
       hiddenDangerList: [],
       onlinePercent: 0,
-      analysisHeight: 154,
+      analysisHeight: 134,
       screenWidth: null
     }
   },
@@ -413,7 +413,7 @@ export default {
         if (dataArr.length < 4) {
           this.analysisHeight = 100
         } else {
-          this.analysisHeight = 158
+          this.analysisHeight = 134
         }
         dataArr.forEach((item, index) => {
           this.monitorAnalysisData.pieData.data.push({

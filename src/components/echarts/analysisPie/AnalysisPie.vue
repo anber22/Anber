@@ -62,6 +62,7 @@ export default {
             color: '#FFFFFF',
             fontSize: 8
           },
+          selectedMode: false,
           pageIconSize: 12, // 翻页按钮大小
           orient: 'vertical',
           padding: 0,

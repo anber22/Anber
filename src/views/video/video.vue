@@ -1,6 +1,6 @@
 <template>
   <div class="video-view">
-    <van-search v-model="searchValue" class="search-item" background="rgba(16, 23, 32, 1)" placeholder="请输入搜索关键词" />
+    <van-search v-model="searchValue" class="search-item" background="rgba(16, 23, 32, 1)" placeholder="设备安装位置/IMEI码" />
     <div class="video-content">
       <van-collapse v-model="activeName" accordion :border="false" @change="changePlace">
         <van-loading v-if="!placeList" size="24px" vertical>
@@ -88,6 +88,10 @@ export default {
           }
         }
       }
+    },
+    sortVideo(a, b) {
+      console.log(a, b)
+      return a - b
     }
   }
 }

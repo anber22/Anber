@@ -1,6 +1,6 @@
 <template>
-  <div class="maxPie-box" :style="`zoom:${zoom};transform:scale(${1/zoom});transform-origin: 0 0;`">
-    <div ref="chartId" class="maxPie-content" />
+  <div class="maxPie-box">
+    <div ref="chartId" :style="`zoom:${zoom};transform:scale(${1/zoom});transform-origin: 0 0;`" class="maxPie-content" />
     <div class="active-text">
       <p>
         <span class="depart-name">{{ departName }}</span>
