@@ -1,17 +1,21 @@
 <template>
   <div class="video-view">
-    <van-search v-model="searchValue" class="search-item" background="rgba(16, 23, 32, 1)" placeholder="设备安装位置/IMEI码" />
+    <van-search v-model="searchValue" class="search-item" background="rgba(16, 23, 32, 1)" placeholder="设备安装位置/IMEI码" @search="onSearch" />
     <div class="video-content">
-      <van-collapse v-model="activeName" accordion :border="false" @change="changePlace">
+      <van-collapse v-model="activeName" accordion :border="false">
         <van-loading v-if="!placeList" size="24px" vertical>
           加载中...
         </van-loading>
-        <van-collapse-item v-for="(item, index) in placeList" :key="index" :title="item.placeName + '('+item.count+')'" :name="item.placeId">
+        <van-collapse-item v-for="(item, index) in placeList" v-show="item.count" :key="index" :title="item.placeName + '('+item.count+')'" :name="item.placeId">
           <div v-if="item.equips">
             <Video v-for="(iitem, iindex) in item.equips" :key="iindex" :data="iitem" :placename="item.placeName" />
           </div>
         </van-collapse-item>
       </van-collapse>
+      <div v-show="emptyFlag" class="emptyImg">
+        <img src="@/assets/images/public/empty.png" alt="">
+        <p>无匹配项</p>
+      </div>
     </div>
   </div>
 </template>
@@ -28,7 +32,10 @@ export default {
     return {
       activeName: null,
       placeList: [],
-      searchValue: null
+      searchValue: '',
+      showEquip: false,
+      // 无匹配项显示
+      emptyFlag: false
     }
   },
   computed: {
@@ -38,60 +45,75 @@ export default {
     /**
      * 获取网点列表，智慧视觉传对应的智慧视觉子系统的id:5
      */
-    this.getVideoPlaceList(5)
+    this.getVideoPlaceList(5, '')
   },
   methods: {
     /**
      * 设备类型关联的场所列表
      */
-    async getVideoPlaceList(type) {
-      const res = await videoApi.videoPlaceList(type)
+    async getVideoPlaceList(type, condition) {
+      const param = {
+        type: type,
+        condition: ''
+      }
+      if (condition) {
+        param.condition = '?condition=' + condition
+      }
+      const res = await videoApi.videoPlaceList(param)
       if (res.code === 200) {
         this.placeList = [...res.data]
+        const flag = this.placeList.filter(item => item.count)
+        if (!flag.length) {
+          this.emptyFlag = true
+        } else {
+          this.emptyFlag = false
+        }
         // this.activeName = this.placeList[0].placeId
         // 默认展开第一列（获取第一列数据）
         // this.getVideoPlaceEquipList(this.placeList[0].placeId, 5)
         this.placeList.forEach(item => {
-          this.getVideoPlaceEquipList(item.placeId, 5)
+          this.getVideoPlaceEquipList(item.placeId, 5, condition)
         })
       }
     },
     /**
      * 切换面板时触发,用选中的placeId获取该网点下的设备列表
      */
-    changePlace(id) {
-      if (id) {
-        this.placeList.forEach((item, index) => {
-          if (!Reflect.has(item, 'equips') && id === item.placeId) {
-            this.getVideoPlaceEquipList(id, 5)
-            return true
-          }
-        })
-      }
-    },
+    // changePlace(id) {
+    //   if (id) {
+    //     this.placeList.forEach((item, index) => {
+    //       if (!Reflect.has(item, 'equips') && id === item.placeId) {
+    //         this.getVideoPlaceEquipList(id, 5)
+    //         return true
+    //       }
+    //     })
+    //   }
+    // },
     /**
      * 获取场所关联的设备列表
      */
-    async getVideoPlaceEquipList(id, type) {
+    async getVideoPlaceEquipList(id, type, condition) {
       const param = {
         id: id,
-        type: type
+        type: type,
+        condition: ''
+      }
+      if (condition) {
+        param.condition = '?condition=' + condition
       }
       const res = await videoApi.videoPlaceEquipList(param)
       if (res.code === 200) {
         // 去vuex获取该网点的设备类型名称，放到数组集合里
         res.data = await this.ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', res.data)
-        // const videoData = res.data.filter(item => item.imei !== null)
         for (const i in this.placeList) {
           if (param.id === this.placeList[i].placeId) {
-            this.$set(this.placeList[i], 'equips', res.data)
+            Reflect.set(this.placeList[i], 'equips', res.data)
           }
         }
       }
     },
-    sortVideo(a, b) {
-      console.log(a, b)
-      return a - b
+    onSearch(e) {
+      this.getVideoPlaceList(5, e)
     }
   }
 }
