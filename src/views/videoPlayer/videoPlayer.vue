@@ -81,6 +81,7 @@ export default {
       this.player.src(video)
       // this.player.load()
       this.player.play()
+      console.log(this.player.isFullscreen_, 'this.player.this.player.')
     }
     // ,
     // switchPlayer() {
