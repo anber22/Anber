@@ -7,7 +7,7 @@
           加载中...
         </van-loading>
         <van-collapse-item v-for="(item, index) in placeList" v-show="item.count" :key="index" :title="item.placeName + '('+item.count+')'" :name="item.placeId">
-          <div v-if="item.equips">
+          <div v-if="equipsFlag">
             <Video v-for="(iitem, iindex) in item.equips" :key="iindex" :data="iitem" :placename="item.placeName" />
           </div>
         </van-collapse-item>
@@ -33,9 +33,10 @@ export default {
       activeName: null,
       placeList: [],
       searchValue: '',
-      showEquip: false,
       // 无匹配项显示
-      emptyFlag: false
+      emptyFlag: false,
+      // 判断有没有equips网点下的设备列表
+      equipsFlag: false
     }
   },
   computed: {
@@ -105,11 +106,12 @@ export default {
       if (res.code === 200) {
         // 去vuex获取该网点的设备类型名称，放到数组集合里
         res.data = await this.ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', res.data)
-        for (const i in this.placeList) {
-          if (param.id === this.placeList[i].placeId) {
-            Reflect.set(this.placeList[i], 'equips', res.data)
+        this.placeList.map(item => {
+          if (param.id === item.placeId) {
+            this.$set(item, 'equips', res.data)
+            this.equipsFlag = true
           }
-        }
+        })
       }
     },
     onSearch(e) {
