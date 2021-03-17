@@ -191,6 +191,31 @@ class MatchUUID {
         uuid: '6684e54d7d384c629715804e0593bd57',
         address: '唐一工地生活区态势B',
         imei: '2102412464WLL4005194'
+      },
+      {
+        uuid: '1eba2d8e2995428cb7adc893f726e99b',
+        address: '金发工地围墙高点态势',
+        imei: '2102412464WLL4005201'
+      },
+      {
+        uuid: '1866c6745fe64ed98cca524b84b7b1a8',
+        address: '金发工地后门态势',
+        imei: '2102352KCPWMLC002454'
+      },
+      {
+        uuid: '84c3e8fadfcd426388ae673dc859e558',
+        address: '金发工地后门安全帽',
+        imei: '2102412464WLL4011010'
+      },
+      {
+        uuid: 'd1bb9a37b8454132aa41137bafc69881',
+        address: '金发工地正门态势',
+        imei: '2102412024LTLA000743'
+      },
+      {
+        uuid: '34bc6e6efaba4db0ab7f5b3f366ae139',
+        address: '金发工地正门安全帽',
+        imei: '2102352KCPWMLC002413'
       }
     ]
   }

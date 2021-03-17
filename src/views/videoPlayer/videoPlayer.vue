@@ -20,7 +20,7 @@
 <script>
 import VideoPlayer from 'cmp/videoPlayer/VideoPlayer.vue'
 import Config from '/config.json'
-import videoUUID from '@/utils/videoUUID'
+import VideoUUID from '@/utils/videoUUID'
 export default {
   components: {
     VideoPlayer
@@ -55,8 +55,8 @@ export default {
       }
       this.title = this.$route.query.equipTypeName + '-' + this.$route.query.placeName + this.$route.query.equipAddress
       const imei = this.$route.query.imei
-      if (videoUUID.match(imei)) {
-        source = videoUrl + '/mag/hls/' + videoUUID.match(imei) + '/0/live.m3u8'
+      if (VideoUUID.match(imei)) {
+        source = videoUrl + '/mag/hls/' + VideoUUID.match(imei) + '/0/live.m3u8'
       }
       // else {
       //   source = videoUrl + '/mag/hls/d52ef1c486394c7fa5159b4eb374d4fc/0/live.m3u8'
@@ -81,7 +81,6 @@ export default {
       this.player.src(video)
       // this.player.load()
       this.player.play()
-      console.log(this.player.isFullscreen_, 'this.player.this.player.')
     }
     // ,
     // switchPlayer() {

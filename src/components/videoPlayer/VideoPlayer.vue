@@ -14,6 +14,9 @@
         To view this video please enable JavaScript, and consider upgrading to a web browser that
         <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
       </p>
+      <div v-if="isFullScreen" style="color: #fff; font-size: 14px">
+        电瓶车上楼-惠景慧园惠景慧园4栋1单元大堂11111
+      </div>
     </video>
   </div>
 </template>
@@ -72,7 +75,8 @@ export default {
   data() {
     return {
       player: null,
-      reseted: true
+      reseted: true,
+      isFullScreen: false
     }
   },
   watch: {
@@ -164,6 +168,10 @@ export default {
         }
         // player readied
         self.$emit('ready', this)
+      })
+      this.player.on('fullscreenchange', function(e) {
+        this.isFullScreen = !this.isFullScreen
+        console.log(this.isFullScreen, '全屏了吗')
       })
     },
     dispose(callback) {

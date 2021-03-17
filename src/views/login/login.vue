@@ -106,7 +106,7 @@ export default {
     return {
       activeTab: 1,
       isPasswordData: {
-        userName: '18666121714',
+        userName: '18928058888',
         password: '123456'
       },
       isSMSData: {
