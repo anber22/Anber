@@ -56,7 +56,6 @@ export default {
     }
   },
   mounted() {
-    console.log('应用列表', this.data)
   },
   methods: {
     showCard(e) {

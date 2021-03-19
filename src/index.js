@@ -10,7 +10,6 @@ import Adaptive from 'cmp/adaptive/adaptive'
 import { Toast } from 'vant'
 import Vuex from 'vuex'
 import store from './store'
-import ReadTypeNameOnVuex from './utils/readTypeNameOnVuex'
 // import video from 'video.js'
 // import 'video.js/dist/video-js.css'
 // import hls from 'videojs-contrib-hls'
@@ -26,7 +25,6 @@ Vue.component('Adaptive', Adaptive)
 Vue.config.debug = true
 Vue.prototype.$echarts = echarts
 Vue.prototype.$Toast = Toast
-Vue.prototype.ReadTypeNameOnVuex = ReadTypeNameOnVuex
 
 // Vue.prototype.$video = video
 // const hls = require('videojs-contrib-hls')

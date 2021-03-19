@@ -28,7 +28,7 @@
           {{ data.equipTypeName+"-"+data.placeName+"-"+data.equipAddress }}
           <!-- 安全帽监测-港湾一号-湾9栋401大门口 -->
         </div>
-        <a class="hazardListCard-content-row-a" @click.stop="callPhone(data.placeId)">
+        <a class="hazardListCard-content-row-a" @click.stop="callPhone(data.placePhone)">
           <img src="@/assets/images/equip/phone.png" alt="" class="hazardListCard-content-row-icon">
         </a>
         <a class="hazardListCard-content-row-a" @click.stop="toMap(data.placeId)">
@@ -88,10 +88,8 @@ export default {
      * 跳转拨号
      */
     async  callPhone(e) {
-      const res = await Api.placeResourcDetail(e)
-      if (res.code === 200) {
-        const result = res.data
-        window.location.href = 'tel://' + result.phone
+      if (e && typeof e !== undefined) {
+        window.location.href = 'tel://' + e
       }
     },
     /**

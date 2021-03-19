@@ -37,7 +37,6 @@
 </template>
 
 <script>
-// import Socket from '../../../utils/socket'
 import DateTransformation from '@/utils/dateTransformation.js'
 export default {
   components: {
@@ -74,12 +73,12 @@ export default {
     if (this.ulList !== null) {
       if (this.ulList.length > 1) {
         this.currentSystemtypeImage = this.ulList[0].imgUrl
-        setInterval(this.startPlay, 3000)
+
+        this.timer = setInterval(this.startPlay, 3000)
       } else {
         this.currentSystemtypeImage = this.ulList[0].imgUrl
       }
     }
-    // Socket.initSocket('equipCount')
   },
   destroyed() { // 页面销毁时清除定时器
     clearInterval(this.timer)
@@ -104,11 +103,10 @@ export default {
       const that = this
       that.play = true // 开始播放
 
-      that.timer = setTimeout(() => { // 创建并执行定时器
+      setTimeout(() => { // 创建并执行定时器
         that.play = false // 暂停播放
         that.ulList.push(that.ulList[0]) // 将第一条数据塞到最后一个
         that.ulList.shift() // 删除第一条数据
-
         this.currentSystemtypeImage = this.ulList[0].imgUrl
       }, 500)
     },

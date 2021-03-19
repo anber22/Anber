@@ -1,5 +1,5 @@
 <template>
-  <div class="hazardDetail">
+  <div v-if="!loading" class="hazardDetail">
     <!-- 隐患详情信息 start -->
     <div class="hazardDetail-submit">
       <div class="hazardDetail-submit-title">
@@ -47,9 +47,11 @@
             <div class="hazardDetail-submit-content-info-row-name">
               网点名称:
             </div>
-            <div class="hazardDetail-submit-content-info-row-value underLine">
-              {{ detailInfo.placeName }}
-            </div>
+            <a @click.stop="toPlaceDetail(detailInfo.placeId)">
+              <div class="hazardDetail-submit-content-info-row-value underLine">
+                {{ detailInfo.placeName }}
+              </div>
+            </a>
           </div>
           <div class="hazardDetail-submit-content-info-row">
             <div class="hazardDetail-submit-content-info-row-name">
@@ -136,6 +138,8 @@
 <script>
 import Api from '@/api/hazard/hazard.js'
 import Date from '@/utils/dateTransformation'
+import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
+
 import PlaceApi from '@/api/placeResource/placeResource'
 
 export default {
@@ -147,7 +151,8 @@ export default {
     return {
       detailInfoId: 0,
       detailInfo: {},
-      dealInfo: {}
+      dealInfo: {},
+      loading: true
     }
   },
   mounted() {
@@ -158,12 +163,13 @@ export default {
     /**
      * 拨号
      */
-    async  callPhone(e) {
-      const res = await PlaceApi.placeResourcDetail(e)
-      if (res.code === 200) {
-        const result = res.data
-        window.location.href = 'tel://' + result.phone
-      }
+    async  toPlaceDetail(e) {
+      this.$router.push({
+        path: '/placeResourcDetail',
+        query: {
+          placeId: e
+        }
+      })
     },
     /**
      * 获取隐患详情信息
@@ -176,12 +182,12 @@ export default {
       if (res.code === 200) {
         this.detailInfo = { ...res.data }
       }
-      console.log('隐患列表', this.detailInfo)
-      this.detailInfo = await this.ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', this.detailInfo)
 
+      this.detailInfo = await ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', this.detailInfo)
       if (this.detailInfo.isDone === 1) {
         this.getHazardDealInfo()
       }
+      this.loading = false
     },
 
     /**
