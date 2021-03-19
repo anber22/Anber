@@ -125,7 +125,6 @@ export default {
      * 跳转详情
      */
     showHazardDetail(e) {
-      console.log('设备id', e)
       this.$router.push({
         path: '/hazard',
         query: {

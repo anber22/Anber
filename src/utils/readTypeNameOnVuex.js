@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import store from '@/store'
-export default class ReadTypeNameOnVuex {
+class ReadTypeNameOnVuex {
   /**
   * 让传入集合（infoList）进入此方法走一圈出去之后带上对应类型（typeName）的类型名称，
   * 在此之前您需要告诉我您希望用传入集合的哪个属性（propertyName）和vuex的类型数组对象的做匹配，获得对应的属性名
@@ -15,9 +15,8 @@ export default class ReadTypeNameOnVuex {
   * @param {*} info 传入集合
   * @returns
   */
-  static async conversion(typeName, propertyName, newPropertyName, info) {
+  async conversion(typeName, propertyName, newPropertyName, info) {
     const typeList = await store.getters[typeName]
-    console.log('1111', typeList)
     if (!Array.isArray(info)) {
       info[newPropertyName] = typeList.filter(item => item.id === info[propertyName])[0].name
     } else {
@@ -28,3 +27,4 @@ export default class ReadTypeNameOnVuex {
     return info
   }
 }
+export default new ReadTypeNameOnVuex()

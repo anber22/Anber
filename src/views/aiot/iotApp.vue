@@ -59,6 +59,8 @@ import PhysicalUnionApplication from 'cmp/equipCard/PhysicalUnionApplication.vue
 import PhysicalUnionApplicationListCard from 'cmp/equipListCard/EquipListCard.vue'
 import EnvironmentalMonitoring from 'cmp/equipCard/EnvironmentalMonitoring.vue'
 import TowerCraneMonitoring from 'cmp/equipCard/TowerCraneMonitoring.vue'
+import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
+
 import Api from '@/api/aiot/iotApp.js'
 
 export default {
@@ -94,9 +96,9 @@ export default {
   },
   created() {
     // 渲染页面查询卡片列表片数据
-    console.log('首页', Number(this.$route.query.systemId))
-    if (this.$route.query) {
+    if (this.$route.query.systemId) {
       this.thisSubsystemId = Number(this.$route.query.systemId)
+      console.log('带参跳转')
     }
     this.getEquipInfoList()
   },
@@ -119,7 +121,6 @@ export default {
      * 输入框内容变化改变
      */
     conditionChange(value) {
-      console.log(value)
       this.queryCondition = value
     },
     /**
@@ -139,7 +140,6 @@ export default {
      */
     async getEquipInfoList() {
       this.loadding = true
-      console.log('查询')
       const params = {
         systemType: this.thisSubsystemId,
         page: 1,
@@ -158,7 +158,7 @@ export default {
       const hazardCountList = await Api.equipUntreatedEventList(ids)
 
       // 根据设备类型id获取对应的设备类型名称
-      this.equipInfoList = await this.ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', this.equipInfoList)
+      this.equipInfoList = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', this.equipInfoList)
       let combined = []
       if (hazardCountList.code === 200) {
         combined = hazardCountList.data.reduce((acc, cur) => {

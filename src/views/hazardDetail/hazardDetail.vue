@@ -138,6 +138,8 @@
 <script>
 import Api from '@/api/hazard/hazard.js'
 import Date from '@/utils/dateTransformation'
+import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
+
 import PlaceApi from '@/api/placeResource/placeResource'
 
 export default {
@@ -181,8 +183,7 @@ export default {
         this.detailInfo = { ...res.data }
       }
 
-      this.detailInfo = await this.ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', this.detailInfo)
-      console.log('隐患列表', this.detailInfo)
+      this.detailInfo = await ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', this.detailInfo)
       if (this.detailInfo.isDone === 1) {
         this.getHazardDealInfo()
       }

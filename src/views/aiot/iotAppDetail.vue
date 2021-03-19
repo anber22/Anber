@@ -23,6 +23,8 @@
 <script>
 
 import InfoRow from '@/components/infoRows/InfoRows'
+import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
+
 import Api from '@/api/aiot/iotApp.js'
 export default {
   components: {
@@ -61,8 +63,8 @@ export default {
       if (res.code === 200) {
         equipDetailInfo = { ...res.data }
       }
-      equipDetailInfo = await this.ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', equipDetailInfo)
-      equipDetailInfo = await this.ReadTypeNameOnVuex.conversion('platformList', 'platformId', 'platformName', equipDetailInfo)
+      equipDetailInfo = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', equipDetailInfo)
+      equipDetailInfo = await ReadTypeNameOnVuex.conversion('platformList', 'platformId', 'platformName', equipDetailInfo)
 
       this.rowList = [
         {

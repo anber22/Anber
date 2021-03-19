@@ -6,7 +6,7 @@ import Stomp from 'stompjs'
 import { cookieData, localData } from './local'
 
 let channel = []
-let socket = new WebSocket(requestPath)
+let socket = null
 /*
  *初始化socket
  */
@@ -33,11 +33,13 @@ class Socket {
 
     // 我们的socket是socket包装的websocket 所以用Stomp.over(socket)
     // 如果是原生的就用Stomp.client(url)
-    // socket = Stomp.over(socket)
-    socket = Stomp.client(requestPath)
-    // 离线
+    console.log('开始连接')
+    socket = new WebSocket(requestPath)
+    socket = Stomp.over(socket)
+    // socket = Stomp.client(requestPath)
+    // 发送频率
     socket.heartbeat.outgoing = 1
-    // 在线
+    // 接受频率
     socket.heartbeat.incoming = 0
     // 发起连接
     socket.connect(this.accountName, this.passWord, this.onConnected, this.onFailed)
@@ -52,7 +54,17 @@ class Socket {
     // .depart_id
     // 非正式版本下，加test-
     const topic = channel
-    socket.subscribe(topic, this.responseCallback, this.onFailed)
+    console.log('连接成功！', topic)
+    socket.subscribe(topic, (msg) => {
+      console.log('msgggg', typeof msg.body)
+      const temp = JSON.parse(msg.body)
+      console.log('msg-----------', temp)
+      if (JSON.parse(msg.body)) {
+        if (JSON.parse(msg.body)) {
+          console.log('refresh === 1', msg.body)
+        }
+      }
+    })
 
     // return responseCallback
     // const topic =
@@ -66,17 +78,15 @@ class Socket {
    * @param {*} frame
    */
   onFailed(frame) {
+    console.log('订阅失败')
     setTimeout(() => {
       this.initSocket()
     }, 2000)
   }
 
-  /**
-   *
-   * @param {*} frame
-   */
   responseCallback(frame) {
     // 接收消息处理
+    console.log('订阅成功', frame)
     if (JSON.parse(frame.body)) {
       if (JSON.parse(frame.body).refresh === 1) {
         this.getListData()
@@ -106,3 +116,4 @@ class Socket {
   }
 }
 
+export default new Socket()

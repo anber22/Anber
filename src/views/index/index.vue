@@ -104,6 +104,8 @@ import DepartCount from 'cmp/index/departCount/DepartCount'
 import Events from 'cmp/index/events/Events'
 import MonitorAnalysis from 'cmp/index/monitorAnalysis/MonitorAnalysis'
 import { mapGetters } from 'vuex'
+import Socket from '@/utils/socket'
+
 import Regular from '@/utils/regular.js'
 import store from '@/store'
 import CraneMonitoring from '@/assets/images/index/wisdom-visual.png'
@@ -234,6 +236,7 @@ export default {
     // this.subsystemList.forEach(item => {
     //   item.imgUrl = require(item.imgUrl)
     // })
+    // Socket.initSocket('equipCount')
 
     this.getHazardTypeList()
     this.getHiddenDangerList()
@@ -296,7 +299,6 @@ export default {
         return acc
       }, this.equipList)
       this.equipList = combined
-      console.log('应用应用列表', this.equipList)
       combined.forEach(item => {
         this.monitorAnalysisData.equipType.push({
           value: item.id,

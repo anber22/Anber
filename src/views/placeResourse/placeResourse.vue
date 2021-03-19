@@ -14,6 +14,8 @@
 
 <script>
 import PlaceResourcListCard from 'cmp/placeResourcListCard/PlaceResourcListCard'
+import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
+
 import Api from '@/api/placeResource/placeResource.js'
 
 export default {
@@ -44,7 +46,7 @@ export default {
       if (res.code === 200) {
         let listData = [...res.data.rows]
         // 去vuex获取该网点的网点类型名称，放到数组集合里
-        listData = await this.ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', listData)
+        listData = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', listData)
         this.placeResourcList = listData
       }
     },

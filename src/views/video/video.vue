@@ -23,6 +23,8 @@
 <script>
 import Video from 'cmp/video/Video'
 import videoApi from '@/api/video'
+import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
+
 import { mapGetters } from 'vuex'
 export default {
   components: {
@@ -105,7 +107,7 @@ export default {
       const res = await videoApi.videoPlaceEquipList(param)
       if (res.code === 200) {
         // 去vuex获取该网点的设备类型名称，放到数组集合里
-        res.data = await this.ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', res.data)
+        res.data = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', res.data)
         this.placeList.map(item => {
           if (param.id === item.placeId) {
             this.$set(item, 'equips', res.data)

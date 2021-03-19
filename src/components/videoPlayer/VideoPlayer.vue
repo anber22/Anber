@@ -171,7 +171,6 @@ export default {
       })
       this.player.on('fullscreenchange', function(e) {
         this.isFullScreen = !this.isFullScreen
-        console.log(this.isFullScreen, '全屏了吗')
       })
     },
     dispose(callback) {

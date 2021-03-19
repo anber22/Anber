@@ -38,6 +38,7 @@
 
 <script>
 import HazardListCard from 'cmp/hazardListCard/HazardListCard'
+import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 
 import Api from '@/api/hazard/hazard.js'
 
@@ -119,9 +120,8 @@ export default {
       if (res.code === 200) {
         this.hazardList = res.data.rows
       }
-      console.log('隐患列表', this.hazardList)
-      this.hazardList = await this.ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', this.hazardList)
-      this.hazardList = await this.ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', this.hazardList)
+      this.hazardList = await ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', this.hazardList)
+      this.hazardList = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', this.hazardList)
       this.loading = false
     },
     /**
@@ -140,7 +140,6 @@ export default {
      * 格式化path传参
      */
     formattingCondition() {
-      console.log('格式化')
       let conditionStr = ''
       let first = false
       if (this.queryCondition.length > 0) {
@@ -161,7 +160,7 @@ export default {
         } else {
           conditionStr = conditionStr + '&isDone=' + (this.status - 1)
         }
-      } console.log('进入拼接', this.equipId)
+      }
       if (this.equipId > 0) {
         if (!first) {
           conditionStr = conditionStr + '?equipId=' + (this.equipId)
