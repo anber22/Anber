@@ -38,7 +38,7 @@
           </div>
           <div class="text-item" style="padding-bottom: 20px; border-bottom: 1px #283444 solid;">
             <span class="name">联系人：</span>
-            <span class="describe">{{ placeResourcDetail.managerName }}-{{ placeResourcDetail.phone }}</span>
+            <span class="describe">{{ placeResourcDetail.managerName }}-{{ placeResourcDetail.placePhone }}</span>
             <a :href="'tel:' + placeResourcDetail.phone">
               <van-image
                 width="19px"

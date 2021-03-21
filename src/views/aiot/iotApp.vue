@@ -36,15 +36,28 @@
         <div v-if="thisSubsystemId===11 && !loadding " class="show-list">
           <TowerCraneMonitoring v-for="(item, index) in equipInfoList" :key="index" class="towerCraneMonitoring-card" :data="item" />
         </div>
+
+        <div v-if="!loadding && equipInfoList.length===0" class="nothing-list">
+          <img src="@/assets/images/public/nothing.png" alt="" class="nothing-img">
+          <div class="nothing-content">
+            无匹配项
+          </div>
+        </div>
       </div>
       <!-- end -->
       <!-- 列表卡片 start -->
       <div v-if="!isCard">
-        <div v-if="!loadding" class="show-list">
+        <div v-if="!loadding && equipInfoList.length>0" class="show-list">
           <div v-for="item in equipInfoList" :key="item.index" @click="toDetailInfo(item.equipId)">
             <Adaptive :data="['100%','31.39%']" class="physicalUnionApplication-list-card">
               <PhysicalUnionApplicationListCard :data="item" />
             </Adaptive>
+          </div>
+        </div>
+        <div v-if="!loadding && equipInfoList.length===0" class="nothing-list">
+          <img src="@/assets/images/public/nothing.png" alt="" class="nothing-img">
+          <div class="nothing-content">
+            无匹配项
           </div>
         </div>
       </div>
@@ -281,8 +294,7 @@ export default {
   align-items: center;
   box-sizing: border-box ;
   /* padding: 10px 12px; */
-    background-color: transparent;
-
+  background-color: transparent;
 }
 .iotApp .van-search__content{
   background-color: #101720;
@@ -293,18 +305,16 @@ export default {
   background-color:  #101720 ;
 }
 .iotApp .van-dropdown-menu__title{
-
-font-size: 15px;
-font-family: PingFang SC;
-font-weight: 400;
-color: #8BA3C2;
+  font-size: 15px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #8BA3C2;
 }
 .iotApp .van-field__control{
   font-size: 15px;
-font-family: PingFang SC;
-font-weight: 400;
+  font-family: PingFang SC;
+  font-weight: 400;
   color: #8BA3C2
-
 }
 .iotApp .van-cell{
   color: rgba(139, 163, 194, 1);
@@ -327,5 +337,29 @@ font-size: 12px
 }
 .iotApp .van-dropdown-item__option--active .van-dropdown-item__icon{
   color: rgba(139, 163, 194, 1);
+}
+.nothing-list{
+  width: 79%;
+  height: 100%;
+  position: fixed;
+  text-align: center;
+  line-height: 300%;
+  margin-left: 10%;
+}
+.nothing-img{
+  width: 90px;
+  height: 85px;
+  vertical-align: middle;
+  margin-top: 60%;
+}
+.nothing-content{
+  width: 78%;
+  height:auto;
+  font-size: 14px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #6F85A2;
+  margin-left: 6%;
+  margin-top: 2%;
 }
 </style>

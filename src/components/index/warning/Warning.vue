@@ -23,7 +23,7 @@
               </div>
 
               <div class="colItem content width-15">
-                {{ changeDate(rowItem.createTime) }}
+                {{ changeDate(rowItem.createdTime) }}
               </div>
             </li>
           </ul>
@@ -39,11 +39,16 @@
 <script>
 import DateTransformation from '@/utils/dateTransformation.js'
 export default {
+  name: 'Warning',
   components: {
 
   },
   props: {
     data: {
+      type: Array,
+      default: null
+    },
+    system: {
       type: Array,
       default: null
     }
@@ -56,8 +61,8 @@ export default {
       play: false,
       // 接收定时器
       timer: null,
-      currentSystemtypeImage: ''
-
+      currentSystemtypeImage: '',
+      systemList: []
     }
   },
   computed: {
@@ -69,14 +74,11 @@ export default {
   },
   created() {
     this.ulList = this.data
-
+    this.systemList = this.system
     if (this.ulList !== null) {
+      this.currentSystemtypeImage = this.ulList[0].imgUrl
       if (this.ulList.length > 1) {
-        this.currentSystemtypeImage = this.ulList[0].imgUrl
-
         this.timer = setInterval(this.startPlay, 3000)
-      } else {
-        this.currentSystemtypeImage = this.ulList[0].imgUrl
       }
     }
   },
@@ -84,6 +86,23 @@ export default {
     clearInterval(this.timer)
   },
   methods: {
+    onMessage(msg) {
+      clearInterval(this.timer)
+      this.systemList.forEach(cItem => {
+        if (Number(msg.type) === cItem.id) {
+          msg['imgUrl'] = cItem.imgUrl
+          msg['systemName'] = cItem.name
+        }
+      })
+      console.log(msg)
+      console.log('uuulist', this.ulList)
+      this.ulList.splice(0, 0, msg)
+
+      this.currentSystemtypeImage = this.ulList[0].imgUrl
+      if (this.ulList.length > 1) {
+        this.timer = setInterval(this.startPlay, 3000)
+      }
+    },
     /**
      * 显示详情
      */

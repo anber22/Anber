@@ -35,7 +35,8 @@
           </div>
         </Adaptive>
         <Adaptive :data="['100%','12.75%']" class="warning-box">
-          <Warning v-if="hiddenDangerList.length>0" class="warning" :data="hiddenDangerList" />
+          <Warning v-if="hiddenDangerList.length>1" ref="Warning" class="warning" :data="hiddenDangerList" :system="subsystemList" />
+          <!--  -->
         </Adaptive>
         <!-- end -->
         <!-- 应用列表 start -->
@@ -122,6 +123,7 @@ export default {
   },
   data() {
     return {
+      Warning: 'Warning',
       loading: true,
       subsystemList: [
         {
@@ -236,20 +238,53 @@ export default {
     // this.subsystemList.forEach(item => {
     //   item.imgUrl = require(item.imgUrl)
     // })
-    // Socket.initSocket('equipCount')
 
+    // const temp = Socket.onMessages('equipCount')
+    // console.log('页面订阅频道', temp)
     this.getHazardTypeList()
     this.getHiddenDangerList()
     this.getEquipCountings()
     this.getBranchesCountings()
     this.getEquipList()
     this.getDepartCounting()
-
     store.dispatch('generatePersistence')
 
     this.getOnlinePercent()
+    this.$nextTick(function() {
+      this.initSockets()
+    })
   },
   methods: {
+    onMessage(msg) {
+      console.log('智慧高投页面收到消息', msg)
+      this.equipCountings = msg.equipCount === null ? this.equipCountings : parseInt(msg.equipCount).toLocaleString()
+      this.branchesCountings = msg.placeCount === null ? this.branchesCountings : parseInt(msg.placeCount).toLocaleString()
+      console.log('设备数', this.equipCountings)
+      console.log('网点数', this.branchesCountings)
+    },
+
+    initSockets() {
+      if (this.$refs.Warning === undefined) {
+        setTimeout(() => {
+          this.initSockets()
+        }, 500)
+
+        return
+      }
+      const topicList = [
+        {
+          topicName: 'realTimeWarning',
+          refsList: [
+            this.$refs.Warning
+          ]
+        },
+        {
+          topicName: 'realTimeStatistics',
+          refsList: [this]
+        }]
+      console.log('订阅频道参数', topicList)
+      Socket.initSocket(topicList)
+    },
     /**
      * 获取设备总数
      */
@@ -451,10 +486,12 @@ export default {
      */
     async getHiddenDangerList() {
       const res = await Api.hiddenDangerList(12)
+      let temp = []
       if (res.code === 200) {
-        this.hiddenDangerList = [...res.data]
+        temp = [...res.data]
       }
-      this.hiddenDangerList.forEach(hItem => {
+      console.log('隐患列表', res)
+      temp.forEach(hItem => {
         this.subsystemList.forEach(cItem => {
           if (hItem.type === cItem.id) {
             // Object.assign(hItem, cItem) assign后者会覆盖前者的同名属性的值
@@ -464,6 +501,8 @@ export default {
           }
         })
       })
+      this.hiddenDangerList = temp
+      console.log('隐患列表', this.hiddenDangerList)
     }
   }
 }

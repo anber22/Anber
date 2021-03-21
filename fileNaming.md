@@ -50,7 +50,9 @@
     -InfoRow.vue
     -InfoRow.css 
 
-
+  - globalWarning          # 全局告警
+    - GlobalWarning.vue
+    - GlobalWarning.css
 
   - equipDetialCard         #设备实时数据小卡片
     - EquipDetialCard.vue

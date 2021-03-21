@@ -5,8 +5,9 @@ import Stomp from 'stompjs'
 // import localData from './local'
 import { cookieData, localData } from './local'
 
-let channel = []
+const channel = []
 let socket = null
+let requestList = []
 /*
  *初始化socket
  */
@@ -26,51 +27,50 @@ class Socket {
    * 初始化socket
    * @param {*} channelName
    */
-  initSocket(channelName) {
+  async initSocket(channelNameList) {
     // 先识别对应的频道
-    this.identificationOfTheChannel(channelName)
-    if (channel === []) { return '' }
-
+    await this.identificationOfTheChannel(channelNameList)
+    console.log('初始化频道', channelNameList)
     // 我们的socket是socket包装的websocket 所以用Stomp.over(socket)
     // 如果是原生的就用Stomp.client(url)
-    console.log('开始连接')
-    socket = new WebSocket(requestPath)
-    socket = Stomp.over(socket)
-    // socket = Stomp.client(requestPath)
-    // 发送频率
-    socket.heartbeat.outgoing = 1
-    // 接受频率
-    socket.heartbeat.incoming = 0
-    // 发起连接
-    socket.connect(this.accountName, this.passWord, this.onConnected, this.onFailed)
-    // return onConnected
+    if (socket !== null) {
+      console.log('socket!==null')
+      socket.connect(this.accountName, this.passWord, this.onConnected)
+    } else {
+      console.log('开始连接')
+      socket = new WebSocket(requestPath)
+      socket = Stomp.over(socket)
+      // socket = Stomp.client(requestPath)
+      // 发送频率
+      socket.heartbeat.outgoing = 1
+      // 接受频率
+      socket.heartbeat.incoming = 0
+      // 发起连接
+      socket.connect(this.accountName, this.passWord, this.onConnected)
+    }
   }
-
   /**
    * 连接成功回调函数
    */
-  onConnected() {
+  async onConnected() {
     // 订阅频道
     // .depart_id
     // 非正式版本下，加test-
-    const topic = channel
-    console.log('连接成功！', topic)
-    socket.subscribe(topic, (msg) => {
-      console.log('msgggg', typeof msg.body)
-      const temp = JSON.parse(msg.body)
-      console.log('msg-----------', temp)
-      if (JSON.parse(msg.body)) {
-        if (JSON.parse(msg.body)) {
-          console.log('refresh === 1', msg.body)
-        }
+    let topic = ''
+    console.log('频道集合', requestList)
+    requestList.forEach(item => {
+      if (item.topicName === 'realTimeWarning') {
+        topic = '/exchange/aiot-event-message/' + '12345678'
+      } else if (item.topicName === 'realTimeStatistics') {
+        topic = '/exchange/aiot-counting-message/' + '12345678'
       }
+      socket.subscribe(topic, (msg) => {
+        item.refsList.forEach(item => {
+          console.log('分发通知', item)
+          item.onMessage(JSON.parse(msg.body))
+        })
+      })
     })
-
-    // return responseCallback
-    // const topic =
-    //   "/exchange/notice_exchange_fanout/test-" +
-    //   localData("get", "getUserInfo").id;
-    // this.ws.subscribe(topic, this.responseCallback, this.onFailed);
   }
 
   /**
@@ -80,38 +80,38 @@ class Socket {
   onFailed(frame) {
     console.log('订阅失败')
     setTimeout(() => {
-      this.initSocket()
+      Socket.initSocket()
     }, 2000)
   }
 
   responseCallback(frame) {
     // 接收消息处理
     console.log('订阅成功', frame)
-    if (JSON.parse(frame.body)) {
-      if (JSON.parse(frame.body).refresh === 1) {
-        this.getListData()
-      } else {
-        this.getListData()
-        this.showJ = true
-        this.audio = document.getElementById('audio')
-        this.audio.play()
-      }
-    }
   }
 
   /**
    * 识别频道
    * @param {*} channelName
    */
-  identificationOfTheChannel(channelName) {
-    if (channelName === 'equipCount') {
-      channel =
-          '/exchange/aiot-event-message/' +
-          '12345678'
-    } else if (channelName === 'branchesCount') {
-      return
-    } else if (channelName === 'singleVideo') {
-      return
+  identificationOfTheChannel(channelName, ref) {
+    if (requestList.length > 0) {
+      channelName.forEach(cItem => {
+        const temp = requestList.filter(rItem =>
+
+          rItem.topicName === cItem.topicName
+        )
+        console.log('有匹配项？', temp, requestList)
+        if (temp.length > 0) {
+          cItem.refsList.forEach(ccItem => {
+            temp[0].refsList.push(ccItem)
+          })
+        } else {
+          requestList.push(cItem)
+        }
+      })
+      console.log('频道合并', requestList)
+    } else {
+      requestList = channelName
     }
   }
 }

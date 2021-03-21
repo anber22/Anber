@@ -14,7 +14,7 @@
           <img :src="props.active ? indexIcon.active : indexIcon.inactive">
         </template>
       </van-tabbar-item>
-      <van-tabbar-item replace icon="search">
+      <van-tabbar-item replace icon="search" @click="showDone">
         <span>我的</span>
         <template #icon="props">
           <img :src="props.active ? personalCenterIcon.active : personalCenterIcon.inactive">
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { Toast } from 'vant'
 export default {
   data() {
     return {
@@ -47,6 +48,10 @@ export default {
 
   },
   methods: {
+    showDone() {
+      console.log('正在开发中')
+      Toast('正在开发中...')
+    }
   }
 }
 </script>
