@@ -111,7 +111,7 @@ export default {
 .hazard-message-light{
   width: 73.6%;
   height: 110px;
-  margin: 80% 13.2% 0px 13.2%;
+  margin: 70% 13.2% 0px 13.2%;
   text-align: center;
   border: 1px solid #431B0E;
   background: rgba(19, 27, 37, 1);
@@ -120,7 +120,7 @@ export default {
 .hazard-message{
   width: 73.6%;
   height: 110px;
-  margin: 80% 13.2% 0px 13.2%;
+  margin: 70% 13.2% 0px 13.2%;
   text-align: center;
   border: 1px solid #431B0E;
 
