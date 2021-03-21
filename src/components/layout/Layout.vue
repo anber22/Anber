@@ -1,8 +1,8 @@
 <template>
   <div class="layout">
     <van-overlay :show="show" z-index="99999999" :lock-scroll="true">
-      <div :class="flashingBox">
-        <van-icon name="cross" color="rgba(255, 254, 254, 1)" class="close-button" @click="closeMeaasge()" />
+      <div :class="flashingBox" @click="toDetail(hazardMessage.id)">
+        <van-icon name="cross" color="rgba(255, 254, 254, 1)" class="close-button" @click.stop="closeMeaasge()" />
         <div class="content">
           <div class="content-left">
             <div class="unread" />
@@ -70,6 +70,7 @@ export default {
     onMessage(msg) {
       console.log('layout收到消息', msg)
       this.show = true
+      clearInterval(this.flashingTimer)
       this.hazardMessage = msg
       this.flashingTimer = setInterval(() => {
         this.flashingBox = this.flashingBox === 'hazard-message' ? 'hazard-message-light' : 'hazard-message'
@@ -98,6 +99,16 @@ export default {
     dateFormat(date) {
       var dateFormat = new DateTransformation()
       return dateFormat.dataFormatStamp(date)
+    },
+    toDetail(detailId) {
+      this.show = false
+      clearInterval(this.flashingTimer)
+      this.$router.push({
+        path: '/hazardDetail',
+        query: {
+          hazardId: detailId
+        }
+      })
     }
   }
 }

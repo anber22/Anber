@@ -67,7 +67,7 @@
               联系人:
             </div>
             <div class="hazardDetail-submit-content-info-row-value">
-              {{ detailInfo.managerName+"-"+detailInfo.phone }}
+              {{ detailInfo.managerName+"-"+detailInfo.placePhone }}
             </div>
             <a @click.stop="callPhone(detailInfo.placeId)">
               <img src="@/assets/images/equip/phone.png" alt="" class="hazardDetail-submit-content-info-row-icon">

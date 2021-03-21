@@ -18,11 +18,11 @@
               <div class="colItem content width-30">
                 {{ rowItem.onlineMsg }}
               </div>
-              <div class="colItem content width-30">
+              <div class="colItem content width-27">
                 {{ rowItem.placeName }}
               </div>
 
-              <div class="colItem content width-15">
+              <div class="colItem content width-18">
                 {{ changeDate(rowItem.createdTime) }}
               </div>
             </li>

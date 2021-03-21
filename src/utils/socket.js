@@ -35,7 +35,7 @@ class Socket {
     // 如果是原生的就用Stomp.client(url)
     if (socket !== null) {
       console.log('socket!==null')
-      socket.connect(this.accountName, this.passWord, this.onConnected)
+      this.onConnected
     } else {
       console.log('开始连接')
       socket = new WebSocket(requestPath)
