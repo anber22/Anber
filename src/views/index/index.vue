@@ -254,6 +254,10 @@ export default {
       this.initSockets()
     })
   },
+  destroyed() { // 页面销毁时清除定时器
+    Socket.unsubscribe('Warning')
+    Socket.unsubscribe('index')
+  },
   methods: {
     onMessage(msg) {
       console.log('智慧高投页面收到消息', msg)
@@ -275,12 +279,23 @@ export default {
         {
           topicName: 'realTimeWarning',
           refsList: [
-            this.$refs.Warning
+            {
+              domName: 'Warning',
+              dom: this.$refs.Warning
+
+            }
+
           ]
         },
         {
           topicName: 'realTimeStatistics',
-          refsList: [this]
+          refsList: [
+            {
+              domName: 'index',
+              dom: this
+
+            }
+          ]
         }]
       console.log('订阅频道参数', topicList)
       Socket.initSocket(topicList)
@@ -481,6 +496,7 @@ export default {
       this.monitorAnalysisData.monitorAnalysisFlag = false
       this.getMonitorAnalysis(value, this.analysisDateType)
     },
+
     /**
      * 获取隐患列表 top10
      */

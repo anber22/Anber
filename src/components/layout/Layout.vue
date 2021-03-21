@@ -87,7 +87,11 @@ export default {
       const topicList = [
         {
           topicName: 'realTimeWarning',
-          refsList: [this]
+          refsList: [{
+            domName: 'layout',
+            dom: this
+
+          }]
         }
       ]
       console.log('订阅频道参数', topicList)

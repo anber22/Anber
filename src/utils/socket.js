@@ -35,7 +35,7 @@ class Socket {
     // 如果是原生的就用Stomp.client(url)
     if (socket !== null) {
       console.log('socket!==null')
-      this.onConnected
+      this.onConnected()
     } else {
       console.log('开始连接')
       socket = new WebSocket(requestPath)
@@ -67,7 +67,7 @@ class Socket {
       socket.subscribe(topic, (msg) => {
         item.refsList.forEach(item => {
           console.log('分发通知', item)
-          item.onMessage(JSON.parse(msg.body))
+          item.dom.onMessage(JSON.parse(msg.body))
         })
       })
     })
@@ -96,14 +96,21 @@ class Socket {
   identificationOfTheChannel(channelName, ref) {
     if (requestList.length > 0) {
       channelName.forEach(cItem => {
-        const temp = requestList.filter(rItem =>
+        const rTemp = requestList.filter(rItem =>
 
           rItem.topicName === cItem.topicName
         )
-        console.log('有匹配项？', temp, requestList)
-        if (temp.length > 0) {
+        console.log('有匹配项？', rTemp, requestList)
+        if (rTemp.length > 0) {
           cItem.refsList.forEach(ccItem => {
-            temp[0].refsList.push(ccItem)
+            const rrTemp = rTemp[0].refsList.filter(rItem =>
+
+              rItem.domName === ccItem.domName
+            )
+            if (rrTemp.length === 0) {
+              console.log('判断dom是否相等', rrTemp)
+              rTemp[0].refsList.push(ccItem)
+            }
           })
         } else {
           requestList.push(cItem)
@@ -113,6 +120,21 @@ class Socket {
     } else {
       requestList = channelName
     }
+  }
+  unsubscribe(domName) {
+    requestList.forEach((item, index) => {
+      item.refsList.forEach((ref, refindex) => {
+        if (ref.domName === domName) {
+          console.log('删除', item.refsList)
+          item.refsList.splice(refindex)
+
+          if (item.refsList.length === 0) {
+            requestList.splice(index)
+          }
+        }
+      })
+    })
+    console.log('删除后输出', requestList)
   }
 }
 

@@ -38,7 +38,7 @@
           </div>
           <div class="text-item" style="padding-bottom: 20px; border-bottom: 1px #283444 solid;">
             <span class="name">联系人：</span>
-            <span class="describe">{{ placeResourcDetail.managerName }}-{{ placeResourcDetail.placePhone }}</span>
+            <span class="describe">{{ placeResourcDetail.managerName }}-{{ placeResourcDetail.phone }}</span>
             <a :href="'tel:' + placeResourcDetail.phone">
               <van-image
                 width="19px"
@@ -151,6 +151,7 @@ export default {
       if (res.code === 200) {
         this.placeResourcDetail = res.data
       }
+      console.log('网点详情')
       this.placeResourcDetail = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', [this.placeResourcDetail])
       this.placeResourcDetail = this.placeResourcDetail[0]
       this.loading = false
