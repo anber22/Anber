@@ -22,7 +22,7 @@
         <!-- end -->
         <!-- 设备在线率 start -->
         <Adaptive :data="['100%','60%']">
-          <Gauge :data="gaugeData" />
+          <Gauge v-if="gaugeDataFlag" ref="Gauge" :data="gaugeData" />
         </Adaptive>
         <!-- 分割线line -->
         <div style="width: 100%;height: 8px;background: #131B25;margin-top: 14px" />
@@ -141,6 +141,7 @@ export default {
         }
       ],
       gaugeData: {},
+      gaugeDataFlag: false,
       equipCountings: '',
       branchesCountings: '',
       equipList: [],
@@ -257,6 +258,7 @@ export default {
   destroyed() { // 页面销毁时清除定时器
     Socket.unsubscribe('Warning')
     Socket.unsubscribe('index')
+    Socket.unsubscribe('Gauge')
   },
   methods: {
     onMessage(msg) {
@@ -294,6 +296,10 @@ export default {
               domName: 'index',
               dom: this
 
+            }, {
+              domName: 'Gauge',
+              dom: this.$refs.Gauge
+
             }
           ]
         }]
@@ -328,6 +334,7 @@ export default {
       if (res.code === 200) {
         Reflect.set(this.gaugeData, 'onlinePercent', res.data)
         // this.gaugeData.onlinePercent = res.data
+        this.gaugeDataFlag = true
       }
     },
     /**

@@ -13,15 +13,14 @@ export default {
   },
   data() {
     return {
-      percent: 8.18
+      percent: 0,
+      option: {},
+      mychart: null
     }
   },
   mounted() {
-    if (this.data.onlinePercent) {
-      this.percent = this.data.onlinePercent
-    }
-    const myChart = this.$echarts.init(this.$refs.chartId)
-    const option = {
+    this.myChart = this.$echarts.init(this.$refs.chartId)
+    this.option = {
       animation: true,
       series: [{
         type: 'gauge',
@@ -437,14 +436,23 @@ export default {
         ],
         zlevel: 3
       }]
+
     }
-    myChart.setOption(option, true)
-    setInterval(function() {
-      option.series[0].data[0].value = (Math.random() * 4 + 8).toFixed(2)
-      myChart.setOption(option, true)
-    }, 4000)
+    console.log('传入参数', this.data.onlinePercent)
+    if (this.data.onlinePercent > 0) {
+      this.percent = this.data.onlinePercent
+      console.log('data变化', this.percent, this.option)
+    }
+    console.log('c')
+    this.myChart.setOption(this.option, true)
   },
   methods: {
+    onMessage(msg) {
+      console.log('智慧高投页面收到消息', msg)
+      this.percent = msg.equipOnlinePrecent
+      console.log('echart配置参数', this.option)
+      this.myChart.setOption(this.option, true)
+    }
     // action() {
     //   setInterval(function() {
     //     this.option.series[0].data[0].value = (Math.random() * 10).toFixed(2) - 0
