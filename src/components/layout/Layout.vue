@@ -58,15 +58,15 @@ export default {
     }
   },
   watch: {
-    // '$route'(to, from) {
-    //   console.log('路由跳转', from)
-    //   if (from.path === '/login') {
-    //     this.initSockets()
-    //   }
-    // }
+    '$route'(to, from) {
+      console.log('路由跳转', from)
+      if (from.path === '/login') {
+        this.initSockets()
+      }
+    }
   },
   mounted() {
-    this.initSockets()
+    // this.initSockets()
   },
   methods: {
     /**
