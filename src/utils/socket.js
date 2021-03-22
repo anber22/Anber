@@ -127,7 +127,6 @@ class Socket {
         if (ref.domName === domName) {
           console.log('删除', item.refsList)
           item.refsList.splice(refindex)
-
           if (item.refsList.length === 0) {
             requestList.splice(index)
           }
