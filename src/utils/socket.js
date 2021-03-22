@@ -8,6 +8,7 @@ import { cookieData, localData } from './local'
 const channel = []
 let socket = null
 let requestList = []
+const newTopicList = []
 /*
  *初始化socket
  */
@@ -28,6 +29,12 @@ class Socket {
    * @param {*} channelName
    */
   async initSocket(channelNameList) {
+    if (socket !== null) {
+      requestList.forEach(item => {
+        console.log('已经订阅', item.id)
+        socket.unsubscribe(item.id)
+      })
+    }
     // 先识别对应的频道
     await this.identificationOfTheChannel(channelNameList)
     console.log('初始化频道', channelNameList)
@@ -64,12 +71,12 @@ class Socket {
       } else if (item.topicName === 'realTimeStatistics') {
         topic = '/exchange/aiot-counting-message/' + '12345678'
       }
-      socket.subscribe(topic, (msg) => {
+      item['id'] = socket.subscribe(topic, (msg) => {
         item.refsList.forEach(item => {
           console.log('分发通知', item)
           item.dom.onMessage(JSON.parse(msg.body))
         })
-      })
+      }).id
     })
   }
 

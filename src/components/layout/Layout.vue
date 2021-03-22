@@ -59,8 +59,8 @@ export default {
   },
   watch: {
     '$route'(to, from) {
-      console.log('路由跳转', from)
-      if (from.path === '/login') {
+      console.log('路由跳转', from, to)
+      if (from.path === '/login' || (from.path === '/' && to.path !== '/login')) {
         this.initSockets()
       }
     }
@@ -74,11 +74,15 @@ export default {
      */
     closeMeaasge() {
       // 如果事件队列长度还有最后一个
+      console.log('事件队列长度', this.hazardList.length)
       if (this.hazardList.length < 2) {
         // 直接关闭消息蒙层
         this.show = false
         // 清除闪烁定时器
         clearInterval(this.flashingTimer)
+        this.hazardList.splice(0, 1)
+
+        this.working = false
       } else {
         // 删除事件队列第一个
         this.hazardList.splice(0, 1)
@@ -105,6 +109,7 @@ export default {
      * 初始化socket
      */
     initSockets() {
+      console.log('layout初始化页面')
       // 定义频道列表 topicName  频道名称 refsList 订阅该频道的队列列表
       const topicList = [
         {
@@ -254,6 +259,7 @@ text-align: left;
 .title{
   font-size: 15px;
   font-family: PingFang SC;
+  overflow: hidden;
   font-weight: 500;
   color: #B9CEE9;
   text-align: left;
