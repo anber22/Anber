@@ -13,7 +13,6 @@ export default {
   },
   data() {
     return {
-      percent: 0,
       option: {},
       mychart: null
     }
@@ -90,7 +89,7 @@ export default {
           color: 'auto'
         },
         data: [{
-          value: this.percent
+          value: 0
         }],
         zlevel: 3
       }, {
@@ -438,27 +437,17 @@ export default {
       }]
 
     }
-    console.log('传入参数', this.data.onlinePercent)
     if (this.data.onlinePercent > 0) {
-      this.percent = this.data.onlinePercent
-      console.log('data变化', this.percent, this.option)
+      this.option.series[0].data[0].value = this.data.onlinePercent
+      this.myChart.setOption(this.option, true)
     }
-    console.log('c')
     this.myChart.setOption(this.option, true)
   },
   methods: {
     onMessage(msg) {
-      console.log('智慧高投页面收到消息', msg)
-      this.percent = msg.equipOnlinePrecent
-      console.log('echart配置参数', this.option)
+      this.option.series[0].data[0].value = msg.equipOnlinePrecent
       this.myChart.setOption(this.option, true)
     }
-    // action() {
-    //   setInterval(function() {
-    //     this.option.series[0].data[0].value = (Math.random() * 10).toFixed(2) - 0
-    //     this.myChart.setOption(this.option, true)
-    //   }, 5000)
-    // }
   }
 }
 </script>
