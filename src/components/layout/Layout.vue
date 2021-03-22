@@ -70,28 +70,33 @@ export default {
   },
   methods: {
     /**
-     * 关闭消息蒙层
+     *  点击 X 关闭消息蒙层
      */
     closeMeaasge() {
+      // 如果事件队列长度还有最后一个
       if (this.hazardList.length < 2) {
+        // 直接关闭消息蒙层
         this.show = false
+        // 清除闪烁定时器
         clearInterval(this.flashingTimer)
       } else {
+        // 删除事件队列第一个
         this.hazardList.splice(0, 1)
+        // 清除闪烁定时器
         clearInterval(this.flashingTimer)
         this.messageQueue()
       }
-
+      // 清除当前事件队列等待定时器 直接跳过当前执行下一个
       clearTimeout(this.waitTime)
-
-      this.flashingTimer = 0
     },
     /**
      * 收到消息
      */
     onMessage(msg) {
       console.log('layout收到消息', msg)
+      // 收到socket通知添加msg到事件队列
       this.hazardList.push(msg)
+      // 如果事件队列没有在执行 ，就开启事件队列
       if (!this.working) {
         this.messageQueue(msg)
       }
@@ -100,6 +105,7 @@ export default {
      * 初始化socket
      */
     initSockets() {
+      // 定义频道列表 topicName  频道名称 refsList 订阅该频道的队列列表
       const topicList = [
         {
           topicName: 'realTimeWarning',
@@ -111,6 +117,7 @@ export default {
         }
       ]
       console.log('订阅频道参数', topicList)
+      // 初始化socket
       Socket.initSocket(topicList)
     },
     /**
@@ -120,6 +127,9 @@ export default {
       var dateFormat = new DateTransformation()
       return dateFormat.dataFormatStamp(date)
     },
+    /**
+     * 点击跳转详情
+     */
     toDetail(detailId) {
       this.show = false
       clearInterval(this.flashingTimer)
@@ -132,25 +142,40 @@ export default {
         }
       })
     },
-
+    /**
+     * 事件列表
+     */
     messageQueue(msg) {
+      // 开启消息队列
       this.working = true
-      console.log('触发执行', this.hazardList[0].equipAddress)
 
+      console.log('触发执行', this.hazardList[0].equipAddress)
+      // 打开消息蒙层
       this.show = true
+      // 清除闪烁定时器
       clearInterval(this.flashingTimer)
+      // 信息卡片赋值   永远取事件队列的第一条
       this.hazardMessage = this.hazardList[0]
+      // 闪烁定时器打开
       this.flashingTimer = setInterval(() => {
         this.flashingBox = this.flashingBox === 'hazard-message' ? 'hazard-message-light' : 'hazard-message'
       }, 300)
 
+      // 消息队列定时器打开 十秒执行一次
       this.waitTime = setTimeout(() => {
+        // 十秒之后执行删除第一条
         this.hazardList.splice(0, 1)
+        // 事件队列还有值
         if (this.hazardList.length > 0) {
+          // 递归调用执行消息队列
           this.messageQueue()
+          // 如果事件队列空了
         } else {
+          // 关闭蒙层
           this.show = false
+          // 清除闪烁定时器
           clearInterval(this.flashingTimer)
+          // 关闭消息队列执行状态
           this.working = false
         }
       }, 10000)
