@@ -263,6 +263,8 @@ text-align: left;
   font-weight: 500;
   color: #B9CEE9;
   text-align: left;
+
+    white-space:nowrap;
 }
 .hazard-type{
   width: auto;
