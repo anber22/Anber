@@ -38,12 +38,16 @@ export default {
   props: {
 
   },
+
   data() {
     return {
       show: false,
       hazardMessage: {},
       flashingTimer: 0,
-      flashingBox: 'hazard-message'
+      flashingBox: 'hazard-message',
+      hazardList: [],
+      working: false,
+      waitTime: 0
     }
   },
   computed: {
@@ -54,38 +58,43 @@ export default {
     }
   },
   watch: {
-    '$route'(to, from) {
-      console.log('路由跳转', from)
-      if (from.path === '/login') {
-        this.initSockets()
-      }
-    }
+    // '$route'(to, from) {
+    //   console.log('路由跳转', from)
+    //   if (from.path === '/login') {
+    //     this.initSockets()
+    //   }
+    // }
   },
   mounted() {
+    this.initSockets()
   },
   methods: {
     /**
      * 关闭消息蒙层
      */
     closeMeaasge() {
-      this.show = false
-      clearInterval(this.flashingTimer)
+      if (this.hazardList.length < 2) {
+        this.show = false
+        clearInterval(this.flashingTimer)
+      } else {
+        this.hazardList.splice(0, 1)
+        clearInterval(this.flashingTimer)
+        this.messageQueue()
+      }
+
+      clearTimeout(this.waitTime)
+
+      this.flashingTimer = 0
     },
     /**
      * 收到消息
      */
     onMessage(msg) {
       console.log('layout收到消息', msg)
-      this.show = true
-      clearInterval(this.flashingTimer)
-      this.hazardMessage = msg
-      this.flashingTimer = setInterval(() => {
-        this.flashingBox = this.flashingBox === 'hazard-message' ? 'hazard-message-light' : 'hazard-message'
-      }, 300)
-      setTimeout(() => {
-        this.show = false
-        clearInterval(this.flashingTimer)
-      }, 10000)
+      this.hazardList.push(msg)
+      if (!this.working) {
+        this.messageQueue(msg)
+      }
     },
     /**
      * 初始化socket
@@ -114,12 +123,37 @@ export default {
     toDetail(detailId) {
       this.show = false
       clearInterval(this.flashingTimer)
+      this.flashingTimer = 0
+
       this.$router.push({
         path: '/hazardDetail',
         query: {
           hazardId: detailId
         }
       })
+    },
+
+    messageQueue(msg) {
+      this.working = true
+      console.log('触发执行', this.hazardList[0].equipAddress)
+
+      this.show = true
+      clearInterval(this.flashingTimer)
+      this.hazardMessage = this.hazardList[0]
+      this.flashingTimer = setInterval(() => {
+        this.flashingBox = this.flashingBox === 'hazard-message' ? 'hazard-message-light' : 'hazard-message'
+      }, 300)
+
+      this.waitTime = setTimeout(() => {
+        this.hazardList.splice(0, 1)
+        if (this.hazardList.length > 0) {
+          this.messageQueue()
+        } else {
+          this.show = false
+          clearInterval(this.flashingTimer)
+          this.working = false
+        }
+      }, 10000)
     }
   }
 }

@@ -73,10 +73,6 @@ class Socket {
     })
   }
 
-  /**
-   * 失败回调函数
-   * @param {*} frame
-   */
   onFailed(frame) {
     console.log('订阅失败')
     setTimeout(() => {
