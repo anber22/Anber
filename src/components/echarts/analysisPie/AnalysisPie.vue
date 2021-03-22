@@ -53,7 +53,7 @@ export default {
         },
         legend: {
           show: true,
-          top: '56%',
+          top: '60%',
           left: 'center',
           type: 'scroll', // 图例超出可翻页
           pageIconColor: '#A3D5FF', // 可点击翻页按钮颜色
@@ -90,7 +90,7 @@ export default {
             name: '',
             type: 'pie',
             radius: ['30%', '50%'],
-            center: ['50%', '26%'],
+            center: ['50%', '30%'],
             avoidLabelOverlap: false,
             label: {
               show: false,
