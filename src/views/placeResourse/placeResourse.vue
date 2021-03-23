@@ -5,9 +5,18 @@
       <van-loading v-if="!placeResourcList" size="24px" vertical>
         加载中...
       </van-loading>
-      <Adaptive v-for="item in placeResourcList" :key="item.index" :data="['94%','31.39%']" class="placeResource-list-card">
-        <PlaceResourcListCard :data="item" />
-      </Adaptive>
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        class="van-clearfix"
+        :immediate-check="false"
+        @load="getPlaceResourcList"
+      >
+        <Adaptive v-for="item in placeResourcList" :key="item.index" :data="['94%','31.39%']" class="placeResource-list-card">
+          <PlaceResourcListCard :data="item" />
+        </Adaptive>
+      </van-list>
     </div>
   </div>
 </template>
@@ -24,9 +33,12 @@ export default {
   },
   data() {
     return {
+      loading: false,
       placeResourcList: [],
       queryCondition: '',
-      placeTypeList: []
+      placeTypeList: [],
+      page: 0,
+      finished: false
     }
   },
   mounted() {
@@ -38,22 +50,38 @@ export default {
     async getPlaceResourcList() {
       const params = {
         // systemType: this.thisSubsystemId,
-        page: 1,
-        size: 999,
+        page: ++this.page,
+        size: 10,
         condition: (this.queryCondition.length < 1 ? '' : ('?condition=' + this.queryCondition))
       }
       const res = await Api.placeResourcList(params)
+      console.log('输出长度', res)
+
       if (res.code === 200) {
         let listData = [...res.data.rows]
+
+        if (listData.length === 0) {
+          this.loading = false
+          this.finished = true
+          this.placeResourcList = []
+          return
+        }
         // 去vuex获取该网点的网点类型名称，放到数组集合里
         listData = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', listData)
         this.placeResourcList = listData
       }
+      if (params.page === res.data.total) {
+        this.finished = true
+      }
+      this.loading = false
     },
     /**
      * 搜索触发事件
      */
     onSearch(e) {
+      this.placeResourcList = []
+      this.finished = false
+      this.page = 0
       this.getPlaceResourcList()
     }
   }

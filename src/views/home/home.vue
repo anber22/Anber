@@ -122,7 +122,7 @@
             />
             实时事件
           </div>
-          <RealtimeEventCard />
+          <RealtimeEventCard ref="RealtimeEventCard" :data="hiddenDangerList" />
         </div>
       </div>
     </div>
@@ -130,23 +130,88 @@
 </template>
 
 <script>
+import Api from '@/api/index'
 import RealtimeEventCard from 'cmp/realtimeEventCard/RealtimeEventCard'
+import Socket from '@/utils/socket'
+
 export default {
   components: {
     RealtimeEventCard
   },
   data() {
     return {
+      hiddenDangerList: [],
+      subsystemList: [
+        {
+          id: 5,
+          name: '智慧视觉',
+          imgUrl: require('/src/assets/images/index/wisdom-visual.png')
+        }, {
+          id: 10,
+          name: '环境监测',
+          imgUrl: require('/src/assets/images/index/environmental-monitoring.png')
+        }, {
+          id: 11,
+          name: '塔机监测',
+          imgUrl: require('/src/assets/images/index/crane-monitoring.png')
+        }
+      ]
     }
   },
-  mounted() {
+  created() {
+    this.getHiddenDangerList()
+    setTimeout(() => {
+      this.initSockets()
+    }, 2000)
   },
   methods: {
+    onMessage(msg) {
+      console.log('首页收到消息', msg)
+      this.hiddenDangerList.splice(0, 0, msg)
+      console.log(this.hiddenDangerList)
+      this.hiddenDangerList.splice(3, 1)
+    },
+    initSockets() {
+      const topicList = [
+        {
+          topicName: 'realTimeWarning',
+          refsList: [{
+            domName: 'RealtimeEventCard',
+            dom: this
+          }]
+        }
+      ]
+      console.log('订阅频道参数', topicList)
+      Socket.initSocket(topicList)
+    },
     /**
      * 跳转页面
      */
     goJump(path) {
       this.$router.push(path)
+    },
+    /**
+     * 获取隐患列表 top10
+     */
+    async getHiddenDangerList() {
+      const res = await Api.hiddenDangerList(3)
+      let temp = []
+      if (res.code === 200) {
+        temp = [...res.data]
+      }
+      console.log('隐患列表', res)
+      temp.forEach(hItem => {
+        this.subsystemList.forEach(cItem => {
+          if (hItem.type === cItem.id) {
+            // Object.assign(hItem, cItem) assign后者会覆盖前者的同名属性的值
+            hItem['imgUrl'] = cItem.imgUrl
+
+            hItem['systemName'] = cItem.name
+          }
+        })
+      })
+      this.hiddenDangerList = temp
+      console.log('隐患列表', this.hiddenDangerList)
     }
   }
 }

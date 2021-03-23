@@ -1,6 +1,6 @@
 <template>
   <div class="realtimeEventCard-box">
-    <div class="events-item">
+    <div v-for="(item,index) in data" :key="index" class="events-item">
       <Adaptive :data="['100%','20.27%']">
         <div class="events-item-content">
           <van-image
@@ -8,44 +8,18 @@
             height="100%%"
             fit="cover"
             class="events-item-img"
-            src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1423490917,2942550944&fm=26&gp=0.jpg"
+            :src="index%2===0?'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1423490917,2942550944&fm=26&gp=0.jpg': 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2559982960,2879475880&fm=26&gp=0.jpg'"
             :show-error="false"
+
             :show-loading="false"
           />
           <div class="right-text">
             <p class="title1">
-              惠景合园东北门保安亭
+              {{ item.equipAddress }}
             </p>
-            <span class="title2">消防通道占用</span>
+            <span class="title2">{{ item.onlineMsg }}</span>
             <p class="title3">
-              2020-12-13 10:20:21
-            </p>
-          </div>
-          <div class="dot">
-            <span />
-          </div>
-        </div>
-      </Adaptive>
-    </div>
-    <div class="events-item">
-      <Adaptive :data="['100%','20.27%']">
-        <div class="events-item-content">
-          <van-image
-            width="20.27%"
-            height="100%%"
-            fit="cover"
-            class="events-item-img"
-            src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2559982960,2879475880&fm=26&gp=0.jpg"
-            :show-error="false"
-            :show-loading="false"
-          />
-          <div class="right-text">
-            <p class="title1">
-              惠景合园正门大门口
-            </p>
-            <span class="title2">周界越界监测</span>
-            <p class="title3">
-              2020-12-12 13:21:34
+              {{ changeDate(item.createdTime) }}
             </p>
           </div>
           <div class="dot">
@@ -58,17 +32,40 @@
 </template>
 
 <script>
+import DateTransformation from '@/utils/dateTransformation.js'
+
 export default {
   components: {
 
+  },
+  props: {
+    data: {
+      type: Array,
+      // eslint-disable-next-line vue/require-valid-default-prop
+      default: []
+    }
   },
   data() {
     return {
 
     }
   },
-  methods: {
+  computed: {
+    changeDate: function() {
+      return function(val) {
+        return this.dateFormat(val)
+      }
+    }
+  },
 
+  methods: {
+    /**
+     * 时间格式转换
+     */
+    dateFormat(date) {
+      var dateFormat = new DateTransformation()
+      return dateFormat.dataFormatStamp(date / 1000)
+    }
   }
 }
 </script>

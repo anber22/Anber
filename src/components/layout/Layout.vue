@@ -117,7 +117,6 @@ export default {
           refsList: [{
             domName: 'layout',
             dom: this
-
           }]
         }
       ]
@@ -129,7 +128,7 @@ export default {
      * 时间格式转换
      */
     dateFormat(date) {
-      var dateFormat = new DateTransformation()
+      const dateFormat = new DateTransformation()
       return dateFormat.dataFormatStamp(date)
     },
     /**

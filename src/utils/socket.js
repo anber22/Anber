@@ -9,6 +9,7 @@ const channel = []
 let socket = null
 let requestList = []
 const newTopicList = []
+let connet = false
 /*
  *初始化socket
  */
@@ -42,7 +43,13 @@ class Socket {
     // 如果是原生的就用Stomp.client(url)
     if (socket !== null) {
       console.log('socket!==null')
-      this.onConnected()
+      if (!connet) {
+        setTimeout(() => {
+          this.onConnected()
+        }, 2000)
+      } else {
+        this.onConnected()
+      }
     } else {
       console.log('开始连接')
       socket = new WebSocket(requestPath)
@@ -64,6 +71,7 @@ class Socket {
     // .depart_id
     // 非正式版本下，加test-
     let topic = ''
+    connet = true
     console.log('频道集合', requestList)
     requestList.forEach(item => {
       if (item.topicName === 'realTimeWarning') {
