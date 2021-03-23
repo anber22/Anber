@@ -219,7 +219,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['equipType', 'hazardType', 'placeType']),
+    ...mapGetters(['equipType', 'hazardType', 'placeType', 'applicationEquipList']),
     changeDateType() {
       return function(system, type) {
         if (type === 3) {
@@ -342,11 +342,9 @@ export default {
      */
     async getEquipList() {
       this.loading = true
-      const res = await Api.applicationlist()
-      if (res.code === 200) {
-        this.equipList = [...res.data]
-      }
-
+      // this.equipList = this.applicationEquipList
+      this.equipList = await this.$store.dispatch('GetApplicationlist')
+      console.log(this.equipList, 'this.equipList去vuex拿值')
       const combined = this.subsystemList.reduce((acc, cur) => {
         const target = acc.find(e => e.id === cur.id)
         if (target) {

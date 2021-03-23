@@ -2,11 +2,11 @@
   <div class="video-view">
     <van-search v-model="searchValue" class="search-item" background="rgba(16, 23, 32, 1)" placeholder="设备安装位置/IMEI码" @search="onSearch" />
     <div class="video-content">
-      <van-collapse v-model="activeName" accordion :border="false">
+      <van-collapse v-model="activeName" accordion :border="false" @change="changeCollapse">
         <van-loading v-if="!placeList" size="18px" vertical>
           <span style="color: #6F85A2">加载中...</span>
         </van-loading>
-        <van-collapse-item v-for="(item, index) in placeList" v-show="item.count" :key="index" :title="item.placeName + '('+item.count+')'" :name="item.placeId">
+        <van-collapse-item v-for="(item, index) in placeList" v-show="item.count" :key="index" :title="item.placeName + '('+item.count+')'" :name="index">
           <van-loading v-if="!equipsFlag" size="18px" vertical>
             <span style="color: #6F85A2">加载中...</span>
           </van-loading>
@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      activeName: null,
+      activeName: 0,
       placeList: [],
       searchValue: '',
       // 无匹配项显示
@@ -45,13 +45,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['equipType'])
+    ...mapGetters(['equipType', 'activeCollapseName'])
   },
   mounted() {
     /**
      * 获取网点列表，智慧视觉传对应的智慧视觉子系统的id:5
      */
     this.getVideoPlaceList(5, '')
+    this.activeName = this.activeCollapseName
   },
   methods: {
     /**
@@ -74,7 +75,7 @@ export default {
         } else {
           this.emptyFlag = false
         }
-        this.activeName = this.placeList[0].placeId
+        // this.activeName = this.placeList[0].placeId
         // 默认展开第一列（获取第一列数据）
         // this.getVideoPlaceEquipList(this.placeList[0].placeId, 5)
         this.placeList.forEach(item => {
@@ -121,6 +122,10 @@ export default {
     },
     onSearch(e) {
       this.getVideoPlaceList(5, e)
+    },
+    // 切换面板时触发
+    changeCollapse(e) {
+      this.$store.commit('SET_ACTIVE_COLLAPSE_NAME', e)
     }
   }
 }
