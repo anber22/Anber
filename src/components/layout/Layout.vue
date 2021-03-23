@@ -12,7 +12,7 @@
           </div>
           <div class="content-right">
             <div class="title">
-              {{ hazardMessage.placeName + hazardMessage.equipAddress }}
+              {{ hazardMessage.equipAddress }}
             </div>
             <div class="hazard-type">
               {{ hazardMessage.onlineMsg }}
@@ -257,13 +257,14 @@ text-align: left;
 }
 .title{
   font-size: 15px;
+  width: 80%;
   font-family: PingFang SC;
   overflow: hidden;
   font-weight: 500;
   color: #B9CEE9;
   text-align: left;
 
-    white-space:nowrap;
+  white-space:nowrap;
 }
 .hazard-type{
   width: auto;

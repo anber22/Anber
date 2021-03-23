@@ -68,7 +68,7 @@ export default {
         }
         // 去vuex获取该网点的网点类型名称，放到数组集合里
         listData = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', listData)
-        this.placeResourcList = listData
+        this.placeResourcList = this.placeResourcList.concat(listData)
       }
       if (params.page === res.data.total) {
         this.finished = true
