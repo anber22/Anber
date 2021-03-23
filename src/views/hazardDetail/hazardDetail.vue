@@ -1,7 +1,7 @@
 <template>
-  <div v-if="!loading" class="hazardDetail">
+  <div class="hazardDetail">
     <!-- 隐患详情信息 start -->
-    <div class="hazardDetail-submit">
+    <div v-if="!loading" class="hazardDetail-submit">
       <div class="hazardDetail-submit-title">
         <img src="@/assets/images/home/title-icon.png" alt="" class="hazardDetail-submit-titil-icon">
         隐患信息
@@ -216,11 +216,11 @@ export default {
 
 <style>
 .hazardDetail{
+  background-color: #101720;
   width: 90%;
   height: 100%;
   position: fixed;
   padding:0px 5% 0px 5%;
-  background-color: #101720;
   color: #ffffff;
   overflow: scroll;
 }
