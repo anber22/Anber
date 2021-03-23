@@ -123,7 +123,6 @@
             实时事件
           </div>
           <RealtimeEventCard v-if="!loading" :data="hazardLists" />
-          <div>{{ loading }}</div>
         </div>
       </div>
     </div>
@@ -141,6 +140,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       hazardLists: [],
       subsystemList: [
         {
@@ -156,8 +156,8 @@ export default {
           name: '塔机监测',
           imgUrl: require('/src/assets/images/index/crane-monitoring.png')
         }
-      ],
-      loading: true
+      ]
+
     }
   },
   created() {
@@ -168,17 +168,17 @@ export default {
   },
   methods: {
     onMessage(msg) {
-      const that = this
-      that.loading = true
+      this.loading = true
 
-      console.log('首页收到消息', msg)
-      // this.hiddenDangerList.splice(2, 1)
-      console.log(that.hazardLists)
-      // this.hiddenDangerList.splice(0, 0, msg)
-      that.hazardLists.push(msg)
-      console.log(that.hazardLists)
+      console.log('首页收到消息', msg, this.hazardLists)
+      this.hazardLists.splice(2, 1)
+      console.log(this.hazardLists)
+      this.hazardLists.splice(0, 0, msg)
 
-      that.loading = false
+      console.log(this.hazardLists)
+
+      this.loading = false
+      this.$forceUpdate()
     },
     initSockets() {
       const topicList = [

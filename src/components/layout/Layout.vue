@@ -18,7 +18,7 @@
               {{ hazardMessage.onlineMsg }}
             </div>
             <div class="date">
-              {{ changeDate(hazardMessage.createdTime) }}
+              {{ changeDate(hazardMessage.createdTime/1000) }}
             </div>
           </div>
         </div>
