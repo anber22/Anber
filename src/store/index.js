@@ -4,6 +4,7 @@ import getters from './getters'
 import equip from './modules/equip'
 import permission from './modules/permission'
 import persistence from './modules/persistence'
+import video from './modules/video'
 
 import user from './modules/user'
 
@@ -14,7 +15,8 @@ const store = new Vuex.Store({
     equip,
     user,
     permission,
-    persistence
+    persistence,
+    video
   },
   getters
 })

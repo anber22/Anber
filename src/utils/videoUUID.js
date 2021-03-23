@@ -369,6 +369,158 @@ class MatchUUID {
         uuid: '34bc6e6efaba4db0ab7f5b3f366ae139',
         address: '金发工地正门安全帽',
         imei: '2102352KCPWMLC002413'
+      },
+      // 金鸿
+      {
+        uuid: '190d4fd960a6474592ba9ef08520cf9e',
+        address: '金鸿工地左侧',
+        imei: '190d4fd960a6474592ba9ef08520cf9e'
+      },
+      {
+        uuid: 'd46efd17bd684f2aa94d5b8f1492658f',
+        address: '金鸿工地塔吊',
+        imei: 'd46efd17bd684f2aa94d5b8f1492658f'
+      },
+      {
+        uuid: '83d9fb34cd5e469b94fc8ba6c3c400c7',
+        address: '金鸿工地出入口',
+        imei: '83d9fb34cd5e469b94fc8ba6c3c400c7'
+      },
+      // 后环
+      {
+        uuid: '41c71bc475a744d7ab37f744e274c68a',
+        address: '后环工地生活区安全帽',
+        imei: '41c71bc475a744d7ab37f744e274c68a'
+      },
+      {
+        uuid: 'df4fea3c7e2f425dab586388f738f069',
+        address: '后环工地大门口安全帽',
+        imei: 'df4fea3c7e2f425dab586388f738f069'
+      },
+      {
+        uuid: '1e65c423634142cbbf21214321a3582b',
+        address: '后环工地工地东面',
+        imei: '1e65c423634142cbbf21214321a3582b'
+      },
+      {
+        uuid: '30f0bfc210e04b0d9e1ac6f459446d7b',
+        address: '工地西面',
+        imei: '30f0bfc210e04b0d9e1ac6f459446d7b'
+      },
+      // 惠景和园
+      {
+        uuid: '4f845f980a8b48a5b0c0d1204fb4c0bb',
+        address: '惠景和园三期-塔吊1',
+        imei: '4f845f980a8b48a5b0c0d1204fb4c0bb'
+      },
+      {
+        uuid: '66b627633ae24bfda50ad3c8eeb5d25c',
+        address: '惠景和园三期-大门',
+        imei: '66b627633ae24bfda50ad3c8eeb5d25c'
+      },
+      {
+        uuid: '9a03620c39654858bb77b1622e49ca89',
+        address: '惠景和园三期-生活区',
+        imei: '9a03620c39654858bb77b1622e49ca89'
+      },
+      // 惠景嘉园
+      {
+        uuid: 'f4824e950d7145a681c9a30c44f361c4',
+        address: '惠景嘉园-大门1',
+        imei: 'f4824e950d7145a681c9a30c44f361c4'
+      },
+      {
+        uuid: '54c9eaa6972f4c58b90eb5d5845f06a8',
+        address: '惠景嘉园-大门2',
+        imei: '54c9eaa6972f4c58b90eb5d5845f06a8'
+      },
+      {
+        uuid: 'f7790d54c4724dbe8a97aa855bda81fb',
+        address: '惠景嘉园-塔吊',
+        imei: 'f7790d54c4724dbe8a97aa855bda81fb'
+      },
+      // 海岸新寓
+      {
+        uuid: 'e7c345dbab3e4341ab6dee037cadb5b3',
+        address: '海岸新寓-大门',
+        imei: 'e7c345dbab3e4341ab6dee037cadb5b3'
+      },
+      {
+        uuid: '4ed93e9283ea474a8c9eba4ce0ea473c',
+        address: '海岸新寓-1号塔吊',
+        imei: '4ed93e9283ea474a8c9eba4ce0ea473c'
+      },
+      {
+        uuid: '6136b24fc88943d9895b234ab4d324df',
+        address: '海岸新寓-2号塔吊',
+        imei: '6136b24fc88943d9895b234ab4d324df'
+      },
+      {
+        uuid: '7265e99e13814ca7af72d6107994ec13',
+        address: '海岸新寓-3号塔吊左',
+        imei: '7265e99e13814ca7af72d6107994ec13'
+      },
+      {
+        uuid: 'cfd865b1ddc94f709f685ad7917b04d7',
+        address: '海岸新寓-3号塔吊右',
+        imei: 'cfd865b1ddc94f709f685ad7917b04d7'
+      },
+      // 创新发展大厦
+      {
+        uuid: 'd4d10ee15a4444df99edda4c451d25c8',
+        address: '创新发展大厦-前门',
+        imei: 'd4d10ee15a4444df99edda4c451d25c8'
+      },
+      {
+        uuid: 'acb516e2c7dd4854bc38cd311d2eb0b0',
+        address: '创新发展大厦-办公区',
+        imei: 'acb516e2c7dd4854bc38cd311d2eb0b0'
+      },
+      {
+        uuid: 'b54a1c56a8ae4152807f61e23e112536',
+        address: '创新发展大厦-1号塔吊2',
+        imei: 'b54a1c56a8ae4152807f61e23e112536'
+      },
+      {
+        uuid: '8b5c3a373c29490dba927d116ef53795',
+        address: '创新发展大厦-1号塔吊1',
+        imei: '8b5c3a373c29490dba927d116ef53795'
+      },
+      {
+        uuid: 'e47b225633184ef4aa8d1be7079fbe3f',
+        address: '创新发展大厦-2号塔吊1',
+        imei: 'e47b225633184ef4aa8d1be7079fbe3f'
+      },
+      {
+        uuid: '123094a15455401ea814eb0e8aca6ac0',
+        address: '创新发展大厦-2号塔吊2',
+        imei: '123094a15455401ea814eb0e8aca6ac0'
+      },
+      // 银坑工地
+      {
+        uuid: '37c718fcee9b4d21b71372a479735f7e',
+        address: '银坑工地大门',
+        imei: '37c718fcee9b4d21b71372a479735f7e'
+      },
+      {
+        uuid: 'b9702375018a43278e0ed86eeef45769',
+        address: '银坑工地塔吊4左',
+        imei: 'b9702375018a43278e0ed86eeef45769'
+      },
+      {
+        uuid: '83807a0613c4458faf6383d438619fdb',
+        address: '银坑工地塔吊4右',
+        imei: '83807a0613c4458faf6383d438619fdb'
+      },
+      {
+        uuid: 'd74d881bed4b4a88b09d75335dd2edab',
+        address: '银坑工地塔吊2右',
+        imei: 'd74d881bed4b4a88b09d75335dd2edab'
+      },
+      {
+        uuid: '121a78b4a14d43abb8a8fbb2b6303f09',
+        address: '银坑工地塔吊2左',
+        imei: '121a78b4a14d43abb8a8fbb2b6303f09'
       }
     ]
   }

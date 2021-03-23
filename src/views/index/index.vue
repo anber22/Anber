@@ -470,9 +470,9 @@ export default {
           color = Config.hazardAnalysis.color
         }
         if (dataArr.length < 4) {
-          this.analysisHeight = 100
+          this.analysisHeight = 110
         } else {
-          this.analysisHeight = 134
+          this.analysisHeight = 144
         }
         dataArr.forEach((item, index) => {
           this.monitorAnalysisData.pieData.data.push({

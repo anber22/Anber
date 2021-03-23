@@ -3,10 +3,13 @@
     <van-search v-model="searchValue" class="search-item" background="rgba(16, 23, 32, 1)" placeholder="设备安装位置/IMEI码" @search="onSearch" />
     <div class="video-content">
       <van-collapse v-model="activeName" accordion :border="false">
-        <van-loading v-if="!placeList" size="24px" vertical>
-          加载中...
+        <van-loading v-if="!placeList" size="18px" vertical>
+          <span style="color: #6F85A2">加载中...</span>
         </van-loading>
         <van-collapse-item v-for="(item, index) in placeList" v-show="item.count" :key="index" :title="item.placeName + '('+item.count+')'" :name="item.placeId">
+          <van-loading v-if="!equipsFlag" size="18px" vertical>
+            <span style="color: #6F85A2">加载中...</span>
+          </van-loading>
           <div v-if="equipsFlag">
             <Video v-for="(iitem, iindex) in item.equips" :key="iindex" :data="iitem" :placename="item.placeName" />
           </div>
@@ -71,7 +74,7 @@ export default {
         } else {
           this.emptyFlag = false
         }
-        // this.activeName = this.placeList[0].placeId
+        this.activeName = this.placeList[0].placeId
         // 默认展开第一列（获取第一列数据）
         // this.getVideoPlaceEquipList(this.placeList[0].placeId, 5)
         this.placeList.forEach(item => {
