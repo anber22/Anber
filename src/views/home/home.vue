@@ -122,7 +122,7 @@
             />
             实时事件
           </div>
-          <RealtimeEventCard v-if="!loading" :data="hazardLists" />
+          <RealtimeEventCard :hazard-data="hazardLists" />
         </div>
       </div>
     </div>
@@ -140,7 +140,7 @@ export default {
   },
   data() {
     return {
-      loading: true,
+      ccccc: true,
       hazardLists: [],
       subsystemList: [
         {
@@ -162,22 +162,24 @@ export default {
   },
   created() {
     this.getHiddenDangerList()
-    setTimeout(() => {
-      this.initSockets()
-    }, 2000)
+    console.log(this)
+
+    this.initSockets()
   },
   methods: {
     onMessage(msg) {
-      this.loading = true
+      this.ccccc = true
 
       console.log('首页收到消息', msg, this.hazardLists)
+      console.log(this)
       this.hazardLists.splice(2, 1)
       console.log(this.hazardLists)
       this.hazardLists.splice(0, 0, msg)
 
       console.log(this.hazardLists)
 
-      this.loading = false
+      this.ccccc = false
+
       this.$forceUpdate()
     },
     initSockets() {
@@ -191,7 +193,9 @@ export default {
         }
       ]
       console.log('订阅频道参数', topicList)
-      Socket.initSocket(topicList)
+      setTimeout(() => {
+        Socket.initSocket(topicList)
+      }, 1000)
     },
     /**
      * 跳转页面
@@ -203,7 +207,7 @@ export default {
      * 获取隐患列表 top10
      */
     async getHiddenDangerList() {
-      this.loading = true
+      this.ccccc = true
       const res = await Api.hiddenDangerList(3)
       let temp = []
       if (res.code === 200) {
@@ -222,7 +226,8 @@ export default {
       })
       this.hazardLists = temp
       console.log('隐患列表', this.hazardLists)
-      this.loading = false
+      this.ccccc = false
+      console.log(this.ccccc)
     }
   }
 }

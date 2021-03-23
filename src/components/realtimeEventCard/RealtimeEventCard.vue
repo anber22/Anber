@@ -1,6 +1,6 @@
 <template>
   <div class="realtimeEventCard-box">
-    <div v-for="(item,index) in data" :key="index" class="events-item">
+    <div v-for="(item,index) in hazardList" :key="index" class="events-item">
       <Adaptive :data="['100%','20.27%']">
         <div class="events-item-content">
           <van-image
@@ -39,7 +39,7 @@ export default {
 
   },
   props: {
-    data: {
+    hazardData: {
       type: Array,
       // eslint-disable-next-line vue/require-valid-default-prop
       default: []
@@ -55,6 +55,12 @@ export default {
       return function(val) {
         return this.dateFormat(val)
       }
+    }
+  },
+  watch: {
+    hazardData: function(newVal) {
+      console.log('组件监测', newVal)
+      this.hazardList = newVal
     }
   },
   // watch: {

@@ -223,8 +223,15 @@ export default {
 
       const res = await Api.equipInfoList(params)
       const total = res.data.total
+
       if (res.code === 200) {
         temp = [...res.data.rows]
+        if (params.page > total) {
+          this.finished = true
+          this.loadding = false
+          this.equipInfoList = this.equipInfoList.concat(temp)
+          return
+        }
         if (temp.length === 0) {
           console.log('长度为0')
           this.equipInfoList = temp
@@ -281,9 +288,7 @@ export default {
       }
       console.log('设备列表', temp)
       this.equipInfoList = this.equipInfoList.concat(temp)
-      if (params.page === total) {
-        this.finished = true
-      }
+
       this.loadding = false
     }
   }

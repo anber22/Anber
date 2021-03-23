@@ -117,10 +117,18 @@ class Socket {
             const rrTemp = rTemp[0].refsList.filter(rItem =>
 
               rItem.domName === ccItem.domName
+
             )
             if (rrTemp.length === 0) {
               console.log('判断dom是否相等', rrTemp)
               rTemp[0].refsList.push(ccItem)
+            } else {
+              rTemp[0].refsList.forEach(item => {
+                if (item.domName === ccItem.domName) {
+                  console.log('是否更新dom', ccItem.dom)
+                  item.dom = ccItem.dom
+                }
+              })
             }
           })
         } else {
