@@ -4,6 +4,9 @@
   margin: 0 auto;
   position: relative;
 }
+.maxPie-box{
+  overflow: hidden;
+}
 .active-text{
   position: absolute;
   width: 30%;
