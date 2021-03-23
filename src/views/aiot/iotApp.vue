@@ -23,7 +23,7 @@
         加载中...
       </van-loading>
       <div v-if="isCard">
-        <div v-if="thisSubsystemId===5 " class="show-list">
+        <div v-if="thisSubsystemId===5 && equipInfoList.length>0" class="show-list">
           <van-list
             v-model="loading"
             :finished="finished"
@@ -37,7 +37,7 @@
             </Adaptive>
           </van-list>
         </div>
-        <div v-if="thisSubsystemId===10 " class="show-list">
+        <div v-if="thisSubsystemId===10 && equipInfoList.length>0" class="show-list">
           <van-list
             v-model="loading"
             :finished="finished"
@@ -51,7 +51,7 @@
             </Adaptive>
           </van-list>
         </div>
-        <div v-if="thisSubsystemId===11 " class="show-list">
+        <div v-if="thisSubsystemId===11 && equipInfoList.length>0" class="show-list">
           <van-list
             v-model="loading"
             :finished="finished"
@@ -161,6 +161,10 @@ export default {
      * 查询
      */
     onSearch(e) {
+      this.page = 0
+      this.finished = false
+      this.loading = false
+      this.equipInfoList = []
       this.getEquipInfoList()
     },
     toDetailInfo(equipId) {
@@ -223,7 +227,7 @@ export default {
         temp = [...res.data.rows]
         if (temp.length === 0) {
           console.log('长度为0')
-          this.equipInfoList = this.equipInfoList.concat(temp)
+          this.equipInfoList = temp
           this.loadding = false
           this.finished = true
           return

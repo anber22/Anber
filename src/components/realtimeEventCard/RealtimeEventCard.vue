@@ -1,6 +1,6 @@
 <template>
   <div class="realtimeEventCard-box">
-    <div v-for="(item,index) in data" :key="index" class="events-item">
+    <div v-for="(item,index) in hazardList" :key="index" class="events-item">
       <Adaptive :data="['100%','20.27%']">
         <div class="events-item-content">
           <van-image
@@ -47,7 +47,7 @@ export default {
   },
   data() {
     return {
-
+      hazardList: []
     }
   },
   computed: {
@@ -57,7 +57,18 @@ export default {
       }
     }
   },
-
+  watch: {
+    data: {
+      handler(data) {
+        console.log('组件内的值改变了吗', data)
+        this.hazardList = data
+      },
+      deep: true // 划重点
+    }
+  },
+  mounted() {
+    console.log('组件内输出', this.data)
+  },
   methods: {
     /**
      * 时间格式转换

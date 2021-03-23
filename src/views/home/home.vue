@@ -122,7 +122,8 @@
             />
             实时事件
           </div>
-          <RealtimeEventCard ref="RealtimeEventCard" :data="hiddenDangerList" />
+          <RealtimeEventCard v-if="!loading" :data="hazardLists" />
+          <div>{{ loading }}</div>
         </div>
       </div>
     </div>
@@ -140,7 +141,7 @@ export default {
   },
   data() {
     return {
-      hiddenDangerList: [],
+      hazardLists: [],
       subsystemList: [
         {
           id: 5,
@@ -155,7 +156,8 @@ export default {
           name: '塔机监测',
           imgUrl: require('/src/assets/images/index/crane-monitoring.png')
         }
-      ]
+      ],
+      loading: true
     }
   },
   created() {
@@ -166,10 +168,17 @@ export default {
   },
   methods: {
     onMessage(msg) {
+      const that = this
+      that.loading = true
+
       console.log('首页收到消息', msg)
-      this.hiddenDangerList.splice(0, 0, msg)
-      console.log(this.hiddenDangerList)
-      this.hiddenDangerList.splice(3, 1)
+      // this.hiddenDangerList.splice(2, 1)
+      console.log(that.hazardLists)
+      // this.hiddenDangerList.splice(0, 0, msg)
+      that.hazardLists.push(msg)
+      console.log(that.hazardLists)
+
+      that.loading = false
     },
     initSockets() {
       const topicList = [
@@ -194,6 +203,7 @@ export default {
      * 获取隐患列表 top10
      */
     async getHiddenDangerList() {
+      this.loading = true
       const res = await Api.hiddenDangerList(3)
       let temp = []
       if (res.code === 200) {
@@ -210,8 +220,9 @@ export default {
           }
         })
       })
-      this.hiddenDangerList = temp
-      console.log('隐患列表', this.hiddenDangerList)
+      this.hazardLists = temp
+      console.log('隐患列表', this.hazardLists)
+      this.loading = false
     }
   }
 }

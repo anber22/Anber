@@ -60,7 +60,7 @@ class Socket {
       // 接受频率
       socket.heartbeat.incoming = 0
       // 发起连接
-      socket.connect(this.accountName, this.passWord, this.onConnected)
+      socket.connect(this.accountName, this.passWord, this.onConnected, this.onFailed)
     }
   }
   /**
