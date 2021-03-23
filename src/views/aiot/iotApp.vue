@@ -223,8 +223,9 @@ export default {
         temp = [...res.data.rows]
         if (temp.length === 0) {
           console.log('长度为0')
-          this.equipInfoList = temp
+          this.equipInfoList = this.equipInfoList.concat(temp)
           this.loadding = false
+          this.finished = true
           return
         }
       }
