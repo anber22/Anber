@@ -67,8 +67,8 @@
         <Adaptive :data="['100%','70%']">
           <MaxPie v-if="maxPieDataFlag" :data="maxPieData" @activeType="activeType" />
         </Adaptive>
-        <Adaptive :data="['100%','56%']">
-          <MaxLine v-if="lineDataFlag" :data="lineData" />
+        <Adaptive :data="['100%','56%']" style=" overflow: hidden; ">
+          <MaxLine v-if="lineDataFlag" :data="lineData" style=" overflow: hidden; " />
         </Adaptive>
         <!-- end -->
         <!-- 监测分析，近一月/近一年/全部 -->

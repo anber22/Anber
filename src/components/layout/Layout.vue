@@ -147,7 +147,7 @@ export default {
       })
     },
     /**
-     * 事件列表
+     * 事件队列
      */
     messageQueue(msg) {
       // 开启消息队列

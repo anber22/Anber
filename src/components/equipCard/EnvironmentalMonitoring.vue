@@ -67,7 +67,7 @@
         </div>
       </div>
       <div>
-        <EquipDetialCard v-for="item in equipDetialCardList" :key="item.index" class="equipDetialCard-box" :layout="item" :content="data" />
+        <EquipDetailCard v-for="item in equipDetailCardList" :key="item.index" class="equipDetailCard-box" :layout="item" :content="data" />
       </div>
     </div>
     <!-- end -->
@@ -80,11 +80,11 @@
 
 <script>
 import EquipStatus from 'cmp/equipStatus/EquipStatus'
-import EquipDetialCard from 'cmp/equipDetialCard/EquipDetialCard'
+import EquipDetailCard from 'cmp/equipDetailCard/EquipDetailCard'
 export default {
   components: {
     EquipStatus,
-    EquipDetialCard
+    EquipDetailCard
   },
   props: {
     data: {
@@ -95,7 +95,7 @@ export default {
   },
   data() {
     return {
-      equipDetialCardList: [],
+      equipDetailCardList: [],
       equipStatus: {
         wifi: 'red',
         electricity: 'yellow',
@@ -131,7 +131,7 @@ export default {
     },
     setEquipDetailCardListData() {
       const detailData = this.data
-      this.equipDetialCardList = [{
+      this.equipDetailCardList = [{
         typed: 'rainFall',
         width: '24.55%',
         name: '雨量',

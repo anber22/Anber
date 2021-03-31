@@ -1,19 +1,15 @@
-/* eslint-disable no-unused-vars */
 const requestPath = 'wss://beta.zhgtwx.ctjt.cn/ws'
 
 import Stomp from 'stompjs'
-// import localData from './local'
-import { cookieData, localData } from './local'
 
-const channel = []
 let socket = null
+// 频道列表
 let requestList = []
-const newTopicList = []
+// 连接状态
 let connet = false
 /*
  *初始化socket
  */
-
 class Socket {
   constructor() {
     if (`${process.env.NODE_ENV}` === 'development') {
@@ -27,22 +23,22 @@ class Socket {
 
   /**
    * 初始化socket
-   * @param {*} channelName
+   * @param {*} channelNameList
    */
   async initSocket(channelNameList) {
+    // 如果socket已经已经创建那就把之前订阅的频道先取消订阅，这一步需要在处理传入频道数组对象之前，因为处理之后会把已存的频道数组对象的频道id覆盖掉
     if (socket !== null) {
       requestList.forEach(item => {
-        console.log('已经订阅', item.id)
+        // 频道退订
         socket.unsubscribe(item.id)
       })
     }
-    // 先识别对应的频道
+    // 处理频道数组对象
     await this.identificationOfTheChannel(channelNameList)
-    console.log('初始化频道', channelNameList)
     // 我们的socket是socket包装的websocket 所以用Stomp.over(socket)
     // 如果是原生的就用Stomp.client(url)
     if (socket !== null) {
-      console.log('socket!==null')
+      // 如果没连接上那就两秒之后再连接，如果连接上就直接连接
       if (!connet) {
         setTimeout(() => {
           this.onConnected()
@@ -51,13 +47,12 @@ class Socket {
         this.onConnected()
       }
     } else {
-      console.log('开始连接')
+      // 初始化socket
       socket = new WebSocket(requestPath)
       socket = Stomp.over(socket)
-      // socket = Stomp.client(requestPath)
       // 发送频率
       socket.heartbeat.outgoing = 1
-      // 接受频率
+      // 接收频率
       socket.heartbeat.incoming = 0
       // 发起连接
       socket.connect(this.accountName, this.passWord, this.onConnected, this.onFailed)
@@ -68,91 +63,95 @@ class Socket {
    */
   async onConnected() {
     // 订阅频道
-    // .depart_id
-    // 非正式版本下，加test-
     let topic = ''
     connet = true
-    console.log('频道集合', requestList)
     requestList.forEach(item => {
+      // 事件频道
       if (item.topicName === 'realTimeWarning') {
         topic = '/exchange/aiot-event-message/' + '12345678'
+      // 数量频道
       } else if (item.topicName === 'realTimeStatistics') {
         topic = '/exchange/aiot-counting-message/' + '12345678'
       }
+      // 向后台发起频道订阅，将订阅回调的id存入对应的频道，当其他dom接入的时候需要根据频道id去去掉订阅对应的频道
       item['id'] = socket.subscribe(topic, (msg) => {
+        // 事件回调触发 => 给对应频道的dom节点分发信息
         item.refsList.forEach(item => {
-          console.log('分发通知', item)
           item.dom.onMessage(JSON.parse(msg.body))
         })
       }).id
     })
   }
 
+  /**
+   *
+   * 失败回调函数
+   * @param {*} frame
+   */
   onFailed(frame) {
-    console.log('订阅失败')
     setTimeout(() => {
       Socket.initSocket()
     }, 2000)
   }
 
-  responseCallback(frame) {
-    // 接收消息处理
-    console.log('订阅成功', frame)
-  }
-
   /**
-   * 识别频道
-   * @param {*} channelName
+   * 识别频道，对传入频道和已存频道进行匹配处理
+   * @param {*} channelName 传入频道
    */
   identificationOfTheChannel(channelName, ref) {
+    // 如果已存频道数组不为空，则需要提取传入频道的新增频道，或者是已存频道的新增dom订阅者
     if (requestList.length > 0) {
       channelName.forEach(cItem => {
+        // 遍历两个数组，找出相同频道名称的对象，返回形式为数组
         const rTemp = requestList.filter(rItem =>
-
           rItem.topicName === cItem.topicName
         )
-        console.log('有匹配项？', rTemp, requestList)
+        // 如果匹配项不为空
         if (rTemp.length > 0) {
+          // 需要遍历频道名称相同的对象的dom订阅着数组的相同项
           cItem.refsList.forEach(ccItem => {
             const rrTemp = rTemp[0].refsList.filter(rItem =>
-
               rItem.domName === ccItem.domName
-
             )
+            // 如果有新增的dom订阅着
             if (rrTemp.length === 0) {
-              console.log('判断dom是否相等', rrTemp)
+              // 则新增到对应的频道对象的dom订阅着数组里面
               rTemp[0].refsList.push(ccItem)
             } else {
+              // 如果有订阅着名称相同，则需要更新对应名字的dom对象
               rTemp[0].refsList.forEach(item => {
                 if (item.domName === ccItem.domName) {
-                  console.log('是否更新dom', ccItem.dom)
                   item.dom = ccItem.dom
                 }
               })
             }
           })
         } else {
+          // 如果传入频道数组和已存频道数组没匹配项，就直接新增
           requestList.push(cItem)
         }
       })
-      console.log('频道合并', requestList)
     } else {
+      // 如果已存频道为空，那就直接新增
       requestList = channelName
     }
   }
+  /**
+   * 退订频道函数 （页面推出调用此方法删除对应的订阅dom对象）
+   * @param {*} domName
+   */
   unsubscribe(domName) {
     requestList.forEach((item, index) => {
       item.refsList.forEach((ref, refindex) => {
         if (ref.domName === domName) {
-          console.log('删除', item.refsList)
           item.refsList.splice(refindex)
+          // 如果删除dom订阅者对象后，订阅数组为空，直接删除这个频道
           if (item.refsList.length === 0) {
             requestList.splice(index)
           }
         }
       })
     })
-    console.log('删除后输出', requestList)
   }
 }
 

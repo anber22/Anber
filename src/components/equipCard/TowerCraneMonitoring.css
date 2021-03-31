@@ -140,7 +140,7 @@ line-height: 260%;
   height: 100%;
   z-index: -1;
 }
-.tEquipDetialCard-box{
+.tEquipDetailCard-box{
   height: 63px;
   /* background-color: #FFFFFF; */
   margin-left: 1.2%;
@@ -160,7 +160,7 @@ float: right;
 margin-top: 1.8%;
 }
 
-.tEquipDetialCard-for-box{
+.tEquipDetailCard-for-box{
   padding-bottom: 1.5%;
 
 }
