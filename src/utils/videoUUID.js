@@ -320,27 +320,27 @@ class MatchUUID {
       // },
       // 唐家第一工业区
       {
-        uuid: '4348f5e0a7b3418db77c2bb043290f49',
+        uuid: 'c91ba5e6dcca4364b7c658fbbf4ec6b1',
         address: '唐一工地后门态势',
         imei: '2102412464WLL4005199'
       },
       {
-        uuid: '44a110c890eb4fb1bd8245e432e6d9ca',
+        uuid: 'fa9fe9d6383446cfa430fa0eb72e9f66',
         address: '唐一工地生活区态势A',
         imei: '2102412464WLL4005189'
       },
       {
-        uuid: '513d137407dc422db54611047042ea59',
+        uuid: 'e6acb6e0853a4c0b896d3c66bf7cecfa',
         address: '唐一工地正门安全帽',
         imei: '2102352KCPWMLC002545'
       },
       {
-        uuid: 'd950c2f793d846568fa05754dff2e3f5',
+        uuid: '9597eb62de394637b5040cbd2d3e4585',
         address: '唐一工地后门安全帽',
         imei: '2102352KCPWMLC002473'
       },
       {
-        uuid: '6684e54d7d384c629715804e0593bd57',
+        uuid: 'ed800d69503d4b7489dbee4d21a6e6cb',
         address: '唐一工地生活区态势B',
         imei: '2102412464WLL4005194'
       },
