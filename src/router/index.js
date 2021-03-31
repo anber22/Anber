@@ -59,7 +59,6 @@ export default new VueRouter({
           }
         },
         {
-
           path: '/iotAppDetail',
           component: () => import('@/views/aiot/iotAppDetail'),
           meta: {

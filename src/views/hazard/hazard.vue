@@ -10,15 +10,22 @@
     <!-- end -->
 
     <!-- 详情列表 start -->
-    <van-loading v-if="loading" size="24px" vertical>
-      加载中...
-    </van-loading>
-    <div v-if="!loading" class="hazard-content">
-      <div v-for="item in hazardList" :key="item.index" @click="showDetail(item.id)">
-        <Adaptive :data="['94%','38.39%']" class="hazard-list-card">
-          <HazardListCard :data="item" />
-        </Adaptive>
-      </div>
+
+    <div class="hazard-content">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        class="van-clearfix"
+        :immediate-check="false"
+        @load="getAnalysisList"
+      >
+        <div v-for="item in hazardList" :key="item.index" @click="showDetail(item.id)">
+          <Adaptive :data="['94%','38.39%']" class="hazard-list-card">
+            <HazardListCard :data="item" />
+          </Adaptive>
+        </div>
+      </van-list>
     </div>
     <!-- end -->
 
@@ -38,7 +45,7 @@
 
 <script>
 import HazardListCard from 'cmp/hazardListCard/HazardListCard'
-import promiseToList from '@/utils/promiseToList'
+import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 
 import Api from '@/api/hazard/hazard.js'
 
@@ -66,10 +73,15 @@ export default {
       hazardTypeList: [],
       show: false,
       status: 0,
-      loading: true
+      loading: false,
+      loadding: true,
+      equipId: 0,
+      page: 0,
+      finished: false
     }
   },
   mounted() {
+    this.equipId = this.$route.query ? this.$route.query.equipId : 0
     this.getAnalysisList()
     this.getHazardTypeList()
   },
@@ -92,6 +104,9 @@ export default {
       this.show = false
       this.equipType = index[0]
       this.status = index[1]
+      this.hazardList = []
+      this.finished = false
+      this.page = 0
       // this.formattingCondition()
       this.getAnalysisList()
     },
@@ -99,27 +114,45 @@ export default {
      * 查询
      */
     onSearch(e) {
+      this.hazardList = []
+      this.finished = false
+      this.page = 0
       this.getAnalysisList()
     },
     /**
      * 获取隐患列表
      */
     async getAnalysisList() {
-      this.loading = true
+      this.loadding = true
 
       const params = {
         type: 0,
-        page: 1,
-        size: 999,
+        page: ++this.page,
+        size: 10,
         condition: this.formattingCondition()
       }
+
       const res = await Api.hazardList(params)
+      let temp = []
       if (res.code === 200) {
-        this.hazardList = [...res.data.rows]
+        temp = res.data.rows
+        if (temp.length === 0) {
+          this.loading = false
+          this.finished = true
+          this.hazardList = []
+          return
+        }
       }
-      this.hazardList = await promiseToList.conversion('hazardType', 'hazardType', 'hazardTypeName', this.hazardList)
-      this.hazardList = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', this.hazardList)
+
+      temp = await ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', temp)
+      temp = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', temp)
+
+      this.hazardList = this.hazardList.concat(temp)
       this.loading = false
+      if (params.page === res.data.total) {
+        this.finished = true
+      }
+      this.loadding = false
     },
     /**
      * 获取设备类型列表
@@ -158,7 +191,13 @@ export default {
           conditionStr = conditionStr + '&isDone=' + (this.status - 1)
         }
       }
-
+      if (this.equipId > 0) {
+        if (!first) {
+          conditionStr = conditionStr + '?equipId=' + (this.equipId)
+        } else {
+          conditionStr = conditionStr + '&equipId=' + (this.equipId)
+        }
+      }
       return conditionStr
     }
   }

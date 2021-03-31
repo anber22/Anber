@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view />
+    <Layout>
+      <router-view />
+    </Layout>
   </div>
 </template>
 
@@ -9,10 +11,11 @@
 
 // const VConsole = require('vconsole')
 // new VConsole()
-
+import Layout from 'cmp/layout/Layout'
 export default {
   name: 'App',
   components: {
+    Layout
   }
 }
 </script>

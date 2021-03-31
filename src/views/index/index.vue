@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="index">
     <div class="index-bg">
       <div class="index">
         <!-- 顶部设备网点数量统计 start -->
@@ -22,7 +22,7 @@
         <!-- end -->
         <!-- 设备在线率 start -->
         <Adaptive :data="['100%','60%']">
-          <Gauge :data="gaugeData" />
+          <Gauge v-if="gaugeDataFlag" ref="Gauge" :data="gaugeData" />
         </Adaptive>
         <!-- 分割线line -->
         <div style="width: 100%;height: 8px;background: #131B25;margin-top: 14px" />
@@ -35,7 +35,8 @@
           </div>
         </Adaptive>
         <Adaptive :data="['100%','12.75%']" class="warning-box">
-          <Warning v-if="hiddenDangerList.length>0" class="warning" :data="hiddenDangerList" />
+          <Warning v-if="hiddenDangerList.length>1" ref="Warning" class="warning" :data="hiddenDangerList" :system="subsystemList" />
+          <!--  -->
         </Adaptive>
         <!-- end -->
         <!-- 应用列表 start -->
@@ -66,8 +67,8 @@
         <Adaptive :data="['100%','70%']">
           <MaxPie v-if="maxPieDataFlag" :data="maxPieData" @activeType="activeType" />
         </Adaptive>
-        <Adaptive :data="['100%','56%']">
-          <MaxLine v-if="lineDataFlag" :data="lineData" />
+        <Adaptive :data="['100%','56%']" style=" overflow: hidden; ">
+          <MaxLine v-if="lineDataFlag" :data="lineData" style=" overflow: hidden; " />
         </Adaptive>
         <!-- end -->
         <!-- 监测分析，近一月/近一年/全部 -->
@@ -93,8 +94,8 @@
 
 <script>
 import Gauge from 'cmp/echarts/gauge/Gauge'
-import MaxPie from 'cmp/echarts/maxPie/MaxPie'
-import MaxLine from 'cmp/echarts/maxLine/MaxLine'
+import MaxPie from 'cmp/echarts/mixPie/MixPie'
+import MaxLine from 'cmp/echarts/mixLine/MixLine'
 import Api from '@/api/index'
 import EquipList from 'cmp/index/equipList/EquipList'
 import Warning from 'cmp/index/warning/Warning'
@@ -104,6 +105,8 @@ import DepartCount from 'cmp/index/departCount/DepartCount'
 import Events from 'cmp/index/events/Events'
 import MonitorAnalysis from 'cmp/index/monitorAnalysis/MonitorAnalysis'
 import { mapGetters } from 'vuex'
+import Socket from '@/utils/socket'
+
 import Regular from '@/utils/regular.js'
 import store from '@/store'
 import CraneMonitoring from '@/assets/images/index/wisdom-visual.png'
@@ -120,6 +123,7 @@ export default {
   },
   data() {
     return {
+      Warning: 'Warning',
       loading: true,
       subsystemList: [
         {
@@ -136,20 +140,16 @@ export default {
           imgUrl: require('/src/assets/images/index/crane-monitoring.png')
         }
       ],
-      gaugeData: {
-        chartId: 'gaugeId'
-      },
+      gaugeData: {},
+      gaugeDataFlag: false,
       equipCountings: '',
       branchesCountings: '',
       equipList: [],
       maxPieData: {
-        chartId: 'maxPieChartId',
         data: []
       },
       maxPieDataFlag: false,
       lineData: {
-        // 饼图的id
-        chartId: 'lineChartId',
         title: '隐患分析（近15天)',
         xAxis: {
           data: []
@@ -169,8 +169,6 @@ export default {
       eventData: {
         equipType: [],
         analysisTimelineData: {
-          // 双折线图的id
-          chartId: 'analysisTimelineChartId',
           xAxis: {
             data: []
           },
@@ -203,8 +201,6 @@ export default {
           }
         ],
         pieData: {
-          // 饼图的id
-          chartId: 'monitorAnalysisChartId',
           data: [],
           title: '',
           color: []
@@ -218,11 +214,12 @@ export default {
       analysisSystemType: 5,
       hiddenDangerList: [],
       onlinePercent: 0,
-      analysisHeight: 154
+      analysisHeight: 134,
+      screenWidth: null
     }
   },
   computed: {
-    ...mapGetters(['equipType', 'hazardType', 'placeType']),
+    ...mapGetters(['equipType', 'hazardType', 'placeType', 'applicationEquipList']),
     changeDateType() {
       return function(system, type) {
         if (type === 3) {
@@ -243,18 +240,72 @@ export default {
     //   item.imgUrl = require(item.imgUrl)
     // })
 
+    // const temp = Socket.onMessages('equipCount')
+    // console.log('页面订阅频道', temp)
     this.getHazardTypeList()
     this.getHiddenDangerList()
     this.getEquipCountings()
     this.getBranchesCountings()
     this.getEquipList()
     this.getDepartCounting()
-
     store.dispatch('generatePersistence')
 
     this.getOnlinePercent()
+    this.$nextTick(function() {
+      this.initSockets()
+    })
+  },
+  destroyed() { // 页面销毁时清除定时器
+    Socket.unsubscribe('Warning')
+    Socket.unsubscribe('index')
+    Socket.unsubscribe('Gauge')
   },
   methods: {
+    onMessage(msg) {
+      console.log('智慧高投页面收到消息', msg)
+      this.equipCountings = msg.equipCount === null ? this.equipCountings : parseInt(msg.equipCount).toLocaleString()
+      this.branchesCountings = msg.placeCount === null ? this.branchesCountings : parseInt(msg.placeCount).toLocaleString()
+      console.log('设备数', this.equipCountings)
+      console.log('网点数', this.branchesCountings)
+    },
+
+    initSockets() {
+      if (this.$refs.Warning === undefined) {
+        setTimeout(() => {
+          this.initSockets()
+        }, 500)
+
+        return
+      }
+      const topicList = [
+        {
+          topicName: 'realTimeWarning',
+          refsList: [
+            {
+              domName: 'Warning',
+              dom: this.$refs.Warning
+
+            }
+
+          ]
+        },
+        {
+          topicName: 'realTimeStatistics',
+          refsList: [
+            {
+              domName: 'index',
+              dom: this
+
+            }, {
+              domName: 'Gauge',
+              dom: this.$refs.Gauge
+
+            }
+          ]
+        }]
+      console.log('订阅频道参数', topicList)
+      Socket.initSocket(topicList)
+    },
     /**
      * 获取设备总数
      */
@@ -283,6 +334,7 @@ export default {
       if (res.code === 200) {
         Reflect.set(this.gaugeData, 'onlinePercent', res.data)
         // this.gaugeData.onlinePercent = res.data
+        this.gaugeDataFlag = true
       }
     },
     /**
@@ -290,11 +342,9 @@ export default {
      */
     async getEquipList() {
       this.loading = true
-      const res = await Api.applicationlist()
-      if (res.code === 200) {
-        this.equipList = [...res.data]
-      }
-
+      // this.equipList = this.applicationEquipList
+      this.equipList = await this.$store.dispatch('GetApplicationlist')
+      console.log(this.equipList, 'this.equipList去vuex拿值')
       const combined = this.subsystemList.reduce((acc, cur) => {
         const target = acc.find(e => e.id === cur.id)
         if (target) {
@@ -304,7 +354,6 @@ export default {
         return acc
       }, this.equipList)
       this.equipList = combined
-
       combined.forEach(item => {
         this.monitorAnalysisData.equipType.push({
           value: item.id,
@@ -419,9 +468,9 @@ export default {
           color = Config.hazardAnalysis.color
         }
         if (dataArr.length < 4) {
-          this.analysisHeight = 100
+          this.analysisHeight = 110
         } else {
-          this.analysisHeight = 158
+          this.analysisHeight = 144
         }
         dataArr.forEach((item, index) => {
           this.monitorAnalysisData.pieData.data.push({
@@ -452,15 +501,18 @@ export default {
       this.monitorAnalysisData.monitorAnalysisFlag = false
       this.getMonitorAnalysis(value, this.analysisDateType)
     },
+
     /**
      * 获取隐患列表 top10
      */
     async getHiddenDangerList() {
       const res = await Api.hiddenDangerList(12)
+      let temp = []
       if (res.code === 200) {
-        this.hiddenDangerList = [...res.data]
+        temp = [...res.data]
       }
-      this.hiddenDangerList.forEach(hItem => {
+      console.log('隐患列表', res)
+      temp.forEach(hItem => {
         this.subsystemList.forEach(cItem => {
           if (hItem.type === cItem.id) {
             // Object.assign(hItem, cItem) assign后者会覆盖前者的同名属性的值
@@ -470,110 +522,10 @@ export default {
           }
         })
       })
+      this.hiddenDangerList = temp
+      console.log('隐患列表', this.hiddenDangerList)
     }
   }
 }
 </script>
-
-<style scoped>
-.index{
-  width: 92%;
-  height: 100%;
-  padding: 0px 4% 0px 4%;
-  /* background-color: rgba(16, 23, 32, 1); */
-  overflow: scroll;
-}
-.equip-count{
-  border-radius:5px;
-  margin-top: 5%;
-  padding-right: 0px;
-  display: inline-block;
-  background-image: url('@/assets/images/index/equip-count.png');
-  background-repeat:no-repeat ;
-  background-size: cover;
-}
-.branches-count{
-  padding-right: 0px;
-  border-radius:5px;
-  margin-top: 5%;
-  display: inline-block;
-  margin-left: 2.7%;
-  background-image: url('@/assets/images/index/branches-count.png');
-  background-repeat:no-repeat;
-  background-size: cover;
-}
-.warning-box{
-  padding-right: 0px;
-  margin-top: 8%;
-}
-.count-title{
-  width: 100%;
-  margin: 0px;
-  padding-top: 8%;
-  text-align: center;
-  font-size: 12px;
-  font-family: PingFang SC;
-  font-weight: 400;
-  color: #FFFFFF;
-}
-.count-value{
-  width: 100%;
-  margin: 0px;
-  text-align: center;
-  font-size: 21px;
-  font-family: PingFang SC;
-  font-weight: 600;
-  color: #FFFFFF;
-}
-/* 标题  start*/
-.title-box{
-  margin-top: 8%;
-  margin-bottom: 2%;
-}
-.title-style{
-  width: 1.2%;
-  height: 100%;
-  background:-webkit-gradient(linear, 100% 100%, 0% 100%,from(#008EFF), to(#1DF2FF));
-  display: inline-block;
-  border-top-right-radius: 6px;
-  border-bottom-left-radius: 6px;
-}
-.title-name{
-  width: 80%;
-  height: 100%;
-  display: inline-block;
-  font-size: 20px;
-  font-family: PingFang SC;
-  font-weight: 500;
-  color: #B9CEE9;
-}
-/* end */
-.equipList-box{
-  padding-right: 0px;
-}
-
-.legend{
-  /* text-align: center; */
-  font-size: 12px;
-  color: #fff;
-  padding-left: 18%;
-}
-.legend p{
-  line-height: 2.5
-}
-.legend p span{
-  display: inline-block;
-  width: 11px;
-  background-color: #008EFF;
-  height: 9px;
-  margin-right: 10px;
-}
-.index-bg{
-  width: 100%;
-  height: max-content;
-  background-image: url('@/assets/images/index/zhgt-bg.png');
-  background-color: rgba(16, 23, 32, 1);
-  background-repeat: no-repeat;
-  background-size:100% 100%;
-}
-</style>
+<style scoped src='./index.css'></style>

@@ -74,8 +74,8 @@
       <!-- end -->
     </Adaptive>
     <!-- 详细数据 start -->
-    <div class="tEquipDetialCard-for-box">
-      <EquipDetialCard v-for="item in format(equipDetialCardList) " :key="item.index" :layout="item" class="tEquipDetialCard-box" />
+    <div class="tEquipDetailCard-for-box">
+      <EquipDetailCard v-for="item in format(equipDetailCardList) " :key="item.index" :layout="item" class="tEquipDetailCard-box" />
     </div>
     <!-- end -->
   </div>
@@ -87,11 +87,11 @@
 
 <script>
 import EquipStatus from 'cmp/equipStatus/EquipStatus'
-import EquipDetialCard from 'cmp/equipDetialCard/EquipDetialCard'
+import EquipDetailCard from 'cmp/equipDetailCard/EquipDetailCard'
 export default {
   components: {
     EquipStatus,
-    EquipDetialCard
+    EquipDetailCard
   },
   props: {
     data: {
@@ -102,7 +102,7 @@ export default {
   data() {
     return {
       isShowMore: false,
-      equipDetialCardList: [],
+      equipDetailCardList: [],
       equipStatus: {
         wifi: 'red',
         electricity: 'yellow',
@@ -122,6 +122,17 @@ export default {
   },
   methods: {
     /**
+     * 跳转详情
+     */
+    showHazardDetail(e) {
+      this.$router.push({
+        path: '/hazard',
+        query: {
+          equipId: e
+        }
+      })
+    },
+    /**
     * 跳转网点详情
     */
     showPlaceDetail(e) {
@@ -137,9 +148,9 @@ export default {
      */
     filterData: function(e) {
       if (this.isShowMore) {
-        return this.equipDetialCardList
+        return this.equipDetailCardList
       } else {
-        return this.equipDetialCardList.slice(0, 3)
+        return this.equipDetailCardList.slice(0, 3)
       }
     },
     /**
@@ -153,7 +164,7 @@ export default {
      */
     setEquipDetailCardListData() {
       const detailData = this.data
-      this.equipDetialCardList = [{
+      this.equipDetailCardList = [{
         width: '30.3%',
         name: '回旋角度',
         value: detailData.turningAngle ? detailData.turningAngle + '°' : '-',

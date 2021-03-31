@@ -29,10 +29,10 @@ module.exports = merge(base, {
         secure: false, // 目标服务器地址是否是安全协议
 
       },
-      "/kkvideo": {
+      "/video": {
         target: "http://221.4.210.181:6713",
         // target: "http://47.106.116.164:8017",
-        pathRewrite: { "^/kkvideo": "" },
+        pathRewrite: { "^/video": "" },
         changeOrigin: true,
         secure: false, // 目标服务器地址是否是安全协议1
       },

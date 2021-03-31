@@ -12,6 +12,5 @@ module.exports = merge(base, {
       cleanStaleWebpackAssets: true,
       cleanOnceBeforeBuildPatterns: [path.resolve(__dirname, "../dist")],
     })
-
   ]
 })

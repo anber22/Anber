@@ -6,7 +6,6 @@ import VueRouter from 'vue-router'
 import Vant from 'vant'
 import 'vant/lib/index.css'
 import * as echarts from 'echarts'
-import request from './utils/request'
 import Adaptive from 'cmp/adaptive/adaptive'
 import { Toast } from 'vant'
 import Vuex from 'vuex'
@@ -25,8 +24,8 @@ Vue.use(Vuex)
 Vue.component('Adaptive', Adaptive)
 Vue.config.debug = true
 Vue.prototype.$echarts = echarts
-Vue.prototype.$request = request
 Vue.prototype.$Toast = Toast
+
 // Vue.prototype.$video = video
 // const hls = require('videojs-contrib-hls')
 // Vue.use(hls)

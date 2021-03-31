@@ -78,7 +78,7 @@ const cookieData = function(method, name, obj, t) {
 
 // 设置cookie
 function setCookie(key, value, t) {
-  const oDate = new Date() // 创建日期对象
+  var oDate = new Date() // 创建日期对象
   oDate.setDate(oDate.getDate() + t) // 设置过期时间
 
   document.cookie =
@@ -87,10 +87,10 @@ function setCookie(key, value, t) {
 
 // 获取cookie的单个数值
 function getCookie(key) {
-  const arr1 = document.cookie.split('; ') // 将cookie按“; ”分割，数组元素为： cookie名=cookie值
-  for (let i = 0; i < arr1.length; i++) {
+  var arr1 = document.cookie.split('; ') // 将cookie按“; ”分割，数组元素为： cookie名=cookie值
+  for (var i = 0; i < arr1.length; i++) {
     // 分割数组里的每个元素
-    const arr2 = arr1[i].split('=') // 按照“=”分割
+    var arr2 = arr1[i].split('=') // 按照“=”分割
     if (arr2[0] === key) {
       return JSON.parse(arr2[1]) // 返回翻译编码后的cookie值
     }

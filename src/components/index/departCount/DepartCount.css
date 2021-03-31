@@ -1,0 +1,48 @@
+.item-right{
+  width: 100%;
+  height: auto;
+}
+.detail-item{
+  width: 31.33%;
+  height: auto;
+  display: inline-block;
+}
+.detail-item-title{
+  height: 11px;
+  width: 43.33px;
+  font-size: 12px;
+  font-family: SourceHanSansCN;
+  font-weight: 400;
+  text-align: left;
+  line-height: 5px;
+  padding-left: 12px;
+  color: #EFF0F1;
+  margin-top:18%;
+  margin-bottom: 0px;
+  background: linear-gradient(125deg, rgba(16, 233, 255, 0) 8px,#00B5ED 9%,transparent 81%) left  ;
+  background-size: 100% 100%;
+  margin-left: 15px
+}
+.detail-item-value{
+  height: 18px;
+  font-size: 19px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #46FFEB;
+  margin-left: 20%;
+  margin-top: 12%;
+}
+.color-light-blue{
+  color: #46FFEB;
+}
+.color-light-yellow{
+  color: #F7FF74;
+}
+.color-light-red{
+  color:#FF3C3C;
+}
+.bg{
+  width: 79px;
+  height: 9px;
+
+}

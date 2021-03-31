@@ -1,7 +1,7 @@
 <template>
   <div class="hazardDetail">
     <!-- 隐患详情信息 start -->
-    <div class="hazardDetail-submit">
+    <div v-if="!loading" class="hazardDetail-submit">
       <div class="hazardDetail-submit-title">
         <img src="@/assets/images/home/title-icon.png" alt="" class="hazardDetail-submit-titil-icon">
         隐患信息
@@ -47,9 +47,11 @@
             <div class="hazardDetail-submit-content-info-row-name">
               网点名称:
             </div>
-            <div class="hazardDetail-submit-content-info-row-value underLine">
-              {{ detailInfo.placeName }}
-            </div>
+            <a @click.stop="toPlaceDetail(detailInfo.placeId)">
+              <div class="hazardDetail-submit-content-info-row-value underLine">
+                {{ detailInfo.placeName }}
+              </div>
+            </a>
           </div>
           <div class="hazardDetail-submit-content-info-row">
             <div class="hazardDetail-submit-content-info-row-name">
@@ -65,7 +67,7 @@
               联系人:
             </div>
             <div class="hazardDetail-submit-content-info-row-value">
-              {{ detailInfo.managerName+"-"+detailInfo.phone }}
+              {{ detailInfo.managerName+"-"+detailInfo.placePhone }}
             </div>
             <a @click.stop="callPhone(detailInfo.placeId)">
               <img src="@/assets/images/equip/phone.png" alt="" class="hazardDetail-submit-content-info-row-icon">
@@ -135,8 +137,9 @@
 
 <script>
 import Api from '@/api/hazard/hazard.js'
-import dealData from '@/utils/data'
-import promiseToList from '@/utils/promiseToList'
+import Date from '@/utils/dateTransformation'
+import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
+
 import PlaceApi from '@/api/placeResource/placeResource'
 
 export default {
@@ -148,7 +151,8 @@ export default {
     return {
       detailInfoId: 0,
       detailInfo: {},
-      dealInfo: {}
+      dealInfo: {},
+      loading: true
     }
   },
   mounted() {
@@ -159,12 +163,13 @@ export default {
     /**
      * 拨号
      */
-    async  callPhone(e) {
-      const res = await PlaceApi.placeResourcDetail(e)
-      if (res.code === 200) {
-        const result = res.data
-        window.location.href = 'tel://' + result.phone
-      }
+    async  toPlaceDetail(e) {
+      this.$router.push({
+        path: '/placeResourcDetail',
+        query: {
+          placeId: e
+        }
+      })
     },
     /**
      * 获取隐患详情信息
@@ -177,17 +182,19 @@ export default {
       if (res.code === 200) {
         this.detailInfo = { ...res.data }
       }
-      this.detailInfo = await promiseToList.conversion('hazardType', 'hazardType', 'hazardTypeName', [this.detailInfo])
-      this.detailInfo = this.detailInfo[0]
+
+      this.detailInfo = await ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', this.detailInfo)
       if (this.detailInfo.isDone === 1) {
         this.getHazardDealInfo()
       }
+      this.loading = false
     },
 
     /**
      *  时间格式化
      */
     timeTransformation(e) {
+      var dealData = new Date()
       return dealData.dataFormat(e)
     },
 
@@ -209,11 +216,11 @@ export default {
 
 <style>
 .hazardDetail{
+  background-color: #101720;
   width: 90%;
   height: 100%;
   position: fixed;
   padding:0px 5% 0px 5%;
-  background-color: #101720;
   color: #ffffff;
   overflow: scroll;
 }

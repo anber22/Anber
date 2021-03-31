@@ -1,7 +1,8 @@
 <!-- 首页应用列表 -->
 <template>
   <div class="equipList">
-    <div v-for="item in data" :key="item.id" @click="showCard()">
+    <div v-for="(item,index) in data" :key="index" @click="showCard(item.id)">
+      <!--  @click="showCard(item.id)" -->
       <Adaptive :data="['100%','24.4%']" class="equipList-item">
         <div class="equipList-item-left">
           <img class="equipList-equip-img" :src="item.imgUrl" alt="">
@@ -54,9 +55,17 @@ export default {
     return {
     }
   },
+  mounted() {
+  },
   methods: {
-    showCard() {
-      this.$router.push('/iotApp')
+    showCard(e) {
+      // this.$router.push('/iotApp')
+      this.$router.push({
+        path: '/iotApp',
+        query: {
+          systemId: e
+        }
+      })
     }
   }
 }

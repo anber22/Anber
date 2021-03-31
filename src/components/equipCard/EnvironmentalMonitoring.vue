@@ -9,8 +9,8 @@
         <div class="environmentalMonitoring-state-box">
           <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" :status="data.onlineType" />
         </div>
-        <div v-if="data.count!==0" class="environmentalMonitoring-hidden-trouble">
-          <van-badge :content="data.count" badge-size="14px">
+        <div v-if="data.count!==0" class="environmentalMonitoring-hidden-trouble" @click="showHazardDetail(data.equipId)">
+          <van-badge :content="data.count" badge-size="14px" max="99">
             <img src="@/assets/images/equip/risk-early-warning.png" alt="" class="environmentalMonitoring-hidden-trouble-icon">
           </van-badge>
         </div>
@@ -67,7 +67,7 @@
         </div>
       </div>
       <div>
-        <EquipDetialCard v-for="item in equipDetialCardList" :key="item.index" class="equipDetialCard-box" :layout="item" :content="data" />
+        <EquipDetailCard v-for="item in equipDetailCardList" :key="item.index" class="equipDetailCard-box" :layout="item" :content="data" />
       </div>
     </div>
     <!-- end -->
@@ -80,11 +80,11 @@
 
 <script>
 import EquipStatus from 'cmp/equipStatus/EquipStatus'
-import EquipDetialCard from 'cmp/equipDetialCard/EquipDetialCard'
+import EquipDetailCard from 'cmp/equipDetailCard/EquipDetailCard'
 export default {
   components: {
     EquipStatus,
-    EquipDetialCard
+    EquipDetailCard
   },
   props: {
     data: {
@@ -95,7 +95,7 @@ export default {
   },
   data() {
     return {
-      equipDetialCardList: [],
+      equipDetailCardList: [],
       equipStatus: {
         wifi: 'red',
         electricity: 'yellow',
@@ -110,6 +110,17 @@ export default {
   },
 
   methods: {
+    /**
+     * 跳转详情
+     */
+    showHazardDetail(e) {
+      this.$router.push({
+        path: '/hazard',
+        query: {
+          equipId: e
+        }
+      })
+    },
     showDetail(e) {
       this.$router.push({
         path: '/placeResourcDetail',
@@ -120,7 +131,7 @@ export default {
     },
     setEquipDetailCardListData() {
       const detailData = this.data
-      this.equipDetialCardList = [{
+      this.equipDetailCardList = [{
         typed: 'rainFall',
         width: '24.55%',
         name: '雨量',

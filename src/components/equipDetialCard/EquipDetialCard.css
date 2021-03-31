@@ -1,9 +1,9 @@
-.equipDetialCard{
+.equipDetailCard{
   display: inline-block;
   border-radius: 2px;
   border: 0.5px solid #008797;
 }
-.equipDetialCard-name{
+.equipDetailCard-name{
   height: 26px;
   display: flex;
   align-items: center;
@@ -14,7 +14,7 @@
   border: 1px solid #008797;
   box-shadow:1px 1px 11px 2px rgba(0, 135, 151, 0.2) inset;
 }
-.equipDetialCard-value{
+.equipDetailCard-value{
   height: 37px;
   text-align: center;
   display: flex;

@@ -1,6 +1,6 @@
 <template>
   <div class="realtimeEventCard-box">
-    <div class="events-item">
+    <div v-for="(item,index) in hazardList" :key="index" class="events-item">
       <Adaptive :data="['100%','20.27%']">
         <div class="events-item-content">
           <van-image
@@ -8,44 +8,18 @@
             height="100%%"
             fit="cover"
             class="events-item-img"
-            src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1423490917,2942550944&fm=26&gp=0.jpg"
+            :src="index%2===0?'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1423490917,2942550944&fm=26&gp=0.jpg': 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2559982960,2879475880&fm=26&gp=0.jpg'"
             :show-error="false"
+
             :show-loading="false"
           />
           <div class="right-text">
             <p class="title1">
-              惠景合园东北门保安亭
+              {{ item.equipAddress }}
             </p>
-            <span class="title2">消防通道占用</span>
+            <span class="title2">{{ item.onlineMsg }}</span>
             <p class="title3">
-              2020-12-13 10:20:21
-            </p>
-          </div>
-          <div class="dot">
-            <span />
-          </div>
-        </div>
-      </Adaptive>
-    </div>
-    <div class="events-item">
-      <Adaptive :data="['100%','20.27%']">
-        <div class="events-item-content">
-          <van-image
-            width="20.27%"
-            height="100%%"
-            fit="cover"
-            class="events-item-img"
-            src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2559982960,2879475880&fm=26&gp=0.jpg"
-            :show-error="false"
-            :show-loading="false"
-          />
-          <div class="right-text">
-            <p class="title1">
-              惠景合园正门大门口
-            </p>
-            <span class="title2">周界越界监测</span>
-            <p class="title3">
-              2020-12-12 13:21:34
+              {{ changeDate(item.createdTime) }}
             </p>
           </div>
           <div class="dot">
@@ -58,81 +32,58 @@
 </template>
 
 <script>
+import DateTransformation from '@/utils/dateTransformation.js'
+
 export default {
   components: {
 
   },
-  data() {
-    return {
-
+  props: {
+    hazardData: {
+      type: Array,
+      // eslint-disable-next-line vue/require-valid-default-prop
+      default: []
     }
   },
+  data() {
+    return {
+      hazardList: []
+    }
+  },
+  computed: {
+    changeDate: function() {
+      return function(val) {
+        return this.dateFormat(val)
+      }
+    }
+  },
+  watch: {
+    hazardData: function(newVal) {
+      console.log('组件监测', newVal)
+      this.hazardList = newVal
+    }
+  },
+  // watch: {
+  //   data: {
+  //     handler(data) {
+  //       console.log('组件内的值改变了吗', data)
+  //       this.hazardList = data
+  //     },
+  //     deep: true // 划重点
+  //   }
+  // },
+  mounted() {
+    // console.log('组件内输出', this.data)
+  },
   methods: {
-
+    /**
+     * 时间格式转换
+     */
+    dateFormat(date) {
+      var dateFormat = new DateTransformation()
+      return dateFormat.dataFormatStamp(date / 1000)
+    }
   }
 }
 </script>
-
-<style scoped>
-.events-list>.events-item:last-child{
-  border-bottom: none
-}
-.events-item{
-  color: #B9CEE9;
-  padding-bottom: 20px;
-  padding-top: 18px;
-  border-bottom: 1px #283444 solid
-}
-.events-item-content::after{
-  display: block;
-  clear: both;
-  content: '';
-  overflow: hidden;
-}
-.right-text{
-  color: #B9CEE9;
-  font-size: 15px;
-  width: 66%;
-  float: left;
-  margin-left: 4%;
-}
-.events-item-img{
-  float: left;
-}
-.right-text p{
-  overflow: hidden;
-  text-overflow:ellipsis;
-  white-space: nowrap;
-}
-.right-text .title1{
-  font-size: 15px;
-  color: #B9CEE9;
-  padding-bottom: 4%
-}
-.right-text .title2{
-  font-size: 12px;
-  color: #FF1743;
-  border-radius: 2px;
-  border: 1px #ff1743 solid;
-  padding: 2px 6px;
-}
-.right-text .title3{
-  color: #6F85A2;
-  font-size: 12px;
-  padding-top: 4%
-}
-.dot{
-  float: right;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  margin-right: 2%;
-}
-.dot span{
-    /* float: right; */
-    padding: 3px;
-    background: red;
-    border-radius: 50%;
-    box-shadow: 0px 0px 8px 2px #ff1743;
-}
-</style>
+<style scoped src='./RealtimeEventCard.css'></style>

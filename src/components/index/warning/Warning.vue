@@ -18,12 +18,12 @@
               <div class="colItem content width-30">
                 {{ rowItem.onlineMsg }}
               </div>
-              <div class="colItem content width-30">
+              <div class="colItem content width-27">
                 {{ rowItem.placeName }}
               </div>
 
-              <div class="colItem content width-15">
-                {{ changeDate(rowItem.createTime) }}
+              <div class="colItem content width-18">
+                {{ changeDate(rowItem.createdTime) }}
               </div>
             </li>
           </ul>
@@ -37,14 +37,18 @@
 </template>
 
 <script>
-// import Socket from '../../../utils/socket'
-import Data from '@/utils/data.js'
+import DateTransformation from '@/utils/dateTransformation.js'
 export default {
+  name: 'Warning',
   components: {
 
   },
   props: {
     data: {
+      type: Array,
+      default: null
+    },
+    system: {
       type: Array,
       default: null
     }
@@ -57,8 +61,8 @@ export default {
       play: false,
       // 接收定时器
       timer: null,
-      currentSystemtypeImage: ''
-
+      currentSystemtypeImage: '',
+      systemList: []
     }
   },
   computed: {
@@ -70,21 +74,35 @@ export default {
   },
   created() {
     this.ulList = this.data
-
+    this.systemList = this.system
     if (this.ulList !== null) {
+      this.currentSystemtypeImage = this.ulList[0].imgUrl
       if (this.ulList.length > 1) {
-        this.currentSystemtypeImage = this.ulList[0].imgUrl
-        setInterval(this.startPlay, 3000)
-      } else {
-        this.currentSystemtypeImage = this.ulList[0].imgUrl
+        this.timer = setInterval(this.startPlay, 3000)
       }
     }
-    // Socket.initSocket('equipCount')
   },
   destroyed() { // 页面销毁时清除定时器
     clearInterval(this.timer)
   },
   methods: {
+    onMessage(msg) {
+      clearInterval(this.timer)
+      this.systemList.forEach(cItem => {
+        if (Number(msg.type) === cItem.id) {
+          msg['imgUrl'] = cItem.imgUrl
+          msg['systemName'] = cItem.name
+        }
+      })
+      console.log(msg)
+      console.log('uuulist', this.ulList)
+      this.ulList.splice(0, 0, msg)
+
+      this.currentSystemtypeImage = this.ulList[0].imgUrl
+      if (this.ulList.length > 1) {
+        this.timer = setInterval(this.startPlay, 3000)
+      }
+    },
     /**
      * 显示详情
      */
@@ -104,11 +122,10 @@ export default {
       const that = this
       that.play = true // 开始播放
 
-      that.timer = setTimeout(() => { // 创建并执行定时器
+      setTimeout(() => { // 创建并执行定时器
         that.play = false // 暂停播放
         that.ulList.push(that.ulList[0]) // 将第一条数据塞到最后一个
         that.ulList.shift() // 删除第一条数据
-
         this.currentSystemtypeImage = this.ulList[0].imgUrl
       }, 500)
     },
@@ -116,10 +133,10 @@ export default {
      * 时间格式转换
      */
     dateFormat(date) {
-      return Data.dateDifference(date)
+      var dateFormat = new DateTransformation()
+      return dateFormat.dateDifference(date)
     }
   }
-
 }
 </script>
 

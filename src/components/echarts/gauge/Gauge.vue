@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :id="data.chartId" class="gauge-content" />
+    <div ref="chartId" class="gauge-content" />
   </div>
 </template>
 <script>
@@ -13,15 +13,13 @@ export default {
   },
   data() {
     return {
-      percent: 8.18
+      option: {},
+      mychart: null
     }
   },
   mounted() {
-    if (this.data.onlinePercent) {
-      this.percent = this.data.onlinePercent
-    }
-    var myChart = this.$echarts.init(document.getElementById(this.data.chartId))
-    var option = {
+    this.myChart = this.$echarts.init(this.$refs.chartId)
+    this.option = {
       animation: true,
       series: [{
         type: 'gauge',
@@ -91,7 +89,7 @@ export default {
           color: 'auto'
         },
         data: [{
-          value: this.percent
+          value: 0
         }],
         zlevel: 3
       }, {
@@ -437,27 +435,20 @@ export default {
         ],
         zlevel: 3
       }]
+
     }
-    myChart.setOption(option, true)
-    setInterval(function() {
-      option.series[0].data[0].value = (Math.random() * 4 + 8).toFixed(2)
-      myChart.setOption(option, true)
-    }, 4000)
+    if (this.data.onlinePercent > 0) {
+      this.option.series[0].data[0].value = this.data.onlinePercent
+      this.myChart.setOption(this.option, true)
+    }
+    this.myChart.setOption(this.option, true)
   },
   methods: {
-    // action() {
-    //   setInterval(function() {
-    //     this.option.series[0].data[0].value = (Math.random() * 10).toFixed(2) - 0
-    //     this.myChart.setOption(this.option, true)
-    //   }, 5000)
-    // }
+    onMessage(msg) {
+      this.option.series[0].data[0].value = msg.equipOnlinePrecent
+      this.myChart.setOption(this.option, true)
+    }
   }
 }
 </script>
-
-<style scoped>
-.gauge-content{
-  width: 100%;
-  height: 100%
-}
-</style>
+<style scoped src='./Gauge.css'></style>

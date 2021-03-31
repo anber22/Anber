@@ -106,7 +106,7 @@ export default {
     return {
       activeTab: 1,
       isPasswordData: {
-        userName: '18666121714',
+        userName: '18928058888',
         password: '123456'
       },
       isSMSData: {
@@ -127,12 +127,14 @@ export default {
     },
     // 获取手机号验证码
     async getPhoneCode() {
+      var regular = new Regular()
+
       const param = this.isSMSData.phone
       if (!param) {
         this.$Toast('手机号不能为空')
         return
       }
-      if (!Regular.phone(param)) {
+      if (!regular.phone(param)) {
         this.$Toast('手机号码输入有误')
         return
       }
@@ -159,6 +161,7 @@ export default {
      * 短信登录
      */
     async isSMSLogin() {
+      var regular = new Regular()
       const param = {
         phone: this.isSMSData.phone,
         code: this.isSMSData.code
@@ -167,7 +170,7 @@ export default {
         this.$Toast('账号不能为空')
         return
       }
-      if (!Regular.phone(param.phone)) {
+      if (!regular.phone(param.phone)) {
         this.$Toast('手机号码输入有误')
         return
       }
@@ -191,6 +194,7 @@ export default {
      *密码登录
      */
     async isPasswordLogin() {
+      var regular = new Regular()
       const param = {
         phone: this.isPasswordData.userName,
         password: this.isPasswordData.password,
@@ -200,7 +204,7 @@ export default {
         this.$Toast('账号不能为空')
         return
       }
-      if (!Regular.phone(param.phone)) {
+      if (!regular.phone(param.phone)) {
         this.$Toast('手机号码输入有误')
         return
       }
@@ -224,52 +228,7 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.login-box{
- background-color: #101720;
- height: 100%;
- width: 100%;
- position: fixed;
- background-image: url('@/assets/images/login/bg.png')
-}
-.logo-box{
-  width: 40%;
-  margin: 16% auto;
-}
-.title{
-  font-size: 21px;
-  color: #FFFFFF;
-  text-align: center;
-  margin-bottom: 16px;
-}
-.form-box{
-  color: #fff;
-  padding-left: 6px;
-  padding-top: 18%;
-}
-.form-content{
-  display: flex;
-  border-bottom: 1px #283444 solid;
-}
-.send-code {
-  color: #06F0FE;
-  background-color: transparent;
-  border: none;
-  height: 20px;
-}
-.login-button-box{
-  width: 80%;
-  height: 40px;
-  margin: 0 auto;
-  padding-top: 14%;
-}
-.login-button{
-  width: 100%;
-  height: 100%;
-  border-radius: 0
-}
-</style>
+<style scoped src='./login.css'></style>
 <style>
 .login-box .van-tabs__nav--line{
   border-top: 2px #263447 solid;

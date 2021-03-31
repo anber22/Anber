@@ -1,13 +1,10 @@
 <template>
   <div class="iotApp">
-    <!-- 顶部导航栏 starts -->
-
-    <!-- end -->
     <!-- 顶部条件选择 start -->
     <div class="header-conditions">
       <div class="header-picker">
         <van-dropdown-menu>
-          <van-dropdown-item v-model="thisSubsystemId" :options="subsystemList" @change="changeSystem()" />
+          <van-dropdown-item v-model="thisSubsystemId" :options="subsystemList" @closed="changeSystem()" />
         </van-dropdown-menu>
       </div>
       <div class="header-input">
@@ -21,33 +18,82 @@
     <!-- end -->
     <!-- 内容 start -->
     <div class="iot-content">
-      <van-loading v-show="loadding" size="24px" vertical>
+      <!-- 卡片展示列表 start -->
+      <van-loading v-if="loadding" size="24px" vertical>
         加载中...
       </van-loading>
-      <!-- 卡片展示列表 start -->
       <div v-if="isCard">
-        <div v-if="thisSubsystemId===5 && !loadding " class="show-list">
-          <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','49.9%']" class="physicalUnionApplication-card">
-            <PhysicalUnionApplication :data="item" />
-          </Adaptive>
+        <div v-if="thisSubsystemId===5 && equipInfoList.length>0" class="show-list">
+          <van-list
+            v-model="loading"
+            :finished="finished"
+            finished-text="没有更多了"
+            class="van-clearfix"
+            :immediate-check="false"
+            @load="getEquipInfoList"
+          >
+            <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','49.9%']" class="physicalUnionApplication-card">
+              <PhysicalUnionApplication :data="item" />
+            </Adaptive>
+          </van-list>
         </div>
-        <div v-if="thisSubsystemId===10 && !loadding " class="show-list">
-          <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','77.9%']" class="environmentalMonitoring-card">
-            <EnvironmentalMonitoring :data="item" />
-          </Adaptive>
+        <div v-if="thisSubsystemId===10 && equipInfoList.length>0" class="show-list">
+          <van-list
+            v-model="loading"
+            :finished="finished"
+            finished-text="没有更多了"
+            class="van-clearfix"
+            :immediate-check="false"
+            @load="getEquipInfoList"
+          >
+            <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','77.9%']" class="environmentalMonitoring-card">
+              <EnvironmentalMonitoring :data="item" />
+            </Adaptive>
+          </van-list>
         </div>
-        <div v-if="thisSubsystemId===11 && !loadding " class="show-list">
-          <TowerCraneMonitoring v-for="(item, index) in equipInfoList" :key="index" class="towerCraneMonitoring-card" :data="item" />
+        <div v-if="thisSubsystemId===11 && equipInfoList.length>0" class="show-list">
+          <van-list
+            v-model="loading"
+            :finished="finished"
+            finished-text="没有更多了"
+            class="van-clearfix"
+            :immediate-check="false"
+            @load="getEquipInfoList"
+          >
+            <TowerCraneMonitoring v-for="(item, index) in equipInfoList" :key="index" class="towerCraneMonitoring-card" :data="item" />
+          </van-list>
+        </div>
+
+        <div v-if="equipInfoList.length===0 && !loadding" class="nothing-list">
+          <img src="@/assets/images/public/nothing.png" alt="" class="nothing-img">
+          <div class="nothing-content">
+            无匹配项
+          </div>
         </div>
       </div>
       <!-- end -->
       <!-- 列表卡片 start -->
       <div v-if="!isCard">
-        <div v-if="!loadding" class="show-list">
-          <div v-for="item in equipInfoList" :key="item.index" @click="toDetailInfo(item.equipId)">
-            <Adaptive :data="['100%','31.39%']" class="physicalUnionApplication-list-card">
-              <PhysicalUnionApplicationListCard :data="item" />
-            </Adaptive>
+        <div v-if=" equipInfoList.length>0" class="show-list">
+          <van-list
+            v-model="loading"
+            :finished="finished"
+            finished-text="没有更多了"
+            class="van-clearfix"
+            :immediate-check="false"
+            @load="getEquipInfoList"
+          >
+            <div v-for="item in equipInfoList" :key="item.index" @click="toDetailInfo(item.equipId)">
+              <Adaptive :data="['100%','31.39%']" class="physicalUnionApplication-list-card">
+                <PhysicalUnionApplicationListCard :data="item" />
+              </Adaptive>
+            </div>
+          </van-list>
+        </div>
+        <div v-if="equipInfoList.length===0 && !loadding" class="nothing-list">
+          <img src="@/assets/images/public/nothing.png" alt="" class="nothing-img">
+          <div class="nothing-content">
+            无匹配项
           </div>
         </div>
       </div>
@@ -62,8 +108,10 @@ import PhysicalUnionApplication from 'cmp/equipCard/PhysicalUnionApplication.vue
 import PhysicalUnionApplicationListCard from 'cmp/equipListCard/EquipListCard.vue'
 import EnvironmentalMonitoring from 'cmp/equipCard/EnvironmentalMonitoring.vue'
 import TowerCraneMonitoring from 'cmp/equipCard/TowerCraneMonitoring.vue'
+import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
+import VueDataLoading from 'vue-data-loading'
+
 import Api from '@/api/aiot/iotApp.js'
-import promiseToList from '@/utils/promiseToList'
 
 export default {
   components: {
@@ -74,11 +122,12 @@ export default {
     // 环境监测设备信息卡片
     EnvironmentalMonitoring,
     // 塔机检测设备信息卡片
-    TowerCraneMonitoring
+    TowerCraneMonitoring,
+    VueDataLoading
   },
   data() {
     return {
-
+      loading: false,
       loadding: true,
       // 系统选择下拉菜单
       subsystemList: [
@@ -93,65 +142,114 @@ export default {
       // 查询条件 （这里只有模糊查询）
       queryCondition: '',
       // 设备卡片信息
-      equipInfoList: []
+      equipInfoList: [],
+      page: 0,
+      finished: false
     }
   },
-  mounted() {
+  created() {
     // 渲染页面查询卡片列表片数据
+    if (this.$route.query.systemId) {
+      this.thisSubsystemId = Number(this.$route.query.systemId)
+      console.log('带参跳转')
+    }
     this.getEquipInfoList()
   },
+
   methods: {
     /**
      * 查询
      */
     onSearch(e) {
+      this.page = 0
+      this.finished = false
+      this.loading = false
+      this.equipInfoList = []
       this.getEquipInfoList()
     },
     toDetailInfo(equipId) {
-      console.log('eqid', equipId)
-      this.$router.push({
-        path: '/iotAppDetail',
-        query: {
-          id: equipId
-        }
-      })
+      // this.$router.push({
+      //   path: '/iotAppDetail',
+      //   query: {
+      //     id: equipId
+      //   }
+      // })
     },
     /**
-     * 切换子系统
+     * 输入框内容变化改变
+     */
+    conditionChange(value) {
+      this.queryCondition = value
+    },
+    /**
+     * 切换子系统11
      */
     changeSystem() {
+      this.page = 0
+      this.finished = false
+      this.loading = false
+      this.equipInfoList = []
       this.getEquipInfoList()
     },
     /**
      * 点击切换数据展示形式 （列表||卡片）
      */
     changeListType() {
+      this.finished = false
+
       this.isCard = !this.isCard
     },
+    // infiniteScroll() {
+    //   // 到底触发的事件
+    //   console.log('到底触发的事件')
+    //   this.page++
+    //   // this.$emit('changeData', this.page)
+    // },
+
     /**
      * 获取卡片列表
      */
     async getEquipInfoList() {
+      // this.loading = true
       this.loadding = true
+      let temp = []
+      this.loading = false
       const params = {
         systemType: this.thisSubsystemId,
-        page: 1,
-        size: 99999,
+        page: ++this.page,
+        size: 10,
         conditionStr: (this.queryCondition.length < 1 ? '' : '?condition=' + this.queryCondition)
       }
+
       const res = await Api.equipInfoList(params)
+      const total = res.data.total
+
       if (res.code === 200) {
-        this.equipInfoList = [...res.data.rows]
+        temp = [...res.data.rows]
+        if (params.page > total) {
+          this.finished = true
+          this.loadding = false
+          this.equipInfoList = this.equipInfoList.concat(temp)
+          return
+        }
+        if (temp.length === 0) {
+          console.log('长度为0')
+          this.equipInfoList = temp
+          this.loadding = false
+          this.finished = true
+          return
+        }
       }
 
+      console.log('设备列表', [...res.data.rows])
       // 获取设备列表集合的
-      const ids = this.equipInfoList.map(item => { return item.equipId })
+      const ids = temp.map(item => { return item.equipId })
 
       // 获取设备列表ids对应的未处理事件数
       const hazardCountList = await Api.equipUntreatedEventList(ids)
 
       // 根据设备类型id获取对应的设备类型名称
-      this.equipInfoList = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', this.equipInfoList)
+      temp = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', temp)
       let combined = []
       if (hazardCountList.code === 200) {
         combined = hazardCountList.data.reduce((acc, cur) => {
@@ -160,9 +258,9 @@ export default {
             Object.assign(target, cur)
           }
           return acc
-        }, this.equipInfoList)
+        }, temp)
       }
-      this.equipInfoList = combined
+      temp = combined
 
       // 如果是环境监测或者是塔机监测就需要吧详细数据加载进来
       if (this.thisSubsystemId === 10 || this.thisSubsystemId === 11) {
@@ -184,11 +282,13 @@ export default {
               Object.assign(target, cur)
             }
             return acc
-          }, this.equipInfoList)
+          }, temp)
         }
-        this.equipInfoList = combined
+        temp = combined
       }
-      console.log('设备列表', this.equipInfoList)
+      console.log('设备列表', temp)
+      this.equipInfoList = this.equipInfoList.concat(temp)
+
       this.loadding = false
     }
   }
@@ -203,7 +303,6 @@ export default {
   position: fixed;
   height: 100%;
   width: 100%;
-
   background-color: #101720;
 
 }
@@ -212,7 +311,7 @@ export default {
   padding: 0px 3% 13% 3%;
   height: 80%;
   width: 94%;
-  overflow: scroll;
+   overflow: scroll;
 }
 .physicalUnionApplication-card{
   margin-top: 5%;
@@ -275,8 +374,7 @@ export default {
   align-items: center;
   box-sizing: border-box ;
   /* padding: 10px 12px; */
-    background-color: transparent;
-
+  background-color: transparent;
 }
 .iotApp .van-search__content{
   background-color: #101720;
@@ -287,18 +385,16 @@ export default {
   background-color:  #101720 ;
 }
 .iotApp .van-dropdown-menu__title{
-
-font-size: 15px;
-font-family: PingFang SC;
-font-weight: 400;
-color: #8BA3C2;
+  font-size: 15px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #8BA3C2;
 }
 .iotApp .van-field__control{
   font-size: 15px;
-font-family: PingFang SC;
-font-weight: 400;
+  font-family: PingFang SC;
+  font-weight: 400;
   color: #8BA3C2
-
 }
 .iotApp .van-cell{
   color: rgba(139, 163, 194, 1);
@@ -321,5 +417,29 @@ font-size: 12px
 }
 .iotApp .van-dropdown-item__option--active .van-dropdown-item__icon{
   color: rgba(139, 163, 194, 1);
+}
+.nothing-list{
+  width: 79%;
+  height: 100%;
+  position: fixed;
+  text-align: center;
+  line-height: 300%;
+  margin-left: 10%;
+}
+.nothing-img{
+  width: 90px;
+  height: 85px;
+  vertical-align: middle;
+  margin-top: 60%;
+}
+.nothing-content{
+  width: 78%;
+  height:auto;
+  font-size: 14px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #6F85A2;
+  margin-left: 6%;
+  margin-top: 2%;
 }
 </style>

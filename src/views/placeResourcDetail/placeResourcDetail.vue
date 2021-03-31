@@ -123,7 +123,7 @@
 <script>
 import Api from '@/api/placeResource/placeResource'
 import PlaceDetailCard from 'cmp/placeDetailCard/PlaceDetailCard'
-import promiseToList from '@/utils/promiseToList'
+import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 
 export default {
   components: {
@@ -151,7 +151,8 @@ export default {
       if (res.code === 200) {
         this.placeResourcDetail = res.data
       }
-      this.placeResourcDetail = await promiseToList.conversion('placeType', 'placeTypeId', 'placeTypeName', [this.placeResourcDetail])
+      console.log('网点详情')
+      this.placeResourcDetail = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', [this.placeResourcDetail])
       this.placeResourcDetail = this.placeResourcDetail[0]
       this.loading = false
     },
@@ -167,99 +168,4 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.placeResourcDetail{
-  width: 100%;
-  height: calc(100% - 46px);
-  background-color: #101720;
-}
-.placeResourcDetail-box{
-  width: 100%;
-  height: auto;
-  background-color: #101720;
-}
-.placeResourcDetail-content{
-  width: 92%;
-  margin: 0 4%;
-  overflow: hidden;
-}
-.title{
-  font-size: 20px;
-  color: #B9CEE9;
-  padding-top: 20px;
-}
-.text-box{
-  padding-top: 5px;
-  margin-left: 10px
-}
-.text-box .text-item{
-  color: #6F85A2;
-  font-size: 12px;
-  margin-top: 16px;
-}
-.text-box .text-item::after{
-  display: block;
-  clear: both;
-  content: ''
-}
-.text-box .text-item .name{
-  min-width: 60px;
-  display: inline-block;
-  margin-right: 20px;
-  text-align: right
-}
-.text-box .text-item .placeType{
-  color: #55A4E7;
-  font-size: 10px;
-  display: inline-block;
-  padding: 3px 10px;
-  border: 1px #54A4E7 solid;
-  border-radius: 2px;
-  transform: scale(0.8);
-  -webkit-transform: scale(0.8);
-  background: #0d2031;
-}
-.text-box .text-item .describe{
-  color: #B9CEE9
-}
-.right-icon{
-  vertical-align: middle;
-  float: right;
-  margin-right: 10px;
-}
-.photo{
-  margin-right: 3%;
-  margin-top: 1%;
-  margin-bottom: 3%;
-}
-.iotTitle{
-  /* 注释责任人跟网点图片 padding用26px;放开责任人跟网点图片后用回50px */
-  /* padding-top: 50px; */
-  padding-top: 26px;
-  padding-bottom: 22px;
-}
-.PlaceDetailCard{
-  margin-bottom: 4%
-}
-.phone-box{
-  float: left;
-  width: 78%;
-}
-.phone-name{
-  float: left;
-}
-.PlaceDetailCard-bind-equip{
-  border: 1px #4D628F dashed;
-  box-sizing: border-box;
-  margin-top: 4%;
-  margin-bottom: 8%;
-  font-size: 16px;
-  color: #B9CEE9;
-  text-align: center
-}
-.PlaceDetailCard-bind-equip p{
-  padding: 2.8%;
-  margin-right: 4px;
-}
-</style>
+<style scoped src='./placeResourcDetail.css'></style>

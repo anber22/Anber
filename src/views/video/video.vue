@@ -1,17 +1,24 @@
 <template>
   <div class="video-view">
-    <van-search v-model="searchValue" class="search-item" background="rgba(16, 23, 32, 1)" placeholder="请输入搜索关键词" />
+    <van-search v-model="searchValue" class="search-item" background="rgba(16, 23, 32, 1)" placeholder="设备安装位置/IMEI码" @search="onSearch" />
     <div class="video-content">
-      <van-collapse v-model="activeName" accordion :border="false" @change="changePlace">
-        <van-loading v-if="!placeList" size="24px" vertical>
-          加载中...
+      <van-collapse v-model="activeName" accordion :border="false" @change="changeCollapse">
+        <van-loading v-if="!placeList" size="18px" vertical>
+          <span style="color: #6F85A2">加载中...</span>
         </van-loading>
-        <van-collapse-item v-for="(item, index) in placeList" :key="index" :title="item.placeName + '('+item.count+')'" :name="item.placeId">
-          <div v-if="item.equips">
+        <van-collapse-item v-for="(item, index) in placeList" v-show="item.count" :key="index" :title="item.placeName + '('+item.count+')'" :name="index">
+          <van-loading v-if="!equipsFlag" size="18px" vertical>
+            <span style="color: #6F85A2">加载中...</span>
+          </van-loading>
+          <div v-if="equipsFlag">
             <Video v-for="(iitem, iindex) in item.equips" :key="iindex" :data="iitem" :placename="item.placeName" />
           </div>
         </van-collapse-item>
       </van-collapse>
+      <div v-show="emptyFlag" class="emptyImg">
+        <img src="@/assets/images/public/empty.png" alt="">
+        <p>无匹配项</p>
+      </div>
     </div>
   </div>
 </template>
@@ -19,99 +26,111 @@
 <script>
 import Video from 'cmp/video/Video'
 import videoApi from '@/api/video'
+import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
+
 import { mapGetters } from 'vuex'
-import promiseToList from '@/utils/promiseToList'
 export default {
   components: {
     Video
   },
   data() {
     return {
-      activeName: null,
+      activeName: 0,
       placeList: [],
-      searchValue: null
+      searchValue: '',
+      // 无匹配项显示
+      emptyFlag: false,
+      // 判断有没有equips网点下的设备列表
+      equipsFlag: false
     }
   },
   computed: {
-    ...mapGetters(['equipType'])
+    ...mapGetters(['equipType', 'activeCollapseName'])
   },
   mounted() {
     /**
      * 获取网点列表，智慧视觉传对应的智慧视觉子系统的id:5
      */
-    this.getVideoPlaceList(5)
+    this.getVideoPlaceList(5, '')
+    this.activeName = this.activeCollapseName
   },
   methods: {
     /**
      * 设备类型关联的场所列表
      */
-    async getVideoPlaceList(type) {
-      const res = await videoApi.videoPlaceList(type)
+    async getVideoPlaceList(type, condition) {
+      const param = {
+        type: type,
+        condition: ''
+      }
+      if (condition) {
+        param.condition = '?condition=' + condition
+      }
+      const res = await videoApi.videoPlaceList(param)
       if (res.code === 200) {
         this.placeList = [...res.data]
+        const flag = this.placeList.filter(item => item.count)
+        if (!flag.length) {
+          this.emptyFlag = true
+        } else {
+          this.emptyFlag = false
+        }
         // this.activeName = this.placeList[0].placeId
         // 默认展开第一列（获取第一列数据）
         // this.getVideoPlaceEquipList(this.placeList[0].placeId, 5)
         this.placeList.forEach(item => {
-          this.getVideoPlaceEquipList(item.placeId, 5)
+          this.getVideoPlaceEquipList(item.placeId, 5, condition)
         })
       }
     },
     /**
      * 切换面板时触发,用选中的placeId获取该网点下的设备列表
      */
-    changePlace(id) {
-      if (id) {
-        this.placeList.forEach((item, index) => {
-          if (!Reflect.has(item, 'equips') && id === item.placeId) {
-            this.getVideoPlaceEquipList(id, 5)
-            return true
-          }
-        })
-      }
-    },
+    // changePlace(id) {
+    //   if (id) {
+    //     this.placeList.forEach((item, index) => {
+    //       if (!Reflect.has(item, 'equips') && id === item.placeId) {
+    //         this.getVideoPlaceEquipList(id, 5)
+    //         return true
+    //       }
+    //     })
+    //   }
+    // },
     /**
      * 获取场所关联的设备列表
      */
-    async getVideoPlaceEquipList(id, type) {
+    async getVideoPlaceEquipList(id, type, condition) {
       const param = {
         id: id,
-        type: type
+        type: type,
+        condition: ''
+      }
+      if (condition) {
+        param.condition = '?condition=' + condition
       }
       const res = await videoApi.videoPlaceEquipList(param)
       if (res.code === 200) {
         // 去vuex获取该网点的设备类型名称，放到数组集合里
-        res.data = await promiseToList.conversion('equipType', 'equipType', 'equipTypeName', res.data)
-
-        for (const i in this.placeList) {
-          if (param.id === this.placeList[i].placeId) {
-            this.$set(this.placeList[i], 'equips', res.data)
+        res.data = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', res.data)
+        this.placeList.map(item => {
+          if (param.id === item.placeId) {
+            this.$set(item, 'equips', res.data)
+            this.equipsFlag = true
           }
-        }
+        })
       }
+    },
+    onSearch(e) {
+      this.getVideoPlaceList(5, e)
+    },
+    // 切换面板时触发
+    changeCollapse(e) {
+      this.$store.commit('SET_ACTIVE_COLLAPSE_NAME', e)
     }
   }
 }
 </script>
-
-<style scoped>
-.video-view{
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(16, 23, 32, 1);
-  color: #fff;
-  min-height: 100%;
-}
-.video-content{
-  position: fixed;
-  width: 92%;
-
-  height: 90%;
-  overflow: scroll;
-  padding: 0 4%;
-}
-</style>
+<style scoped src='./video.css'></style>
 <style>
 .video-view .van-search__content{
   background-color: rgba(26, 33, 43, 1);

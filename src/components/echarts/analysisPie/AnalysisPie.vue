@@ -1,6 +1,6 @@
 <template>
   <div :style="`zoom:${zoom};transform:scale(${1/zoom});transform-origin: 0 0;`">
-    <div :id="data.chartId" class="pie-content" />
+    <div ref="chartId" class="pie-content" />
   </div>
 </template>
 
@@ -38,8 +38,8 @@ export default {
       } else {
         _data = this.data.data
       }
-      var myChart = this.$echarts.init(document.getElementById(this.data.chartId))
-      var option = {
+      const myChart = this.$echarts.init(this.$refs.chartId)
+      const option = {
         color: this.data.color,
         tooltip: {
           show: true,
@@ -53,7 +53,7 @@ export default {
         },
         legend: {
           show: true,
-          top: '56%',
+          top: '60%',
           left: 'center',
           type: 'scroll', // 图例超出可翻页
           pageIconColor: '#A3D5FF', // 可点击翻页按钮颜色
@@ -62,6 +62,7 @@ export default {
             color: '#FFFFFF',
             fontSize: 8
           },
+          selectedMode: false,
           pageIconSize: 12, // 翻页按钮大小
           orient: 'vertical',
           padding: 0,
@@ -89,7 +90,7 @@ export default {
             name: '',
             type: 'pie',
             radius: ['30%', '50%'],
-            center: ['50%', '26%'],
+            center: ['50%', '30%'],
             avoidLabelOverlap: false,
             label: {
               show: false,
@@ -115,12 +116,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.pie-content{
-  width: 100%;
-  height: 100%;
-}
-.AnalysisPie-echarts-tooltip{
-  z-index: 9
-}
-</style>
+<style scoped src='./AnalysisPie.css'></style>
