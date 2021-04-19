@@ -1,30 +1,29 @@
 <template>
   <div class="iotApp-detail">
     <van-tabs v-model="active" swipeable color="#06F0FE" title-active-color="#06F0FE" title-inactive-color="#8BA3C2" background="rgba(16, 23, 32, 1)" sticky ellipsis @change="tabChange">
-      <van-tab v-for="item in tabList" :key="item.index" :title="item.title" class="tab-content">
-        <div v-if="item.index===0">
-          <div class="iotApp-detail-title">
-            <img src="@/assets/images/home/title-icon.png" alt="" class="iotApp-detail-title-icon">
-            设备信息
-          </div>
-          <InfoRow v-for="(rowItem,index) in rowList" :key="index" :data="rowItem" />
-        </div>
-        <div v-show="item.index===1">
-          <div class="demo-carousel">
-            <VideoPlayer
-              ref="equipDetailVideoPlayer"
-              class="vjs-custom-skin"
-              :options="playerOptions"
-              @play="onPlayerPlay($event)"
-              @ready="onPlayerReady($event)"
-            />
-          </div>
-        </div>
-        <div v-if="item.index===2">
-          日志
-        </div>
-      </van-tab>
-    </van-tabs>
+      <van-tab v-for="item in tabList" :key="item.index" :title="item.title" class="tab-content"></van-tab>
+    </van-tabs>   
+    <div v-show="active===0">
+      <div class="iotApp-detail-title">
+        <img src="@/assets/images/home/title-icon.png" alt="" class="iotApp-detail-title-icon">
+        设备信息
+      </div>
+      <InfoRow v-for="(rowItem,index) in rowList" :key="index" :data="rowItem" />
+    </div>
+    <div v-show="active===1">
+      <div class="demo-carousel">
+        <VideoPlayer
+          ref="equipDetailVideoPlayer"
+          class="vjs-custom-skin"
+          :options="playerOptions"
+          @play="onPlayerPlay($event)"
+          @ready="onPlayerReady($event)"
+        />
+      </div>
+    </div>
+    <div v-show="active===2" style="color:#fff;text-align: center;padding-top: 50px;">
+      暂无日志
+    </div>
   </div>
 </template>
 
@@ -79,36 +78,18 @@ export default {
   },
   computed: {
     player() {
-      console.log('dom', this.$refs.equipDetailVideoPlayer[0].player)
-      return this.$refs.equipDetailVideoPlayer[0].player
+      return this.$refs.equipDetailVideoPlayer.player
     }
   },
   mounted() {
     this.equipId = this.$route.query.id
     this.getEquipDetailInfo()
-    setTimeout(() => {
-      let source, videoUrl
-
-      if (Reflect.has(Config, 'videoUrl')) {
-        videoUrl = Config.videoUrl
-      }
-
-      if (VideoUUID.match(this.equipInfo.imei)) {
-        source = videoUrl + '/mag/hls/' + VideoUUID.match(this.equipInfo.imei) + '/0/live.m3u8'
-      }
-      console.log('视频路径', source)
-      this.playVideo(source)
-    }, 1000)
   },
   methods: {
     tabChange(e) {
-      console.log('切换tab', e)
-      console.log('imei', this.equipInfo)
-      if (e === 1) {
-        console.log('查看视频')
-      } else {
-        return
-      }
+      // console.log('切换tab', e)
+      // console.log('imei', this.equipInfo)
+      this.active = e
     },
     async getEquipDetailInfo() {
       const res = await Api.equipDtailInfo(this.equipId)
@@ -171,12 +152,21 @@ export default {
         }
       ]
       this.equipInfo = equipDetailInfo
+
+      let source, videoUrl
+      if (Reflect.has(Config, 'videoUrl')) {
+        videoUrl = Config.videoUrl
+      }
+      if (VideoUUID.match(this.equipInfo.imei)) {
+        source = videoUrl + '/mag/hls/' + VideoUUID.match(this.equipInfo.imei) + '/0/live.m3u8'
+      }
+      // console.log('视频路径', source)
+      this.playVideo(source)
     },
     onPlayerPlay(player) {
       this.player.play()
     },
     onPlayerReady(player) {
-      console.log('准备播放', this.$refs.equipDetailVideoPlayer[0].player, player)
       this.player.play()
     },
     playVideo(source) {
@@ -216,9 +206,14 @@ export default {
   font-size: 20px;
   margin-left: 8.5%;
   margin-top: 5%;
+  color: white;
 }
 .demo-carousel{
   width: 100%;
+  height: 290px;
+}
+.demo-carousel .vjs-custom-skin .video-js {
+  width: 100% !important;
   height: 100%;
 }
 </style>
