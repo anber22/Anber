@@ -75,7 +75,7 @@
     </Adaptive>
     <!-- 详细数据 start -->
     <div class="tEquipDetailCard-for-box">
-      <EquipDetailCard v-for="item in format(equipDetailCardList) " :key="item.index" :layout="item" class="tEquipDetailCard-box" />
+      <EquipDetialCard v-for="item in format(equipDetailCardList) " :key="item.index" :layout="item" class="tEquipDetailCard-box" />
     </div>
     <!-- end -->
   </div>
@@ -87,11 +87,11 @@
 
 <script>
 import EquipStatus from 'cmp/equipStatus/EquipStatus'
-import EquipDetailCard from 'cmp/equipDetailCard/EquipDetailCard'
+import EquipDetialCard from 'cmp/equipDetialCard/EquipDetialCard'
 export default {
   components: {
     EquipStatus,
-    EquipDetailCard
+    EquipDetialCard
   },
   props: {
     data: {

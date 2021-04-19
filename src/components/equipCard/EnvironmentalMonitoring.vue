@@ -67,7 +67,7 @@
         </div>
       </div>
       <div>
-        <EquipDetailCard v-for="item in equipDetailCardList" :key="item.index" class="equipDetailCard-box" :layout="item" :content="data" />
+        <EquipDetialCard v-for="item in equipDetailCardList" :key="item.index" class="equipDetailCard-box" :layout="item" :content="data" />
       </div>
     </div>
     <!-- end -->
@@ -79,12 +79,13 @@
 </template>
 
 <script>
+import EquipDetialCard from 'cmp/equipDetialCard/EquipDetialCard'
 import EquipStatus from 'cmp/equipStatus/EquipStatus'
-import EquipDetailCard from 'cmp/equipDetailCard/EquipDetailCard'
+
 export default {
   components: {
     EquipStatus,
-    EquipDetailCard
+    EquipDetialCard
   },
   props: {
     data: {

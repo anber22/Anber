@@ -42,6 +42,6 @@ export default {
 }
 </script>
 
-<style src='./EquipDetailCard.css'>
+<style src='./EquipDetialCard.css'>
 
 </style>

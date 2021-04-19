@@ -1,6 +1,6 @@
 <template>
   <div class="iotApp-detail">
-    <van-tabs v-model="active" swipeable color="#06F0FE" title-active-color="#06F0FE" title-inactive-color="#8BA3C2" background="rgba(16, 23, 32, 1)" sticky ellipsis>
+    <van-tabs v-model="active" swipeable color="#06F0FE" title-active-color="#06F0FE" title-inactive-color="#8BA3C2" background="rgba(16, 23, 32, 1)" sticky ellipsis @change="tabChange">
       <van-tab v-for="item in tabList" :key="item.index" :title="item.title" class="tab-content">
         <div v-if="item.index===0">
           <div class="iotApp-detail-title">
@@ -9,8 +9,16 @@
           </div>
           <InfoRow v-for="(rowItem,index) in rowList" :key="index" :data="rowItem" />
         </div>
-        <div v-if="item.index===1">
-          视频
+        <div v-show="item.index===1">
+          <div class="demo-carousel">
+            <VideoPlayer
+              ref="equipDetailVideoPlayer"
+              class="vjs-custom-skin"
+              :options="playerOptions"
+              @play="onPlayerPlay($event)"
+              @ready="onPlayerReady($event)"
+            />
+          </div>
         </div>
         <div v-if="item.index===2">
           日志
@@ -24,12 +32,18 @@
 
 import InfoRow from '@/components/infoRows/InfoRows'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
+import VideoPlayer from 'cmp/videoPlayer/VideoPlayer'
+import VideoUUID from '@/utils/videoUUID'
+import Config from '/config.json'
 
 import Api from '@/api/aiot/iotApp.js'
 export default {
+  name: 'EquipDeail',
   components: {
-    InfoRow
+    InfoRow,
+    VideoPlayer
   },
+
   data() {
     return {
       active: 0,
@@ -47,15 +61,55 @@ export default {
           title: '绑定日志'
         }
       ],
+      playerOptions: {
+        autoplay: true,
+        controls: true,
+        muted: true,
+        controlBar: {
+          timeDivider: false,
+          durationDisplay: false
+        }
+        // ,
+        // poster: require('@/assets/images/home/banner-2.jpg')
+      },
       rowList: [],
-      equipId: 0
+      equipId: 0,
+      equipInfo: {}
+    }
+  },
+  computed: {
+    player() {
+      console.log('dom', this.$refs.equipDetailVideoPlayer[0].player)
+      return this.$refs.equipDetailVideoPlayer[0].player
     }
   },
   mounted() {
     this.equipId = this.$route.query.id
     this.getEquipDetailInfo()
+    setTimeout(() => {
+      let source, videoUrl
+
+      if (Reflect.has(Config, 'videoUrl')) {
+        videoUrl = Config.videoUrl
+      }
+
+      if (VideoUUID.match(this.equipInfo.imei)) {
+        source = videoUrl + '/mag/hls/' + VideoUUID.match(this.equipInfo.imei) + '/0/live.m3u8'
+      }
+      console.log('视频路径', source)
+      this.playVideo(source)
+    }, 1000)
   },
   methods: {
+    tabChange(e) {
+      console.log('切换tab', e)
+      console.log('imei', this.equipInfo)
+      if (e === 1) {
+        console.log('查看视频')
+      } else {
+        return
+      }
+    },
     async getEquipDetailInfo() {
       const res = await Api.equipDtailInfo(this.equipId)
 
@@ -104,9 +158,10 @@ export default {
         },
         {
           name: '所属网点:',
-
-          content: equipDetailInfo.placeName,
-
+          content: {
+            name: equipDetailInfo.placeName,
+            placeId: equipDetailInfo.placeId
+          },
           typed: 'place'
         },
         {
@@ -115,6 +170,26 @@ export default {
           typed: 'info'
         }
       ]
+      this.equipInfo = equipDetailInfo
+    },
+    onPlayerPlay(player) {
+      this.player.play()
+    },
+    onPlayerReady(player) {
+      console.log('准备播放', this.$refs.equipDetailVideoPlayer[0].player, player)
+      this.player.play()
+    },
+    playVideo(source) {
+      const video = {
+        withCredentials: false,
+        type: 'application/x-mpegurl',
+        src: source
+      }
+      console.log('播放器', this.player)
+      this.player.reset() // in IE11 (mode IE10) direct usage of src() when <src> is already set, generated errors,
+      this.player.src(video)
+      // this.player.load()
+      this.player.play()
     }
   }
 }
@@ -141,5 +216,9 @@ export default {
   font-size: 20px;
   margin-left: 8.5%;
   margin-top: 5%;
+}
+.demo-carousel{
+  width: 100%;
+  height: 100%;
 }
 </style>

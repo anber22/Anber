@@ -168,12 +168,12 @@ export default {
       this.getEquipInfoList()
     },
     toDetailInfo(equipId) {
-      // this.$router.push({
-      //   path: '/iotAppDetail',
-      //   query: {
-      //     id: equipId
-      //   }
-      // })
+      this.$router.push({
+        path: '/iotAppDetail',
+        query: {
+          id: equipId
+        }
+      })
     },
     /**
      * 输入框内容变化改变
