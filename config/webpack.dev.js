@@ -29,6 +29,13 @@ module.exports = merge(base, {
         secure: false, // 目标服务器地址是否是安全协议
 
       },
+      "/wc":{
+        target: "http://47.106.116.164:8017",
+        // target: "http://47.106.116.164:8017",
+        pathRewrite: { "^/wc": "" },
+        changeOrigin: true,
+        secure: false, // 目标服务器地址是否是安全协议
+      },
       "/video": {
         target: "http://221.4.210.181:6713",
         // target: "http://47.106.116.164:8017",
