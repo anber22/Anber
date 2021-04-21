@@ -108,8 +108,24 @@ export default new VueRouter({
             showFooter: true,
             title: '隐患详情'
           }
+        },
+        { path: '/propertyPlate',
+          name: 'PropertyPlate',
+          component: () => import('@/views/plate/plate'),
+          meta: {
+            showFooter: true,
+            title: '物业看板'
+          }
+        }, { path: '/safetyCommitteePlate',
+          name: 'SafetyCommitteePlate',
+          component: () => import('@/views/plate/plate'),
+          meta: {
+            showFooter: true,
+            title: '安委看板'
+          }
         }]
     },
+
     {
       path: '/login',
       component: () => import('@/views/login/login'),

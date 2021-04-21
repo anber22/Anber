@@ -141,6 +141,10 @@
     - statisticsDetail.css
     - statisticsDetail.vue
 
+  - plate               #看板 物业 or 安委
+    - plate.css
+    - plate.vue
+  
   ###### 缺新增、编辑等等。。
   
 

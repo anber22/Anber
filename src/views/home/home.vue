@@ -108,6 +108,28 @@
             </Adaptive>
             <p>扫一扫</p>
           </div>
+          <div @click="goJump('/propertyPlate')">
+            <Adaptive class="module-item" :data="['75.4%', '75.4%']">
+              <van-image
+                fit="contain"
+                :src="require('/src/assets/images/home/video.png')"
+                :show-error="false"
+                :show-loading="false"
+              />
+            </Adaptive>
+            <p>物业看板</p>
+          </div>
+          <div @click="goJump('/safetyCommitteePlate')">
+            <Adaptive class="module-item" :data="['75.4%', '75.4%']">
+              <van-image
+                fit="contain"
+                :src="require('/src/assets/images/home/video.png')"
+                :show-error="false"
+                :show-loading="false"
+              />
+            </Adaptive>
+            <p>安委看板</p>
+          </div>
         </div>
         <!-- end -->
         <div class="realtime-events">

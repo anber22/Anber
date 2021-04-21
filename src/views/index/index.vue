@@ -165,8 +165,8 @@ export default {
       lineDataFlag: false,
       departCountList: [],
       departCountData: {},
-      // 事件数、故障数统计双折线图
-      eventData: {
+
+      eventData: { // 事件数、故障数统计双折线图
         equipType: [],
         analysisTimelineData: {
           xAxis: {
@@ -183,8 +183,8 @@ export default {
         },
         analysisTimelineFlag: false
       },
-      // 隐患分析近一月近一年全部数据
-      monitorAnalysisData: {
+
+      monitorAnalysisData: { // 隐患分析近一月近一年全部数据
         equipType: [],
         dateType: [
           {
@@ -208,10 +208,8 @@ export default {
         monitorAnalysisFlag: false
       },
       monitorAnalysisLegendData: [],
-      // 监测分析当前选中的时间类型 默认近1月
-      analysisDateType: 1,
-      // 监测分析当前选中的系统类型 默认智慧视觉
-      analysisSystemType: 5,
+      analysisDateType: 1, // 监测分析当前选中的时间类型 默认近1月
+      analysisSystemType: 5, // 监测分析当前选中的系统类型 默认智慧视觉
       hiddenDangerList: [],
       onlinePercent: 0,
       analysisHeight: 134,
@@ -261,6 +259,9 @@ export default {
     Socket.unsubscribe('Gauge')
   },
   methods: {
+    /**
+     * 监听socket消息
+     */
     onMessage(msg) {
       console.log('智慧高投页面收到消息', msg)
       this.equipCountings = msg.equipCount === null ? this.equipCountings : parseInt(msg.equipCount).toLocaleString()
@@ -268,7 +269,9 @@ export default {
       console.log('设备数', this.equipCountings)
       console.log('网点数', this.branchesCountings)
     },
-
+    /**
+     * 初始化socket
+     */
     initSockets() {
       if (this.$refs.Warning === undefined) {
         setTimeout(() => {
