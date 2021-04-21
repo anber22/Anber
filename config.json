@@ -3,110 +3,65 @@
     "desc":"路由",
     "routes": {
       "desc":"页面路由",
-      "Dashboard": {
-        "desc":"主页",
+      "Tabbar": {
+        "desc":"tab页面",
         "permissions": ["1", "2", "4"]
       },
-      "Index":{
-        "desc":"主页",
-        "permissions": ["0"]
+      "Home": {
+        "desc":"首页",
+        "permissions": ["1", "2", "4"]
       },
-      "AiotApp": {
-        "desc":"智慧物联",
-        "permissions": ["0"]
+      "HomepageScreen": {
+        "desc":"智慧高投",
+        "permissions": ["1", "2", "4"]
+      },
+      "PersonInfo": {
+        "desc":"我的",
+        "permissions": ["1", "2", "4"]
+      },
+      "Navbar": {
+        "desc":"Navbar",
+        "permissions": ["1", "2", "4"]
       },
       "iotApp": {
         "desc":"物联应用",
-        "permissions": ["0"]
+        "permissions": ["1", "2", "4"]
       },
-      "equipResourc": {
-        "desc":"设备资源",
-        "permissions": ["9"]
+      "iotAppDetail": {
+        "desc":"设备详情",
+        "permissions": ["1", "2", "4"]
       },
-      "placeResourc": {
-        "desc":"网点资源",
-        "permissions": ["0"]
-      },
-      "WisdomVisual":{
-        "desc":"智慧视觉",
-        "permissions": ["0"]
-      },
-      "Video": {
-        "desc":"智慧视觉",
-        "permissions": ["0"]
-      },
-      "Analysis": {
-        "desc":"研判分析",
-        "permissions": ["0"]
-      },
-      "analysis": {
-        "desc":"隐患分析",
-        "permissions": ["0"]
+      "placeResource": {
+        "desc":"网点管理",
+        "permissions": ["1", "2", "4"]
       },
       "statistics": {
-        "desc":"隐患统计",
-        "permissions": ["0"]
+        "desc":"隐患管理",
+        "permissions": ["1", "2", "4"]
       },
-      "Management": {
-        "desc":"运维管理",
-        "permissions": ["0"]
+      "WisdomVisual": {
+        "desc":"智慧视觉",
+        "permissions": ["1", "2", "4"]
       },
-      "departmentManage": {
-        "desc":"辖区管理",
-        "permissions": ["0"]
+      "videoPlayer": {
+        "desc":"视频播放",
+        "permissions": ["1", "2", "4"]
       },
-      "unitManage": {
-        "desc":"单位管理",
-        "permissions": ["0"]
+      "placeResourcDetail": {
+        "desc":"网点详情",
+        "permissions": ["1", "2", "4"]
       },
-      "roleManage": {
-        "desc":"角色管理",
-        "permissions": ["0"]
+      "HazardDetail": {
+        "desc":"隐患详情",
+        "permissions": ["1", "2", "4"]
       },
-      "unitManage": {
-        "desc":"账号管理",
-        "permissions": ["0"]
+      "PropertyPlate": {
+        "desc":"物业看板",
+        "permissions": ["1", "2", "4"]
       },
-      "System": {
-        "desc":"系统设置",
-        "permissions": ["0"]
-      },
-      "departmentManage": {
-        "desc":"参数设置",
-        "permissions": ["0"]
-      },
-              
-      "equipmentBrand": {
-        "desc":"设备品牌",
-        "permissions": ["0"]
-      },
-      "internetOfThingsPlatform": {
-        "desc":"物流网平台",
-        "permissions": ["0"]
-      },
-      "simOperators": {
-        "desc":"SIM卡运营商",
-        "permissions": ["0"]
-      },
-      "nodeTypes": {
-        "desc":"网点类型",
-        "permissions": ["0"]
-      },
-      "pushLevelSetting": {
-        "desc":"推送等级设置",
-        "permissions": ["0"]
-      },
-      "pushManage": {
-        "desc":"推送管理",
-        "permissions": ["0"]
-      },
-      "feedbackManage": {
-        "desc":"反馈管理",
-        "permissions": ["0"]
-      },
-      "logManage": {
-        "desc":"日志管理",
-        "permissions": ["0"]
+      "SafetyCommitteePlate": {
+        "desc":"安委看板",
+        "permissions": ["1", "2", "4"]
       }
     },
     "components": {

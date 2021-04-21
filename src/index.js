@@ -13,7 +13,7 @@ import store from './store'
 // import video from 'video.js'
 // import 'video.js/dist/video-js.css'
 // import hls from 'videojs-contrib-hls'
-
+import '@/permission'
 // 这里模拟拥有登陆后的状态, 触发权限过滤
 setToken('4776dd6b-ff18-4428-8488-4022e48389d0')
 import { Loading } from 'vant'
