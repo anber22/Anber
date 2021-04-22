@@ -26,7 +26,7 @@ export const constantRouterMap = [
 // TODO: 动态路由, 需要判断权限 (或者不配置)
 export const asyncRouterMap = [
   {
-    path: '/', 
+    path: '/',
     component: Tabbar,
     name: 'Tabbar',
     meta: { permissions: [] },
@@ -80,7 +80,7 @@ export const asyncRouterMap = [
         path: '/hazard',
         name: 'statistics',
         component: () => import('@/views/hazard/hazard'),
-        meta: { title: '隐患管理' , permissions: [] }
+        meta: { title: '隐患管理', permissions: [] }
       },
       {
         path: '/video',
@@ -111,7 +111,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/plate/plate'),
         meta: { showFooter: true, title: '物业看板', permissions: [] }
       },
-      { 
+      {
         path: '/safetyCommitteePlate',
         name: 'SafetyCommitteePlate',
         component: () => import('@/views/plate/plate'),
@@ -124,7 +124,7 @@ export const asyncRouterMap = [
     component: () => import('@/views/login/login'),
     meta: {}
   }
-  
+
 ]
 // TODO: 使用 config.json影响动态路由的内容
 // 读取 config.json中动态路由的名字
