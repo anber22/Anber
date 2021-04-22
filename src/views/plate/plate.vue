@@ -26,7 +26,7 @@
           </van-dropdown-menu>
         </div>
       </div>
-      <SimpleForm />
+      <SimpleForm :data="eventList" class="simpleForm" />
     </div>
     <!-- end -->
     <!-- 预警趋势 start -->
@@ -47,6 +47,7 @@
           设备统计
         </div>
       </div>
+      <SimpleForm :data="equipList" class="simpleForm" />
     </div>
     <!-- end -->
   </div>
@@ -74,7 +75,129 @@ export default {
           text: '全部'
         }
       ],
-      timeType: 1
+      timeType: 1,
+      equipList: {
+        column: [
+          {
+            name: '网点名称',
+            key: 'placeName',
+            width: '34%',
+            text: 'left',
+            color: '#9CB6CD'
+          },
+          {
+            name: '设备总数',
+            key: 'equipCount',
+            width: '20%',
+            text: 'center',
+            color: '#9CB6CD'
+
+          },
+          {
+            name: '在线数',
+            key: 'onlineCount',
+            width: '20%',
+            text: 'center',
+            color: '#11CAD9'
+
+          },
+          {
+            name: '离线数',
+            key: 'outlineCount',
+            width: '20%',
+            text: 'center',
+            color: '#F0FF76'
+
+          }
+        ],
+        row: [
+          {
+            placeName: '港湾一号',
+            equipCount: '100',
+            onlineCount: '98',
+            outlineCount: '2'
+          },
+          {
+            placeName: '惠景合园',
+            equipCount: '100',
+            onlineCount: '98',
+            outlineCount: '2'
+          },
+          {
+            placeName: '惠景慧园',
+            equipCount: '100',
+            onlineCount: '98',
+            outlineCount: '2'
+          },
+          {
+            placeName: '民营科技园',
+            equipCount: '100',
+            onlineCount: '98',
+            outlineCount: '2'
+          },
+          {
+            placeName: '惠景海岸',
+            equipCount: '100',
+            onlineCount: '98',
+            outlineCount: '2'
+          },
+          {
+            placeName: '创新发展大厦',
+            equipCount: '100',
+            onlineCount: '98',
+            outlineCount: '2'
+          }
+        ]
+      },
+      eventList: {
+        column: [
+          {
+            name: '事件类型',
+            key: 'eventTypeName',
+            width: '34%',
+            text: 'left',
+            color: '#9CB6CD'
+          },
+          {
+            name: '事件总数',
+            key: 'eventCount',
+            width: '20%',
+            text: 'center',
+            color: '#9CB6CD'
+
+          },
+          {
+            name: '已处理',
+            key: 'dealCount',
+            width: '20%',
+            text: 'center',
+            color: '#11CAD9'
+
+          },
+          {
+            name: '未处理',
+            key: 'unDealCount',
+            width: '20%',
+            text: 'center',
+            color: '#E3372F'
+
+          }
+        ],
+        row: [
+          {
+            eventTypeName: '周界越界监测',
+            eventCount: '100',
+            dealCount: '98',
+            unDealCount: '2'
+          },
+          {
+            eventTypeName: '消防通道占用监测',
+            eventCount: '100',
+            dealCount: '97',
+            unDealCount: '3'
+          }
+        ]
+      }
     }
   },
   created() {
@@ -91,11 +214,19 @@ export default {
 <style scoped>
 .plate{
   background-color: #0E1820;
-  width: 100%;
+  width: 92%;
   height: 100%;
   position: fixed;
   color: #ffffff;
   padding: 15px;
+}
+.event-statistics{
+  width: 100%;
+  height: auto;
+}
+.simpleForm{
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .title-style{
   width: 1.2%;
@@ -117,7 +248,7 @@ export default {
   margin-left: 15px;
 }
 .title-box{
-  height: 30px;
+  height: 25px;
   width: 100%;
 }
 </style>

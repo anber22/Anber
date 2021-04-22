@@ -2,15 +2,14 @@
 <template>
   <!-- 看板表格 -->
   <div class="simpleForm">
-    <div class="table-header">
-      <div v-for="(colItem,index) in data.column" :key="index" class="header-item">
+    <div v-for="(colItem,colIndex) in data.column" :key="colIndex" class="colum" :style="'width:'+colItem.width+';text-align:'+colItem.text+';color:'+colItem.color">
+      <div class="header-item">
         {{ colItem.name }}
-        <div v-for="(rowItem,index) in data.row" :key="index" class="content-item">
-          {{ rowItem.value }}
-        </div>
+      </div>
+      <div v-for="(rowItem,rowIndex) in data.row" :key="rowIndex" class="content-item">
+        {{ rowItem[colItem.key] }}
       </div>
     </div>
-    <div class="table-content" />
   </div>
 </template>
 
@@ -21,7 +20,7 @@ export default {
   },
   props: {
     data: {
-      type: Array,
+      type: Object,
       default: null
     }
   },
@@ -31,7 +30,7 @@ export default {
     }
   },
   created() {
-
+    console.log('进入到组件', this.data)
   },
   methods: {
 
@@ -41,8 +40,30 @@ export default {
 
 <style scoped>
 .simpleForm{
-  width: 100%;
+  width: 94%;
   height: auto;
-  background-color: aqua
+  /* background-color: aqua; */
+  font-size: 12px;
+  display: block;
+  padding-left: 20px;
+  box-shadow: 0px 0px 7px 0px rgba(0, 133, 247, 0.4) inset;
+}
+.colum{
+  width: 23%;
+  height: auto;
+  display: inline-block;
+}
+.header-item{
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  display: inline-block;
+}
+.content-item{
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  display: inline-block;
+  border-bottom: 1px solid #282F3F;
 }
 </style>
