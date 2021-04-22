@@ -34,8 +34,13 @@
       <div class="title-box">
         <div class="title-style" />
         <div class="title-name">
-          预警趋势
+          预警趋势<span>(近30天)</span>
         </div>
+      </div>
+      <div class="warning-line">
+        <Adaptive :data="['100%','56%']" style=" overflow: hidden; ">
+          <MaxLine :data="lineData" style=" overflow: hidden; " />
+        </Adaptive>
       </div>
     </div>
     <!-- end -->
@@ -55,9 +60,12 @@
 
 <script>
 import SimpleForm from 'cmp/simpleForm/SimpleForm'
+import MaxLine from 'cmp/echarts/mixLine/MixLine'
+import Date from '@/utils/dateTransformation'
 export default {
   components: {
-    SimpleForm
+    SimpleForm,
+    MaxLine
   },
   data() {
     return {
@@ -197,13 +205,33 @@ export default {
             unDealCount: '3'
           }
         ]
-      }
+      },
+      lineData: {
+        title: '预警数',
+        name: '预警数',
+        xAxis: {
+          data: ['04.01','04.02','04.03','04.04','04.05','04.06','04.07','04.08','04.09','04.10','04.11','04.12','04.13','04.14','04.15','04.16','04.17','04.18','04.19','04.20','04.21','04.22',]
+        },
+        yAxis: {
+          splitLineColor: 'rgba(76,200,172, 0.3)'
+        },
+        series: {
+          data: ['8','8','8','8','8','8','17','17','28','19','10','10','20','12','12','12','12','12','14','15','10','20',],
+          smooth: false
+        }
+      },
     }
   },
   created() {
+    this.test()
 
   },
   methods: {
+    test () {
+    let date = new Date()
+    // console.log('时间----', date.dataFormatNo())
+
+    },
     onChangeDateType(value) {
       this.$emit('timeType', value)
     }
@@ -247,9 +275,17 @@ export default {
   color: #B9CEE9;
   margin-left: 15px;
 }
+.title-name span{
+  margin-left: 10px;
+  font-size: 15px;
+  font-weight: 400;
+}
 .title-box{
   height: 25px;
   width: 100%;
+}
+.warning-line {
+  margin: 30px 0;
 }
 </style>
 <style >
