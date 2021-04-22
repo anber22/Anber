@@ -166,7 +166,7 @@ export default {
   },
   data() {
     return {
-      dateType: [
+      dateType: [ // 时间下拉框值
         {
           value: 1,
           text: '近1月'
@@ -181,8 +181,8 @@ export default {
         }
       ],
       timeType: 1,
-      equipList: {
-        column: [
+      equipList: { // 设备统计列表
+        column: [ // 列头
           {
             name: '网点名称',
             key: 'placeName',
@@ -215,7 +215,7 @@ export default {
 
           }
         ],
-        row: [
+        row: [ // 数据行
           {
             placeName: '港湾一号',
             equipCount: '100',
@@ -254,8 +254,8 @@ export default {
           }
         ]
       },
-      eventList: {
-        column: [
+      eventList: { // 事件统计列表
+        column: [ // 列头
           {
             name: '事件类型',
             key: 'eventTypeName',
@@ -288,7 +288,7 @@ export default {
 
           }
         ],
-        row: [
+        row: [ // 数据行
           {
             eventTypeName: '周界越界监测',
             eventCount: '100',
@@ -303,7 +303,7 @@ export default {
           }
         ]
       },
-      lineData: {
+      lineData: { // 折线统计图数据
         title: '预警数',
         name: '预警数',
         xAxis: {
@@ -318,7 +318,7 @@ export default {
         }
 
       },
-      warnList: [
+      warnList: [ // 预警数据数组
         {
           name: '今日预警',
           value: 3
