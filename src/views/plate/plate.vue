@@ -440,7 +440,7 @@ export default {
 }
 .illegal-parking{
   display: inline;
-  font-size: 15px;
+  font-size: 12px;
   font-family: PingFang SC;
   font-weight: 100;
   color: #FF1743;
@@ -449,15 +449,15 @@ export default {
   transform: translateY(5px);
 }
 .alert-icon{
-  width: 24px;
-  height: 23px;
+  width: 22px;
+  height: 21px;
 }
 .park-address{
   width: 110px;
   /* height: 100%; */
   line-height: 15px;
   margin : 0px 20px;
-  font-size: 14px;
+  font-size: 12px;
   font-family: PingFang SC;
   font-weight: 100;
   color: #B9CEE9;
@@ -469,7 +469,7 @@ export default {
   color: #B9CEE9;
   font-weight: 100;
   display: inline-block;
-  font-size: 15px;
+  font-size: 13px;
 }
 .equipList-detail{
   width: 330px;
@@ -486,19 +486,19 @@ export default {
   text-align: center;
 }
 .equipList-detail-item-title{
-    height: 9px;
-    width: 65px;
-    font-size: 16px;
-    font-family: SourceHanSansCN;
-    font-weight: 400;
-    text-align: left;
-    line-height: 2px;
-    padding-left: 12px;
-    color: #EFF0F1;
-    margin-top: 28%;
-    margin-bottom: 0px;
-    background: linear-gradient(125deg,rgba(16, 233, 255, 0) 8px,#00B5ED 9%,transparent 56%) left;
-    background-size: 100% 100%;
+  height: 9px;
+  width: 65px;
+  font-size: 16px;
+  font-family: SourceHanSansCN;
+  font-weight: 400;
+  text-align: left;
+  line-height: 2px;
+  padding-left: 12px;
+  color: #EFF0F1;
+  margin-top: 28%;
+  margin-bottom: 0px;
+  background: linear-gradient(125deg,rgba(16, 233, 255, 0) 8px,#00B5ED 9%,transparent 56%) left;
+  background-size: 100% 100%;
   /* margin-left: 15px */
 }
 .equipList-detail-item-value{
@@ -526,7 +526,7 @@ export default {
 }
 .simpleForm{
   margin-top: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 .title-style{
   width: 1.2%;
@@ -541,7 +541,7 @@ export default {
   width: 60%;
   height: 30px;
   display: inline-block;
-  font-size: 20px;
+  font-size: 18px;
   font-family: PingFang SC;
   font-weight: 500;
   color: #B9CEE9;

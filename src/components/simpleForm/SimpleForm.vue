@@ -55,8 +55,8 @@ export default {
 }
 .header-item{
   width: 100%;
-  height: 35px;
-  line-height: 35px;
+  height: 40px;
+  line-height: 40px;
   display: inline-block;
 }
 .content-item{
