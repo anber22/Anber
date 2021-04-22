@@ -102,7 +102,6 @@
 <script>
 import SimpleForm from 'cmp/simpleForm/SimpleForm'
 import MaxLine from 'cmp/echarts/mixLine/MixLine'
-import Date from '@/utils/dateTransformation'
 export default {
   components: {
     SimpleForm,
@@ -119,7 +118,7 @@ export default {
   },
   data() {
     return {
-      dateType: [
+      dateType: [ // 时间下拉框值
         {
           value: 1,
           text: '近1月'
@@ -134,8 +133,8 @@ export default {
         }
       ],
       timeType: 1,
-      equipList: {
-        column: [
+      equipList: { // 设备统计列表
+        column: [ // 列头
           {
             name: '网点名称',
             key: 'placeName',
@@ -168,7 +167,7 @@ export default {
 
           }
         ],
-        row: [
+        row: [ // 数据行
           {
             placeName: '港湾一号',
             equipCount: '100',
@@ -207,8 +206,8 @@ export default {
           }
         ]
       },
-      eventList: {
-        column: [
+      eventList: { // 事件统计列表
+        column: [ // 列头
           {
             name: '事件类型',
             key: 'eventTypeName',
@@ -241,7 +240,7 @@ export default {
 
           }
         ],
-        row: [
+        row: [ // 数据行
           {
             eventTypeName: '周界越界监测',
             eventCount: '100',
@@ -256,22 +255,22 @@ export default {
           }
         ]
       },
-      lineData: {
+      lineData: { // 折线统计图数据
         title: '预警数',
         name: '预警数',
         xAxis: {
-          data: ['04.01', '04.02', '04.03', '04.04', '04.05', '04.06', '04.07', '04.08', '04.09', '04.10', '04.11', '04.12', '04.13', '04.14', '04.15', '04.16', '04.17', '04.18', '04.19', '04.20', '04.21', '04.22']
+          data: ['03.25', '03.26', '03.27', '03.28', '03.29', '03.30', '03.31', '04.01', '04.02', '04.03', '04.04', '04.05', '04.06', '04.07', '04.08', '04.09', '04.10', '04.11', '04.12', '04.13', '04.14', '04.15', '04.16', '04.17', '04.18', '04.19', '04.20', '04.21', '04.22', '04.23']
         },
         yAxis: {
           splitLineColor: 'rgba(76,200,172, 0.3)'
         },
         series: {
-          data: ['8', '8', '8', '8', '8', '8', '17', '17', '28', '19', '10', '10', '20', '12', '12', '12', '12', '12', '14', '15', '10', '20'],
+          data: ['8', '8', '8', '8', '8', '8', '17', '17', '28', '19', '10', '10', '20', '12', '12', '12', '12', '12', '14', '15', '10', '20', '20', '20', '20', '20', '20', '20', '20', '20'],
           smooth: false
         }
 
       },
-      warnList: [
+      warnList: [ // 预警数据数组
         {
           name: '今日预警',
           value: 3,
@@ -332,7 +331,6 @@ export default {
         this.timer = setInterval(this.startPlay, 3000)
       }
     }
-    this.test()
   },
   destroyed() {
     clearInterval(this.timer)
@@ -349,10 +347,6 @@ export default {
         console.log('删除之后', this.violationsList)
       }, 500)
     },
-    // test() {
-    //   // const date = new Date()
-    //   // console.log('时间----', date.dataFormatNo())
-    // },
     onChangeDateType(value) {
       this.$emit('timeType', value)
     }
@@ -563,7 +557,7 @@ export default {
   width: 100%;
 }
 .warning-line {
-  margin: 30px 0;
+  margin: 20px 0;
 }
 .equipment-statistics{
   height: auto;
