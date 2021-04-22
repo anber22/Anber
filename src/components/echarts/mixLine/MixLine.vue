@@ -78,8 +78,8 @@ export default {
         },
         grid: {
           show: false,
-          left: '3%',
-          right: '4%',
+          left: '2%',
+          right: '2.5%',
           bottom: '8%',
           top: this.data.name === '隐患数'? '28%' : '5%',
           containLabel: true
