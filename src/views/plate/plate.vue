@@ -39,7 +39,7 @@
           <!-- ！违规停放 -->
           <div class="illegal-parking">
             <img class="alert-icon" src="@/assets/images/alert.png" alt="">
-            违规停放
+            {{router==='PropertyPlate'? '违规停放': '未佩戴安全帽'}}
           </div>
           <!-- 地址 -->
           <div class="park-address">
@@ -289,43 +289,120 @@ export default {
       ],
       violationsList: [
         {
-          address: '港湾一号湾78湾栋间',
+          address: '港湾一号湾7湾8栋间',
           time: '8分钟前'
         },
         {
-          address: '港湾一号湾29湾栋间',
+          address: '港湾一号湾2湾9栋间',
           time: '8分钟前'
         },
         {
-          address: '港湾一号湾91湾栋间',
+          address: '港湾一号湾9湾1栋间',
           time: '10分钟前'
         },
         {
-          address: '港湾一号湾92湾栋间',
+          address: '港湾一号湾9湾2栋间',
           time: '59分钟前'
         },
         {
-          address: '港湾一号湾93湾栋间',
+          address: '港湾一号湾9湾3栋间',
           time: '49分钟前'
         },
         {
-          address: '港湾一号湾94湾栋间',
+          address: '港湾一号湾9湾4栋间',
           time: '39分钟前'
         },
         {
-          address: '港湾一号湾95湾栋间',
+          address: '港湾一号湾9湾5栋间',
           time: '29分钟前'
         },
         {
-          address: '港湾一号湾96湾栋间',
+          address: '港湾一号湾9湾6栋间',
           time: '19分钟前'
         }
       ],
-      play: false
+      play: false,
+      router: 'PropertyPlate'
 
     }
   },
   created() {
+    this.router = this.$router.history.current.name
+    if (this.$router.history.current.name !== 'PropertyPlate') {
+      this.equipList.row = [
+        {
+          placeName: '唐家第一工业园',
+          equipCount: '100',
+          onlineCount: '98',
+          outlineCount: '2'
+        },
+        {
+          placeName: '金发工地',
+          equipCount: '100',
+          onlineCount: '98',
+          outlineCount: '2'
+        },
+        {
+          placeName: '银溪雅园工地',
+          equipCount: '100',
+          onlineCount: '97',
+          outlineCount: '3'
+        },
+        {
+          placeName: '惠景海岸工地',
+          equipCount: '100',
+          onlineCount: '98',
+          outlineCount: '2'
+        },
+        {
+          placeName: '金地第一工业园',
+          equipCount: '100',
+          onlineCount: '98',
+          outlineCount: '2'
+        },
+        {
+          placeName: '后环工地',
+          equipCount: '100',
+          onlineCount: '97',
+          outlineCount: '3'
+        }
+      ]
+    this.violationsList = [
+        {
+          address: '金发工地正门',
+          time: '6分钟前'
+        },
+        {
+          address: '金发工地侧门',
+          time: '8分钟前'
+        },
+        {
+          address: '金发工地后门',
+          time: '10分钟前'
+        },
+        {
+          address: '金发工地正门',
+          time: '59分钟前'
+        },
+        {
+          address: '金发工地后门',
+          time: '49分钟前'
+        },
+        {
+          address: '金发工地正门',
+          time: '29分钟前'
+        },
+        {
+          address: '金发工地正侧门',
+          time: '29分钟前'
+        },
+        {
+          address: '金发工地正门',
+          time: '9分钟前'
+        }
+      ]
+
+    }
     if (this.violationsList !== null) {
       if (this.violationsList.length > 1) {
         this.timer = setInterval(this.startPlay, 3000)
@@ -344,7 +421,6 @@ export default {
 
         that.violationsList.unshift(that.violationsList[that.violationsList.length - 1])
         that.violationsList.splice(that.violationsList.length - 1, 1)
-        console.log('删除之后', this.violationsList)
       }, 500)
     },
     onChangeDateType(value) {
