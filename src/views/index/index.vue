@@ -151,6 +151,7 @@ export default {
       maxPieDataFlag: false,
       lineData: {
         title: '隐患分析（近15天)',
+        name: '隐患数',
         xAxis: {
           data: []
         },
@@ -428,6 +429,7 @@ export default {
           this.lineData.series.data.push(item.count)
         })
         this.lineDataFlag = true
+        console.log('隐患分析--详细--', this.lineData)
       }
     },
     /**
