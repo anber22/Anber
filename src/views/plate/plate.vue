@@ -4,10 +4,17 @@
   <div class="plate">
     <!-- 预警统计 start -->
     <!-- 今日预警 本周预警 本月预警 -->
+
     <div class="warning-statistics">
-      <p>预警统计</p>
-      <div v-for="(item , index) in warnList" :key="index" class="equipList-detail">
-        <div class="equipList-detail-item">
+      <div class="title-box">
+        <div class="title-style" />
+        <div class="title-name">
+          预警统计
+        </div>
+      </div>
+
+      <div class="equipList-detail">
+        <div v-for="(item , index) in warnList" :key="index" class="equipList-detail-item">
           <p class="equipList-detail-item-value color-light-blue">
             {{ item.value }}
           </p>
@@ -74,11 +81,11 @@
           预警趋势<span>(近30天)</span>
         </div>
       </div>
-      <!-- <div class="warning-line">
+      <div class="warning-line">
         <Adaptive :data="['100%','56%']" style=" overflow: hidden; ">
           <MaxLine :data="lineData" style=" overflow: hidden; " />
         </Adaptive>
-      </div> -->
+      </div>
     </div>
     <!-- end -->
     <!-- 设备统计 start -->
@@ -89,7 +96,7 @@
           设备统计
         </div>
       </div>
-      <!-- <SimpleForm :data="equipList" class="simpleForm" /> -->
+      <SimpleForm :data="equipList" class="simpleForm" />
     </div>
     <!-- end -->
   </div>
@@ -100,7 +107,6 @@ import SimpleForm from 'cmp/simpleForm/SimpleForm'
 import MaxLine from 'cmp/echarts/mixLine/MixLine'
 import Date from '@/utils/dateTransformation'
 export default {
-  name: 'Adaptive',
   components: {
     SimpleForm,
     MaxLine
@@ -136,7 +142,7 @@ export default {
           {
             name: '网点名称',
             key: 'placeName',
-            width: '34%',
+            width: '35%',
             text: 'left',
             color: '#9CB6CD'
           },
@@ -209,7 +215,7 @@ export default {
           {
             name: '事件类型',
             key: 'eventTypeName',
-            width: '34%',
+            width: '35%',
             text: 'left',
             color: '#9CB6CD'
           },
@@ -266,6 +272,7 @@ export default {
           data: ['8', '8', '8', '8', '8', '8', '17', '17', '28', '19', '10', '10', '20', '12', '12', '12', '12', '12', '14', '15', '10', '20'],
           smooth: false
         }
+
       },
       warnList: [
         {
@@ -315,21 +322,21 @@ export default {
     clearInterval(this.timer)
   },
   methods: {
-    startPlay() {
-      const that = this
-      that.play = true
-      setTimeout(() => {
-        that.play = false
-        that.ulList.push(that.ulList[0])
-        that.ulList.shift()
-        // var a = that.ulList.pop(that.ulList[length])
-        // that.ulList.unshift(a)
-      }, 500)
-    },
-    test() {
-      // const date = new Date()
-      // console.log('时间----', date.dataFormatNo())
-    },
+    // startPlay() {
+    //   const that = this
+    //   that.play = true
+    //   setTimeout(() => {
+    //     that.play = false
+    //     that.ulList.push(that.ulList[0])
+    //     that.ulList.shift()
+    //     // var a = that.ulList.pop(that.ulList[length])
+    //     // that.ulList.unshift(a)
+    //   }, 500)
+    // },
+    // test() {
+    //   // const date = new Date()
+    //   // console.log('时间----', date.dataFormatNo())
+    // },
     onChangeDateType(value) {
       this.$emit('timeType', value)
     }
@@ -339,11 +346,13 @@ export default {
 
 <style scoped>
 .plate{
-
-  width: 100%;
+  background-color: #0E1820;
+  width: 92%;
   height: 100%;
   position: fixed;
-  background-color: #101720;
+  color: #ffffff;
+  overflow: scroll;
+  padding: 15px;
 }
 .warning-statistics{
   width:100%;
@@ -381,21 +390,21 @@ export default {
   line-height: 50px;
 }
 .alert-list h2{
-    display: inline-block;
-    height: 11px;
-    width: 70px;
-    font-size: 17px;
-    font-family: SourceHanSansCN;
-    font-weight: 400;
-    text-align: left;
-    line-height: 5px;
-    padding-left: 12px;
-    margin-left: 13px;
-    color: #EFF0F1;
-    margin-top: 7%;
-    margin-bottom: 0px;
-    background: linear-gradient(125deg, rgba(16, 233, 255, 0) 8px,#00B5ED 9%,transparent 81%) left;
-    background-size: 100% 100%;
+  display: inline-block;
+  height: 11px;
+  width: 70px;
+  font-size: 17px;
+  font-family: SourceHanSansCN;
+  font-weight: 400;
+  text-align: left;
+  line-height: 5px;
+  padding-left: 12px;
+  margin-left: 13px;
+  color: #EFF0F1;
+  margin-top: 7%;
+  margin-bottom: 0px;
+  background: linear-gradient(125deg, rgba(16, 233, 255, 0) 8px,#00B5ED 9%,transparent 81%) left;
+  background-size: 100% 100%;
 }
 .alert-list p{
   float: right;
@@ -502,13 +511,14 @@ export default {
   position: fixed;
   color: #ffffff;
   padding: 15px;
+  overflow: scroll;
 }
 .event-statistics{
   width: 100%;
   height: auto;
 }
 .simpleForm{
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 10px;
 }
 .title-style{
@@ -542,14 +552,19 @@ export default {
 .warning-line {
   margin: 30px 0;
 }
+.equipment-statistics{
+  height: auto;
+  width: 100%;
+  margin-bottom: 90px;
+}
 </style>
 <style >
 .plate .right-select{
   color: #8BA3C2;
   font-size: 15px;
-      width: 90px;
-    float: right;
-  /* padding-right: 18px */
+  width: 75px;
+  float: right;
+  padding-top: 5px;
 }
 .plate .right-select{
   color: #8BA3C2;
@@ -634,15 +649,6 @@ export default {
 .plate .van-dropdown-menu__item{
   justify-content: left
 }
-/* option样式 */
-/* .plate .van-cell{
-  background-color: #101720;
-  width: 100%;
-  font-size: 18px;
-  color: rgba(128, 146, 161, 1);
-  text-align: center;
-  padding: 6px 10px;
-} */
 .plate .right-select .van-cell{
   background-color: #101720;
   width: 100%;
@@ -675,6 +681,6 @@ export default {
 .plate .right-select .van-dropdown-item{
   left: unset;
   width: 135px;
-  right: 10px;
+  right: 15px;
 }
 </style>
