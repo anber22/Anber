@@ -89,7 +89,7 @@ export default {
           {
             name: '网点名称',
             key: 'placeName',
-            width: '34%',
+            width: '35%',
             text: 'left',
             color: '#9CB6CD'
           },
@@ -162,7 +162,7 @@ export default {
           {
             name: '事件类型',
             key: 'eventTypeName',
-            width: '34%',
+            width: '35%',
             text: 'left',
             color: '#9CB6CD'
           },
@@ -210,27 +210,25 @@ export default {
         title: '预警数',
         name: '预警数',
         xAxis: {
-          data: ['04.01','04.02','04.03','04.04','04.05','04.06','04.07','04.08','04.09','04.10','04.11','04.12','04.13','04.14','04.15','04.16','04.17','04.18','04.19','04.20','04.21','04.22',]
+          data: ['04.01', '04.02', '04.03', '04.04', '04.05', '04.06', '04.07', '04.08', '04.09', '04.10', '04.11', '04.12', '04.13', '04.14', '04.15', '04.16', '04.17', '04.18', '04.19', '04.20', '04.21', '04.22']
         },
         yAxis: {
           splitLineColor: 'rgba(76,200,172, 0.3)'
         },
         series: {
-          data: ['8','8','8','8','8','8','17','17','28','19','10','10','20','12','12','12','12','12','14','15','10','20',],
+          data: ['8', '8', '8', '8', '8', '8', '17', '17', '28', '19', '10', '10', '20', '12', '12', '12', '12', '12', '14', '15', '10', '20'],
           smooth: false
         }
-      },
+      }
     }
   },
   created() {
     this.test()
-
   },
   methods: {
-    test () {
-    let date = new Date()
-    // console.log('时间----', date.dataFormatNo())
-
+    test() {
+      const date = new Date()
+      // console.log('时间----', date.dataFormatNo())
     },
     onChangeDateType(value) {
       this.$emit('timeType', value)
@@ -247,13 +245,14 @@ export default {
   position: fixed;
   color: #ffffff;
   padding: 15px;
+  overflow: scroll;
 }
 .event-statistics{
   width: 100%;
   height: auto;
 }
 .simpleForm{
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 10px;
 }
 .title-style{
@@ -287,14 +286,19 @@ export default {
 .warning-line {
   margin: 30px 0;
 }
+.equipment-statistics{
+  height: auto;
+  width: 100%;
+  margin-bottom: 90px;
+}
 </style>
 <style >
 .plate .right-select{
   color: #8BA3C2;
   font-size: 15px;
-      width: 90px;
-    float: right;
-  /* padding-right: 18px */
+  width: 75px;
+  float: right;
+  padding-top: 5px;
 }
 .plate .right-select{
   color: #8BA3C2;
@@ -379,15 +383,6 @@ export default {
 .plate .van-dropdown-menu__item{
   justify-content: left
 }
-/* option样式 */
-/* .plate .van-cell{
-  background-color: #101720;
-  width: 100%;
-  font-size: 18px;
-  color: rgba(128, 146, 161, 1);
-  text-align: center;
-  padding: 6px 10px;
-} */
 .plate .right-select .van-cell{
   background-color: #101720;
   width: 100%;
@@ -420,6 +415,6 @@ export default {
 .plate .right-select .van-dropdown-item{
   left: unset;
   width: 135px;
-  right: 10px;
+  right: 15px;
 }
 </style>
