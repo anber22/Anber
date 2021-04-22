@@ -14,8 +14,8 @@
       </div>
 
       <div class="equipList-detail">
-        <div v-for="(item , index) in warnList" :key="index" class="equipList-detail-item">
-          <p class="equipList-detail-item-value color-light-blue">
+        <div v-for="(item , index) in warnList" :key="index" class="equipList-detail-item" :style=" 'color:'+item.color">
+          <p>
             {{ item.value }}
           </p>
           <p class="equipList-detail-item-title">
@@ -31,12 +31,11 @@
       </div>
       <!-- 违规停放列表 -->
       <ul class="vio-list">
-        <!-- <li
-          v-for="index in ulList"
+        <li
+          v-for="(item,index) in violationsList"
           :key="index"
           :class="!index && play?'toUp':''"
-        > -->
-        <div class="violations" v-for="(item,index) in violationsList" :key="index">
+        >
           <!-- ！违规停放 -->
           <div class="illegal-parking">
             <img class="alert-icon" src="@/assets/images/alert.png" alt="">
@@ -44,15 +43,13 @@
           </div>
           <!-- 地址 -->
           <div class="park-address">
-            {{item.address}}
+            {{ item.address }}
           </div>
           <!-- 时间 -->
           <div class="violations-time">
-            {{item.time}}
+            {{ item.time }}
           </div>
-        </div>
-
-        <!-- </li> -->
+        </li>
       </ul>
     </div>
     <!-- end -->
@@ -277,62 +274,81 @@ export default {
       warnList: [
         {
           name: '今日预警',
-          value: 3
+          value: 3,
+          color: '#46FFEB'
         },
         {
           name: '本周预警',
-          value: 22
+          value: 22,
+          color: '#F7FF74'
         },
         {
           name: '本月预警',
-          value: 142
+          value: 142,
+          color: '#FF3C3C'
         }
       ],
       violationsList: [
         {
-          address:'港湾一号湾78湾栋间',
-          time:'8分钟前'
+          address: '港湾一号湾78湾栋间',
+          time: '8分钟前'
         },
         {
-          address:'港湾一号湾29湾栋间',
-          time:'8分钟前'
+          address: '港湾一号湾29湾栋间',
+          time: '8分钟前'
         },
         {
-          address:'港湾一号湾9湾栋间',
-          time:'10分钟前'
+          address: '港湾一号湾91湾栋间',
+          time: '10分钟前'
         },
         {
-          address:'港湾一号湾9湾栋间',
-          time:'9分钟前'
+          address: '港湾一号湾92湾栋间',
+          time: '59分钟前'
+        },
+        {
+          address: '港湾一号湾93湾栋间',
+          time: '49分钟前'
+        },
+        {
+          address: '港湾一号湾94湾栋间',
+          time: '39分钟前'
+        },
+        {
+          address: '港湾一号湾95湾栋间',
+          time: '29分钟前'
+        },
+        {
+          address: '港湾一号湾96湾栋间',
+          time: '19分钟前'
         }
-      ]
+      ],
+      play: false
+
     }
   },
   created() {
-    // this.ulList = this.data
-    // this.systemList = this.system
-    // if (this.ulList !== null) {
-    //   if (this.ulList.length > 1) {
-    //     this.timer = setInterval(this.startPlay, 3000)
-    //   }
-    // }
-    // this.test()
+    if (this.violationsList !== null) {
+      if (this.violationsList.length > 1) {
+        this.timer = setInterval(this.startPlay, 3000)
+      }
+    }
+    this.test()
   },
   destroyed() {
     clearInterval(this.timer)
   },
   methods: {
-    // startPlay() {
-    //   const that = this
-    //   that.play = true
-    //   setTimeout(() => {
-    //     that.play = false
-    //     that.ulList.push(that.ulList[0])
-    //     that.ulList.shift()
-    //     // var a = that.ulList.pop(that.ulList[length])
-    //     // that.ulList.unshift(a)
-    //   }, 500)
-    // },
+    startPlay() {
+      const that = this
+      that.play = true
+      setTimeout(() => {
+        that.play = false
+
+        that.violationsList.unshift(that.violationsList[that.violationsList.length - 1])
+        that.violationsList.splice(that.violationsList.length - 1, 1)
+        console.log('删除之后', this.violationsList)
+      }, 500)
+    },
     // test() {
     //   // const date = new Date()
     //   // console.log('时间----', date.dataFormatNo())
@@ -430,34 +446,36 @@ export default {
 }
 .illegal-parking{
   display: inline;
-  font-size: 16px;
+  font-size: 15px;
   font-family: PingFang SC;
   font-weight: 100;
   color: #FF1743;
-
 }
 .illegal-parking img{
   transform: translateY(5px);
 }
 .alert-icon{
-  width: 25px;
-  height: 25px;
+  width: 24px;
+  height: 23px;
 }
 .park-address{
   width: 110px;
   /* height: 100%; */
   line-height: 15px;
-  margin-top: 17.5px;
-  font-size: 15px;
+  margin : 0px 20px;
+  font-size: 14px;
   font-family: PingFang SC;
   font-weight: 100;
   color: #B9CEE9;
   white-space: normal;
   word-break: break-all;
+  display: inline-block;
 }
 .violations-time{
   color: #B9CEE9;
   font-weight: 100;
+  display: inline-block;
+  font-size: 15px;
 }
 .equipList-detail{
   width: 330px;
@@ -471,6 +489,7 @@ export default {
   height: 50px;
   display: inline-block;
   padding: 5px 14px;
+  text-align: center;
 }
 .equipList-detail-item-title{
     height: 9px;
@@ -497,14 +516,8 @@ export default {
   text-align: center;
   margin-top: 12%;
 }
-.equipList-color-light-blue{
-  color: #46FFEB;
-}
-.color-light-yellow{
-  color: #F7FF74;
-}
+
 .color-light-red{
-  color:#FF3C3C;
   background-color: #0E1820;
   width: 92%;
   height: 100%;
@@ -557,6 +570,33 @@ export default {
   width: 100%;
   margin-bottom: 90px;
 }
+.toUp {
+  margin-top: 55px; /*key code*/
+  transition: all 1s; /*key code*/
+}
+.vio-list{
+  list-style: none;
+  width: 100%;
+  text-align: center;
+  overflow: hidden; /*key code*/
+  height: 280px; /*key code*/
+  padding: 0;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.vio-list li{
+  text-align: center;
+  background-image: url(@/assets/images/alert-bcimg.png);
+  margin-bottom: 10px;
+  height: 60px;
+  line-height: 60px;
+  background-size: 100% 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding:0px 13px;
+}
+
 </style>
 <style >
 .plate .right-select{
