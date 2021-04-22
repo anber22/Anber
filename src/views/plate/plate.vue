@@ -29,7 +29,7 @@
           :key="index"
           :class="!index && play?'toUp':''"
         > -->
-        <div class="violations">
+        <div class="violations" v-for="(item,index) in violationsList" :key="index">
           <!-- ！违规停放 -->
           <div class="illegal-parking">
             <img class="alert-icon" src="@/assets/images/alert.png" alt="">
@@ -37,58 +37,14 @@
           </div>
           <!-- 地址 -->
           <div class="park-address">
-            港湾一号湾29湾栋间
+            {{item.address}}
           </div>
           <!-- 时间 -->
           <div class="violations-time">
-            8分钟前
+            {{item.time}}
           </div>
         </div>
-        <div class="violations">
-          <!-- ！违规停放 -->
-          <div class="illegal-parking">
-            <img class="alert-icon" src="@/assets/images/alert.png" alt="">
-            违规停放
-          </div>
-          <!-- 地址 -->
-          <div class="park-address">
-            港湾一号湾29湾栋间
-          </div>
-          <!-- 时间 -->
-          <div class="violations-time">
-            8分钟前
-          </div>
-        </div>
-        <div class="violations">
-          <!-- ！违规停放 -->
-          <div class="illegal-parking">
-            <img class="alert-icon" src="@/assets/images/alert.png" alt="">
-            违规停放
-          </div>
-          <!-- 地址 -->
-          <div class="park-address">
-            港湾一号湾29湾栋间
-          </div>
-          <!-- 时间 -->
-          <div class="violations-time">
-            8分钟前
-          </div>
-        </div>
-        <div class="violations">
-          <!-- ！违规停放 -->
-          <div class="illegal-parking">
-            <img class="alert-icon" src="@/assets/images/alert.png" alt="">
-            违规停放
-          </div>
-          <!-- 地址 -->
-          <div class="park-address">
-            港湾一号湾29湾栋间
-          </div>
-          <!-- 时间 -->
-          <div class="violations-time">
-            8分钟前
-          </div>
-        </div>
+
         <!-- </li> -->
       </ul>
     </div>
@@ -323,6 +279,24 @@ export default {
         {
           name: '本月预警',
           value: 142
+        }
+      ],
+      violationsList: [
+        {
+          address:'港湾一号湾78湾栋间',
+          time:'8分钟前'
+        },
+        {
+          address:'港湾一号湾29湾栋间',
+          time:'8分钟前'
+        },
+        {
+          address:'港湾一号湾9湾栋间',
+          time:'10分钟前'
+        },
+        {
+          address:'港湾一号湾9湾栋间',
+          time:'9分钟前'
         }
       ]
     }
