@@ -745,12 +745,12 @@ export default {
   margin-top: -14px;
 }
 .plate .actions-content.van-action-sheet{
-  background-color: #10161F;
+  background-color: #0E1820;
   color: #FFFEFE;
   font-size: 16px
 }
 .plate .actions-content .van-action-sheet__cancel, .plate .actions-content .van-action-sheet__item{
-  background-color: #10161F;
+  background-color: #0E1820;
   color: #B9CEE9;
   font-size: 16px;
   width: 90%;
@@ -769,7 +769,7 @@ export default {
 
 /* 修改下拉框样式 */
 .plate .van-dropdown-menu__bar{
-  background-color: #0E1820 !important;
+  background-color: #101A22 !important;
   height: auto;
 }
 /* 标题和选中项文字样式 */
@@ -786,7 +786,7 @@ export default {
   justify-content: left
 }
 .plate .right-select .van-cell{
-  background-color: #101720;
+  background-color: ;
   width: 100%;
   font-size: 14px;
   color: rgba(128, 146, 161, 1);
