@@ -14,7 +14,7 @@
       </div>
 
       <div class="equipList-detail">
-        <div v-for="(item , index) in warnList" :key="index" class="equipList-detail-item" :style=" 'color:'+item.color">
+        <div v-for="(item , index) in warnList" :key="index" class="equipList-detail-item" :style=" 'color:'+item.color" @click="1===index?check():uncheck()">
           <p>
             {{ item.value }}
           </p>
@@ -29,6 +29,7 @@
         <h2>预警列表</h2>
         <p>未处理<span>11</span>件</p>
       </div>
+
       <!-- 违规停放列表 -->
       <ul class="vio-list">
         <li
@@ -428,14 +429,29 @@ export default {
     clearInterval(this.timer)
   },
   methods: {
+    check() {
+      console.log('tttttue')
+    },
+    uncheck() {
+      console.log('ffffalse')
+    },
     startPlay() {
       const that = this
       that.play = true
+
       setTimeout(() => {
         that.play = false
+<<<<<<< HEAD
 
         that.violationsList.unshift(that.violationsList[that.violationsList.length - 1])
         that.violationsList.splice(that.violationsList.length - 1, 1)
+=======
+        that.violationsList.push(that.violationsList[0]) // 将第一条数据塞到最后一个
+        that.violationsList.shift() // 删除第一条数据
+        // that.violationsList.unshift(that.violationsList[that.violationsList.length - 1])
+        // that.violationsList.splice(that.violationsList.length - 1, 1)
+        console.log('删除之后', this.violationsList)
+>>>>>>> test
       }, 500)
     },
     onChangeDateType(value) {
@@ -656,7 +672,7 @@ export default {
   margin-bottom: 90px;
 }
 .toUp {
-  margin-top: 55px; /*key code*/
+  margin-top: -70px; /*key code*/
   transition: all 1s; /*key code*/
 }
 .vio-list{
@@ -668,6 +684,7 @@ export default {
   padding: 0;
   overflow: hidden;
   margin-bottom: 20px;
+  display: inline-block;
 }
 .vio-list li{
   text-align: center;

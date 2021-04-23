@@ -1,8 +1,8 @@
 <template>
   <div class="iotApp-detail">
     <van-tabs v-model="active" swipeable color="#06F0FE" title-active-color="#06F0FE" title-inactive-color="#8BA3C2" background="rgba(16, 23, 32, 1)" sticky ellipsis @change="tabChange">
-      <van-tab v-for="item in tabList" :key="item.index" :title="item.title" class="tab-content"></van-tab>
-    </van-tabs>   
+      <van-tab v-for="item in tabList" :key="item.index" :title="item.title" class="tab-content" />
+    </van-tabs>
     <div v-show="active===0">
       <div class="iotApp-detail-title">
         <img src="@/assets/images/home/title-icon.png" alt="" class="iotApp-detail-title-icon">
@@ -11,6 +11,10 @@
       <InfoRow v-for="(rowItem,index) in rowList" :key="index" :data="rowItem" />
     </div>
     <div v-show="active===1">
+      <div class="iotApp-detail-title">
+        <img src="@/assets/images/home/title-icon.png" alt="" class="iotApp-detail-title-icon">
+        实时监控
+      </div>
       <div class="demo-carousel">
         <VideoPlayer
           ref="equipDetailVideoPlayer"
@@ -209,8 +213,10 @@ export default {
   color: white;
 }
 .demo-carousel{
-  width: 100%;
+
+  width: 83%;
   height: 290px;
+   margin-left: 8.5%;
 }
 .demo-carousel .vjs-custom-skin .video-js {
   width: 100% !important;
