@@ -807,6 +807,7 @@ export default {
   border: 1px rgba(42, 82, 134, 1) solid;
   left: 52px;
   top: 6px;
+   background-color: #0E1820;
 }
 /* 整个下拉框的宽高 */
 .plate .van-dropdown-item{
