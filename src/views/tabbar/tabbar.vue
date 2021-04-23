@@ -5,7 +5,7 @@
       <van-tabbar-item v-for="(item ,index) in tabList" :key="index" replace :to="item.path" icon="home-o">
         <span>{{ item.name }}</span>
         <template #icon="props">
-          <img :src="props.active ? require(item.active) : require(item.inactive)">
+          <img :src="props.active ? item.active : item.inactive">
         </template>
       </van-tabbar-item>
     </van-tabbar>
@@ -18,15 +18,15 @@ export default {
   data() {
     return {
       active: 1,
-      homeIcon: {
+      Home: {
         active: require('/src/assets/images/public/home-active.png'),
         inactive: require('/src/assets/images/public/home.png')
       },
-      indexIcon: {
+      HomepageScreen: {
         active: require('/src/assets/images/public/index-active.png'),
         inactive: require('/src/assets/images/public/index.png')
       },
-      personalCenterIcon: {
+      PersonInfo: {
         active: require('/src/assets/images/public/personalCenter-active.png'),
         inactive: require('/src/assets/images/public/personalCenter.png')
       },
@@ -36,7 +36,7 @@ export default {
   mounted() {
     console.log('当前路由集合', this.$store.getters.permission_routers[0])
     this.$store.getters.permission_routers[0].children.forEach(item => {
-      this.tabList.push({ name: item.meta.title, path: item.path, active: item.meta.active, inactive: item.meta.inactive })
+      this.tabList.push({ name: item.meta.title, path: item.path, active: this[item.name].active, inactive: this[item.name].inactive })
     })
     console.log('过滤完毕', this.tabList)
   },

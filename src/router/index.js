@@ -36,18 +36,18 @@ export const asyncRouterMap = [
         path: '/home',
         name: 'Home',
         component: () => import('@/views/home/home'),
-        meta: { title: '首页', permissions: [], active: '/src/assets/images/public/home-active.png', inactive: '/src/assets/images/public/home.png' }
+        meta: { title: '首页', permissions: [], active: '@/assets/images/public/home-active.png', inactive: '@/assets/images/public/home.png' }
       },
       {
         path: '/index',
         name: 'HomepageScreen',
         component: () => import('@/views/index/index'),
-        meta: { title: '智慧高投', permissions: [], active: '/src/assets/images/public/index-active.png', inactive: '/src/assets/images/public/index.png' }
+        meta: { title: '智慧高投', permissions: [], active: '@/assets/images/public/index-active.png', inactive: '@/assets/images/public/index.png' }
       }, {
         path: '/personalCenter',
         name: 'PersonInfo',
         component: () => import('@/views/personalCenter/personalCenter'),
-        meta: { title: '我的', permissions: [], active: '/src/assets/images/public/personalCenter-active.png', inactive: '/src/assets/images/public/personalCenter.png' }
+        meta: { title: '我的', permissions: [], active: '@/assets/images/public/personalCenter-active.png', inactive: '@/assets/images/public/personalCenter.png' }
       }
     ]
   },
