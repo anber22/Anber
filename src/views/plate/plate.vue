@@ -775,7 +775,7 @@ export default {
 
 /* 修改下拉框样式 */
 .plate .van-dropdown-menu__bar{
-  background-color: #101720 !important;
+  background-color: #0E1820 !important;
   height: auto;
 }
 /* 标题和选中项文字样式 */
