@@ -5,7 +5,7 @@
       <van-tabbar-item v-for="(item ,index) in tabList" :key="index" replace :to="item.path" icon="home-o">
         <span>{{ item.name }}</span>
         <template #icon="props">
-          <img :src="props.active ? item.active : item.inactive">
+          <img :src="props.active ? require(item.active) : require(item.inactive)">
         </template>
       </van-tabbar-item>
     </van-tabbar>
