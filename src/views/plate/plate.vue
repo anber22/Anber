@@ -367,39 +367,54 @@ export default {
           outlineCount: '3'
         }
       ]
-    this.violationsList = [
+      this.violationsList = [
+          {
+            address: '金发工地正门',
+            time: '6分钟前'
+          },
+          {
+            address: '金发工地侧门',
+            time: '8分钟前'
+          },
+          {
+            address: '金发工地后门',
+            time: '10分钟前'
+          },
+          {
+            address: '金发工地正门',
+            time: '59分钟前'
+          },
+          {
+            address: '金发工地后门',
+            time: '49分钟前'
+          },
+          {
+            address: '金发工地正门',
+            time: '29分钟前'
+          },
+          {
+            address: '金发工地正侧门',
+            time: '29分钟前'
+          },
+          {
+            address: '金发工地正门',
+            time: '9分钟前'
+          }
+      ]
+      this.eventList.row = [
         {
-          address: '金发工地正门',
-          time: '6分钟前'
+          eventTypeName: '周界越界监测',
+          eventCount: '100',
+          dealCount: '98',
+          unDealCount: '2'
         },
         {
-          address: '金发工地侧门',
-          time: '8分钟前'
-        },
-        {
-          address: '金发工地后门',
-          time: '10分钟前'
-        },
-        {
-          address: '金发工地正门',
-          time: '59分钟前'
-        },
-        {
-          address: '金发工地后门',
-          time: '49分钟前'
-        },
-        {
-          address: '金发工地正门',
-          time: '29分钟前'
-        },
-        {
-          address: '金发工地正侧门',
-          time: '29分钟前'
-        },
-        {
-          address: '金发工地正门',
-          time: '9分钟前'
+          eventTypeName: '未佩戴安全帽',
+          eventCount: '100',
+          dealCount: '97',
+          unDealCount: '3'
         }
+
       ]
 
     }
@@ -518,7 +533,7 @@ export default {
   display: inline;
   font-size: 12px;
   font-family: PingFang SC;
-  font-weight: 100;
+  font-weight: 400;
   color: #FF1743;
 }
 .illegal-parking img{
@@ -526,7 +541,7 @@ export default {
 }
 .alert-icon{
   width: 22px;
-  height: 21px;
+  height: 19px;
 }
 .park-address{
   width: 110px;
@@ -535,7 +550,7 @@ export default {
   margin : 0px 20px;
   font-size: 12px;
   font-family: PingFang SC;
-  font-weight: 100;
+  font-weight: 400;
   color: #B9CEE9;
   white-space: normal;
   word-break: break-all;
@@ -543,9 +558,9 @@ export default {
 }
 .violations-time{
   color: #B9CEE9;
-  font-weight: 100;
+  font-weight: 400;
   display: inline-block;
-  font-size: 13px;
+  font-size: 12px;
 }
 .equipList-detail{
   width: 330px;
