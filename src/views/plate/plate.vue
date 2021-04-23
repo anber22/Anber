@@ -40,7 +40,7 @@
           <!-- ！违规停放 -->
           <div class="illegal-parking">
             <img class="alert-icon" src="@/assets/images/alert.png" alt="">
-            {{ router==='PropertyPlate'? '违规停放': '未佩戴安全帽' }}
+            {{router==='PropertyPlate'? '违规停放': '未佩戴安全帽'}}
           </div>
           <!-- 地址 -->
           <div class="park-address">
@@ -369,38 +369,38 @@ export default {
         }
       ]
       this.violationsList = [
-        {
-          address: '金发工地正门',
-          time: '6分钟前'
-        },
-        {
-          address: '金发工地侧门',
-          time: '8分钟前'
-        },
-        {
-          address: '金发工地后门',
-          time: '10分钟前'
-        },
-        {
-          address: '金发工地正门',
-          time: '59分钟前'
-        },
-        {
-          address: '金发工地后门',
-          time: '49分钟前'
-        },
-        {
-          address: '金发工地正门',
-          time: '29分钟前'
-        },
-        {
-          address: '金发工地正侧门',
-          time: '29分钟前'
-        },
-        {
-          address: '金发工地正门',
-          time: '9分钟前'
-        }
+          {
+            address: '金发工地正门',
+            time: '6分钟前'
+          },
+          {
+            address: '金发工地侧门',
+            time: '8分钟前'
+          },
+          {
+            address: '金发工地后门',
+            time: '10分钟前'
+          },
+          {
+            address: '金发工地正门',
+            time: '59分钟前'
+          },
+          {
+            address: '金发工地后门',
+            time: '49分钟前'
+          },
+          {
+            address: '金发工地正门',
+            time: '29分钟前'
+          },
+          {
+            address: '金发工地正侧门',
+            time: '29分钟前'
+          },
+          {
+            address: '金发工地正门',
+            time: '9分钟前'
+          }
       ]
       this.eventList.row = [
         {
@@ -417,6 +417,7 @@ export default {
         }
 
       ]
+
     }
     if (this.violationsList !== null) {
       if (this.violationsList.length > 1) {
@@ -440,12 +441,17 @@ export default {
 
       setTimeout(() => {
         that.play = false
+<<<<<<< HEAD
 
+        that.violationsList.unshift(that.violationsList[that.violationsList.length - 1])
+        that.violationsList.splice(that.violationsList.length - 1, 1)
+=======
         that.violationsList.push(that.violationsList[0]) // 将第一条数据塞到最后一个
         that.violationsList.shift() // 删除第一条数据
         // that.violationsList.unshift(that.violationsList[that.violationsList.length - 1])
         // that.violationsList.splice(that.violationsList.length - 1, 1)
         console.log('删除之后', this.violationsList)
+>>>>>>> test
       }, 500)
     },
     onChangeDateType(value) {
