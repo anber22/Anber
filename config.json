@@ -17,25 +17,25 @@
       },
       "PersonInfo": {
         "desc":"我的",
-        "permissions": ["1", "2", "4"]
+        "permissions": ["1", "2", "4","9"]
       },
       "Navbar": {
         "desc":"Navbar",
         "permissions": ["1", "2", "4"]
       },
-      "iotApp": {
+      "IotApp": {
         "desc":"物联应用",
         "permissions": ["1", "2", "4"]
       },
-      "iotAppDetail": {
+      "IotAppDetail": {
         "desc":"设备详情",
         "permissions": ["1", "2", "4"]
       },
-      "placeResource": {
+      "PlaceResource": {
         "desc":"网点管理",
         "permissions": ["1", "2", "4"]
       },
-      "statistics": {
+      "Statistics": {
         "desc":"隐患管理",
         "permissions": ["1", "2", "4"]
       },
@@ -43,11 +43,11 @@
         "desc":"智慧视觉",
         "permissions": ["1", "2", "4"]
       },
-      "videoPlayer": {
+      "VideoPlayer": {
         "desc":"视频播放",
         "permissions": ["1", "2", "4"]
       },
-      "placeResourcDetail": {
+      "PlaceResourcDetail": {
         "desc":"网点详情",
         "permissions": ["1", "2", "4"]
       },
@@ -76,7 +76,7 @@
       "Search-Query-Button": {
         "permissions": ["0"]
       },
-      "Search-equip-Input": {
+      "Search-equip-Input-": {
         "permissions": ["0"]
       }
     }

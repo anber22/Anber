@@ -2,22 +2,10 @@
   <div class="tabbar-box">
     <router-view />
     <van-tabbar route class="van-tabbar-box">
-      <van-tabbar-item replace to="/home" icon="home-o">
-        <span>首页</span>
+      <van-tabbar-item v-for="(item ,index) in tabList" :key="index" replace :to="item.path" icon="home-o">
+        <span>{{ item.name }}</span>
         <template #icon="props">
-          <img :src="props.active ? homeIcon.active : homeIcon.inactive">
-        </template>
-      </van-tabbar-item>
-      <van-tabbar-item replace to="/index" icon="search">
-        <span>智慧高投</span>
-        <template #icon="props">
-          <img :src="props.active ? indexIcon.active : indexIcon.inactive">
-        </template>
-      </van-tabbar-item>
-      <van-tabbar-item replace icon="search" @click="showDone">
-        <span>我的</span>
-        <template #icon="props">
-          <img :src="props.active ? personalCenterIcon.active : personalCenterIcon.inactive">
+          <img :src="props.active ? item.active : item.inactive">
         </template>
       </van-tabbar-item>
     </van-tabbar>
@@ -41,11 +29,16 @@ export default {
       personalCenterIcon: {
         active: require('/src/assets/images/public/personalCenter-active.png'),
         inactive: require('/src/assets/images/public/personalCenter.png')
-      }
+      },
+      tabList: []
     }
   },
   mounted() {
-
+    console.log('当前路由集合', this.$store.getters.permission_routers[0])
+    this.$store.getters.permission_routers[0].children.forEach(item => {
+      this.tabList.push({ name: item.meta.title, path: item.path, active: item.meta.active, inactive: item.meta.inactive })
+    })
+    console.log('过滤完毕', this.tabList)
   },
   methods: {
     showDone() {

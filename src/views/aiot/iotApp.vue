@@ -32,9 +32,11 @@
             :immediate-check="false"
             @load="getEquipInfoList"
           >
-            <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','49.9%']" class="physicalUnionApplication-card">
-              <PhysicalUnionApplication :data="item" />
-            </Adaptive>
+            <div v-for="item in equipInfoList" :key="item.index" @click="toDetailInfo(item.equipId)">
+              <Adaptive :data="['100%','49.9%']" class="physicalUnionApplication-card">
+                <PhysicalUnionApplication :data="item" />
+              </Adaptive>
+            </div>
           </van-list>
         </div>
         <div v-if="thisSubsystemId===10 && equipInfoList.length>0" class="show-list">
@@ -46,9 +48,11 @@
             :immediate-check="false"
             @load="getEquipInfoList"
           >
-            <Adaptive v-for="item in equipInfoList" :key="item.index" :data="['100%','77.9%']" class="environmentalMonitoring-card">
-              <EnvironmentalMonitoring :data="item" />
-            </Adaptive>
+            <div v-for="item in equipInfoList" :key="item.index" @click="toDetailInfo(item.equipId)">
+              <Adaptive :data="['100%','77.9%']" class="environmentalMonitoring-card">
+                <EnvironmentalMonitoring :data="item" />
+              </Adaptive>
+            </div>
           </van-list>
         </div>
         <div v-if="thisSubsystemId===11 && equipInfoList.length>0" class="show-list">
@@ -60,7 +64,9 @@
             :immediate-check="false"
             @load="getEquipInfoList"
           >
-            <TowerCraneMonitoring v-for="(item, index) in equipInfoList" :key="index" class="towerCraneMonitoring-card" :data="item" />
+            <div v-for="item in equipInfoList" :key="item.index" @click="toDetailInfo(item.equipId)">
+              <TowerCraneMonitoring class="towerCraneMonitoring-card" :data="item" />
+            </div>
           </van-list>
         </div>
 
@@ -168,6 +174,7 @@ export default {
       this.getEquipInfoList()
     },
     toDetailInfo(equipId) {
+      console.log('点击跳转详情')
       this.$router.push({
         path: '/iotAppDetail',
         query: {
