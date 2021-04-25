@@ -31,11 +31,26 @@ class IotApp {
   }
 
   //  获取物联应用实时数据列表(设备环境监测/塔机监测实时数据(批量) )
-  async equipRealTimeInfoList(param, system) {
+  async environmentRealTimeInfoList(param, system) {
     return await request({
       url: `/apis/equip/${system}/list/finder`,
       method: 'post',
       data: param
+    })
+  }
+  //  获取物联应用实时数据列表(设备环境监测/塔机监测实时数据(单个) )
+  async environmentRealTimeData(param) {
+    return await request({
+      url: `/apis/equip/id/${param}/environment`,
+      method: 'get'
+    })
+  }
+
+  // 获取物联应用实时数据列表(设备塔吊实时数据-单个 )
+  async towerRealTimeInfoList(param) {
+    return await request({
+      url: `/apis/equip/id/${param}/tower`,
+      method: 'get'
     })
   }
   //  获取物联应用实时数据列表(设备塔吊实时数据-批量 )

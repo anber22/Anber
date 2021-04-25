@@ -281,7 +281,7 @@ export default {
           system = 'tower'
         }
         // 获取ids去查询对应设备的详细数据
-        const realTimeList = await Api.equipRealTimeInfoList(ids, system)
+        const realTimeList = await Api.environmentRealTimeInfoList(ids, system)
         // 把两个数组对象根据equipId来合并
         if (realTimeList.code === 200) {
           combined = realTimeList.data.reduce((acc, cur) => {

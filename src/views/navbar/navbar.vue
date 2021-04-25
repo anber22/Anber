@@ -46,6 +46,7 @@ export default {
      */
     chengeToEdit() {
       console.log('点击编辑', this)
+      this.toeEdit()
     },
     /**
      * 返回
