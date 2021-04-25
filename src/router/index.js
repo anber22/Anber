@@ -62,7 +62,7 @@ export const asyncRouterMap = [
         path: '/iotApp',
         name: 'IotApp',
         component: () => import('@/views/aiot/iotApp'),
-        meta: { title: '物联应用', permissions: [] }
+        meta: { title: '物联应用', permissions: [], edit: false }
       },
       {
         path: '/iotAppDetail',
@@ -74,25 +74,25 @@ export const asyncRouterMap = [
         path: '/placeResourse',
         name: 'PlaceResource',
         component: () => import('@/views/placeResourse/placeResourse'),
-        meta: { title: '网点管理', permissions: [] }
+        meta: { title: '网点管理', permissions: [], edit: false }
       },
       {
         path: '/hazard',
         name: 'Statistics',
         component: () => import('@/views/hazard/hazard'),
-        meta: { title: '隐患管理', permissions: [] }
+        meta: { title: '隐患管理', permissions: [], edit: false }
       },
       {
         path: '/video',
         name: 'WisdomVisual',
         component: () => import('@/views/video/video'),
-        meta: { title: '智慧视觉', permissions: [] }
+        meta: { title: '智慧视觉', permissions: [], edit: false }
       },
       {
         path: '/videoPlayer',
         name: 'VideoPlayer',
         component: () => import('@/views/videoPlayer/videoPlayer'),
-        meta: { title: '视频播放', permissions: [] }
+        meta: { title: '视频播放', permissions: [], edit: false }
       },
       {
         name: 'PlaceResourcDetail',
@@ -103,19 +103,19 @@ export const asyncRouterMap = [
       { path: '/hazardDetail',
         name: 'HazardDetail',
         component: () => import('@/views/hazardDetail/hazardDetail'),
-        meta: { showFooter: true, title: '隐患详情', permissions: [] }
+        meta: { showFooter: true, title: '隐患详情', permissions: [], edit: false }
       },
       {
         path: '/propertyPlate',
         name: 'PropertyPlate',
         component: () => import('@/views/plate/plate'),
-        meta: { showFooter: true, title: '物业看板', permissions: [] }
+        meta: { showFooter: true, title: '物业看板', permissions: [], edit: false }
       },
       {
         path: '/safetyCommitteePlate',
         name: 'SafetyCommitteePlate',
         component: () => import('@/views/plate/plate'),
-        meta: { showFooter: true, title: '安委看板', permissions: [] }
+        meta: { showFooter: true, title: '安委看板', permissions: [], edit: false }
       }
     ]
   },

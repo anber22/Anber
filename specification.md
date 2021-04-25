@@ -16,3 +16,8 @@
 1. 引入css文件在style引入
    示例
   <style scoped src='./login.css'>
+
+## nav 编辑按钮使用方法 ##
+1. 在@/router/index.js 找到要加按钮的页面，在meta 里面的 edit : true 不需要则为false
+2. 在对应页面的methods里面加上 toeEdit(){} 
+3. end
