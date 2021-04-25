@@ -29,28 +29,7 @@
         <h2>预警列表</h2>
         <p>未处理<span>11</span>件</p>
       </div>
-      <!-- 违规停放列表 -->
-      <ul class="vio-list">
-        <li
-          v-for="(item,index) in violationsList"
-          :key="index"
-          :class="!index && play?'toUp':''"
-        >
-          <!-- ！违规停放 -->
-          <div class="illegal-parking">
-            <img class="alert-icon" src="@/assets/images/alert.png" alt="">
-            违规停放
-          </div>
-          <!-- 地址 -->
-          <div class="park-address">
-            {{ item.address }}
-          </div>
-          <!-- 时间 -->
-          <div class="violations-time">
-            {{ item.time }}
-          </div>
-        </li>
-      </ul>
+      <PlateWarning :plate-warning-data="violationsList" />
     </div>
     <!-- end -->
     <!-- 事件统计 start -->
@@ -102,19 +81,12 @@
 <script>
 import SimpleForm from 'cmp/simpleForm/SimpleForm'
 import MaxLine from 'cmp/echarts/mixLine/MixLine'
+import PlateWarning from 'cmp/plateWarning/PlateWarning'
 export default {
   components: {
     SimpleForm,
-    MaxLine
-  },
-  props: {
-    data: {
-      type: Array,
-      // eslint-disable-next-line vue/require-valid-default-prop
-      default: function() {
-        return []
-      }
-    }
+    MaxLine,
+    PlateWarning
   },
   data() {
     return {
@@ -326,27 +298,13 @@ export default {
     }
   },
   created() {
-    if (this.violationsList !== null) {
-      if (this.violationsList.length > 1) {
-        this.timer = setInterval(this.startPlay, 3000)
-      }
-    }
+
   },
   destroyed() {
     clearInterval(this.timer)
   },
   methods: {
-    startPlay() {
-      const that = this
-      that.play = true
-      setTimeout(() => {
-        that.play = false
 
-        that.violationsList.unshift(that.violationsList[that.violationsList.length - 1])
-        that.violationsList.splice(that.violationsList.length - 1, 1)
-        console.log('删除之后', this.violationsList)
-      }, 500)
-    },
     onChangeDateType(value) {
       this.$emit('timeType', value)
     }
@@ -363,6 +321,8 @@ export default {
   color: #ffffff;
   overflow: scroll;
   padding: 15px;
+  /* display: flex;
+  flex-direction:column; */
 }
 .warning-statistics{
   width:100%;
@@ -438,39 +398,7 @@ export default {
   padding: 0 16px;
   margin-bottom: 9px;
 }
-.illegal-parking{
-  display: inline;
-  font-size: 15px;
-  font-family: PingFang SC;
-  font-weight: 100;
-  color: #FF1743;
-}
-.illegal-parking img{
-  transform: translateY(5px);
-}
-.alert-icon{
-  width: 24px;
-  height: 23px;
-}
-.park-address{
-  width: 110px;
-  /* height: 100%; */
-  line-height: 15px;
-  margin : 0px 20px;
-  font-size: 14px;
-  font-family: PingFang SC;
-  font-weight: 100;
-  color: #B9CEE9;
-  white-space: normal;
-  word-break: break-all;
-  display: inline-block;
-}
-.violations-time{
-  color: #B9CEE9;
-  font-weight: 100;
-  display: inline-block;
-  font-size: 15px;
-}
+
 .equipList-detail{
   width: 330px;
   margin: 20px auto;
@@ -563,32 +491,6 @@ export default {
   height: auto;
   width: 100%;
   margin-bottom: 90px;
-}
-.toUp {
-  margin-top: 55px; /*key code*/
-  transition: all 1s; /*key code*/
-}
-.vio-list{
-  list-style: none;
-  width: 100%;
-  text-align: center;
-  overflow: hidden; /*key code*/
-  height: 280px; /*key code*/
-  padding: 0;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-.vio-list li{
-  text-align: center;
-  background-image: url(@/assets/images/alert-bcimg.png);
-  margin-bottom: 10px;
-  height: 60px;
-  line-height: 60px;
-  background-size: 100% 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding:0px 13px;
 }
 
 </style>
