@@ -36,18 +36,18 @@ export const asyncRouterMap = [
         path: '/home',
         name: 'Home',
         component: () => import('@/views/home/home'),
-        meta: { title: '首页', permissions: [] }
+        meta: { title: '首页', permissions: [], active: '@/assets/images/public/home-active.png', inactive: '@/assets/images/public/home.png' }
       },
       {
         path: '/index',
         name: 'HomepageScreen',
         component: () => import('@/views/index/index'),
-        meta: { title: '智慧高投', permissions: [] }
+        meta: { title: '智慧高投', permissions: [], active: '@/assets/images/public/index-active.png', inactive: '@/assets/images/public/index.png' }
       }, {
         path: '/personalCenter',
         name: 'PersonInfo',
         component: () => import('@/views/personalCenter/personalCenter'),
-        meta: { title: '我的', permissions: [] }
+        meta: { title: '我的', permissions: [], active: '@/assets/images/public/personalCenter-active.png', inactive: '@/assets/images/public/personalCenter.png' }
       }
     ]
   },
@@ -60,25 +60,25 @@ export const asyncRouterMap = [
     children: [
       {
         path: '/iotApp',
-        name: 'iotApp',
+        name: 'IotApp',
         component: () => import('@/views/aiot/iotApp'),
         meta: { title: '物联应用', permissions: [] }
       },
       {
         path: '/iotAppDetail',
-        name: 'iotAppDetail',
+        name: 'IotAppDetail',
         component: () => import('@/views/aiot/iotAppDetail'),
         meta: { title: '设备详情', permissions: [] }
       },
       {
         path: '/placeResourse',
-        name: 'placeResource',
+        name: 'PlaceResource',
         component: () => import('@/views/placeResourse/placeResourse'),
         meta: { title: '网点管理', permissions: [] }
       },
       {
         path: '/hazard',
-        name: 'statistics',
+        name: 'Statistics',
         component: () => import('@/views/hazard/hazard'),
         meta: { title: '隐患管理', permissions: [] }
       },
@@ -90,7 +90,7 @@ export const asyncRouterMap = [
       },
       {
         path: '/videoPlayer',
-        name: 'videoPlayer',
+        name: 'VideoPlayer',
         component: () => import('@/views/videoPlayer/videoPlayer'),
         meta: { title: '视频播放', permissions: [] }
       },

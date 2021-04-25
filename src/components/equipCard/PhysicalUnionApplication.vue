@@ -9,7 +9,7 @@
         <div class="physicalUnionApplication-state-box">
           <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" :status="data.onlineType" />
         </div>
-        <div v-if="data.count!==0" class="physicalUnionApplication-hidden-trouble" @click="showHazardDetail(data.equipId)">
+        <div v-if="data.count!==0" class="physicalUnionApplication-hidden-trouble" @click.stop="showHazardDetail(data.equipId)">
           <van-badge :content="data.count" badge-size="14px" max="99">
             <img src="@/assets/images/equip/risk-early-warning.png" alt="" class="physicalUnionApplication-hidden-trouble-icon">
           </van-badge>
@@ -55,7 +55,7 @@
         <div class="physicalUnionApplication-content-row-name">
           所属网点:
         </div>
-        <div class="physicalUnionApplication-content-row-value address-font" @click="showDetail(data.placeId)">
+        <div class="physicalUnionApplication-content-row-value address-font" @click.stop="showDetail(data.placeId)">
           {{ data.placeName }}
           <img src="@/assets/images/equip/address.png" alt="" class="address-icon">
         </div>
@@ -120,6 +120,7 @@ export default {
      * 跳转网点详情
      */
     showDetail(e) {
+      console.log('跳转详情')
       this.$router.push({
         path: '/placeResourcDetail',
         query: {

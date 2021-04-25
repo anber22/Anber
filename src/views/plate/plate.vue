@@ -14,7 +14,7 @@
       </div>
 
       <div class="equipList-detail">
-        <div v-for="(item , index) in warnList" :key="index" class="equipList-detail-item" :style=" 'color:'+item.color">
+        <div v-for="(item , index) in warnList" :key="index" class="equipList-detail-item" :style=" 'color:'+item.color" @click="1===index?check():uncheck()">
           <p>
             {{ item.value }}
           </p>
@@ -29,7 +29,33 @@
         <h2>预警列表</h2>
         <p>未处理<span>11</span>件</p>
       </div>
+<<<<<<< HEAD
       <PlateWarning :plate-warning-data="violationsList" />
+=======
+
+      <!-- 违规停放列表 -->
+      <ul class="vio-list">
+        <li
+          v-for="(item,index) in violationsList"
+          :key="index"
+          :class="!index && play?'toUp':''"
+        >
+          <!-- ！违规停放 -->
+          <div class="illegal-parking">
+            <img class="alert-icon" src="@/assets/images/alert.png" alt="">
+            {{ router==='PropertyPlate'? '违规停放': '未佩戴安全帽' }}
+          </div>
+          <!-- 地址 -->
+          <div class="park-address">
+            {{ item.address }}
+          </div>
+          <!-- 时间 -->
+          <div class="violations-time">
+            {{ item.time }}
+          </div>
+        </li>
+      </ul>
+>>>>>>> 1d7fa2c717e117259a4006980ad8ee2a8b8bda1e
     </div>
     <!-- end -->
     <!-- 事件统计 start -->
@@ -261,50 +287,172 @@ export default {
       ],
       violationsList: [
         {
-          address: '港湾一号湾78湾栋间',
+          address: '港湾一号湾7湾8栋间',
           time: '8分钟前'
         },
         {
-          address: '港湾一号湾29湾栋间',
+          address: '港湾一号湾2湾9栋间',
           time: '8分钟前'
         },
         {
-          address: '港湾一号湾91湾栋间',
+          address: '港湾一号湾9湾1栋间',
           time: '10分钟前'
         },
         {
-          address: '港湾一号湾92湾栋间',
+          address: '港湾一号湾9湾2栋间',
           time: '59分钟前'
         },
         {
-          address: '港湾一号湾93湾栋间',
+          address: '港湾一号湾9湾3栋间',
           time: '49分钟前'
         },
         {
-          address: '港湾一号湾94湾栋间',
+          address: '港湾一号湾9湾4栋间',
           time: '39分钟前'
         },
         {
-          address: '港湾一号湾95湾栋间',
+          address: '港湾一号湾9湾5栋间',
           time: '29分钟前'
         },
         {
-          address: '港湾一号湾96湾栋间',
+          address: '港湾一号湾9湾6栋间',
           time: '19分钟前'
         }
       ],
-      play: false
+      play: false,
+      router: 'PropertyPlate'
 
     }
   },
   created() {
+<<<<<<< HEAD
 
+=======
+    this.router = this.$router.history.current.name
+    if (this.$router.history.current.name !== 'PropertyPlate') {
+      this.equipList.row = [
+        {
+          placeName: '唐家第一工业园',
+          equipCount: '100',
+          onlineCount: '98',
+          outlineCount: '2'
+        },
+        {
+          placeName: '金发工地',
+          equipCount: '100',
+          onlineCount: '98',
+          outlineCount: '2'
+        },
+        {
+          placeName: '银溪雅园工地',
+          equipCount: '100',
+          onlineCount: '97',
+          outlineCount: '3'
+        },
+        {
+          placeName: '惠景海岸工地',
+          equipCount: '100',
+          onlineCount: '98',
+          outlineCount: '2'
+        },
+        {
+          placeName: '金地第一工业园',
+          equipCount: '100',
+          onlineCount: '98',
+          outlineCount: '2'
+        },
+        {
+          placeName: '后环工地',
+          equipCount: '100',
+          onlineCount: '97',
+          outlineCount: '3'
+        }
+      ]
+      this.violationsList = [
+        {
+          address: '金发工地正门',
+          time: '6分钟前'
+        },
+        {
+          address: '金发工地侧门',
+          time: '8分钟前'
+        },
+        {
+          address: '金发工地后门',
+          time: '10分钟前'
+        },
+        {
+          address: '金发工地正门',
+          time: '59分钟前'
+        },
+        {
+          address: '金发工地后门',
+          time: '49分钟前'
+        },
+        {
+          address: '金发工地正门',
+          time: '29分钟前'
+        },
+        {
+          address: '金发工地正侧门',
+          time: '29分钟前'
+        },
+        {
+          address: '金发工地正门',
+          time: '9分钟前'
+        }
+      ]
+      this.eventList.row = [
+        {
+          eventTypeName: '周界越界监测',
+          eventCount: '100',
+          dealCount: '98',
+          unDealCount: '2'
+        },
+        {
+          eventTypeName: '未佩戴安全帽',
+          eventCount: '100',
+          dealCount: '97',
+          unDealCount: '3'
+        }
+
+      ]
+    }
+    if (this.violationsList !== null) {
+      if (this.violationsList.length > 1) {
+        this.timer = setInterval(this.startPlay, 3000)
+      }
+    }
+>>>>>>> 1d7fa2c717e117259a4006980ad8ee2a8b8bda1e
   },
   destroyed() {
     clearInterval(this.timer)
   },
   methods: {
+<<<<<<< HEAD
 
+=======
+    check() {
+      console.log('tttttue')
+    },
+    uncheck() {
+      console.log('ffffalse')
+    },
+    startPlay() {
+      const that = this
+      that.play = true
+
+      setTimeout(() => {
+        that.play = false
+
+        that.violationsList.push(that.violationsList[0]) // 将第一条数据塞到最后一个
+        that.violationsList.shift() // 删除第一条数据
+        // that.violationsList.unshift(that.violationsList[that.violationsList.length - 1])
+        // that.violationsList.splice(that.violationsList.length - 1, 1)
+        console.log('删除之后', this.violationsList)
+      }, 500)
+    },
+>>>>>>> 1d7fa2c717e117259a4006980ad8ee2a8b8bda1e
     onChangeDateType(value) {
       this.$emit('timeType', value)
     }
@@ -398,7 +546,43 @@ export default {
   padding: 0 16px;
   margin-bottom: 9px;
 }
+<<<<<<< HEAD
 
+=======
+.illegal-parking{
+  display: inline;
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #FF1743;
+}
+.illegal-parking img{
+  transform: translateY(5px);
+}
+.alert-icon{
+  width: 22px;
+  height: 19px;
+}
+.park-address{
+  width: 110px;
+  /* height: 100%; */
+  line-height: 15px;
+  margin : 0px 20px;
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #B9CEE9;
+  white-space: normal;
+  word-break: break-all;
+  display: inline-block;
+}
+.violations-time{
+  color: #B9CEE9;
+  font-weight: 400;
+  display: inline-block;
+  font-size: 12px;
+}
+>>>>>>> 1d7fa2c717e117259a4006980ad8ee2a8b8bda1e
 .equipList-detail{
   width: 330px;
   margin: 20px auto;
@@ -414,19 +598,19 @@ export default {
   text-align: center;
 }
 .equipList-detail-item-title{
-    height: 9px;
-    width: 65px;
-    font-size: 16px;
-    font-family: SourceHanSansCN;
-    font-weight: 400;
-    text-align: left;
-    line-height: 2px;
-    padding-left: 12px;
-    color: #EFF0F1;
-    margin-top: 28%;
-    margin-bottom: 0px;
-    background: linear-gradient(125deg,rgba(16, 233, 255, 0) 8px,#00B5ED 9%,transparent 56%) left;
-    background-size: 100% 100%;
+  height: 9px;
+  width: 65px;
+  font-size: 16px;
+  font-family: SourceHanSansCN;
+  font-weight: 400;
+  text-align: left;
+  line-height: 2px;
+  padding-left: 12px;
+  color: #EFF0F1;
+  margin-top: 28%;
+  margin-bottom: 0px;
+  background: linear-gradient(125deg,rgba(16, 233, 255, 0) 8px,#00B5ED 9%,transparent 56%) left;
+  background-size: 100% 100%;
   /* margin-left: 15px */
 }
 .equipList-detail-item-value{
@@ -454,7 +638,7 @@ export default {
 }
 .simpleForm{
   margin-top: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 .title-style{
   width: 1.2%;
@@ -469,7 +653,7 @@ export default {
   width: 60%;
   height: 30px;
   display: inline-block;
-  font-size: 20px;
+  font-size: 18px;
   font-family: PingFang SC;
   font-weight: 500;
   color: #B9CEE9;
@@ -492,6 +676,36 @@ export default {
   width: 100%;
   margin-bottom: 90px;
 }
+<<<<<<< HEAD
+=======
+.toUp {
+  margin-top: -70px; /*key code*/
+  transition: all 1s; /*key code*/
+}
+.vio-list{
+  list-style: none;
+  width: 100%;
+  text-align: center;
+  overflow: hidden; /*key code*/
+  height: 280px; /*key code*/
+  padding: 0;
+  overflow: hidden;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+.vio-list li{
+  text-align: center;
+  background-image: url(@/assets/images/alert-bcimg.png);
+  margin-bottom: 10px;
+  height: 60px;
+  line-height: 60px;
+  background-size: 100% 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding:0px 13px;
+}
+>>>>>>> 1d7fa2c717e117259a4006980ad8ee2a8b8bda1e
 
 </style>
 <style >
@@ -545,12 +759,12 @@ export default {
   margin-top: -14px;
 }
 .plate .actions-content.van-action-sheet{
-  background-color: #10161F;
+  background-color: #0E1820;
   color: #FFFEFE;
   font-size: 16px
 }
 .plate .actions-content .van-action-sheet__cancel, .plate .actions-content .van-action-sheet__item{
-  background-color: #10161F;
+  background-color: #0E1820;
   color: #B9CEE9;
   font-size: 16px;
   width: 90%;
@@ -569,7 +783,7 @@ export default {
 
 /* 修改下拉框样式 */
 .plate .van-dropdown-menu__bar{
-  background-color: #101720 !important;
+  background-color: #101A22 !important;
   height: auto;
 }
 /* 标题和选中项文字样式 */
@@ -586,7 +800,7 @@ export default {
   justify-content: left
 }
 .plate .right-select .van-cell{
-  background-color: #101720;
+  background-color: ;
   width: 100%;
   font-size: 14px;
   color: rgba(128, 146, 161, 1);
@@ -607,7 +821,7 @@ export default {
   border: 1px rgba(42, 82, 134, 1) solid;
   left: 52px;
   top: 6px;
-  background-color: transparent
+   background-color: #0E1820;
 }
 /* 整个下拉框的宽高 */
 .plate .van-dropdown-item{
