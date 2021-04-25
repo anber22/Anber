@@ -178,7 +178,8 @@ export default {
       this.$router.push({
         path: '/iotAppDetail',
         query: {
-          id: equipId
+          id: equipId,
+          systemId: this.thisSubsystemId
         }
       })
     },

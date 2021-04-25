@@ -681,7 +681,7 @@ export default {
   justify-content: left
 }
 .plate .right-select .van-cell{
-  background-color: ;
+  background-color: #0E1820;
   width: 100%;
   font-size: 14px;
   color: rgba(128, 146, 161, 1);
@@ -702,7 +702,8 @@ export default {
   border: 1px rgba(42, 82, 134, 1) solid;
   left: 52px;
   top: 6px;
-   background-color: #0E1820;
+  background-color: #0E1820;
+
 }
 /* 整个下拉框的宽高 */
 .plate .van-dropdown-item{
