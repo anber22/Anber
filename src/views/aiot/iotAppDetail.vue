@@ -110,7 +110,7 @@ export default {
   },
   methods: {
     /**
-     * 跳转编辑转台
+     * 跳转编辑页面
      */
     toeEdit() {
       console.log('触发页面事件')

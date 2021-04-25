@@ -41,6 +41,9 @@ export default {
     this.showEdit = this.$route.meta.edit
   },
   methods: {
+    /**
+     * 切换成编辑状态
+     */
     chengeToEdit() {
       console.log('点击编辑', this)
     },
