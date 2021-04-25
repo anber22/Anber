@@ -11,7 +11,7 @@
         <img src="@/assets/images/public/edit.png" alt="" class="nav-right-edit-icon" @click="chengeToEdit">
       </template>
     </van-nav-bar>
-    <router-view />
+    <router-view ref="page" />
   </div>
 </template>
 
@@ -46,7 +46,8 @@ export default {
      */
     chengeToEdit() {
       console.log('点击编辑', this)
-      this.toeEdit()
+      // this.$children[1].toeEdit()
+      this.$refs.page.toeEdit()
     },
     /**
      * 返回
