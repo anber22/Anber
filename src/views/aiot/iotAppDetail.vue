@@ -11,18 +11,35 @@
       <InfoRow v-for="(rowItem,index) in rowList" :key="index" :data="rowItem" />
     </div>
     <div v-show="active===1">
-      <div class="iotApp-detail-title">
-        <img src="@/assets/images/home/title-icon.png" alt="" class="iotApp-detail-title-icon">
-        实时监控
+      <div v-if="systemId === 5 || systemId === 11">
+        <div class="iotApp-detail-title">
+          <img src="@/assets/images/home/title-icon.png" alt="" class="iotApp-detail-title-icon">
+          实时监控
+        </div>
+        <div class="demo-carousel">
+          <VideoPlayer
+            ref="equipDetailVideoPlayer"
+            class="vjs-custom-skin"
+            :options="playerOptions"
+            @play="onPlayerPlay($event)"
+            @ready="onPlayerReady($event)"
+          />
+        </div>
       </div>
-      <div class="demo-carousel">
-        <VideoPlayer
-          ref="equipDetailVideoPlayer"
-          class="vjs-custom-skin"
-          :options="playerOptions"
-          @play="onPlayerPlay($event)"
-          @ready="onPlayerReady($event)"
-        />
+      <div v-if="systemId===10">
+        <div class="iotApp-detail-title">
+          <img src="@/assets/images/home/title-icon.png" alt="" class="iotApp-detail-title-icon">
+          实时监控
+        </div>
+        <div class="demo-carousel">
+          <VideoPlayer
+            ref="equipDetailVideoPlayer"
+            class="vjs-custom-skin"
+            :options="playerOptions"
+            @play="onPlayerPlay($event)"
+            @ready="onPlayerReady($event)"
+          />
+        </div>
       </div>
     </div>
     <div v-show="active===2" style="color:#fff;text-align: center;padding-top: 50px;">
@@ -77,7 +94,8 @@ export default {
       },
       rowList: [],
       equipId: 0,
-      equipInfo: {}
+      equipInfo: {},
+      systemId: 0
     }
   },
   computed: {
@@ -87,14 +105,27 @@ export default {
   },
   mounted() {
     this.equipId = this.$route.query.id
+    this.systemId = this.$route.query.systemId
     this.getEquipDetailInfo()
   },
   methods: {
+    /**
+     * 跳转编辑转台
+     */
+    toeEdit() {
+      console.log('触发页面事件')
+    },
+    /**
+     * 切换tab
+     */
     tabChange(e) {
       // console.log('切换tab', e)
       // console.log('imei', this.equipInfo)
       this.active = e
     },
+    /**
+     * 获取设备详情
+     */
     async getEquipDetailInfo() {
       const res = await Api.equipDtailInfo(this.equipId)
 
@@ -104,7 +135,7 @@ export default {
       }
       equipDetailInfo = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', equipDetailInfo)
       equipDetailInfo = await ReadTypeNameOnVuex.conversion('platformList', 'platformId', 'platformName', equipDetailInfo)
-
+      console.log('设备详情', equipDetailInfo)
       this.rowList = [
         {
           name: '设备状态:',

@@ -68,7 +68,7 @@ export const asyncRouterMap = [
         path: '/iotAppDetail',
         name: 'IotAppDetail',
         component: () => import('@/views/aiot/iotAppDetail'),
-        meta: { title: '设备详情', permissions: [] }
+        meta: { title: '设备详情', permissions: [], edit: true }
       },
       {
         path: '/placeResourse',
@@ -98,7 +98,7 @@ export const asyncRouterMap = [
         name: 'PlaceResourcDetail',
         path: '/placeResourcDetail',
         component: () => import('@/views/placeResourcDetail/placeResourcDetail'),
-        meta: { title: '网点详情', permissions: [] }
+        meta: { title: '网点详情', permissions: [], edit: true }
       },
       { path: '/hazardDetail',
         name: 'HazardDetail',

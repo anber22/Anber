@@ -6,7 +6,11 @@
       :fixed="true"
       :placeholder="true"
       @click-left="onClickLeft"
-    />
+    >
+      <template v-if="showEdit" #right>
+        <img src="@/assets/images/public/edit.png" alt="" class="nav-right-edit-icon" @click="chengeToEdit">
+      </template>
+    </van-nav-bar>
     <router-view />
   </div>
 </template>
@@ -17,13 +21,16 @@ export default {
   data() {
     return {
       active: 1,
-      title: ''
+      title: '',
+      showEdit: false
     }
   },
   watch: {
     $route: {
       handler: function(val, oldVal) {
         this.title = this.$route.meta.title
+        this.showEdit = this.$route.meta.edit
+        console.log(this.showEdit)
       },
       // 深度观察监听
       deep: true
@@ -31,8 +38,12 @@ export default {
   },
   created() {
     this.title = this.$route.meta.title
+    this.showEdit = this.$route.meta.edit
   },
   methods: {
+    chengeToEdit() {
+      console.log('点击编辑', this)
+    },
     /**
      * 返回
      */
@@ -72,6 +83,10 @@ export default {
     color: white;
     font-weight: 500;
     font-size: 18px;
+}
+.nav-right-edit-icon{
+  width: 17px;
+  height: 17px;
 }
 </style>
 
