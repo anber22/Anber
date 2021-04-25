@@ -29,33 +29,7 @@
         <h2>预警列表</h2>
         <p>未处理<span>11</span>件</p>
       </div>
-<<<<<<< HEAD
       <PlateWarning :plate-warning-data="violationsList" />
-=======
-
-      <!-- 违规停放列表 -->
-      <ul class="vio-list">
-        <li
-          v-for="(item,index) in violationsList"
-          :key="index"
-          :class="!index && play?'toUp':''"
-        >
-          <!-- ！违规停放 -->
-          <div class="illegal-parking">
-            <img class="alert-icon" src="@/assets/images/alert.png" alt="">
-            {{ router==='PropertyPlate'? '违规停放': '未佩戴安全帽' }}
-          </div>
-          <!-- 地址 -->
-          <div class="park-address">
-            {{ item.address }}
-          </div>
-          <!-- 时间 -->
-          <div class="violations-time">
-            {{ item.time }}
-          </div>
-        </li>
-      </ul>
->>>>>>> 1d7fa2c717e117259a4006980ad8ee2a8b8bda1e
     </div>
     <!-- end -->
     <!-- 事件统计 start -->
@@ -325,9 +299,6 @@ export default {
     }
   },
   created() {
-<<<<<<< HEAD
-
-=======
     this.router = this.$router.history.current.name
     if (this.$router.history.current.name !== 'PropertyPlate') {
       this.equipList.row = [
@@ -423,36 +394,12 @@ export default {
         this.timer = setInterval(this.startPlay, 3000)
       }
     }
->>>>>>> 1d7fa2c717e117259a4006980ad8ee2a8b8bda1e
   },
   destroyed() {
     clearInterval(this.timer)
   },
   methods: {
-<<<<<<< HEAD
 
-=======
-    check() {
-      console.log('tttttue')
-    },
-    uncheck() {
-      console.log('ffffalse')
-    },
-    startPlay() {
-      const that = this
-      that.play = true
-
-      setTimeout(() => {
-        that.play = false
-
-        that.violationsList.push(that.violationsList[0]) // 将第一条数据塞到最后一个
-        that.violationsList.shift() // 删除第一条数据
-        // that.violationsList.unshift(that.violationsList[that.violationsList.length - 1])
-        // that.violationsList.splice(that.violationsList.length - 1, 1)
-        console.log('删除之后', this.violationsList)
-      }, 500)
-    },
->>>>>>> 1d7fa2c717e117259a4006980ad8ee2a8b8bda1e
     onChangeDateType(value) {
       this.$emit('timeType', value)
     }
@@ -546,43 +493,7 @@ export default {
   padding: 0 16px;
   margin-bottom: 9px;
 }
-<<<<<<< HEAD
 
-=======
-.illegal-parking{
-  display: inline;
-  font-size: 12px;
-  font-family: PingFang SC;
-  font-weight: 400;
-  color: #FF1743;
-}
-.illegal-parking img{
-  transform: translateY(5px);
-}
-.alert-icon{
-  width: 22px;
-  height: 19px;
-}
-.park-address{
-  width: 110px;
-  /* height: 100%; */
-  line-height: 15px;
-  margin : 0px 20px;
-  font-size: 12px;
-  font-family: PingFang SC;
-  font-weight: 400;
-  color: #B9CEE9;
-  white-space: normal;
-  word-break: break-all;
-  display: inline-block;
-}
-.violations-time{
-  color: #B9CEE9;
-  font-weight: 400;
-  display: inline-block;
-  font-size: 12px;
-}
->>>>>>> 1d7fa2c717e117259a4006980ad8ee2a8b8bda1e
 .equipList-detail{
   width: 330px;
   margin: 20px auto;
@@ -676,36 +587,6 @@ export default {
   width: 100%;
   margin-bottom: 90px;
 }
-<<<<<<< HEAD
-=======
-.toUp {
-  margin-top: -70px; /*key code*/
-  transition: all 1s; /*key code*/
-}
-.vio-list{
-  list-style: none;
-  width: 100%;
-  text-align: center;
-  overflow: hidden; /*key code*/
-  height: 280px; /*key code*/
-  padding: 0;
-  overflow: hidden;
-  margin-bottom: 20px;
-  display: inline-block;
-}
-.vio-list li{
-  text-align: center;
-  background-image: url(@/assets/images/alert-bcimg.png);
-  margin-bottom: 10px;
-  height: 60px;
-  line-height: 60px;
-  background-size: 100% 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding:0px 13px;
-}
->>>>>>> 1d7fa2c717e117259a4006980ad8ee2a8b8bda1e
 
 </style>
 <style >
