@@ -1,14 +1,14 @@
 <template>
   <div class="towerCraneMonitoring">
-    <Adaptive :data="['100%','60.9%']">
+    <Adaptive :equip-info="['100%','60.9%']">
       <!-- 标题 start -->
       <div class="towerCraneMonitoring-header">
         <div class="towerCraneMonitoring-title">
-          {{ data.equipName }}
+          {{ equipInfo.equipName }}
         </div>
         <div class="towerCraneMonitoring-state">
           <div class="towerCraneMonitoring-state-box">
-            <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" :status="data.onlineType" />
+            <EquipStatus :electricity="equipInfo.equipPower" :signal="equipInfo.equipSignal" :status="equipInfo.onlineType" />
           </div>
           <!-- <div v-if="data.count!==0" class="towerCraneMonitoring-hidden-trouble">
             <van-badge :content="data.count" badge-size="14px">
@@ -25,7 +25,7 @@
             设备类型:
           </div>
           <div class="towerCraneMonitoring-content-row-value">
-            {{ data.equipTypeName }}
+            {{ equipInfo.equipTypeName }}
           </div>
         </div>
         <div class="towerCraneMonitoring-content-row">
@@ -33,7 +33,7 @@
             IMEI码:
           </div>
           <div class="towerCraneMonitoring-content-row-value">
-            {{ data.imei }}
+            {{ equipInfo.imei }}
           </div>
         </div>
         <div class="towerCraneMonitoring-content-row">
@@ -41,7 +41,7 @@
             安装位置:
           </div>
           <div class="towerCraneMonitoring-content-row-value">
-            {{ data.equipAddress }}
+            {{ equipInfo.equipAddress }}
           </div>
         </div>
         <div class="towerCraneMonitoring-content-row">
@@ -49,15 +49,15 @@
             所属辖区:
           </div>
           <div class="towerCraneMonitoring-content-row-value">
-            {{ data.departName }}
+            {{ equipInfo.departName }}
           </div>
         </div>
         <div class="towerCraneMonitoring-content-row">
           <div class="towerCraneMonitoring-content-row-name">
             所属网点:
           </div>
-          <div class="towerCraneMonitoring-content-row-value address-font" @click="showPlaceDetail(data.placeId)">
-            {{ data.placeName }}
+          <div class="towerCraneMonitoring-content-row-value address-font" @click="showPlaceDetail(equipInfo.placeId)">
+            {{ equipInfo.placeName }}
             <img src="@/assets/images/equip/address.png" alt="" class="address-icon">
           </div>
         </div>
@@ -94,7 +94,7 @@ export default {
     EquipDetialCard
   },
   props: {
-    data: {
+    equipInfo: {
       type: Object,
       default: null
     }
@@ -115,6 +115,11 @@ export default {
       return function(val) {
         return this.filterData(val)
       }
+    }
+  },
+  watch: {
+    equipInfo(val, oldVal) {
+      this.setEquipDetailCardListData()
     }
   },
   mounted() {
@@ -163,7 +168,7 @@ export default {
      * 设置卡片详情信息卡片的样式和值
      */
     setEquipDetailCardListData() {
-      const detailData = this.data
+      const detailData = this.equipInfo
       this.equipDetailCardList = [{
         width: '30.3%',
         name: '回旋角度',

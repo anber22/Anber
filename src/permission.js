@@ -18,16 +18,16 @@ router.beforeEach((to, from, next) => {
       // 此处获取userInfo个人信息,检查权限信息是否存在
       if (store.getters.permissions.length === 0) {
         // 加载权限 (这里应该是请求后端接口, 进行加载权限列表) 下面手动 set到对应的值内了
-        console.log("开始过滤路由")
+        console.log('开始过滤路由')
         const permissions = ['NetworkApplication', '0', '1', '2', '4']
         store.commit('SET_PERMISSIONS', permissions)
         // 初始化权限对应的路由到动态路由当中
         store.dispatch('GenerateRoutes', { permissions }).then(() => {
           router.addRoutes(store.getters.addRouters)
-          console.log("路由过滤完毕",store.getters.addRouters)
+          console.log('路由过滤完毕', store.getters.addRouters)
           console.log('to===/other', to)
           if (to.path === '/') {
-            next({ path: '/index' })
+            next({ path: '/editEquip' })
           } else {
             next(to.path)
           }

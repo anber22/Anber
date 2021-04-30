@@ -204,6 +204,33 @@ export default {
 }
 </script>
 
-<style src="./hazard.css">
+<style src="./hazard.css" scoped>
 
+</style>
+<style>
+.hazard .van-picker__columns {
+  background-color: #10161F;
+}
+.hazard .van-picker__mask{
+  background-image: linear-gradient(180deg,hsla(216, 32%, 9%, .4),hsla(216, 32%, 9%, .9)),linear-gradient(0deg,hsla(216, 32%, 9%, .4),hsla(216, 32%, 9%, .9));
+}
+.hazard .van-picker-column__item {
+  color:#B9CEE9
+}
+.hazard .van-picker__toolbar{
+  background-color: #10161F
+}
+.hazard .van-picker__title{
+  color:#B9CEE9
+}
+.hazard .van-field__control{
+  color: #8BA3C2;
+}
+.hazard .van-search__content {
+  background-color: #1A212B;
+}
+.hazard input::-webkit-input-placeholder{
+  color: #373F4A !important;
+  font-size: 12px
+}
 </style>

@@ -2,7 +2,7 @@
   <div class="tabbar-box">
     <router-view />
     <van-tabbar route class="van-tabbar-box">
-      <van-tabbar-item v-for="(item ,index) in tabList" :key="index" replace :to="item.path" icon="home-o">
+      <van-tabbar-item v-for="(item ,index) in tabList" :key="index" replace :to="index===2?'':item.path" icon="home-o" @click="index===2?showDone():''">
         <span>{{ item.name }}</span>
         <template #icon="props">
           <img :src="props.active ? item.active : item.inactive">

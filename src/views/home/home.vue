@@ -186,7 +186,7 @@ export default {
     this.getHiddenDangerList()
     console.log(this)
 
-    this.initSockets()
+    // this.initSockets()
   },
   methods: {
     onMessage(msg) {

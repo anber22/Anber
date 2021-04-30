@@ -5,63 +5,67 @@
       "desc":"页面路由",
       "Tabbar": {
         "desc":"tab页面",
-        "permissions": ["1", "2", "4"]
+        "permissions": ["1" , "2" , "4"]
       },
       "Home": {
         "desc":"首页",
-        "permissions": ["1", "2", "4"]
+        "permissions": ["1" , "2" , "4"]
       },
       "HomepageScreen": {
         "desc":"智慧高投",
-        "permissions": ["1", "2", "4"]
+        "permissions": ["1" , "2" , "4"]
       },
       "PersonInfo": {
         "desc":"我的",
-        "permissions": ["1", "2", "4","9"]
+        "permissions": ["1" , "2" , "4"]
       },
       "Navbar": {
         "desc":"Navbar",
-        "permissions": ["1", "2", "4"]
+        "permissions": ["1" , "2" , "4"]
       },
       "IotApp": {
         "desc":"物联应用",
-        "permissions": ["1", "2", "4"]
+        "permissions": ["1" , "2" , "4"]
       },
       "IotAppDetail": {
         "desc":"设备详情",
-        "permissions": ["1", "2", "4"]
+        "permissions": ["1" , "2" , "4"]
       },
       "PlaceResource": {
         "desc":"网点管理",
-        "permissions": ["1", "2", "4"]
+        "permissions": ["1" , "2" , "4"]
       },
       "Statistics": {
         "desc":"隐患管理",
-        "permissions": ["1", "2", "4"]
+        "permissions": ["1" , "2" , "4"]
       },
       "WisdomVisual": {
         "desc":"智慧视觉",
-        "permissions": ["1", "2", "4"]
+        "permissions": ["1" , "2" , "4"]
       },
       "VideoPlayer": {
         "desc":"视频播放",
-        "permissions": ["1", "2", "4"]
+        "permissions": ["1" , "2" , "4"]
       },
       "PlaceResourcDetail": {
         "desc":"网点详情",
-        "permissions": ["1", "2", "4"]
+        "permissions": ["1" , "2" , "4"]
       },
       "HazardDetail": {
         "desc":"隐患详情",
-        "permissions": ["1", "2", "4"]
+        "permissions": ["1" , "2" , "4"]
       },
       "PropertyPlate": {
         "desc":"物业看板",
-        "permissions": ["1", "2", "4"]
+        "permissions": ["1" , "2" , "4"]
       },
       "SafetyCommitteePlate": {
         "desc":"安委看板",
-        "permissions": ["1", "2", "4"]
+        "permissions": ["1" , "2" , "4"]
+      },
+      "EditEquip":{
+        "desc":"编辑设备",
+        "permissions": ["1" , "2" , "4"]
       }
     },
     "components": {

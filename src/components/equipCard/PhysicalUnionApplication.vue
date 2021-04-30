@@ -3,14 +3,14 @@
     <!-- 标题 start -->
     <div class="physicalUnionApplication-header">
       <div class="physicalUnionApplication-title">
-        {{ data.equipName }}
+        {{ equip.equipName }}
       </div>
       <div class="physicalUnionApplication-state">
         <div class="physicalUnionApplication-state-box">
-          <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" :status="data.onlineType" />
+          <EquipStatus :electricity="equip.equipPower" :signal="equip.equipSignal" :status="equip.onlineType" />
         </div>
-        <div v-if="data.count!==0" class="physicalUnionApplication-hidden-trouble" @click.stop="showHazardDetail(data.equipId)">
-          <van-badge :content="data.count" badge-size="14px" max="99">
+        <div v-if="equip.count!==0 && equip.count !== undefined" class="physicalUnionApplication-hidden-trouble" @click.stop="showHazardDetail(equip.equipId)">
+          <van-badge :content="equip.count" badge-size="14px" max="99">
             <img src="@/assets/images/equip/risk-early-warning.png" alt="" class="physicalUnionApplication-hidden-trouble-icon">
           </van-badge>
         </div>
@@ -24,7 +24,7 @@
           设备类型:
         </div>
         <div class="physicalUnionApplication-content-row-value">
-          {{ data.equipTypeName }}
+          {{ equip.equipTypeName }}
         </div>
       </div>
       <div class="physicalUnionApplication-content-row">
@@ -32,7 +32,7 @@
           IMEI码:
         </div>
         <div class="physicalUnionApplication-content-row-value">
-          {{ data.imei }}
+          {{ equip.imei }}
         </div>
       </div>
       <div class="physicalUnionApplication-content-row">
@@ -40,7 +40,7 @@
           安装位置:
         </div>
         <div class="physicalUnionApplication-content-row-value">
-          {{ data.equipAddress }}
+          {{ equip.equipAddress }}
         </div>
       </div>
       <div class="physicalUnionApplication-content-row">
@@ -48,7 +48,7 @@
           所属辖区:
         </div>
         <div class="physicalUnionApplication-content-row-value">
-          {{ data.departName }}
+          {{ equip.departName }}
         </div>
       </div>
       <div class="physicalUnionApplication-content-row">
@@ -56,7 +56,7 @@
           所属网点:
         </div>
         <div class="physicalUnionApplication-content-row-value address-font" @click.stop="showDetail(data.placeId)">
-          {{ data.placeName }}
+          {{ equip.placeName }}
           <img src="@/assets/images/equip/address.png" alt="" class="address-icon">
         </div>
       </div>
@@ -77,7 +77,7 @@ export default {
     EquipStatus
   },
   props: {
-    data: {
+    equipInfo: {
       type: Object,
       // eslint-disable-next-line vue/require-valid-default-prop
       default: []
@@ -89,10 +89,17 @@ export default {
         wifi: 'red',
         electricity: 'yellow',
         statusName: '正常'
-      }
+      },
+      equip: {}
+    }
+  },
+  watch: {
+    equipInfo(val, oldVal) {
+      this.equip = val
     }
   },
   mounted() {
+    this.equip = this.equipInfo
   },
   methods: {
     /**
@@ -120,7 +127,6 @@ export default {
      * 跳转网点详情
      */
     showDetail(e) {
-      console.log('跳转详情')
       this.$router.push({
         path: '/placeResourcDetail',
         query: {

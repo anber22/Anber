@@ -46,8 +46,8 @@ class IotApp {
     })
   }
 
-  // 获取物联应用实时数据列表(设备塔吊实时数据-单个 )
-  async towerRealTimeInfoList(param) {
+  // 获取塔机实时数据列表(设备塔吊实时数据-单个 )
+  async towerRealTimeInfo(param) {
     return await request({
       url: `/apis/equip/id/${param}/tower`,
       method: 'get'
@@ -63,18 +63,32 @@ class IotApp {
   // }
 
   //  获取物联应用未处理事件数
-  async equipUntreatedEventList(param) {
+  async equipUntreatedEvent(param) {
     return await request({
-      url: `/apis/equip/event/undone/counting/finder`,
-      method: 'post',
-      data: param
+      url: `/apis/equip/id/${param}/event/undone/counting`,
+      method: 'get'
     })
   }
-  //  获取物联应用未处理事件数
+  //  获取设备详情
   async equipDtailInfo(param) {
     return await request({
       url: `/apis/equip/id/${param}`,
       method: 'get'
+    })
+  }
+  //  获取绑定日志列表
+  async bindingLogList(param) {
+    return await request({
+      url: `/apis/log/equip/imei/${param}/binding/log/list`,
+      method: 'get'
+    })
+  }
+  //  修改设备信息
+  async updateEquip(equipId, param) {
+    return await request({
+      url: `/simulation/equip/id/${equipId}/info`,
+      method: 'put',
+      data: param
     })
   }
 }

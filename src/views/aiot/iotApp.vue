@@ -34,7 +34,7 @@
           >
             <div v-for="item in equipInfoList" :key="item.index" @click="toDetailInfo(item.equipId)">
               <Adaptive :data="['100%','49.9%']" class="physicalUnionApplication-card">
-                <PhysicalUnionApplication :data="item" />
+                <PhysicalUnionApplication :equip-info="item" />
               </Adaptive>
             </div>
           </van-list>
@@ -50,7 +50,7 @@
           >
             <div v-for="item in equipInfoList" :key="item.index" @click="toDetailInfo(item.equipId)">
               <Adaptive :data="['100%','77.9%']" class="environmentalMonitoring-card">
-                <EnvironmentalMonitoring :data="item" />
+                <EnvironmentalMonitoring :equip-info="item" />
               </Adaptive>
             </div>
           </van-list>
@@ -65,7 +65,7 @@
             @load="getEquipInfoList"
           >
             <div v-for="item in equipInfoList" :key="item.index" @click="toDetailInfo(item.equipId)">
-              <TowerCraneMonitoring class="towerCraneMonitoring-card" :data="item" />
+              <TowerCraneMonitoring class="towerCraneMonitoring-card" :equip-info="item" />
             </div>
           </van-list>
         </div>
@@ -115,7 +115,6 @@ import PhysicalUnionApplicationListCard from 'cmp/equipListCard/EquipListCard.vu
 import EnvironmentalMonitoring from 'cmp/equipCard/EnvironmentalMonitoring.vue'
 import TowerCraneMonitoring from 'cmp/equipCard/TowerCraneMonitoring.vue'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
-import VueDataLoading from 'vue-data-loading'
 
 import Api from '@/api/aiot/iotApp.js'
 
@@ -128,8 +127,7 @@ export default {
     // 环境监测设备信息卡片
     EnvironmentalMonitoring,
     // 塔机检测设备信息卡片
-    TowerCraneMonitoring,
-    VueDataLoading
+    TowerCraneMonitoring
   },
   data() {
     return {
@@ -157,7 +155,6 @@ export default {
     // 渲染页面查询卡片列表片数据
     if (this.$route.query.systemId) {
       this.thisSubsystemId = Number(this.$route.query.systemId)
-      console.log('带参跳转')
     }
     this.getEquipInfoList()
   },
@@ -174,7 +171,6 @@ export default {
       this.getEquipInfoList()
     },
     toDetailInfo(equipId) {
-      console.log('点击跳转详情')
       this.$router.push({
         path: '/iotAppDetail',
         query: {
@@ -207,13 +203,6 @@ export default {
 
       this.isCard = !this.isCard
     },
-    // infiniteScroll() {
-    //   // 到底触发的事件
-    //   console.log('到底触发的事件')
-    //   this.page++
-    //   // this.$emit('changeData', this.page)
-    // },
-
     /**
      * 获取卡片列表
      */
@@ -241,7 +230,6 @@ export default {
           return
         }
         if (temp.length === 0) {
-          console.log('长度为0')
           this.equipInfoList = temp
           this.loadding = false
           this.finished = true
@@ -249,54 +237,66 @@ export default {
         }
       }
 
-      console.log('设备列表', [...res.data.rows])
       // 获取设备列表集合的
-      const ids = temp.map(item => { return item.equipId })
-
-      // 获取设备列表ids对应的未处理事件数
-      const hazardCountList = await Api.equipUntreatedEventList(ids)
-
       // 根据设备类型id获取对应的设备类型名称
       temp = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', temp)
-      let combined = []
-      if (hazardCountList.code === 200) {
-        combined = hazardCountList.data.reduce((acc, cur) => {
-          const target = acc.find(e => e.equipId === cur.equipId)
-          if (target) {
-            Object.assign(target, cur)
-          }
-          return acc
-        }, temp)
-      }
-      temp = combined
 
-      // 如果是环境监测或者是塔机监测就需要吧详细数据加载进来
+      this.equipInfoList = this.equipInfoList.concat(temp)
+      this.loadding = false
+      let system = ''
       if (this.thisSubsystemId === 10 || this.thisSubsystemId === 11) {
-        this.loadding = true
         // 根据对应的设备类型去请求相对应系统的接口
-        let system = ''
+
         if (this.thisSubsystemId === 10) {
           system = 'environment'
         } else if (this.thisSubsystemId === 11) {
           system = 'tower'
         }
-        // 获取ids去查询对应设备的详细数据
-        const realTimeList = await Api.environmentRealTimeInfoList(ids, system)
-        // 把两个数组对象根据equipId来合并
-        if (realTimeList.code === 200) {
-          combined = realTimeList.data.reduce((acc, cur) => {
-            const target = acc.find(e => e.equipId === cur.equipId)
-            if (target) {
-              Object.assign(target, cur)
-            }
-            return acc
-          }, temp)
-        }
-        temp = combined
       }
-      console.log('设备列表', temp)
-      this.equipInfoList = this.equipInfoList.concat(temp)
+      await this.getRealDataList(system)
+    },
+    /**
+     * 获取设备实时数据和未处理隐患数
+     */
+    async getRealDataList(e) {
+      // 实时数据
+      let realTime = {}
+      // 未处理隐患数
+      let hazardCount = 0
+      // 打开loadding
+      this.loadding = true
+      const temp = this.equipInfoList
+      // 如果是环境监测
+      if (e === 'environment') {
+        for (let i = 0; i < temp.length; i++) {
+          if (temp[i].windSpeed !== undefined) {
+            continue
+          }
+          realTime = await Api.environmentRealTimeData(temp[i].equipId)
+          if (realTime.code === 200 && realTime.data) {
+            temp[i] = Object.assign(realTime.data, temp[i])
+          }
+        }
+      } else if (e === 'tower') { // 如果是塔机监测
+        for (let i = 0; i < temp.length; i++) {
+          if (temp[i].windSpeed !== undefined) {
+            continue
+          }
+          realTime = await Api.towerRealTimeInfo(temp[i].equipId)
+          if (realTime.code === 200 && realTime.data) {
+            temp[i] = Object.assign(realTime.data, temp[i])
+          }
+        }
+      }
+      // 获取设备列表id对应的未处理事件数
+      for (let i = 0; i < temp.length; i++) {
+        hazardCount = await Api.equipUntreatedEvent(temp[i].equipId)
 
+        if (hazardCount.code === 200) {
+          temp[i]['count'] = hazardCount.data
+        }
+      }
+      this.equipInfoList = temp
       this.loadding = false
     }
   }

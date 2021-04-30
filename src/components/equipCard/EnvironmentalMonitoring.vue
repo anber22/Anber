@@ -3,14 +3,14 @@
     <!-- 标题 start -->
     <div class="environmentalMonitoring-header">
       <div class="environmentalMonitoring-title">
-        {{ data.equipName }}
+        {{ equipInfo.equipName }}
       </div>
       <div class="environmentalMonitoring-state">
         <div class="environmentalMonitoring-state-box">
-          <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" :status="data.onlineType" />
+          <EquipStatus :electricity="equipInfo.equipPower" :signal="equipInfo.equipSignal" :status="equipInfo.onlineType" />
         </div>
-        <div v-if="data.count!==0" class="environmentalMonitoring-hidden-trouble" @click="showHazardDetail(data.equipId)">
-          <van-badge :content="data.count" badge-size="14px" max="99">
+        <div v-if="equipInfo.count!==0" class="environmentalMonitoring-hidden-trouble" @click="showHazardDetail(equipInfo.equipId)">
+          <van-badge :content="equipInfo.count" badge-size="14px" max="99">
             <img src="@/assets/images/equip/risk-early-warning.png" alt="" class="environmentalMonitoring-hidden-trouble-icon">
           </van-badge>
         </div>
@@ -24,7 +24,7 @@
           设备类型:
         </div>
         <div class="environmentalMonitoring-content-row-value">
-          {{ data.equipTypeName }}
+          {{ equipInfo.equipTypeName }}
         </div>
       </div>
       <div class="environmentalMonitoring-content-row">
@@ -32,7 +32,7 @@
           IMEI码:
         </div>
         <div class="environmentalMonitoring-content-row-value">
-          {{ data.imei }}
+          {{ equipInfo.imei }}
         </div>
       </div>
       <div class="environmentalMonitoring-content-row">
@@ -40,7 +40,7 @@
           安装位置:
         </div>
         <div class="environmentalMonitoring-content-row-value">
-          {{ data.equipAddress }}
+          {{ equipInfo.equipAddress }}
         </div>
       </div>
       <div class="environmentalMonitoring-content-row">
@@ -48,15 +48,15 @@
           所属辖区:
         </div>
         <div class="environmentalMonitoring-content-row-value">
-          {{ data.departName }}
+          {{ equipInfo.departName }}
         </div>
       </div>
       <div class="environmentalMonitoring-content-row">
         <div class="environmentalMonitoring-content-row-name">
           所属网点:
         </div>
-        <div class="environmentalMonitoring-content-row-value address-font" @click="showDetail(data.placeId)">
-          {{ data.placeName }}
+        <div class="environmentalMonitoring-content-row-value address-font" @click="showDetail(equipInfo.placeId)">
+          {{ equipInfo.placeName }}
           <img src="@/assets/images/equip/address.png" alt="" class="address-icon">
         </div>
       </div>
@@ -67,7 +67,7 @@
         </div>
       </div>
       <div>
-        <EquipDetialCard v-for="item in equipDetailCardList" :key="item.index" class="equipDetailCard-box" :layout="item" :content="data" />
+        <EquipDetialCard v-for="item in equipDetailCardList" :key="item.index" class="equipDetailCard-box" :layout="item" :content="equipInfo" />
       </div>
     </div>
     <!-- end -->
@@ -88,7 +88,7 @@ export default {
     EquipDetialCard
   },
   props: {
-    data: {
+    equipInfo: {
       type: Object,
       // eslint-disable-next-line vue/require-valid-default-prop
       default: {}
@@ -104,9 +104,13 @@ export default {
       }
 
     }
-  }, beforeMount() {
   },
-  mounted() {
+  watch: {
+    equipInfo(val, oldVal) {
+      this.setEquipDetailCardListData()
+    }
+  },
+  created() {
     this.setEquipDetailCardListData()
   },
 
@@ -131,7 +135,7 @@ export default {
       })
     },
     setEquipDetailCardListData() {
-      const detailData = this.data
+      const detailData = this.equipInfo
       this.equipDetailCardList = [{
         typed: 'rainFall',
         width: '24.55%',

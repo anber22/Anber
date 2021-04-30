@@ -15,7 +15,7 @@ module.exports = merge(base, {
     // },
     historyApiFallback: true,
     compress: true, // 启用压缩,
-    // host: "0.0.0.0",
+    host: "192.168.3.41",
     port: 1229, // 端口
     open: true, // 自动打开浏览器
     hot: true,
@@ -33,6 +33,13 @@ module.exports = merge(base, {
         target: "http://47.106.116.164:8017",
         // target: "http://47.106.116.164:8017",
         pathRewrite: { "^/wc": "" },
+        changeOrigin: true,
+        secure: false, // 目标服务器地址是否是安全协议
+      },
+      "/simulation":{   // 模拟接口
+        target: "http://192.168.1.13:1080/",
+        // target: "http://47.106.116.164:8017",
+        pathRewrite: { "^/simulation": "" },
         changeOrigin: true,
         secure: false, // 目标服务器地址是否是安全协议
       },

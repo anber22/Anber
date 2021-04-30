@@ -1,5 +1,5 @@
 <template>
-  <div class="tabbar-box">
+  <div class="navbar-box">
     <van-nav-bar
       :title="title"
       left-arrow
@@ -27,7 +27,7 @@ export default {
   },
   watch: {
     $route: {
-      handler: function(val, oldVal) {
+      handler(val, oldVal) {
         this.title = this.$route.meta.title
         this.showEdit = this.$route.meta.edit
         console.log(this.showEdit)
@@ -65,12 +65,12 @@ export default {
 }
 </style>
 <style>
-.van-nav-bar .van-icon {
+.navbar-box .van-nav-bar .van-icon {
   width: 19px;
   height: 19px;
     color: white;
 }
-.van-nav-bar {
+.navbar-box .van-nav-bar {
     position: relative;
     z-index: 1;
     line-height: 22px;
@@ -79,19 +79,22 @@ export default {
     -webkit-user-select: none;
     user-select: none;
 }
-.van-hairline--bottom::after {
+.navbar-box .van-hairline--bottom::after {
     border: none;
 }
-.van-nav-bar__title {
+.navbar-box .van-nav-bar__title {
     max-width: 60%;
     margin: 0 auto;
     color: white;
     font-weight: 500;
     font-size: 18px;
 }
-.nav-right-edit-icon{
+.navbar-box .nav-right-edit-icon{
   width: 17px;
   height: 17px;
+}
+.navbar-box .van-nav-bar__placeholder{
+  height: 45px !important;
 }
 </style>
 

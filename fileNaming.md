@@ -85,9 +85,12 @@
     - AnalysisCount.vue
     - AnalysisCount.css -->
   - realtimeEventCard                     #实时事件卡片
-    - realtimeEventCard.vue
-    - realtimeEventCard.css
+    - RealtimeEventCard.vue
+    - RealtimeEventCard.css
 
+  - bindingLog                 # 绑定日志
+    - BindingLog.vue
+    - BindingLog.css
 ------------------------------------------------------
 
 ##### views

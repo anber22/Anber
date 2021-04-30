@@ -251,7 +251,7 @@ export default {
 
     this.getOnlinePercent()
     this.$nextTick(function() {
-      this.initSockets()
+      // this.initSockets()
     })
   },
   destroyed() { // 页面销毁时清除定时器

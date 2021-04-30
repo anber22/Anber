@@ -14,13 +14,7 @@
 .hazard-list-card{
   margin-top: 3%;
 }
-.van-search__content {
-  background-color: #1A212B;
-}
-input::-webkit-input-placeholder{
-  color: #373F4A !important;
-  font-size: 12px
-}
+
 .hazard-input{
   width: 90%;
   display: inline-block;
@@ -30,24 +24,6 @@ input::-webkit-input-placeholder{
   display: inline-block;
 }
 .hazard-icon{
-width: 20px;
-height: 20px;
-}
-.van-picker__columns {
-  background-color: #10161F;
-}
-.van-picker__mask{
-  background-image: linear-gradient(180deg,hsla(216, 32%, 9%, .4),hsla(216, 32%, 9%, .9)),linear-gradient(0deg,hsla(216, 32%, 9%, .4),hsla(216, 32%, 9%, .9));
-}
-.van-picker-column__item {
-  color:#B9CEE9
-}
-.van-picker__toolbar{
-  background-color: #10161F
-}
-.van-picker__title{
-  color:#B9CEE9
-}
-.van-field__control{
-  color: #8BA3C2;
+  width: 20px;
+  height: 20px;
 }

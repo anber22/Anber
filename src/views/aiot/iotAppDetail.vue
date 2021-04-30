@@ -30,12 +30,24 @@
         <div class="iotApp-detail-title">
           <img src="@/assets/images/home/title-icon.png" alt="" class="iotApp-detail-title-icon">
           实时数据
+          <div class="refresh" @click="getEnvironmentRealTime()">
+            <img src="@/assets/images/equip/refresh.png" alt="" class="refresh-img">
+            刷新
+          </div>
         </div>
         <InfoRow v-for="(rowItem,index) in realTimeRows" :key="index" :data="rowItem" class="realtime-data" />
       </div>
     </div>
-    <div v-show="active===2" style="color:#fff;text-align: center;padding-top: 50px;">
-      暂无日志
+    <div v-show="active===2">
+      <div class="iotApp-detail-title">
+        <img src="@/assets/images/home/title-icon.png" alt="" class="iotApp-detail-title-icon">
+        绑定日志
+      </div>
+      <BindingLog v-if="logData.length>0" :log-data="logData" />
+      <img src="@/assets/images/public/nothing.png" alt="" class="log-nothing-img">
+      <div class="log-nothing-content">
+        无匹配项
+      </div>
     </div>
   </div>
 </template>
@@ -47,13 +59,16 @@ import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 import VideoPlayer from 'cmp/videoPlayer/VideoPlayer'
 import VideoUUID from '@/utils/videoUUID'
 import Config from '/config.json'
+import BindingLog from 'cmp/bindingLog/BindingLog'
+import DateFormat from '@/utils/dateTransformation'
 
 import Api from '@/api/aiot/iotApp.js'
 export default {
   name: 'EquipDeail',
   components: {
     InfoRow,
-    VideoPlayer
+    VideoPlayer,
+    BindingLog
   },
 
   data() {
@@ -81,14 +96,13 @@ export default {
           timeDivider: false,
           durationDisplay: false
         }
-        // ,
-        // poster: require('@/assets/images/home/banner-2.jpg')
       },
-      rowList: [],
-      equipId: 0,
-      equipInfo: {},
-      systemId: 0,
-      realTimeRows: []
+      rowList: [], // 设备详细信息
+      equipId: 0, // 设备id
+      equipInfo: {}, // 设备信息
+      systemId: 0, // 当前设备所属系统id
+      realTimeRows: [], // 实时数据行
+      logData: [] // 日志信息
     }
   },
   computed: {
@@ -97,6 +111,7 @@ export default {
     }
   },
   mounted() {
+    console.log('进入页面')
     this.equipId = this.$route.query.id
     this.systemId = Number(this.$route.query.systemId)
     this.getEquipDetailInfo()
@@ -107,6 +122,12 @@ export default {
      */
     toeEdit() {
       console.log('触发页面事件')
+      this.$router.push({
+        path: '/editEquip',
+        query: {
+          equipId: this.equipId
+        }
+      })
     },
     /**
      * 切换tab
@@ -178,10 +199,24 @@ export default {
         }
       ]
       this.equipInfo = equipDetailInfo
-      let realDate = {}
+      console.log('设备信息', this.equipInfo)
+      const bindingRes = await Api.bindingLogList(this.equipInfo.imei)
+      if (bindingRes.code === 200) {
+        const bindingList = bindingRes.data.list
+        const dataTran = new DateFormat()
+
+        bindingList.forEach(item => {
+          const dateTime = dataTran.dataFormatStamp(item.createdTime)
+          //  dataTran.dataFormat(1619392568000)
+          this.logData.push({ date: dateTime.slice(0, 10), time: dateTime.slice(10, 19), editType: item.operationType, createdName: item.workerName, placeName: item.placeName })
+        })
+        console.log('日志列表', this.logData, bindingRes)
+      }
+
+      const realDate = {}
       if (this.systemId === 5 || this.systemId === 11) {
         if (this.systemId === 11) {
-          const detailRes = await Api.towerRealTimeInfoList(this.equipId)
+          const detailRes = await Api.towerRealTimeInfo(this.equipId)
           let realDate = {}
           if (detailRes.code === 200) {
             realDate = { ... detailRes.data }
@@ -240,35 +275,7 @@ export default {
         }
         this.playVideo(source)
       } else if (this.systemId === 10) {
-        const detailRes = await Api.environmentRealTimeData(this.equipId)
-
-        if (detailRes.code === 200) {
-          realDate = { ... detailRes.data }
-        }
-        console.log('实时数据', detailRes)
-        this.realTimeRows = [
-          {
-            name: '雨量:',
-            content: realDate.rainFall === null ? '--' : realDate.rainFall,
-            typed: 'info'
-          }, {
-            name: '风速:',
-            content: realDate.windSpeed === null ? '--' : realDate.windSpeed,
-            typed: 'info'
-          }, {
-            name: '风向:',
-            content: realDate.windDirection === null ? '--' : realDate.windDirection,
-            typed: 'info'
-          }, {
-            name: '温度:',
-            content: realDate.temperature === null ? '--' : realDate.temperature,
-            typed: 'info'
-          }, {
-            name: '湿度:',
-            content: realDate.humidity === null ? '--' : realDate.humidity,
-            typed: 'info'
-          }
-        ]
+        this.getEnvironmentRealTime()
       }
     },
     onPlayerPlay(player) {
@@ -276,6 +283,38 @@ export default {
     },
     onPlayerReady(player) {
       this.player.play()
+    },
+    async getEnvironmentRealTime() {
+      let realDate = {}
+      const detailRes = await Api.environmentRealTimeData(this.equipId)
+
+      if (detailRes.code === 200) {
+        realDate = { ... detailRes.data }
+      }
+      console.log('实时数据', detailRes)
+      this.realTimeRows = [
+        {
+          name: '雨量:',
+          content: realDate.rainFall === null ? '--' : realDate.rainFall,
+          typed: 'info'
+        }, {
+          name: '风速:',
+          content: realDate.windSpeed === null ? '--' : realDate.windSpeed,
+          typed: 'info'
+        }, {
+          name: '风向:',
+          content: realDate.windDirection === null ? '--' : realDate.windDirection,
+          typed: 'info'
+        }, {
+          name: '温度:',
+          content: realDate.temperature === null ? '--' : realDate.temperature,
+          typed: 'info'
+        }, {
+          name: '湿度:',
+          content: realDate.humidity === null ? '--' : realDate.humidity,
+          typed: 'info'
+        }
+      ]
     },
     playVideo(source) {
       const video = {
@@ -331,5 +370,37 @@ export default {
 
 .detail-info{
   widows: 100%;
+}
+.log-nothing-img{
+  width: 90px;
+  height: 85px;
+  vertical-align: middle;
+  margin-top: 50%;
+  margin-left: 40%;
+}
+.log-nothing-content{
+  width: 78%;
+  height:auto;
+  font-size: 14px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #6F85A2;
+  margin-left: 6%;
+  margin-top: 2%;
+  margin-left: 42%;
+}
+.refresh{
+  height: 28px;
+  line-height: 28px;
+  margin-right: 12px;
+  float: right;
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #06F0FE;
+}
+.refresh-img{
+  width: 13px;
+  height: 13px;
 }
 </style>

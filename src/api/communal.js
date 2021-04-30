@@ -23,7 +23,7 @@ class Communal {
     })
   }
 
-  //  设备类型列表
+  //  物联网平台类型列表
   async platformList() {
     return await request({
       url: `/apis/equip/platform/list`,
