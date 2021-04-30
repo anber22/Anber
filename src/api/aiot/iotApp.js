@@ -91,5 +91,12 @@ class IotApp {
       data: param
     })
   }
+  // 根据IMEI查找设备
+  async equipImei(param) {
+    return await request({
+      url: `/apis/equip/type/imei/${param}`,
+      method: 'get'
+    })
+  }
 }
 export default new IotApp()

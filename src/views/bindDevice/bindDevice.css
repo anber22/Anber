@@ -1,0 +1,117 @@
+.bind-device {
+  width: 100%;
+  height: calc(100% - 46px);
+  background: #101720;
+  position: fixed;
+  overflow: hidden;
+}
+#container {
+  width: 100%;
+  height: 100%;
+}
+.search {
+  position: absolute;
+  top: 20px;
+  width: calc(100% - 30px);
+  left: 15px;
+  z-index: 99;
+}
+.search input {
+  width: 100%;
+  height: 40px;
+  background: url('@/assets/images/equip/search.png') center left 10px no-repeat;
+  background-size: 15px 15px;
+  background-color: #1A212B !important;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  color: #373F4A  !important;
+  padding: 0 10px 0 35px;
+  font-size: 14px;
+}
+.message {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  z-index: 999;
+}
+.message-button {
+  height: 24px;
+}
+.message-button.down {
+  background: url('@/assets/images/equip/down.png') center center no-repeat;
+  background-color: #131A24;
+  background-size: 18px 7px;
+}
+.message-button.top {
+  background: url('@/assets/images/equip/up.png') center center no-repeat;
+  background-color: #131A24;
+  background-size: 18px 7px;
+}
+.content {
+  background: #101720;
+  border-bottom: 1px solid #283444;
+  max-height: 300px;
+  overflow: auto;
+}
+.view-item {
+  margin: 0 15px;
+  border-bottom: 1px solid #283444;
+  padding: 10px 0 10px 15px;
+}
+.view-item:last-child {
+  border-bottom: none;
+}
+.view-item .required {
+  font-family: PingFangSC-Regular;
+  color: #FF1743;
+  font-size: 12px;
+  font-weight: 400;
+}
+.view-item .title {
+  color: #6F85A2;
+  font-size: 12px;
+  font-weight: 400;
+}
+.item-type {
+  padding-top: 10px;
+}
+.item-type img {
+  width: 15px;
+  height: 15px;
+  padding: 0 10px;
+}
+.item-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  color: #6F85A2;
+  font-size: 16px;
+  font-family: PingFang SC;
+  font-weight: 400;
+}
+.item-display {
+  color: #6F85A2;
+  font-size: 16px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  height: 20px;
+  line-height: 20px;
+}
+.submit {
+  background: #101720;
+  padding: 10px 15px;
+}
+.submit button {
+  color: #fff;
+  font-size: 16px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  border: none;
+  border-radius: initial;
+  background: linear-gradient(to right, #1DF2FF, #008EFF);
+  box-shadow: 2px 2px 14px 2px rgba(27, 60, 136, 0.67);
+  width: 100%;
+}

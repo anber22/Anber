@@ -116,11 +116,24 @@ export const asyncRouterMap = [
         name: 'SafetyCommitteePlate',
         component: () => import('@/views/plate/plate'),
         meta: { showFooter: true, title: '安委看板', permissions: [], edit: false }
-      }, {
+      }, 
+      {
         path: '/editEquip',
         name: 'EditEquip',
         component: () => import('@/views/aiot/editEquip'),
         meta: { showFooter: true, title: '编辑设备', permissions: [], edit: false }
+      },
+      {
+        path: '/unreadEvents',
+        name: 'UnreadEvents',
+        component: () => import('@/views/unreadEvents/unreadEvents'),
+        meta: { showFooter: true, title: '未读事件列表', permissions: [] }
+      },
+      {
+        path: '/bindDevice',
+        name: 'BindDevice',
+        component: () => import('@/views/bindDevice/bindDevice'),
+        meta: { showFooter: true, title: '绑定设备', permissions: [] }
       }
     ]
   },

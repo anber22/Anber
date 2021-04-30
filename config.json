@@ -66,6 +66,14 @@
       "EditEquip":{
         "desc":"编辑设备",
         "permissions": ["1" , "2" , "4"]
+      },
+      "UnreadEvents": {
+        "desc": "未读事件列表",
+        "permissions": ["1", "2", "4"]
+      },
+      "BindDevice": {
+        "desc": "绑定设备",
+        "permissions": ["1", "2", "4"]
       }
     },
     "components": {

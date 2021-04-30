@@ -133,7 +133,7 @@
         </div>
         <!-- end -->
         <div class="realtime-events">
-          <div class="title">
+          <div class="title" @click="goJump('/unreadEvents')">
             <van-image
               width="4px"
               height="17px"
