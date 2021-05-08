@@ -8,7 +8,7 @@
       @click-left="onClickLeft"
     >
       <template v-if="showEdit" #right>
-        <img src="@/assets/images/public/edit.png" alt="" class="nav-right-edit-icon" @click="chengeToEdit">
+        <img src="@/assets/images/public/edit.png" alt="" class="nav-right-edit-icon" @click="changeToEdit()">
       </template>
     </van-nav-bar>
     <router-view ref="page" />
@@ -44,7 +44,7 @@ export default {
     /**
      * 切换成编辑状态
      */
-    chengeToEdit() {
+    changeToEdit() {
       console.log('点击编辑', this)
       // this.$children[1].toeEdit()
       this.$refs.page.toeEdit()

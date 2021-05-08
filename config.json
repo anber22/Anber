@@ -74,6 +74,18 @@
       "BindDevice": {
         "desc": "绑定设备",
         "permissions": ["1", "2", "4"]
+      },
+      "PlaceResourseEditorial": {
+        "desc":"编辑网点",
+        "permissions": ["1", "2", "4"]
+      },
+      "HazardEditorial": {
+        "desc":"编辑隐患",
+        "permissions": ["1", "2", "4"]
+      },
+      "PlaceResourcAddition": {
+        "desc":"新增网点",
+        "permissions": ["1", "2", "4"]
       }
     },
     "components": {

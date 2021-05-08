@@ -103,7 +103,7 @@ export const asyncRouterMap = [
       { path: '/hazardDetail',
         name: 'HazardDetail',
         component: () => import('@/views/hazardDetail/hazardDetail'),
-        meta: { showFooter: true, title: '隐患详情', permissions: [], edit: false }
+        meta: { showFooter: true, title: '隐患详情', permissions: [], edit: true }
       },
       {
         path: '/propertyPlate',
@@ -116,7 +116,7 @@ export const asyncRouterMap = [
         name: 'SafetyCommitteePlate',
         component: () => import('@/views/plate/plate'),
         meta: { showFooter: true, title: '安委看板', permissions: [], edit: false }
-      }, 
+      },
       {
         path: '/editEquip',
         name: 'EditEquip',
@@ -134,6 +134,24 @@ export const asyncRouterMap = [
         name: 'BindDevice',
         component: () => import('@/views/bindDevice/bindDevice'),
         meta: { showFooter: true, title: '绑定设备', permissions: [] }
+      },
+      {
+        path: '/placeResourseEditorial',
+        name: 'PlaceResourseEditorial',
+        component: () => import('@/views/placeResourseEditorial/placeResourseEditorial'),
+        meta: { showFooter: true, title: '编辑网点', permissions: [] }
+      },
+      {
+        path: '/hazardEditorial',
+        name: 'HazardEditorial',
+        component: () => import('@/views/hazardEditorial/hazardEditorial'),
+        meta: { showFooter: true, title: '编辑隐患', permissions: [] }
+      },
+      {
+        path: '/placeResourcAddition',
+        name: 'PlaceResourcAddition',
+        component: () => import('@/views/placeResourcAddition/placeResourcAddition'),
+        meta: { showFooter: true, title: '新增网点', permissions: [] }
       }
     ]
   },

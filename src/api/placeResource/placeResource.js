@@ -18,7 +18,29 @@ class PlaceResourc {
   //  获取网点关联设备
   async placeResourcEquip(param) {
     return await request({
-      url: `/apis/place/id/${param}2/equip/list`,
+      url: `/apis/place/id/${param}/equip/list`,
+      method: 'get'
+    })
+  }
+  //  获取网点新增
+  async placeResourcInfo(param) {
+    return await request({
+      url: `/apis/place/${param}`,
+      method: 'post'
+    })
+  }
+  // 获取网点修改
+  async updateplaceResourc(id, param) {
+    return await request({
+      url: `/apis/place/id/${id}`,
+      method: 'put',
+      data: param
+    })
+  }
+  // 获取辖区树接口
+  async getPlaceTree() {
+    return await request({
+      url: `/apis/depart/tree`,
       method: 'get'
     })
   }

@@ -1,0 +1,440 @@
+<template>
+  <div class="placeResourseEditorial">
+    <!--标题框 -->
+    <!-- <div class="van-nav-bar">
+      <i>a</i>
+      新增网点
+    </div> -->
+    <!-- 网点信息list -->
+    <div class="net-info">
+      <img src="@/assets/images/home/title-icon.png" alt="">
+      网点信息
+    </div>
+    <!-- 网点信息详情 -->
+    <div v-for="(item,index) in netinfodetail" :key="index" class="netinfo-detail">
+      <span :class="item.required?'sign':'sign-none'" style="color:red;font-size:12px" :required="item.required">*</span>
+      <p class="quest">
+        {{ item.question }}
+      </p>
+      <template v-if="item.type==='input'">
+        <input v-model="item.answer" class="inputs" type="text" :placeholder="item.value">
+      </template>
+      <!-- 网点类型 -->
+      <template v-if="item.type==='picker'">
+        <van-field
+          v-model="placeTypeName"
+          readonly
+          clickable
+          is-link
+          placeholder="请选择网点类型"
+          @click="showPicker = true"
+        />
+        <van-popup v-model="showPicker" round position="bottom">
+          <van-picker
+            class="picker"
+            title="网点类型"
+            :default-index="0"
+            value-key="name"
+            show-toolbar
+            :columns="pickcolumns"
+            @confirm="onConfirm"
+            @cancel="onCancel"
+          />
+        </van-popup>
+      </template>
+      <!-- 所属辖区 -->
+      <template v-if="item.type==='cascader'">
+        <van-field
+          v-model="fieldValue"
+          class="pops"
+          is-link
+          readonly
+          placeholder="请选择所属辖区"
+          @click="show = true"
+        />
+        <van-popup v-model="show" round position="bottom">
+          <van-cascader
+            v-model="cascaderValue"
+            title="请选择所属辖区"
+            :options="options"
+            @close="show = false"
+            @finish="onFinish"
+          />
+        </van-popup>
+      </template>
+    </div>
+    <!-- 责任书 -->
+    <!-- 网点照片 -->
+    <!-- 物联设备 -->
+    <div class="Ito-equip">
+      <img src="@/assets/images/home/title-icon.png" alt="">
+      物联设备({{ itoEquipList.length }})
+    </div>
+    <!-- 绑定设备 -->
+    <p class="binding-device">
+      <img src="@/assets/images/equip/add.png" alt="">
+      绑定设备
+    </p>
+    <!-- 保存按钮 -->
+    <van-button class="store-btn" block color="linear-gradient(100deg, #1DF2FF,#008EFF )" @click="getPlaceResourcInfo">
+      保存
+    </van-button>
+  </div>
+</template>
+
+<script>
+import Api from '@/api/placeResource/placeResource.js'
+
+export default {
+  data() {
+    return {
+      itoEquipList: [],
+
+      netinfodetail: [
+        {
+          question: '网点名称',
+          value: '请输入网点名称',
+          required: true,
+          type: 'input',
+          answer: ''
+        },
+        {
+          question: '网点类型',
+          value: '请选择网点类型',
+          required: true,
+          type: 'picker',
+          answer: ''
+        },
+        {
+          question: '网点地址',
+          value: '请输入网点地址',
+          required: false,
+          type: 'input',
+          answer: ''
+        },
+        {
+          question: '所属辖区',
+          value: '请选择所属辖区',
+          required: true,
+          type: 'cascader',
+          answer: ''
+        },
+        {
+          question: '负责人',
+          value: '请输入负责人',
+          required: false,
+          type: 'input',
+          answer: ''
+        },
+        {
+          question: '手机号',
+          value: '请输入手机号',
+          required: false,
+          type: 'input',
+          answer: ''
+        }
+      ],
+      show: false,
+      fieldValue: '',
+      cascaderValue: '',
+      options: [
+        {
+          departName: '华南地区',
+          departId: '330000',
+          children: [
+            {
+              departName: '广东省',
+              departId: '330100',
+              children: [
+                { departName: '广州市', departId: '330101' },
+                { departName: '深圳市', departId: '330102' },
+                { departName: '珠海市', departId: '330103' }
+              ]
+            },
+            {
+              departName: '湖南省',
+              departId: '330200',
+              children: [
+                { departName: '岳阳市', departId: '330201' },
+                { departName: '长沙市', departId: '330202' },
+                { departName: '张家界市', departId: '330203' }
+              ]
+            },
+            {
+              departName: '广西壮族自治区',
+              departId: '330300',
+              children: [
+                { departName: '柳州市', departId: '330301' },
+                { departName: '南宁市', departId: '330302' },
+                { departName: '北海市', departId: '330303' }
+              ]
+            }]
+        }
+      ],
+      pickcolumns: [],
+      placeTypeName: '',
+      showPicker: false
+    }
+  },
+  created() {
+    this.getPlaceTypeList()
+    this.getPlaceTypeTree()
+  },
+  methods: {
+    async getPlaceTypeList() {
+      this.pickcolumns = await this.$store.getters.placeType
+      // console.log('网点类型列表', this.pickcolumns)
+    },
+    showPopup() {
+      this.show = true
+    },
+    onConfirm(value) {
+      this.placeTypeName = value.name
+      // console.log('dadjga', value)
+      // this.placeTypeName
+      this.showPicker = false
+    },
+    onCancel() {
+      this.showPicker = false
+    },
+    onFinish({ selectedOptions }) {
+      this.show = false
+      this.fieldValue = selectedOptions.map((option) => option.text).join('/')
+    },
+
+    /*
+      保存按钮：把数据传到后端
+    */
+    async getPlaceResourcInfo() {
+      const obj = {
+        name: this.netinfodetail[0].answer,
+        type: this.placeTypeName,
+        address: this.netinfodetail[2].answer,
+        departId: this.cascaderValue,
+        managerName: this.netinfodetail[4].answer,
+        phone: this.netinfodetail[5].answer
+      }
+      console.log('obj--', obj)
+      if (this.netinfodetail[0].answer === '') {
+        this.$toast({
+          message: '请补充完善网点名称',
+          position: 'bottom'
+        })
+        return
+      }
+      if (this.netinfodetail[1].answer === '') {
+        this.$toast({
+          message: '请补充完善网点类型',
+          position: 'bottom'
+        })
+        return
+      }
+      if (this.netinfodetail[3].answer === '') {
+        this.$toast({
+          message: '请补充完善所属辖区',
+          position: 'bottom'
+        })
+        return
+      }
+      const res = await Api.placeResourcInfo(obj)
+      // console.log('新增网点obj--', obj)
+      if (res.code === 200) {
+        this.$toast({
+          message: '网点新增成功',
+          position: 'bottom'
+        })
+      }
+    },
+
+    /*
+      获取辖区树
+    */
+    async getPlaceTypeTree() {
+      const a = await Api.getPlaceTree()
+      console.log('辖区树a--', a)
+    }
+  }
+
+}
+</script>
+<style scoped>
+.placeResourseEditorial{
+  background-color: #101720;
+  width: 92%;
+  height: 100%;
+  position: fixed;
+  color: #ffffff;
+  overflow: scroll;
+  padding: 0 15px;
+}
+.net-info,.Ito-equip{
+  height: 65px;
+  line-height: 65px;
+  font-size: 20px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #B9CEE9;
+}
+.net-info img, .Ito-equip img{
+  width: 4px;
+  height: 17px;
+  background: linear-gradient(78deg, #008EFF, #1DF2FF);
+}
+.van-nav-bar{
+  width: 375px;
+  height: 50px;
+  background: #233143;
+}
+.binding-device{
+  text-align: center;
+  /* height: 22px;
+  line-height: 22px; */
+  font-size: 16px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #B9CEE9;
+  border: 1px #4D628F dashed;
+  padding: 8px 0;
+}
+.binding-device img{
+  width: 17px;
+  height: 17px;
+}
+.netinfo-detail{
+  padding: 0 11px;
+}
+.quest{
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #6F85A2;
+  display: inline;
+}
+.inputs{
+  width: 100%;
+  background-color: #101720;
+  font-size: 16px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color:#B9CEE9;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid #283444;
+  padding-bottom: 20px;
+}
+.sign{
+  display: inline-block;
+}
+.sign-none{
+  display: none;
+}
+.pops,.picker{
+  width: 100%;
+  background-color: #101720;
+  font-size: 16px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #373F4A;
+  border-bottom: 1px solid #283444;
+  padding:0 0 20px 0;
+}
+
+</style>
+<style>
+.placeResourseEditorial input::-webkit-input-placeholder{
+  font-size: 16px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #373F4A;
+}
+.placeResourseEditorial .van-cell__value--alone {
+    color: #373F4A;
+    text-align: left;
+}
+.placeResourseEditorial .van-cell{
+    position: relative;
+    display: -webkit-box;
+    box-sizing: border-box;
+    width: 100%;
+    padding-bottom: 20px;
+    overflow: hidden;
+    color: #323233;
+    font-size: 16px;
+    line-height: 24px;
+    background-color: #101720;
+    border-bottom: 1px solid #283444;
+}
+.placeResourseEditorial .van-cell::after{
+  border: none;
+}
+.placeResourseEditorial .van-cell--clickable{
+  padding: 0px;
+  padding-bottom: 20px;
+}
+.placeResourseEditorial .van-picker-column{
+  background-color: #10161F;
+}
+.placeResourseEditorial .van-picker__title{
+  color: #FFFEFE;
+  font-size: 16px;
+}
+.placeResourseEditorial .van-ellipsis{
+  font-size: 14px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #FFFEFE;
+}
+.placeResourseEditorial .van-picker__toolbar{
+  background-color: #10161F;
+}
+.placeResourseEditorial .van-picker-column__item{
+  background-color: #10161F;
+}
+
+.placeResourseEditorial .van-cascader__option{
+  color: #10161F
+}
+.placeResourseEditorial .van-cascader__option span,
+.placeResourseEditorial .van-tab span{
+  color: #FFFEFE;
+  font-size: 14px;
+}
+.placeResourseEditorial .van-picker__mask{
+  background-image: linear-gradient(180deg,hsla(216, 32%, 9%, .4),hsla(216, 32%, 9%, .9)),linear-gradient(0deg,hsla(216, 32%, 9%, .4),hsla(216, 32%, 9%, .9));
+}
+.placeResourseEditorial .van-cascader{
+  background-color:#10161F;
+}
+.placeResourseEditorial .van-tabs__nav--complete{
+  background-color:#10161F;
+}
+.placeResourseEditorial .van-cascader__title {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    color: #FFFEFE;
+    padding-left: 112px;
+
+}
+.placeResourseEditorial .van-cascader__header{
+  background-color:#10161F;
+}
+.placeResourseEditorial .van-tabs__line{
+  background-color: #06F0FE;
+  width: 23px;
+  height: 1px;
+}
+.placeResourseEditorial .van-cascader__option:active{
+  background-color: transparent;
+}
+.placeResourseEditorial .van-field__control{
+  color: #B9CEE9;
+}
+.placeResourseEditorial .van-tab--active .van-tab__text{
+  color: #06F0FE
+}
+.placeResourseEditorial .store-btn{
+  margin-top: 41px
+}
+</style>

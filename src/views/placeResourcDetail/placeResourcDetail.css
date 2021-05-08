@@ -79,15 +79,20 @@
   float: left;
 }
 .PlaceDetailCard-bind-equip{
-  border: 1px #4D628F dashed;
+  
   box-sizing: border-box;
   margin-top: 4%;
   margin-bottom: 8%;
   font-size: 16px;
   color: #B9CEE9;
-  text-align: center
+  /* text-align: center */
 }
-.PlaceDetailCard-bind-equip p{
+/* .PlaceDetailCard-bind-equip .binding-device{
+  text-align: center;
+  margin-top: 21px;
+  border: 1px #4D628F dashed;
+} */
+/* .PlaceDetailCard-bind-equip p{
   padding: 2.8%;
   margin-right: 4px;
-}
+} */

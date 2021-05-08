@@ -96,6 +96,7 @@ class IotApp {
     return await request({
       url: `/apis/equip/type/imei/${param}`,
       method: 'get'
+
     })
   }
 }

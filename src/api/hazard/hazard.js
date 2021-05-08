@@ -36,5 +36,12 @@ class Analysis {
       method: 'get'
     })
   }
+  // 隐患详情-处理记录接口
+  async getProcessRecord(param) {
+    return await request({
+      url: `/apis/log/heartbeat/id/${param.id}/result/${param.condition}`,
+      method: 'post'
+    })
+  }
 }
 export default new Analysis()

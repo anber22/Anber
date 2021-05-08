@@ -1,5 +1,6 @@
 <template>
   <div class="placeResource">
+    <img class="add-outlet" src="@/assets/images/equip/add-outlet.png" alt="" @click="$router.push({path:'/placeResourcAddition'})">
     <van-search v-model="queryCondition" placeholder="网点名称/网点地址" background="#101720" @search="onSearch" />
     <div class="placeResource-content">
       <van-loading v-if="!placeResourcList" size="24px" vertical>
@@ -94,6 +95,15 @@ export default {
   height: 100%;
   position: fixed;
   background-color: #101720;
+  position: relative;
+}
+.add-outlet{
+  height: 54px;
+  width: 54px;
+  position: absolute;
+  top: 580px;
+  left: 306px;
+  z-index: 9999;
 }
 .placeResource-content{
 padding: 0px 3% 52% 3%;

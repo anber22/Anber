@@ -1,5 +1,5 @@
 <template>
-  <div class="hazardDetail">
+  <div class="hazardEditorial">
     <!-- 隐患详情信息 start -->
     <div v-if="!loading" class="hazardDetail-submit">
       <div class="hazardDetail-submit-title">
@@ -94,43 +94,69 @@
         <img src="@/assets/images/home/title-icon.png" alt="" class="hazardDetail-submit-titil-icon">
         处理信息
       </div>
-      <div v-if="detailInfo.isDone===1" class="hazardDetail-submit-content">
-        <div class="hazardDetail-deal-content-info-row">
-          <div class="hazardDetail-deal-content-info-row-name">
-            隐患复核:
-          </div>
-          <div class="hazardDetail-deal-content-info-row-sort-value">
-            {{ dealInfo.recheck===0?"真实":dealInfo.recheck===1?"误报":dealInfo.recheck===2?"测试":"" }}
-          </div>
-          <div class="hazardDetail-deal-content-info-row-name">
-            复核方式:
-          </div>
-          <div class="hazardDetail-deal-content-info-row-sort-value">
-            {{ dealInfo.checkWay===0?"电话":dealInfo.checkWay===1?"图像":dealInfo.checkWay===2?"现场":dealInfo.checkWay===3?"其他":"" }}
-          </div>
+      <div class="process-info">
+        <form method="post" name="danger-review">
+          <p class="danger-review">
+            隐患复核
+          </p>
+          <van-radio-group v-model="reviewRadio" direction="horizontal">
+            <van-radio :name="0" checked-color="linear-gradient(78deg, #008EFF, #1DF2FF)">
+              真实
+            </van-radio>
+            <van-radio :name="1" checked-color="linear-gradient(78deg, #008EFF, #1DF2FF)">
+              虚假
+            </van-radio>
+            <van-radio :name="2" checked-color="linear-gradient(78deg, #008EFF, #1DF2FF)">
+              不确定
+            </van-radio>
+          </van-radio-group>
+        </form>
+        <form action="" name="danger-mode">
+          <p class="danger-mode">
+            隐患方式
+          </p>
+          <van-radio-group v-model="modeRadio" direction="horizontal">
+            <van-radio :name="0" checked-color="linear-gradient(78deg, #008EFF, #1DF2FF)">
+              电视
+            </van-radio>
+            <van-radio :name="1" checked-color="linear-gradient(78deg, #008EFF, #1DF2FF)">
+              图像
+            </van-radio>
+            <van-radio :name="2" checked-color="linear-gradient(78deg, #008EFF, #1DF2FF)">
+              现场
+            </van-radio>
+            <van-radio :name="3" checked-color="linear-gradient(78deg, #008EFF, #1DF2FF)">
+              其他
+            </van-radio>
+          </van-radio-group>
+        </form>
+        <div class="reason-result">
+          <p>隐患原因</p>
+          <van-field
+            v-model="dangerCause"
+            rows="2"
+            autosize
+            type="textarea"
+            placeholder="请输入隐患原因"
+          />
         </div>
-        <div class="hazardDetail-deal-content-info-auto-row">
-          <div class="hazardDetail-deal-content-info-row-name float-left">
-            隐患原因:
-          </div>
-          <div class="hazardDetail-deal-content-info-row-auto-value">
-            {{ dealInfo.reason }}
-          </div>
+        <div class="reason-result">
+          <p>处理结果</p>
+          <van-field
+            v-model="treatResult"
+            rows="2"
+            autosize
+            type="textarea"
+            placeholder="请输入处理结果"
+          />
         </div>
-        <div class="hazardDetail-deal-content-info-auto-row">
-          <div class="hazardDetail-deal-content-info-row-name float-left">
-            处理结果:
-          </div>
-          <div class="hazardDetail-deal-content-info-row-auto-value">
-            {{ dealInfo.result }}
-          </div>
-        </div>
+        <!-- 处理照片 -->
       </div>
-
-      <div v-else class="hazardDetail-deal-content-none">
-        暂无处理信息
-      </div>
+      <van-button class="store-btn" block color="linear-gradient(100deg, #1DF2FF,#008EFF )" @click="updateProcessRecord">
+        保存
+      </van-button>
     </div>
+
     <!-- end -->
   </div>
 </template>
@@ -140,8 +166,6 @@ import Api from '@/api/hazard/hazard.js'
 import Date from '@/utils/dateTransformation'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 
-import PlaceApi from '@/api/placeResource/placeResource'
-
 export default {
   components: {
 
@@ -149,28 +173,31 @@ export default {
 
   data() {
     return {
+      reviewRadio: 0,
+      modeRadio: 0,
       detailInfoId: 0,
       detailInfo: {},
       dealInfo: {},
-      loading: true
+      loading: false,
+      dangerCause: '',
+      treatResult: ''
     }
   },
   mounted() {
     this.detailInfoId = this.$route.query.hazardId
     this.getHazardDetail()
   },
+  create() {
+  },
   methods: {
-    toeEdit() {
-      this.$router.push({ path: '/hazardEditorial', query: { hazardId: this.detailInfoId }})
-    },
     /**
      * 拨号
      */
-    async  toPlaceDetail() {
+    async  toPlaceDetail(e) {
       this.$router.push({
         path: '/placeResourcDetail',
         query: {
-          placeId: this.detailInfoId
+          placeId: e
         }
       })
     },
@@ -202,25 +229,41 @@ export default {
     },
 
     /**
-     * 获取隐患处理信息
+     * 获取隐患处理信息后台接口
      */
     async getHazardDealInfo() {
       const params = {
         id: this.detailInfoId
       }
-      // console.log('隐患信息处理')
       const res = await Api.hazardDealInfo(params)
       if (res.code === 200) {
-        console.log('隐患信息res--', res)
         this.dealInfo = { ...res.data }
       }
+    },
+    /*
+      隐患处理信息编辑+保存按钮
+    */
+    async updateProcessRecord() {
+      // console.log('adajd')
+      const param = {
+        id: this.detailInfoId,
+        condition: ''
+      }
+      param.condition = '?recheck=' + this.reviewRadio + '&checkWay=' + this.modeRadio +
+      '&reason=' + this.dangerCause + '&result=' + this.treatResult
+      // console.log('处理信息param--', param)
+      const res = await Api.getProcessRecord(param)
+      if (res.code === 200) {
+        console.log('处理信息连接成功')
+      }
     }
+
   }
 }
 </script>
 
 <style>
-.hazardDetail{
+.hazardEditorial{
   background-color: #101720;
   width: 90%;
   height: 100%;
@@ -290,7 +333,7 @@ height: 17px;
   margin-left: 6%;
   color: #FFFFFF;
 }
-.hazardDetail .underLine{
+.hazardEditorial .underLine{
 
   font-size: 12px !important;
   font-family: PingFang SC !important;;
@@ -365,7 +408,7 @@ height: 17px;
   font-weight: 400;
   color: #6F85A2;
 }
-.hazardDetail .float-left{
+.hazardEditorial .float-left{
   float: left;
 }
 .hazardDetail-submit-content-info-row-value{
@@ -415,11 +458,98 @@ height: 17px;
   text-align: center;
   line-height: 80px;
 }
-.btn{
-  background-color:black;
-  border:1px #fffeff dashed;
-  color:#fffeff;
-  width: 100%;
-  height: 35px;
+.hazardEditorial .process-info p{
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #6F85A2;
+}
+.hazardEditorial .van-radio__icon--checked .van-icon{
+  background: linear-gradient(78deg, #1DF2FF, #008EFF );
+
+}
+.hazardEditorial .van-radio__icon {
+  font-size: 15px
+}
+.hazardEditorial .van-radio__label{
+
+  font-size: 15px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #8BA3C2;
+  margin-left: 11px;
+  margin-right: 13px;
+}
+.hazardEditorial form:nth-child(1),
+.hazardEditorial form:nth-child(2){
+  display: flex;
+}
+/* form:nth-child(1){
+  margin-top: 25px;
+} */
+.hazardEditorial form:nth-child(2){
+  justify-content: space-between
+}
+.hazardEditorial .danger-review{
+  margin-right: 21px;
+  line-height: 51px;
+  /* margin-bottom: 11px; */
+}
+.hazardEditorial .danger-mode{
+  width: 49px;
+  margin-right: 20px;
+  margin-bottom: 11px;
+  margin-top: 5px
+}
+.hazardEditorial .van-radio-group{
+  width: 268px;
+  height: 51px;
+}
+.hazardEditorial .van-radio--horizontal {
+    margin-right: 12px
+}
+.hazardEditorial input[type=text]{
+  width: 335px;
+  height: 91px;
+  background-color: #101720;
+  border: 1px solid #283444;
+}
+.hazardEditorial .result input::-webkit-input-placeholder,
+.hazardEditorial .reason input::-webkit-input-placeholder{
+  font-size: 16px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #373F4A;
+
+}
+.hazardEditorial .van-cell{
+  padding: 7px 11px;
+  width: 335px;
+  height: 91px;
+  border: 1px solid #283444;
+  background: #101720;
+
+}
+.hazardEditorial .van-field__control{
+  color: #B9CEE9;
+  font-size: 16px;
+}
+.hazardEditorial .van-cell textarea::-webkit-input-placeholder{
+  font-size: 16px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #373F4A;
+}
+.hazardEditorial .reason-result{
+  margin-top: 20px
+}
+.hazardEditorial .reason-result p{
+  margin-bottom: 15px
+}
+.hazardEditorial .store-btn{
+  margin-top: 41px
+}
+.van-icon-success::before{
+  width: 15px;
 }
 </style>
