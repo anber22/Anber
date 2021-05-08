@@ -74,7 +74,6 @@ export default {
      */
     closeMeaasge() {
       // 如果事件队列长度还有最后一个
-      console.log('事件队列长度', this.hazardList.length)
       if (this.hazardList.length < 2) {
         // 直接关闭消息蒙层
         this.show = false
@@ -97,7 +96,6 @@ export default {
      * 收到消息
      */
     onMessage(msg) {
-      console.log('layout收到消息', msg)
       // 收到socket通知添加msg到事件队列
       this.hazardList.push(msg)
       // 如果事件队列没有在执行 ，就开启事件队列
@@ -109,7 +107,6 @@ export default {
      * 初始化socket
      */
     initSockets() {
-      console.log('layout初始化页面')
       // 定义频道列表 topicName  频道名称 refsList 订阅该频道的队列列表
       const topicList = [
         {
@@ -120,7 +117,6 @@ export default {
           }]
         }
       ]
-      console.log('订阅频道参数', topicList)
       // 初始化socket
       Socket.initSocket(topicList)
     },

@@ -63,7 +63,7 @@
 .view-item:last-child {
   border-bottom: none;
 }
-.view-item .required {
+.view-item .required, .imei-err {
   font-family: PingFangSC-Regular;
   color: #FF1743;
   font-size: 12px;
@@ -114,4 +114,8 @@
   background: linear-gradient(to right, #1DF2FF, #008EFF);
   box-shadow: 2px 2px 14px 2px rgba(27, 60, 136, 0.67);
   width: 100%;
+}
+.imei-err {
+  margin-bottom: -5px;
+  margin-top: 5px;
 }

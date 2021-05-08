@@ -74,7 +74,7 @@
       <!-- end -->
     </Adaptive>
     <!-- 详细数据 start -->
-    <div class="tEquipDetailCard-for-box">
+    <div v-if="equipInfo!==null" class="tEquipDetailCard-for-box">
       <EquipDetialCard v-for="item in format(equipDetailCardList) " :key="item.index" :layout="item" class="tEquipDetailCard-box" />
     </div>
     <!-- end -->

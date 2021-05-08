@@ -1,8 +1,6 @@
 import axios from 'axios'
 import { getToken, removeToken } from '@/utils/auth'
 import Vue from 'vue'
-import EC from '@/utils/errorCode'
-// import IviewMsg from '@/utils/iviewMsg'
 import Config from '../../config.json'
 
 // create an request instance

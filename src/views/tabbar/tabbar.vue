@@ -34,15 +34,12 @@ export default {
     }
   },
   mounted() {
-    console.log('当前路由集合', this.$store.getters.permission_routers[0])
     this.$store.getters.permission_routers[0].children.forEach(item => {
       this.tabList.push({ name: item.meta.title, path: item.path, active: this[item.name].active, inactive: this[item.name].inactive })
     })
-    console.log('过滤完毕', this.tabList)
   },
   methods: {
     showDone() {
-      console.log('正在开发中')
       Toast('正在开发中...')
     }
   }

@@ -56,7 +56,6 @@ export default {
         condition: (this.queryCondition.length < 1 ? '' : ('?condition=' + this.queryCondition))
       }
       const res = await Api.placeResourcList(params)
-      console.log('输出长度', res)
 
       if (res.code === 200) {
         let listData = [...res.data.rows]

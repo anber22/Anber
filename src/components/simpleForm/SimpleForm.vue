@@ -30,7 +30,6 @@ export default {
     }
   },
   created() {
-    console.log('进入到组件', this.data)
   },
   methods: {
 

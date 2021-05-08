@@ -172,7 +172,6 @@ export default {
       if (res.code === 200) {
         this.placeResourcDetail = res.data
       }
-      console.log('网点详情')
       this.placeResourcDetail = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', [this.placeResourcDetail])
       this.placeResourcDetail = this.placeResourcDetail[0]
       this.loading = false

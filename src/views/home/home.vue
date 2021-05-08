@@ -184,7 +184,6 @@ export default {
   },
   created() {
     this.getHiddenDangerList()
-    console.log(this)
 
     // this.initSockets()
   },
@@ -192,13 +191,9 @@ export default {
     onMessage(msg) {
       this.ccccc = true
 
-      console.log('首页收到消息', msg, this.hazardLists)
-      console.log(this)
       this.hazardLists.splice(2, 1)
-      console.log(this.hazardLists)
       this.hazardLists.splice(0, 0, msg)
 
-      console.log(this.hazardLists)
 
       this.ccccc = false
 
@@ -214,7 +209,6 @@ export default {
           }]
         }
       ]
-      console.log('订阅频道参数', topicList)
       setTimeout(() => {
         Socket.initSocket(topicList)
       }, 1000)
@@ -235,7 +229,6 @@ export default {
       if (res.code === 200) {
         temp = [...res.data]
       }
-      console.log('隐患列表', res)
       temp.forEach(hItem => {
         this.subsystemList.forEach(cItem => {
           if (hItem.type === cItem.id) {
@@ -247,9 +240,7 @@ export default {
         })
       })
       this.hazardLists = temp
-      console.log('隐患列表', this.hazardLists)
       this.ccccc = false
-      console.log(this.ccccc)
     }
   }
 }

@@ -154,7 +154,6 @@ export default {
      * 显示详情
      */
     showDetail(e) {
-      console.log('设备列表卡片跳转网页详情')
       this.$router.push({
         path: '/placeResourcDetail',
         query: {

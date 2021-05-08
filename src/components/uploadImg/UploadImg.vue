@@ -38,7 +38,6 @@ export default {
     }
   },
   created() {
-    console.log('上传图片组件')
   },
   methods: {
     deleteImg(index) {
@@ -50,7 +49,6 @@ export default {
       const ws = new WatermarkProcessing()
 
       const file = window.URL.createObjectURL(e.target.files[0])
-      console.log(e)
 
       const isImg = e.target.files[0].type === 'image/jpeg'
       const isLt2M = e.target.files[0].size / 1024 / 1024 < 4
@@ -73,9 +71,7 @@ export default {
       }
       const imgFile = await ws.addWaterMark(e.target.files[0])
 
-      console.log('iiiiiii', imgFile)
       this.uploadImg.push(imgFile.dUrl)
-      console.log('获取到图片', this.uploadImg)
       this.$emit('choiceImg', this.uploadImg)
       // 将图片文件转化成base64格式图片
       var reader = new FileReader()
