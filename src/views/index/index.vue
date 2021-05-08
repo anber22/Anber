@@ -107,9 +107,7 @@ import MonitorAnalysis from 'cmp/index/monitorAnalysis/MonitorAnalysis'
 import { mapGetters } from 'vuex'
 import Socket from '@/utils/socket'
 
-import Regular from '@/utils/regular.js'
 import store from '@/store'
-import CraneMonitoring from '@/assets/images/index/wisdom-visual.png'
 export default {
   components: {
     EquipList,
@@ -240,7 +238,6 @@ export default {
     // })
 
     // const temp = Socket.onMessages('equipCount')
-    // console.log('页面订阅频道', temp)
     this.getHazardTypeList()
     this.getHiddenDangerList()
     this.getEquipCountings()
@@ -264,11 +261,8 @@ export default {
      * 监听socket消息
      */
     onMessage(msg) {
-      console.log('智慧高投页面收到消息', msg)
       this.equipCountings = msg.equipCount === null ? this.equipCountings : parseInt(msg.equipCount).toLocaleString()
       this.branchesCountings = msg.placeCount === null ? this.branchesCountings : parseInt(msg.placeCount).toLocaleString()
-      console.log('设备数', this.equipCountings)
-      console.log('网点数', this.branchesCountings)
     },
     /**
      * 初始化socket
@@ -307,7 +301,6 @@ export default {
             }
           ]
         }]
-      console.log('订阅频道参数', topicList)
       Socket.initSocket(topicList)
     },
     /**
@@ -348,7 +341,6 @@ export default {
       this.loading = true
       // this.equipList = this.applicationEquipList
       this.equipList = await this.$store.dispatch('GetApplicationlist')
-      console.log(this.equipList, 'this.equipList去vuex拿值')
       const combined = this.subsystemList.reduce((acc, cur) => {
         const target = acc.find(e => e.id === cur.id)
         if (target) {
@@ -429,7 +421,6 @@ export default {
           this.lineData.series.data.push(item.count)
         })
         this.lineDataFlag = true
-        console.log('隐患分析--详细--', this.lineData)
       }
     },
     /**
@@ -516,7 +507,6 @@ export default {
       if (res.code === 200) {
         temp = [...res.data]
       }
-      console.log('隐患列表', res)
       temp.forEach(hItem => {
         this.subsystemList.forEach(cItem => {
           if (hItem.type === cItem.id) {
@@ -528,7 +518,6 @@ export default {
         })
       })
       this.hiddenDangerList = temp
-      console.log('隐患列表', this.hiddenDangerList)
     }
   }
 }

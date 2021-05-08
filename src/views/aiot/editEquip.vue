@@ -93,25 +93,24 @@ export default {
       equipId: 0,
       equip: {},
       equipAddress: '',
-      rowList: [
-      ],
-      uploadImg: [],
-      showPlatformPicker: false,
-      platformName: '请选择物联网平台',
-      platformId: 0,
-      platformList: []
+      rowList: [], // 设备信息行列表
+      uploadImg: [], // 上传图片数组
+      showPlatformPicker: false, // 是否显示物联网平台选择器
+      platformName: '请选择物联网平台', // 当前选中平台名称
+      platformId: 0, // 选中平台id
+      platformList: [] // 平台数组
     }
   },
-  computed: {
-
-  },
   created() {
-    console.log('设备id', this.$route.query.equipId)
-    this.equipId = this.$route.query.equipId
+    this.equipId = 300
+    // this.$route.query.equipId
     this.getPlatform()
     this.getEquip()
   },
   methods: {
+    /**
+     * 提交修改
+     */
     async submit() {
       const param = {
         equipAddress: this.equipAddress,
@@ -128,11 +127,15 @@ export default {
         }, 2000)
       }
     },
+    /**
+     * 获取物联网平台列表
+     */
     async getPlatform() {
-      console.log('物联网平台', this.$store.getters.platformList)
       this.platformList = await this.$store.getters.platformList
-      console.log('物联网平台', this.platformList)
     },
+    /**
+     * 获取设备信息
+     */
     async getEquip() {
       const res = await Api.equipDtailInfo(this.equipId)
       if (res.code === 200) {
@@ -164,19 +167,28 @@ export default {
         ]
         this.equip = equipInfo
       }
-      console.log(this.equip)
     },
+    /**
+     * 选择图片
+     */
     choiceImg(e) {
-      console.log('页面输出接收到的图片数组', e)
     },
+    /**
+     * 打开物联网平台选择器
+     */
     showPicker() {
       this.showPlatformPicker = true
     },
+    /**
+     * 点击取消
+     */
     onCancel() {
       this.showPlatformPicker = false
     },
+    /**
+     * 点击确认
+     */
     onConfirm(e) {
-      console.log('点击确认', e)
       this.showPlatformPicker = false
       this.platformName = e.name
     },
@@ -195,7 +207,6 @@ export default {
   overflow: scroll;
   background-color: rgba(16, 23, 32, 1);
 }
-
 .iotApp-detail-title-icon{
   height: 17px;
   width: 4px;
@@ -287,7 +298,7 @@ export default {
   margin-top: 30px;
   border-top: 1px solid #283444;
   float: left;
-  margin-bottom: 50px;
+  margin-bottom: 90px;
 }
 .edit-row{
   height: 8px;

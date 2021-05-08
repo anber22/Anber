@@ -11,17 +11,21 @@
           @select="onSelect"
         >
           <template #reference>
-            <van-button class="type-name" :class="{'active':showType}" style="color:#fff;">{{type.text}}</van-button>
+            <van-button class="type-name" :class="{'active':showType}" style="color:#fff;">
+              {{ type.text }}
+            </van-button>
           </template>
         </van-popover>
       </div>
       <!-- end -->
       <!-- 日期 -->
       <div class="screen-date">
-        <div class="date-title" :class="{'active':showDate}" @click="showDate = true;state=true" >日期</div>
-        <van-calendar 
+        <div class="date-title" :class="{'active':showDate}" @click="showDate = true;state=true">
+          日期
+        </div>
+        <van-calendar
           v-model="showDate"
-          color="#5176AE" 
+          color="#5176AE"
           row-height="60"
           :min-date="minDate"
           :max-date="maxDate"
@@ -30,7 +34,7 @@
           :show-title="false"
           :default-date="defaultMark"
           :allow-same-day="true"
-          type="range" 
+          type="range"
           @confirm="confirmDate"
           @close="closeDate"
         />
@@ -47,7 +51,9 @@
           @select="moreSelect"
         >
           <template #reference>
-            <van-button class="more-title" :class="{'active':showMore}" style="color:#fff;">{{more.text}}</van-button>
+            <van-button class="more-title" :class="{'active':showMore}" style="color:#fff;">
+              {{ more.text }}
+            </van-button>
           </template>
         </van-popover>
       </div>
@@ -55,35 +61,40 @@
     </div>
     <div class="content">
       <van-list
-      v-model="loading"
-      :finished="finished"
-      finished-text="没有更多了"
-      @load="getHazardList"
-    >
-      <div v-for="(item, index) in hazardLists" :key="index" class="events-item">
-        <Adaptive :data="['100%','20.27%']">
-        <div class="events-item-content">
-          <van-image
-            width="20.27%"
-            height="100%%"
-            fit="cover"
-            class="events-item-img"
-            :src="item.pictureUrl?item.pictureUrl: require('@/assets/images/equip/warn.png')"
-            :show-error="false"
-            :show-loading="false"
-          />
-          <div class="right-text">
-            <p class="title1"> {{item.equipAddress}} </p>
-            <span class="title2">{{item.hazardTypeName}}</span>
-            <p class="title3"> {{item.createdTime}} </p>
-          </div>
-          <div class="dot"> <span /> </div>
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="getHazardList"
+      >
+        <div v-for="(item, index) in hazardLists" :key="index" class="events-item">
+          <Adaptive :data="['100%','20.27%']">
+            <div class="events-item-content">
+              <van-image
+                width="20.27%"
+                height="100%%"
+                fit="cover"
+                class="events-item-img"
+                :src="item.pictureUrl?item.pictureUrl: require('@/assets/images/equip/warn.png')"
+                :show-error="false"
+                :show-loading="false"
+              />
+              <div class="right-text">
+                <p class="title1">
+                  {{ item.equipAddress }}
+                </p>
+                <span class="title2">{{ item.hazardTypeName }}</span>
+                <p class="title3">
+                  {{ item.createdTime }}
+                </p>
+              </div>
+              <div class="dot">
+                <span />
+              </div>
+            </div>
+          </Adaptive>
         </div>
-      </Adaptive>
-      </div>
-    </van-list>
+      </van-list>
     </div>
-
   </div>
 </template>
 
@@ -95,28 +106,28 @@ export default {
   name: 'UnreadEvents',
   data() {
     return {
-      showType: false,   // 系统类型弹窗
+      showType: false, // 系统类型弹窗
       typeActions: [
-        { text: '智慧视觉', id: 5 }, 
-        { text: '环境监测', id: 10 }, 
+        { text: '智慧视觉', id: 5 },
+        { text: '环境监测', id: 10 },
         { text: '塔机监测', id: 11 }
-      ],                  // 系统类型
-      type: { text: '系统类型', id: 0 }, 
-      showDate: false,    // 选择日期弹窗
-      showMore: false,    // 更多弹窗
-      minDate: new Date(2021, 0, 1),  // 最小日期
-      maxDate: new Date(),            // 最大日期
-      defaultMark: new Date(),  // 默认选中日期   null不选中
-      screenDate: [],  // 选中的日期
-      state: false,  // 是否是确认方法关闭弹窗
+      ], // 系统类型
+      type: { text: '系统类型', id: 0 },
+      showDate: false, // 选择日期弹窗
+      showMore: false, // 更多弹窗
+      minDate: new Date(2021, 0, 1), // 最小日期
+      maxDate: new Date(), // 最大日期
+      defaultMark: new Date(), // 默认选中日期   null不选中
+      screenDate: [], // 选中的日期
+      state: false, // 是否是确认方法关闭弹窗
       moreActions: [
         { text: '全部已读', value: 1 }
       ],
       more: { text: '更多', value: 0 },
-      hazardLists: [],  // 未读事件列表
-      loading: false,  // 加载状态
-      finished: false,  // 加载完毕
-      page: 0  // 页码
+      hazardLists: [], // 未读事件列表
+      loading: false, // 加载状态
+      finished: false, // 加载完毕
+      page: 0 // 页码
     }
   },
   created() {
@@ -126,15 +137,15 @@ export default {
     /**
      * 获取未读事件列表
      */
-    async getHazardList () {
+    async getHazardList() {
       const params = {
         type: this.type.id,
         page: ++this.page,
         size: 10,
         condition: ''
       }
-      let pDate = this.screenDate.length > 0 ? 'startDate=' + new DateFormat().dataFormatNo(this.screenDate[0]) + ' 00:00:00' + '&endDate=' + new DateFormat().dataFormatNo(this.screenDate[1]) + ' 23:59:59' : ''
-      let pMore = this.more.value != 0 ? 'isRead=' + this.more.value: ''
+      const pDate = this.screenDate.length > 0 ? 'startDate=' + new DateFormat().dataFormatNo(this.screenDate[0]) + ' 00:00:00' + '&endDate=' + new DateFormat().dataFormatNo(this.screenDate[1]) + ' 23:59:59' : ''
+      const pMore = this.more.value != 0 ? 'isRead=' + this.more.value : ''
       if (this.screenDate.length > 0) {
         if (this.more.value != 0) {
           params.condition = '?' + pDate + '&' + pMore
@@ -143,13 +154,12 @@ export default {
         }
       } else {
         if (this.more.value != 0) {
-          params.condition = '?'+ pMore
+          params.condition = '?' + pMore
         }
       }
       const res = await Api.hazardList(params)
       if (res.code === 200) {
         let rows = [...res.data.rows]
-        console.log('接口返回', rows)
         // 数据全部加载完成
         if (res.data.page * 1 > res.data.total * 1) {
           this.finished = true
@@ -158,15 +168,13 @@ export default {
         }
         rows.forEach(item => {
           item.createdTime = new DateFormat().dataFormat(item.createdTime)
-        });
+        })
         rows = await ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', rows)
         rows = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', rows)
         this.hazardLists = this.hazardLists.concat(rows)
         // 加载状态结束
-        this.loading = false;
-        
+        this.loading = false
       }
-
     },
     /**
      * 系统类型选择
@@ -176,12 +184,11 @@ export default {
       this.hazardLists = []
       this.page = 0
       this.getHazardList()
-
     },
     /**
      * 确认日期选择
      */
-    confirmDate (date) {
+    confirmDate(date) {
       this.showDate = false
       this.screenDate = date
       this.state = false

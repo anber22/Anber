@@ -3,6 +3,7 @@
     <van-tabs v-model="active" swipeable color="#06F0FE" title-active-color="#06F0FE" title-inactive-color="#8BA3C2" background="rgba(16, 23, 32, 1)" sticky ellipsis @change="tabChange">
       <van-tab v-for="item in tabList" :key="item.index" :title="item.title" class="tab-content" />
     </van-tabs>
+    <!-- 设备信息 start -->
     <div v-show="active===0">
       <div class="iotApp-detail-title">
         <img src="@/assets/images/home/title-icon.png" alt="" class="iotApp-detail-title-icon">
@@ -10,6 +11,8 @@
       </div>
       <InfoRow v-for="(rowItem,index) in rowList" :key="index" :data="rowItem" class="detail-info" />
     </div>
+    <!-- end -->
+    <!-- 实时数据 || 实时监控 start -->
     <div v-show="active===1">
       <div v-if="systemId === 5 || systemId === 11">
         <div class="iotApp-detail-title">
@@ -38,6 +41,8 @@
         <InfoRow v-for="(rowItem,index) in realTimeRows" :key="index" :data="rowItem" class="realtime-data" />
       </div>
     </div>
+    <!-- end -->
+    <!-- 绑定日志 start -->
     <div v-show="active===2">
       <div class="iotApp-detail-title">
         <img src="@/assets/images/home/title-icon.png" alt="" class="iotApp-detail-title-icon">
@@ -49,6 +54,7 @@
         无匹配项
       </div>
     </div>
+    <!-- end -->
   </div>
 </template>
 
@@ -73,8 +79,8 @@ export default {
 
   data() {
     return {
-      active: 0,
-      tabList: [
+      active: 0, // tab当前选中下标
+      tabList: [ // tab
         {
           index: 0,
           title: '基本信息'
@@ -88,7 +94,7 @@ export default {
           title: '绑定日志'
         }
       ],
-      playerOptions: {
+      playerOptions: { // 播放器配置选项
         autoplay: true,
         controls: true,
         muted: true,
@@ -111,7 +117,6 @@ export default {
     }
   },
   mounted() {
-    console.log('进入页面')
     this.equipId = this.$route.query.id
     this.systemId = Number(this.$route.query.systemId)
     this.getEquipDetailInfo()
@@ -121,7 +126,6 @@ export default {
      * 跳转编辑页面
      */
     toeEdit() {
-      console.log('触发页面事件')
       this.$router.push({
         path: '/editEquip',
         query: {
@@ -147,7 +151,6 @@ export default {
       }
       equipDetailInfo = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', equipDetailInfo)
       equipDetailInfo = await ReadTypeNameOnVuex.conversion('platformList', 'platformId', 'platformName', equipDetailInfo)
-      console.log('设备详情信息', equipDetailInfo)
       this.rowList = [
         {
           name: '设备状态:',
@@ -199,7 +202,6 @@ export default {
         }
       ]
       this.equipInfo = equipDetailInfo
-      console.log('设备信息', this.equipInfo)
       const bindingRes = await Api.bindingLogList(this.equipInfo.imei)
       if (bindingRes.code === 200) {
         const bindingList = bindingRes.data.list
@@ -210,10 +212,8 @@ export default {
           //  dataTran.dataFormat(1619392568000)
           this.logData.push({ date: dateTime.slice(0, 10), time: dateTime.slice(10, 19), editType: item.operationType, createdName: item.workerName, placeName: item.placeName })
         })
-        console.log('日志列表', this.logData, bindingRes)
       }
 
-      const realDate = {}
       if (this.systemId === 5 || this.systemId === 11) {
         if (this.systemId === 11) {
           const detailRes = await Api.towerRealTimeInfo(this.equipId)
@@ -221,7 +221,6 @@ export default {
           if (detailRes.code === 200) {
             realDate = { ... detailRes.data }
           }
-          console.log('实时数据', detailRes)
           this.realTimeRows = [
             {
               name: '回旋角度:',
@@ -284,6 +283,7 @@ export default {
     onPlayerReady(player) {
       this.player.play()
     },
+    // 环境监测实时数据
     async getEnvironmentRealTime() {
       let realDate = {}
       const detailRes = await Api.environmentRealTimeData(this.equipId)
@@ -291,7 +291,6 @@ export default {
       if (detailRes.code === 200) {
         realDate = { ... detailRes.data }
       }
-      console.log('实时数据', detailRes)
       this.realTimeRows = [
         {
           name: '雨量:',

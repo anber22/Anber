@@ -30,7 +30,6 @@ export default {
       handler(val, oldVal) {
         this.title = this.$route.meta.title
         this.showEdit = this.$route.meta.edit
-        console.log(this.showEdit)
       },
       // 深度观察监听
       deep: true
@@ -45,7 +44,6 @@ export default {
      * 切换成编辑状态
      */
     chengeToEdit() {
-      console.log('点击编辑', this)
       // this.$children[1].toeEdit()
       this.$refs.page.toeEdit()
     },

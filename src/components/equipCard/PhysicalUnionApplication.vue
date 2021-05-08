@@ -94,7 +94,7 @@ export default {
     }
   },
   watch: {
-    equipInfo(val, oldVal) {
+    equipInfo: function(val, oldVal) {
       this.equip = val
     }
   },

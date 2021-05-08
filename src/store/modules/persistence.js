@@ -67,7 +67,6 @@ const persistence = {
           }
         } else if (param === 'platformList') {
           result = await Api.platformList()
-          console.log('平台列表', result)
           if (result.code === 200) {
             commit('SET_PLATFORM_LIST', result.data)
           }

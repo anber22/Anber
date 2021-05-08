@@ -94,8 +94,6 @@ export default {
           msg['systemName'] = cItem.name
         }
       })
-      console.log(msg)
-      console.log('uuulist', this.ulList)
       this.ulList.splice(0, 0, msg)
 
       this.currentSystemtypeImage = this.ulList[0].imgUrl

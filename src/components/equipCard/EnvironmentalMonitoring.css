@@ -60,11 +60,11 @@
   font-family: PingFang SC;
   font-weight: 400;
   color: #FFEAEE;
-  padding: 0.5% 1% 2.5% 2%;
+  padding: 5.5% 1% 2.5% 2%;
   margin-left: 8%;
   border-radius: 5px;
   float: right;
-
+  position: relative;
 }
 .environmentalMonitoring-hidden-trouble-icon{
     width: 18px;

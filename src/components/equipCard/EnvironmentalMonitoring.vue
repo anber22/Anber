@@ -9,7 +9,7 @@
         <div class="environmentalMonitoring-state-box">
           <EquipStatus :electricity="equipInfo.equipPower" :signal="equipInfo.equipSignal" :status="equipInfo.onlineType" />
         </div>
-        <div v-if="equipInfo.count!==0" class="environmentalMonitoring-hidden-trouble" @click="showHazardDetail(equipInfo.equipId)">
+        <div v-if="equipInfo.count!==0 && equipInfo.count !== undefined" class="environmentalMonitoring-hidden-trouble" @click="showHazardDetail(equipInfo.equipId)">
           <van-badge :content="equipInfo.count" badge-size="14px" max="99">
             <img src="@/assets/images/equip/risk-early-warning.png" alt="" class="environmentalMonitoring-hidden-trouble-icon">
           </van-badge>
@@ -107,6 +107,8 @@ export default {
   },
   watch: {
     equipInfo(val, oldVal) {
+      console.log('环境监测设备信息监听', val)
+
       this.setEquipDetailCardListData()
     }
   },

@@ -1,4 +1,4 @@
-class ErrorCode {
+export default class ErrorCode {
   constructor() {
     this.BadRequest = 400
     this.Unauthorized = 401
@@ -45,5 +45,3 @@ class ErrorCode {
     }
   }
 }
-
-export default new ErrorCode()

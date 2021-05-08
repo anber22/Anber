@@ -59,7 +59,6 @@ export default {
   },
   watch: {
     hazardData: function(newVal) {
-      console.log('组件监测', newVal)
       this.hazardList = newVal
     }
   },
@@ -73,7 +72,6 @@ export default {
   //   }
   // },
   mounted() {
-    // console.log('组件内输出', this.data)
   },
   methods: {
     /**

@@ -78,14 +78,13 @@
   position: relative;
 }
 .physicalUnionApplication-content-row{
-  height: 15.5%;
+  height: 16.5%;
   width: 97%;
   font-size: 12px;
   display: flex;
   flex-direction: row;
   padding-left: 3%;
   align-items: center;
-  vertical-align: middle
 }
 .physicalUnionApplication-content-row-name{
   width:19.5%;
