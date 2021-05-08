@@ -19,16 +19,15 @@
             <div class="item-type">
               <input v-if="item.type==='input'" v-model="item.value" type="test" class="item-input" :placeholder="item.placeholder" :style="i===1?'width: calc(100% - 40px)': ''" @keydown.enter="onchange(i)">
               <!-- <img v-if="i===1" src="@/assets/images/equip/scan.png" /> -->
-              <div v-if="item.type==='display'" class="item-display">
-                {{ item.value }}
-              </div>
+
+              <div v-if="i===1&&showErr" class="imei-err">{{imeiErr}}</div>
+              <div v-if="item.type==='display'" class="item-display">{{item.value}}</div>
             </div>
           </div>
         </div>
         <div class="submit">
-          <van-button class="">
-            提交
-          </van-button>
+
+          <van-button @click="preserve">提交</van-button>
         </div>
       </template>
     </div>
@@ -49,7 +48,7 @@ export default {
       viewList: [
         {
           title: '经纬度',
-          placeholder: '请输入经纬度',
+          placeholder: '请选择经纬度',
           required: true,
           type: 'input',
           value: ''
@@ -66,7 +65,7 @@ export default {
           placeholder: '请输入经纬度',
           required: false,
           type: 'display',
-          value: '摄像机'
+          value: ''
         },
         {
           title: '安装位置',
@@ -83,13 +82,21 @@ export default {
           value: ''
         }
       ],
-      typeID: 5
+      typeID: 5,
+      location: [],
+      showErr: false,
+      imeiErr: ''
     }
   },
   created() {
+    this.location = this.$route.query.lng? [this.$route.query.lng, this.$route.query.lat]: [113.54342, 22.26666]
+    this.viewList[0].value = this.$route.query.lng? this.$route.query.lng +','+ this.$route.query.lat: '113.54342, 22.26666'
     this.init()
   },
   methods: {
+    /**
+     * 画地图
+     */
     init() {
       AMapLoader.load({
         key: '42bcf416c74d741ad1241b1a8742e765', // 申请好的Web端开发者Key，首次调用 load 时必填
@@ -99,35 +106,44 @@ export default {
           version: '1.1', // AMapUI 缺省 1.1
           plugins: [] // 需要加载的 AMapUI ui插件
         },
-        Loca: { // 是否加载 Loca， 缺省不加载
-          version: '1.3.2' // Loca 版本，缺省 1.3.2
-        }
-      }).then((AMap) => {
-        this.map = new AMap.Map('container', {
-          mapStyle: 'amap://styles/e4aa2adc79a5186729bb5cd463d5b1a3', // 地图样式（自定义样式）
-          resizeEnable: true, // 是否监控地图容器尺寸变化
-          zoom: 17, // 地图显示的缩放级别
-          center: [113.597206, 22.365622]
+
+        Loca:{                // 是否加载 Loca， 缺省不加载
+          version: '1.3.2'    // Loca 版本，缺省 1.3.2
+        },
+      }).then((AMap)=> {
+        let _this = this
+        // 其他坐标转高德坐标
+        AMap.convertFrom(_this.location, 'gps', function (status, result) {
+          if (result.info === 'ok') {
+            const lnglats = result.locations; // Array.<LngLat>
+            _this.location = [lnglats[0].lng, lnglats[0].lat]
+            _this.viewList[0].value  = lnglats[0].lng + ',' + lnglats[0].lat
+          }
+        });
+        _this.map = new AMap.Map('container', {
+          mapStyle: 'amap://styles/e4aa2adc79a5186729bb5cd463d5b1a3',  // 地图样式（自定义样式）
+          resizeEnable: true,  // 是否监控地图容器尺寸变化
+          zoom: 17,  // 地图显示的缩放级别
+          center: _this.location
         })
-        this.map.on('zoomend', () => {
-          const zoom = this.map.getZoom()
+        // 地图缩放情况
+        _this.map.on('zoomend', ()=> {
+          let zoom = _this.map.getZoom();
           console.log('zoom---', zoom)
         })
-        AMap.plugin(['AMap.Autocomplete', 'AMap.PlaceSearch'], () => {
-          const auto = new AMap.Autocomplete({
+        _this.mapAddMarker()
+        AMap.plugin(['AMap.Autocomplete'], ()=> {
+          let auto = new AMap.Autocomplete({
             input: 'address',
             outPutDirAuto: false
           })
-          // let placeSearch = new AMap.PlaceSearch({
-          //   map: this.map
-          // })
-
+          // 搜索框搜索地址 
           AMap.event.addListener(auto, 'select', (e) => {
-            console.log('搜索', e)
-            // this.viewList[0].value = e.poi.location.lng + ',' + e.poi.location.lat
-            // this.mapAddMarker()
-            // placeSearch.setCity(e.poi.adcode);
-            // placeSearch.search(e.poi.name);  //关键
+            // console.log('搜索', e)
+            _this.viewList[0].value = e.poi.location.lng + ',' + e.poi.location.lat
+            _this.location = [e.poi.location.lng , e.poi.location.lat]
+            _this.map.remove(_this.cameraMarker)
+            _this.mapAddMarker()
           })
         })
       }).catch(e => {
@@ -142,33 +158,37 @@ export default {
       if (this.typeID === 5) imgUrl = require('@/assets/images/equip/camera-green.png')
       if (this.typeID === 10) imgUrl = require('@/assets/images/equip/ambient-green.png')
       if (this.typeID === 11) imgUrl = require('@/assets/images/equip/tower-green.png')
-      const location = this.viewList[0].value.split(',')
-      console.log(location, 'arr-----')
+
+      let location = this.viewList[0].value.split(',')
+      console.log('location---', location)
+      this.map.setCenter(location)  // 设置地图中心点
       this.cameraMarker = new AMap.Marker({
         position: location,
         map: this.map,
-        anchor: 'bottom-center',
-        icon: new AMap.Icon({
-          image: imgUrl,
-          size: new AMap.Size(30, 36),  // 图标大小
-          imageSize: new AMap.Size(30, 36)
+        anchor:'bottom-center',
+        icon: new AMap.Icon({            
+          image: imgUrl,                // 图表路径
+          size: new AMap.Size(30, 36),  //图标大小
+          imageSize: new AMap.Size(30,36)
         }),
-        draggable: true
+        draggable: true         // 图标自由移动
       })
+      // 获取图标自由移动结束后的坐标
       this.cameraMarker.on('dragend', (e) => {
-        console.log(e.lnglat, 'e-----')
         this.viewList[0].value = e.lnglat.lng + ',' + e.lnglat.lat
-      })
+      });
       // this.markers.push(cameraMarker)
-      this.map.add(this.cameraMarker)
-      const a = 0
+      this.map.add(this.cameraMarker);
     },
     /**
      * 输入框失焦调用
      */
     onchange(inx) {
-      console.log(inx, 'inx----')
-      if (inx === 0) this.mapAddMarker()
+
+      if (inx === 0)  {
+        this.map.remove(this.cameraMarker)
+        this.mapAddMarker()
+      }
       if (inx === 1) {
         this.getEquipImei(this.viewList[inx].value)
       }
@@ -178,10 +198,49 @@ export default {
      */
     async getEquipImei(id) {
       const res = await Api.equipImei(id)
-      console.log(res, 'res----')
-      // this.typeID = 10
-      // this.map.remove(this.cameraMarker);
-      // this.mapAddMarker()
+
+      // console.log(res, 'res----')
+      if (res.code === 200) {
+        this.showErr = false
+        if(res.data !== this.typeID) {
+          this.typeID = res.data
+          this.map.remove(this.cameraMarker)
+          this.mapAddMarker()
+        }
+      } else {
+        this.showErr = true,
+        this.imeiErr = 'IMEI码不正确'
+      }
+    },
+    /**
+     * 保存新增设备
+     */
+    preserve() {
+      if (this.viewList[0].value === '') {
+        this.$toast('请选择经纬度')
+        return
+      }
+      if (this.viewList[1].value === '' || this.showErr) {
+        this.$toast('请输入IMEI码')
+        return
+      }
+      if (this.viewList[3].value === '') {
+        this.$toast('请输入安装位置')
+        return
+      }
+      // window.localStorage.removeItem('equipList')
+      let list = window.localStorage.getItem('equipList') ? window.localStorage.getItem('equipList') : []
+      const item = {
+        location: this.viewList[0].value,
+        imei: this.viewList[1].value,
+        typeID: this.typeID,
+        typeName: this.viewList[2].value,
+        equipAddress: this.viewList[3].value,
+        equipImg: ''
+      }
+      list.push(item)
+      window.localStorage.setItem('equipList', list)
+      this.$router.go(-1)
     }
   }
 }

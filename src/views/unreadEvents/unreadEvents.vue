@@ -1,3 +1,4 @@
+<!-- 未读事件列表 -->
 <template>
   <div class="unread-events">
     <div class="screen">
@@ -25,8 +26,9 @@
         </div>
         <van-calendar
           v-model="showDate"
+
           color="#5176AE"
-          row-height="60"
+          row-height="54"
           :min-date="minDate"
           :max-date="maxDate"
           :show-confirm="false"
@@ -34,7 +36,9 @@
           :show-title="false"
           :default-date="defaultMark"
           :allow-same-day="true"
+
           type="range"
+          :formatter="formatter"
           @confirm="confirmDate"
           @close="closeDate"
         />
@@ -137,7 +141,9 @@ export default {
     /**
      * 获取未读事件列表
      */
+
     async getHazardList() {
+      this.loading = true
       const params = {
         type: this.type.id,
         page: ++this.page,
@@ -160,6 +166,8 @@ export default {
       const res = await Api.hazardList(params)
       if (res.code === 200) {
         let rows = [...res.data.rows]
+
+        // console.log('接口返回', rows)
         // 数据全部加载完成
         if (res.data.page * 1 > res.data.total * 1) {
           this.finished = true
@@ -183,6 +191,7 @@ export default {
       this.type = actions
       this.hazardLists = []
       this.page = 0
+      this.finished = false
       this.getHazardList()
     },
     /**
@@ -194,6 +203,7 @@ export default {
       this.state = false
       this.hazardLists = []
       this.page = 0
+      this.finished = false
       this.getHazardList()
     },
     /**
@@ -205,6 +215,7 @@ export default {
         this.screenDate = []
         this.hazardLists = []
         this.page = 0
+        this.finished = false
         this.getHazardList()
       }
     },
@@ -216,7 +227,19 @@ export default {
       console.log(this.more)
       this.hazardLists = []
       this.page = 0
+      this.finished = false
       this.getHazardList()
+    },
+    /**
+     * 日期选择字体修改
+     */
+    formatter(day) {
+      if (day.type === 'start') {
+        day.bottomInfo = ''
+      } else if (day.type === 'end') {
+        day.bottomInfo = ''
+      }
+      return day
     }
 
   }
@@ -367,27 +390,26 @@ export default {
 }
 </style>
 <style>
-.van-popover__action {
+.unread-events .van-popover__action {
   padding: 0;
   width: 100px;
-
 }
-.van-popover--dark .van-popover__content, .van-popover--light .van-popover__content {
+.unread-events .van-popover--dark .van-popover__content, .unread-events .van-popover--light .van-popover__content {
   background-color: #101720;
   border: 1px solid #4D628F;
 }
-.van-popover--light, .van-popover--dark {
+.unread-events .van-popover--light, .van-popover--dark {
   color: #8BA3C2;
 }
-.van-popover__arrow {
+.unread-events .van-popover__arrow {
   display: none;
 }
-.van-popover, .van-popover--light .van-popover__action:active{
+.unread-events .van-popover, .unread-events .van-popover--light .van-popover__action:active{
   background-color: #101720;
 }
-.van-popover--light {
+.unread-events .van-popover--light {
   left: inherit !important;
   right: 10px !important;
-
 }
+
 </style>
