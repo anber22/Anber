@@ -98,20 +98,21 @@ export default {
 .uploadImg{
   width: 100%;
   height: auto;
+  margin-left: 25px
 }
 .img-item{
   width: 79px;
   height: 79px;
   float: left;
-  margin-left: 20px;
-  margin-right: 10px;
+  margin-right: 14px;
+
   font-size: 12px;
   font-family: PingFang SC;
   font-weight: 400;
   color: #B9CEE9;
   text-align: center;
   line-height: 34px;
-  margin-top: 10px;
+  margin-top: 13px;
   border: 1px solid #4D628F;
 }
 .delete-img-icon{

@@ -168,7 +168,7 @@ export default {
      */
     async  toPlaceDetail() {
       this.$router.push({
-        path: '/placeResourcDetail',
+        path: '/placeResourceDetail',
         query: {
           placeId: this.detailInfoId
         }

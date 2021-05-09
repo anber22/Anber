@@ -77,7 +77,7 @@
       绑定设备
     </p>
     <!-- 保存按钮 -->
-    <van-button class="store-btn" block color="linear-gradient(100deg, #1DF2FF,#008EFF )" @click="savePlaceResourcInfo">
+    <van-button class="store-btn" block color="linear-gradient(100deg, #1DF2FF,#008EFF )" @click="savePlaceResourceInfo">
       保存
     </van-button>
   </div>
@@ -181,8 +181,8 @@ export default {
       placeName: '',
       showPicker: false,
       detailPlaceId: 0,
-      placeResourcDetail: {},
-      placeResourc: []
+      placeResourceDetail: {},
+      placeResource: []
     }
   },
   mounted() {
@@ -192,8 +192,8 @@ export default {
     this.detailPlaceId = this.$route.query.placeResourseId
 
     this.getPlaceTypeList()
-    this.getPlaceResourcDetail()
-    this.getPlaceResourcEquip(this.detailPlaceId)
+    this.getPlaceResourceDetail()
+    this.getPlaceResourceEquip(this.detailPlaceId)
     this.getPlaceTypeTree()
   },
   methods: {
@@ -219,7 +219,7 @@ export default {
       this.fieldValue = selectedOptions.map((option) => option.text).join('/')
     },
     // 保存功能
-    async savePlaceResourcInfo() {
+    async savePlaceResourceInfo() {
       console.log('保存成功')
       // 判断必填的是否未填
       if (this.netinfodetail[0].answer === '') {
@@ -253,7 +253,7 @@ export default {
         phone: this.netinfodetail[5].answer
       }
       console.log('param', param)
-      const res = await Api.updateplaceResourc(this.detailPlaceId, param)
+      const res = await Api.updateplaceResource(this.detailPlaceId, param)
       if (res.code === 200) {
         this.$toast({
           message: '网点修改成功',
@@ -265,27 +265,27 @@ export default {
     /**
      * 获取当前网点详情
      */
-    async getPlaceResourcDetail() {
-      const res = await Api.placeResourcDetail(this.detailPlaceId)
+    async getPlaceResourceDetail() {
+      const res = await Api.placeResourceDetail(this.detailPlaceId)
       if (res.code === 200) {
-        this.placeResourcDetail = res.data
+        this.placeResourceDetail = res.data
       }
-      this.placeResourcDetail = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', [this.placeResourcDetail])
-      console.log('网点详情', this.placeResourcDetail)
-      this.placeResourcDetail = this.placeResourcDetail[0]
-      this.netinfodetail[0].answer = this.placeResourcDetail.placeName
-      this.netinfodetail[1].answer = this.placeResourcDetail.placeTypeName
-      this.netinfodetail[2].answer = this.placeResourcDetail.placeAddress
-      this.netinfodetail[3].answer = this.placeResourcDetail.departName
-      this.netinfodetail[4].answer = this.placeResourcDetail.managerName
-      this.netinfodetail[5].answer = this.placeResourcDetail.phone
+      this.placeResourceDetail = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', [this.placeResourceDetail])
+      console.log('网点详情', this.placeResourceDetail)
+      this.placeResourceDetail = this.placeResourceDetail[0]
+      this.netinfodetail[0].answer = this.placeResourceDetail.placeName
+      this.netinfodetail[1].answer = this.placeResourceDetail.placeTypeName
+      this.netinfodetail[2].answer = this.placeResourceDetail.placeAddress
+      this.netinfodetail[3].answer = this.placeResourceDetail.departName
+      this.netinfodetail[4].answer = this.placeResourceDetail.managerName
+      this.netinfodetail[5].answer = this.placeResourceDetail.phone
     },
     /**
      * 获取当前网点关联的设备列表
      */
-    async getPlaceResourcEquip(detailPlaceId) {
+    async getPlaceResourceEquip(detailPlaceId) {
       // console.log(id, 'id----')
-      const res = await Api.placeResourcEquip(detailPlaceId)
+      const res = await Api.placeResourceEquip(detailPlaceId)
       // console.log('关联设备的res-----', res.data)
       if (res.code === 200) {
         const dataArr = [...res.data]

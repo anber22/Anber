@@ -1,40 +1,40 @@
 <template>
-  <div class="placeResourcListCard" @click="goJump(data.placeId)">
-    <div class="placeResourcListCard-header">
-      <div class="placeResourcListCard-title">
+  <div class="placeResourceListCard" @click="goJump(data.placeId)">
+    <div class="placeResourceListCard-header">
+      <div class="placeResourceListCard-title">
         {{ data.placeName }}
       </div>
-      <div class="placeResourcListCard-equip-count">
+      <div class="placeResourceListCard-equip-count">
         物联设备：
-        <div class="placeResourcListCard-equip-count-num">
+        <div class="placeResourceListCard-equip-count-num">
           {{ data.count }}
         </div>
       </div>
     </div>
-    <div class="placeResourcListCard-content">
-      <div class="placeResourcListCard-content-row">
-        <div class="placeResourcListCard-content-row-name">
+    <div class="placeResourceListCard-content">
+      <div class="placeResourceListCard-content-row">
+        <div class="placeResourceListCard-content-row-name">
           {{ data.managerName }}
-          <div class="placeResourcListCard-phone">
+          <div class="placeResourceListCard-phone">
             {{ data.phone }}
           </div>
-          <div class="placeResourcListCard-type">
+          <div class="placeResourceListCard-type">
             {{ data.placeTypeName }}
           </div>
         </div>
         <a @click.stop="callPhone(data.placeId)">
-          <img src="@/assets/images/equip/phone.png" alt="" class="placeResourcListCard-content-row-icon">
+          <img src="@/assets/images/equip/phone.png" alt="" class="placeResourceListCard-content-row-icon">
         </a>
       </div>
-      <div class="placeResourcListCard-content-row">
-        <div class="placeResourcListCard-content-row-name">
+      <div class="placeResourceListCard-content-row">
+        <div class="placeResourceListCard-content-row-name">
           <!-- {{ data.placeName }} -->
-          <span class="placeResourcListCard-content-row-adress-name">
+          <span class="placeResourceListCard-content-row-adress-name">
             {{ data.placeAddress }}
           </span>
         </div>
         <a @click.stop="toMap(data.placeId)">
-          <img src="@/assets/images/equip/navigation.png" alt="" class="placeResourcListCard-content-row-icon">
+          <img src="@/assets/images/equip/navigation.png" alt="" class="placeResourceListCard-content-row-icon">
         </a>
       </div>
     </div>
@@ -77,7 +77,7 @@ export default {
      * 跳转拨号
      */
     async  callPhone(e) {
-      const res = await Api.placeResourcDetail(e)
+      const res = await Api.placeResourceDetail(e)
       if (res.code === 200) {
         const result = res.data
         window.location.href = 'tel://' + result.phone
@@ -88,7 +88,7 @@ export default {
      */
     goJump(id) {
       this.$router.push({
-        path: '/placeResourcDetail',
+        path: '/placeResourceDetail',
         query: {
           placeId: id,
           placeTypeName: this.data.placeTypeName
@@ -100,16 +100,16 @@ export default {
 </script>
 
 <style>
-.placeResourcListCard{
+.placeResourceListCard{
   width: 100%;
   height: 100%;
   border: 1px solid #4D628F;
   background-color:#0A0B29;
 }
-.placeResourcListCard-header{
+.placeResourceListCard-header{
   background: #131F3B;
 }
-.placeResourcListCard-title{
+.placeResourceListCard-title{
   width: 35%;
   height: 25%;
   font-size: 15px;
@@ -121,12 +121,12 @@ export default {
   display: inline-block;
   float: left;
 }
-.placeResourcListCard-content{
+.placeResourceListCard-content{
   width: 100%;
   height: 55%;
   margin-top: 2.7%;
 }
-.placeResourcListCard-equip-count{
+.placeResourceListCard-equip-count{
   width: 50%;
   height: 25%;
   font-size: 12px;
@@ -139,13 +139,13 @@ export default {
   text-align: right;
   padding-right: 3%;
 }
-.placeResourcListCard-equip-count-num{
+.placeResourceListCard-equip-count-num{
   width: auto;
   height: 100%;
   display: inline-block;
   color: #06F0FE;
 }
-.placeResourcListCard-content-row{
+.placeResourceListCard-content-row{
   height: 45.5%;
   width: 100%;
   font-size: 12px;
@@ -154,7 +154,7 @@ export default {
   align-items: center;
   vertical-align: middle
 }
-.placeResourcListCard-content-row-name{
+.placeResourceListCard-content-row-name{
   width: 89%;
   text-align: left;
   padding-left: 3%;
@@ -167,12 +167,12 @@ export default {
   white-space: nowrap;
   overflow: hidden;
 }
-.placeResourcListCard-content-row-adress-name{
+.placeResourceListCard-content-row-adress-name{
   font-size: 12px;
   font-family: PingFang SC;
   font-weight: 400;
 }
-.placeResourcListCard-type{
+.placeResourceListCard-type{
   width: auto;
   background: #1B2B29;
   border: 1px solid #54A4E7;
@@ -188,7 +188,7 @@ export default {
   white-space: nowrap;
   overflow: hidden;
 }
-.placeResourcListCard-phone{
+.placeResourceListCard-phone{
   width: auto;
   padding: 0.5% 1% 0.5% 1%;
   margin-left: 2%;
@@ -197,7 +197,7 @@ export default {
   white-space: nowrap;
   overflow: hidden;
 }
-.placeResourcListCard-content-row-icon{
+.placeResourceListCard-content-row-icon{
   width: 19px;
   height: 19px;
 }

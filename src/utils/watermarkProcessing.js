@@ -25,8 +25,11 @@ export default class WatermarkProcessing {
           imageHeight = 500
           imageWidth = 500 / image.height * image.width
         }
+
         canvas.width = imageWidth
         canvas.height = imageHeight
+
+        const widthPercent = imageWidth / 500
 
         context.drawImage(image, 0, 0, imageWidth, imageHeight)
 
@@ -45,46 +48,46 @@ export default class WatermarkProcessing {
 
         // 网点背景
         context.fillStyle = my_gradient
-        context.fillRect(10, imageHeight - 126, imageWidth * 0.2, imageWidth * 0.2 * 0.333)
+        context.fillRect(10, imageHeight - (138 * widthPercent), imageWidth * 0.2, imageWidth * 0.2 * 0.333)
         context.globalAlpha = 0.7
         // 详细信息背景
         context.fillStyle = '#707070'
-        context.fillRect(10, imageHeight - 90, imageWidth * 0.5, imageWidth * 0.5 * 0.333)
+        context.fillRect(10, imageHeight - (90 * widthPercent), imageWidth * 0.5, imageWidth * 0.5 * 0.333)
 
         context.strokeStyle = '#707070'
-        context.strokeRect(10, imageHeight - 90, imageWidth * 0.5, imageWidth * 0.5 * 0.333)
+        context.strokeRect(10, imageHeight - (90 * widthPercent), imageWidth * 0.5, imageWidth * 0.5 * 0.333)
 
         // 字体样式 字体粗体 字体大小/间距 字体包
-        context.font = 'normal bold ' + imageWidth / 375 * 15 + 'px/20px PingFang SC,sans-serif'
+        context.font = 'normal bold ' + widthPercent * 15 + 'px/20px PingFang SC,sans-serif'
         // 字体颜色
         context.shadowColor = '#1F1E1E'
         context.shadowBlur = 10
         context.shadowOffsetX = 1
         context.shadowOffsetY = 1
         context.fillStyle = 'white'
-        context.fillText('港湾一号', 13, imageHeight - (imageHeight / 674 * 146))
+        context.fillText('港湾一号', 19, imageHeight - (119 * widthPercent))
         context.shadowOffsetX = 0
         context.shadowOffsetY = 0
         // 文字的内容 开始宽度 开始高度
-        context.fillText('2021/04/27', 20, imageHeight - 37)
-        context.font = '2px PingFang SC'
+        context.fillText('2021/04/27', 20, imageHeight - (29 * widthPercent))
+        context.font = widthPercent * 10 + 'px PingFang SC'
 
         // 上传人
-        context.fillText('上传人: 吴亦凡', 115, imageHeight - 70)
+        context.fillText('上传人: 吴亦凡', 145 * widthPercent, imageHeight - (widthPercent * 70))
 
-        context.font = '10px PingFang SC'
+        context.font = widthPercent * 10 + 'px PingFang SC'
         // 北纬
-        context.fillText('经纬度:', 115, imageHeight - 52)
+        context.fillText('经纬度:', 145 * widthPercent, imageHeight - (widthPercent * 48))
         // 东经
-        context.fillText('116.400819, 40.000549', 115, imageHeight - 36)
+        context.fillText('116.400819, 40.000549', 145 * widthPercent, imageHeight - (widthPercent * 26))
         // 时间
-        context.font = '25px PingFang SC'
-        context.fillText('8:00', 20, imageHeight - 67)
+        context.font = widthPercent * 25 + 'px PingFang SC'
+        context.fillText('8:00', 20, imageHeight - (65 * widthPercent))
 
         context.beginPath()
-        context.moveTo(108, imageHeight - 85)
+        context.moveTo(128 * widthPercent, imageHeight - (widthPercent * 79))
         context.lineWidth = 2
-        context.lineTo(108, imageHeight - 25)
+        context.lineTo(128 * widthPercent, imageHeight - (widthPercent * 19))
         context.strokeStyle = '#7DF4FA'
         context.stroke()
 

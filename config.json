@@ -47,7 +47,7 @@
         "desc":"视频播放",
         "permissions": ["1" , "2" , "4"]
       },
-      "PlaceResourcDetail": {
+      "PlaceResourceDetail": {
         "desc":"网点详情",
         "permissions": ["1" , "2" , "4"]
       },
@@ -83,7 +83,7 @@
         "desc":"编辑隐患",
         "permissions": ["1", "2", "4"]
       },
-      "PlaceResourcAddition": {
+      "PlaceResourceAddition": {
         "desc":"新增网点",
         "permissions": ["1", "2", "4"]
       }

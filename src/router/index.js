@@ -95,9 +95,9 @@ export const asyncRouterMap = [
         meta: { title: '视频播放', permissions: [], edit: false }
       },
       {
-        name: 'PlaceResourcDetail',
-        path: '/placeResourcDetail',
-        component: () => import('@/views/placeResourcDetail/placeResourcDetail'),
+        name: 'PlaceResourceDetail',
+        path: '/placeResourceDetail',
+        component: () => import('@/views/placeResourceDetail/placeResourceDetail'),
         meta: { title: '网点详情', permissions: [], edit: true }
       },
       { path: '/hazardDetail',
@@ -148,9 +148,9 @@ export const asyncRouterMap = [
         meta: { showFooter: true, title: '编辑隐患', permissions: [] }
       },
       {
-        path: '/placeResourcAddition',
-        name: 'PlaceResourcAddition',
-        component: () => import('@/views/placeResourcAddition/placeResourcAddition'),
+        path: '/placeResourceAddition',
+        name: 'PlaceResourceAddition',
+        component: () => import('@/views/placeResourceAddition/placeResourceAddition'),
         meta: { showFooter: true, title: '新增网点', permissions: [] }
       }
     ]

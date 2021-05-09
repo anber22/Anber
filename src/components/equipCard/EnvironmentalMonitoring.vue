@@ -130,7 +130,7 @@ export default {
     },
     showDetail(e) {
       this.$router.push({
-        path: '/placeResourcDetail',
+        path: '/placeResourceDetail',
         query: {
           placeId: e
         }

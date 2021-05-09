@@ -1,9 +1,9 @@
 <template>
   <div class="placeResource">
-    <img class="add-outlet" src="@/assets/images/equip/add-outlet.png" alt="" @click="$router.push({path:'/placeResourcAddition'})">
+    <img class="add-outlet" src="@/assets/images/equip/add-outlet.png" alt="" @click="$router.push({path:'/placeResourceAddition'})">
     <van-search v-model="queryCondition" placeholder="网点名称/网点地址" background="#101720" @search="onSearch" />
     <div class="placeResource-content">
-      <van-loading v-if="!placeResourcList" size="24px" vertical>
+      <van-loading v-if="!placeResourceList" size="24px" vertical>
         加载中...
       </van-loading>
       <van-list
@@ -12,10 +12,10 @@
         finished-text="没有更多了"
         class="van-clearfix"
         :immediate-check="false"
-        @load="getPlaceResourcList"
+        @load="getPlaceResourceList"
       >
-        <Adaptive v-for="item in placeResourcList" :key="item.index" :data="['94%','31.39%']" class="placeResource-list-card">
-          <PlaceResourcListCard :data="item" />
+        <Adaptive v-for="item in placeResourceList" :key="item.index" :data="['94%','31.39%']" class="placeResource-list-card">
+          <PlaceResourceListCard :data="item" />
         </Adaptive>
       </van-list>
     </div>
@@ -23,19 +23,19 @@
 </template>
 
 <script>
-import PlaceResourcListCard from 'cmp/placeResourcListCard/PlaceResourcListCard'
+import PlaceResourceListCard from 'cmp/placeResourceListCard/PlaceResourceListCard'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 
 import Api from '@/api/placeResource/placeResource.js'
 
 export default {
   components: {
-    PlaceResourcListCard
+    PlaceResourceListCard
   },
   data() {
     return {
       loading: false,
-      placeResourcList: [],
+      placeResourceList: [],
       queryCondition: '',
       placeTypeList: [],
       page: 0,
@@ -43,19 +43,19 @@ export default {
     }
   },
   mounted() {
-    if (this.placeResourcList.length === 0) {
-      this.getPlaceResourcList()
+    if (this.placeResourceList.length === 0) {
+      this.getPlaceResourceList()
     }
   },
   methods: {
-    async getPlaceResourcList() {
+    async getPlaceResourceList() {
       const params = {
         // systemType: this.thisSubsystemId,
         page: ++this.page,
         size: 10,
         condition: (this.queryCondition.length < 1 ? '' : ('?condition=' + this.queryCondition))
       }
-      const res = await Api.placeResourcList(params)
+      const res = await Api.placeResourceList(params)
 
       if (res.code === 200) {
         let listData = [...res.data.rows]
@@ -63,12 +63,12 @@ export default {
         if (listData.length === 0) {
           this.loading = false
           this.finished = true
-          this.placeResourcList = []
+          this.placeResourceList = []
           return
         }
         // 去vuex获取该网点的网点类型名称，放到数组集合里
         listData = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', listData)
-        this.placeResourcList = this.placeResourcList.concat(listData)
+        this.placeResourceList = this.placeResourceList.concat(listData)
       }
       if (params.page === res.data.total) {
         this.finished = true
@@ -79,10 +79,10 @@ export default {
      * 搜索触发事件
      */
     onSearch(e) {
-      this.placeResourcList = []
+      this.placeResourceList = []
       this.finished = false
       this.page = 0
-      this.getPlaceResourcList()
+      this.getPlaceResourceList()
     }
   }
 }

@@ -205,7 +205,7 @@ export default {
     /*
       保存按钮：把数据传到后端
     */
-    async getPlaceResourcInfo() {
+    async getPlaceResourceInfo() {
       const obj = {
         name: this.netinfodetail[0].answer,
         type: this.placeTypeName,
@@ -236,7 +236,7 @@ export default {
         })
         return
       }
-      const res = await Api.placeResourcInfo(obj)
+      const res = await Api.placeResourceInfo(obj)
       // console.log('新增网点obj--', obj)
       if (res.code === 200) {
         this.$toast({

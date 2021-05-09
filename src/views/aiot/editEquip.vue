@@ -67,7 +67,6 @@
           value-key="name"
           @confirm="onConfirm"
           @cancel="onCancel"
-          @change="onChange"
         />
       </van-popup>
     </div>
@@ -169,7 +168,7 @@ export default {
       }
     },
     /**
-     * 选择图片
+     * 选择图片  待用
      */
     choiceImg(e) {
     },
@@ -191,9 +190,6 @@ export default {
     onConfirm(e) {
       this.showPlatformPicker = false
       this.platformName = e.name
-    },
-    onChange() {
-
     }
   }
 }
@@ -237,6 +233,7 @@ export default {
 }
 .infoRows{
   width: 80%;
+  margin-top: 10px;
 }
 .edit-row-value{
   font-size: 12px;

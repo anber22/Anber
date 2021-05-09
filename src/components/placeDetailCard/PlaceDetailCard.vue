@@ -84,36 +84,9 @@ export default {
         electricity: 'yellow',
         statusName: '故障'
       }
-      // placeResourc: [
-      //   {
-      //     equipStatus: {
-      //       statusname: 1,
-      //       electricity: 40,
-      //       signal: -65
-      //     },
-      //     contentDetail: {
-      //       info: ['YD333N枪型', 'FX328798798249182', '港湾一号湾9栋401大门口']
-      //     }
-      //   },
-      //   {
-      //     equipStatus: {
-      //       statusname: 0,
-      //       electricity: 90,
-      //       signal: -85
-      //     },
-      //     contentDetail: {
-      //       info: ['YD333N枪型', 'FB328796813299182', '港湾一号湾17栋903大门口']
-      //     }
-      //   }
-      // ]
     }
   },
   mounted() {
-    // this.equipStatus = {
-    //   statusName: this.data.onlineType,
-    //   wifi: this.data.equipSignal,
-    //   electricity: this.data.equipPower
-    // }
   },
   methods: {
 

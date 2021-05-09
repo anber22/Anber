@@ -1,14 +1,14 @@
-.placeResourcDetail{
+.placeResourceDetail{
   width: 100%;
   height: calc(100% - 46px);
   background-color: #101720;
 }
-.placeResourcDetail-box{
+.placeResourceDetail-box{
   width: 100%;
   height: auto;
   background-color: #101720;
 }
-.placeResourcDetail-content{
+.placeResourceDetail-content{
   width: 92%;
   margin: 0 4%;
   overflow: hidden;

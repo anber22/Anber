@@ -116,13 +116,13 @@
     - iotAppDetail.vue
     - iotAppDetail.css
   
-  - placeResourc           #网点管理
-    - placeResourc.vue
-    - placeResourc.css
+  - placeResource           #网点管理
+    - placeResource.vue
+    - placeResource.css
 
-  - placeResourcDetail           #网点详情
-    - placeResourcDetail.vue
-    - placeResourcDetail.css
+  - placeResourceDetail           #网点详情
+    - placeResourceDetail.vue
+    - placeResourceDetail.css
     
   - video                    #智慧视觉
     - video.vue

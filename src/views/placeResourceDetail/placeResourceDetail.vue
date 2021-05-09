@@ -1,7 +1,7 @@
 <template>
-  <div class="placeResourcDetail">
-    <div class="placeResourcDetail-box">
-      <div v-if="!loading" class="placeResourcDetail-content">
+  <div class="placeResourceDetail">
+    <div class="placeResourceDetail-box">
+      <div v-if="!loading" class="placeResourceDetail-content">
         <div class="title">
           <van-image
             width="4px"
@@ -16,12 +16,12 @@
         <div class="text-box">
           <div class="text-item">
             <span class="name">网点名称：</span>
-            <span class="describe">{{ placeResourcDetail.placeName }}</span>
-            <span class="placeType">{{ placeResourcDetail.placeTypeName }}</span>
+            <span class="describe">{{ placeResourceDetail.placeName }}</span>
+            <span class="placeType">{{ placeResourceDetail.placeTypeName }}</span>
           </div>
           <div class="text-item">
             <span class="name">网点地址：</span>
-            <span class="describe">{{ placeResourcDetail.placeAddress }}</span>
+            <span class="describe">{{ placeResourceDetail.placeAddress }}</span>
             <van-image
               width="19px"
               height="19px"
@@ -34,12 +34,12 @@
           </div>
           <div class="text-item">
             <span class="name">所属辖区：</span>
-            <span class="describe">{{ placeResourcDetail.departName }}</span>
+            <span class="describe">{{ placeResourceDetail.departName }}</span>
           </div>
           <div class="text-item" style="padding-bottom: 20px; border-bottom: 1px #283444 solid;">
             <span class="name">联系人：</span>
-            <span class="describe">{{ placeResourcDetail.managerName }}-{{ placeResourcDetail.phone }}</span>
-            <a :href="'tel:' + placeResourcDetail.phone">
+            <span class="describe">{{ placeResourceDetail.managerName }}-{{ placeResourceDetail.phone }}</span>
+            <a :href="'tel:' + placeResourceDetail.phone">
               <van-image
                 width="19px"
                 height="19px"
@@ -56,7 +56,7 @@
             <span class="name phone-name">责任书：</span>
             <div class="phone-box">
               <Adaptive
-                v-for="(iitem, index) in placeResourcDetail.dutyPitcture"
+                v-for="(iitem, index) in placeResourceDetail.dutyPitcture"
                 :key="
                   index"
                 class="photo"
@@ -73,7 +73,7 @@
             <span class="name phone-name">网点照片：</span>
             <div class="phone-box">
               <Adaptive
-                v-for="(iitem, index) in placeResourcDetail.placePicture"
+                v-for="(iitem, index) in placeResourceDetail.placePicture"
                 :key="
                   index"
                 class="photo"
@@ -96,12 +96,12 @@
             :show-error="false"
             :show-loading="false"
           />
-          物联设备({{ placeResourc.length }})
+          物联设备({{ placeResource.length }})
         </div>
-        <!-- <Adaptive v-for="(item, index) in placeResourcEquip" :key="index" class="PlaceDetailCard" :data="['100%', '32%']">
+        <!-- <Adaptive v-for="(item, index) in placeResourceEquip" :key="index" class="PlaceDetailCard" :data="['100%', '32%']">
           <PlaceDetailCard :data="item" />
         </Adaptive> -->
-        <PlaceDetailCard class="PlaceDetailCard-bind-equip" :data="placeResourc" />
+        <PlaceDetailCard class="PlaceDetailCard-bind-equip" :data="placeResource" />
 
         <p class="binding-device">
           <van-image
@@ -127,7 +127,7 @@ import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 import EquipStatus from 'cmp/equipStatus/EquipStatus'
 
 export default {
-  name: 'PlaceResourcDetail',
+  name: 'PlaceResourceDetail',
   components: {
     PlaceDetailCard,
     EquipStatus
@@ -135,8 +135,8 @@ export default {
 
   data() {
     return {
-      placeResourcDetail: {},
-      placeResourc: [],
+      placeResourceDetail: {},
+      placeResource: [],
 
       test: [
         {
@@ -147,15 +147,15 @@ export default {
       ],
       loading: true,
 
-      placeResourcDetailId: 0,
+      placeResourceDetailId: 0,
       detailPlaceId: 0
     }
   },
   mounted() {
     console.log('query是---', this.$route.query)
-    this.getPlaceResourcDetail(this.$route.query.placeId)
-    this.getPlaceResourcEquip(this.$route.query.placeId)
-    // this.placeResourcDetailId=this.$router.query.
+    this.getPlaceResourceDetail(this.$route.query.placeId)
+    this.getPlaceResourceEquip(this.$route.query.placeId)
+    // this.placeResourceDetailId=this.$router.query.
     this.detailPlaceId = this.$route.query.placeId
   },
   created() {
@@ -165,23 +165,23 @@ export default {
     /**
      * 获取当前网点详情
      */
-    async getPlaceResourcDetail(id) {
+    async getPlaceResourceDetail(id) {
       this.loading = true
 
-      const res = await Api.placeResourcDetail(id)
+      const res = await Api.placeResourceDetail(id)
       if (res.code === 200) {
-        this.placeResourcDetail = res.data
+        this.placeResourceDetail = res.data
       }
-      this.placeResourcDetail = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', [this.placeResourcDetail])
-      this.placeResourcDetail = this.placeResourcDetail[0]
+      this.placeResourceDetail = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', [this.placeResourceDetail])
+      this.placeResourceDetail = this.placeResourceDetail[0]
       this.loading = false
     },
     /**
      * 获取当前网点关联的设备列表
      */
-    async getPlaceResourcEquip(id) {
+    async getPlaceResourceEquip(id) {
       // console.log(id, 'id----')
-      const res = await Api.placeResourcEquip(id)
+      const res = await Api.placeResourceEquip(id)
       // console.log(res, 'res-----')
       if (res.code === 200) {
         const dataArray = [...res.data]
@@ -200,7 +200,7 @@ export default {
           }
           arr.push(obj)
         }
-        this.placeResourc = arr
+        this.placeResource = arr
       }
     },
     /*
@@ -212,7 +212,7 @@ export default {
   }
 }
 </script>
-<style scoped src='./placeResourcDetail.css'></style>
+<style scoped src='./placeResourceDetail.css'></style>
 <style scoped>
 .equipcard{
   width: 341px;

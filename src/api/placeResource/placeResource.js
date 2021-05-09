@@ -1,36 +1,36 @@
 import request from '@/utils/request'
 
-class PlaceResourc {
+class PlaceResource {
   //  获取网点列表
-  async placeResourcList(param) {
+  async placeResourceList(param) {
     return await request({
       url: `/apis/place/page/${param.page}/size/${param.size}${param.condition}`,
       method: 'get'
     })
   }
   //  获取网点详情
-  async placeResourcDetail(param) {
+  async placeResourceDetail(param) {
     return await request({
       url: `/apis/place/id/${param}`,
       method: 'get'
     })
   }
   //  获取网点关联设备
-  async placeResourcEquip(param) {
+  async placeResourceEquip(param) {
     return await request({
       url: `/apis/place/id/${param}/equip/list`,
       method: 'get'
     })
   }
   //  获取网点新增
-  async placeResourcInfo(param) {
+  async placeResourceInfo(param) {
     return await request({
       url: `/apis/place/${param}`,
       method: 'post'
     })
   }
   // 获取网点修改
-  async updateplaceResourc(id, param) {
+  async updateplaceResource(id, param) {
     return await request({
       url: `/apis/place/id/${id}`,
       method: 'put',
@@ -45,4 +45,4 @@ class PlaceResourc {
     })
   }
 }
-export default new PlaceResourc()
+export default new PlaceResource()

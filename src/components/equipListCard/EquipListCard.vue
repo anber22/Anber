@@ -144,7 +144,7 @@ export default {
      * 拨号
      */
     async  callPhone(e) {
-      const res = await Api.placeResourcDetail(e)
+      const res = await Api.placeResourceDetail(e)
       if (res.code === 200) {
         const result = res.data
         window.location.href = 'tel://' + result.phone
@@ -155,7 +155,7 @@ export default {
      */
     showDetail(e) {
       this.$router.push({
-        path: '/placeResourcDetail',
+        path: '/placeResourceDetail',
         query: {
           placeId: e
         }
