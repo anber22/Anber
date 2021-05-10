@@ -62,7 +62,7 @@
       </div>
     </div>
     <!-- end -->
-    <!-- <Adaptive :data="['37%','36%']" class="physicalUnionApplication-content-img">
+    <!-- <Adaptive :size="['37%','36%']" class="physicalUnionApplication-content-img">
       <img src="/src/assets/images/equip/camera-bg-img.png" alt="" class="camera-bg-img">
     </Adaptive> -->
   </div>
@@ -79,8 +79,7 @@ export default {
   props: {
     equipInfo: {
       type: Object,
-      // eslint-disable-next-line vue/require-valid-default-prop
-      default: []
+      default: () => {}
     }
   },
   data() {

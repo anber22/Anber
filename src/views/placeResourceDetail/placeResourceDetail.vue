@@ -60,7 +60,7 @@
                 :key="
                   index"
                 class="photo"
-                :data="['29%', '29%']"
+                :size="['29%', '29%']"
               >
                 <van-image
                   fit="cover"
@@ -77,7 +77,7 @@
                 :key="
                   index"
                 class="photo"
-                :data="['29%', '29%']"
+                :size="['29%', '29%']"
               >
                 <van-image
                   fit="cover"
@@ -99,9 +99,9 @@
           物联设备({{ placeResource.length }})
         </div>
         <!-- <Adaptive v-for="(item, index) in placeResourceEquip" :key="index" class="PlaceDetailCard" :data="['100%', '32%']">
-          <PlaceDetailCard :data="item" />
+          <PlaceDetailCard :size="item" />
         </Adaptive> -->
-        <PlaceDetailCard class="PlaceDetailCard-bind-equip" :data="placeResource" />
+        <PlaceDetailCard class="PlaceDetailCard-bind-equip" :place-detail-data="placeResource" />
 
         <p class="binding-device">
           <van-image
@@ -152,7 +152,6 @@ export default {
     }
   },
   mounted() {
-    console.log('query是---', this.$route.query)
     this.getPlaceResourceDetail(this.$route.query.placeId)
     this.getPlaceResourceEquip(this.$route.query.placeId)
     // this.placeResourceDetailId=this.$router.query.
@@ -171,18 +170,16 @@ export default {
       const res = await Api.placeResourceDetail(id)
       if (res.code === 200) {
         this.placeResourceDetail = res.data
+        this.placeResourceDetail = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', [this.placeResourceDetail])
+        this.placeResourceDetail = this.placeResourceDetail[0]
+        this.loading = false
       }
-      this.placeResourceDetail = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', [this.placeResourceDetail])
-      this.placeResourceDetail = this.placeResourceDetail[0]
-      this.loading = false
     },
     /**
      * 获取当前网点关联的设备列表
      */
     async getPlaceResourceEquip(id) {
-      // console.log(id, 'id----')
       const res = await Api.placeResourceEquip(id)
-      // console.log(res, 'res-----')
       if (res.code === 200) {
         const dataArray = [...res.data]
         const arr = []

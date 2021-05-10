@@ -14,8 +14,8 @@
         :immediate-check="false"
         @load="getPlaceResourceList"
       >
-        <Adaptive v-for="item in placeResourceList" :key="item.index" :data="['94%','31.39%']" class="placeResource-list-card">
-          <PlaceResourceListCard :data="item" />
+        <Adaptive v-for="item in placeResourceList" :key="item.index" :size="['94%','31.39%']" class="placeResource-list-card">
+          <PlaceResourceListCard :place-data="item" />
         </Adaptive>
       </van-list>
     </div>

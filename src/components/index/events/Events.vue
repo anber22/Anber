@@ -5,7 +5,7 @@
       <div class="title-name">
         <div style="margin-left: 4px;max-width: 70%; display: flex">
           <van-cell is-link :title="actionsTitle" class="actions-title" @click="show = true" />
-          <van-action-sheet v-model="show" class="actions-content" :actions="data.equipType" :closeable="true" title="请选择" :round="false" @select="onChangeSystemType" />
+          <van-action-sheet v-model="show" class="actions-content" :actions="eventData.equipType" :closeable="true" title="请选择" :round="false" @select="onChangeSystemType" />
           <div>
             <p class="thirtyDay" @click="show = true">
               (近30天)
@@ -21,7 +21,7 @@
     </div>
     <div class="">
       <div class="analysisTimeline">
-        <ChartLine v-if="data.analysisTimelineFlag" :data="data.analysisTimelineData" />
+        <ChartLine v-if="eventData.analysisTimelineFlag" :line-data="eventData.analysisTimelineData" />
       </div>
     </div>
   </div>
@@ -34,9 +34,9 @@ export default {
     ChartLine
   },
   props: {
-    data: {
+    eventData: {
       type: Object,
-      default: null
+      default: () => {}
     },
     changeSystem: {
       type: Function,
@@ -53,7 +53,7 @@ export default {
     }
   },
   mounted() {
-    this.actionsTitle = this.data.equipType[0].name
+    this.actionsTitle = this.eventData.equipType[0].name
   },
   methods: {
     onChangeSystemType(item) {

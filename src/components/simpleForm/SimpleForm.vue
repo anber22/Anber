@@ -2,11 +2,11 @@
 <template>
   <!-- 看板表格 -->
   <div class="simpleForm">
-    <div v-for="(colItem,colIndex) in data.column" :key="colIndex" class="colum" :style="'width:'+colItem.width+';text-align:'+colItem.text+';color:'+colItem.color">
+    <div v-for="(colItem,colIndex) in tableData.column" :key="colIndex" class="colum" :style="'width:'+colItem.width+';text-align:'+colItem.text+';color:'+colItem.color">
       <div class="header-item">
         {{ colItem.name }}
       </div>
-      <div v-for="(rowItem,rowIndex) in data.row" :key="rowIndex" class="content-item">
+      <div v-for="(rowItem,rowIndex) in tableData.row" :key="rowIndex" class="content-item">
         {{ rowItem[colItem.key] }}
       </div>
     </div>
@@ -19,9 +19,9 @@ export default {
 
   },
   props: {
-    data: {
+    tableData: {
       type: Object,
-      default: null
+      default: () => {}
     }
   },
   data() {

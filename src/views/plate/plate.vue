@@ -46,7 +46,7 @@
           </van-dropdown-menu>
         </div>
       </div>
-      <SimpleForm :data="eventList" class="simpleForm" />
+      <SimpleForm :table-data="eventList" class="simpleForm" />
     </div>
     <!-- end -->
     <!-- 预警趋势 start -->
@@ -58,8 +58,8 @@
         </div>
       </div>
       <div class="warning-line">
-        <Adaptive :data="['100%','56%']" style=" overflow: hidden; ">
-          <MaxLine :data="lineData" style=" overflow: hidden; " />
+        <Adaptive :size="['100%','56%']" style=" overflow: hidden; ">
+          <MaxLine :line-data="lineData" style=" overflow: hidden; " />
         </Adaptive>
       </div>
     </div>
@@ -72,7 +72,7 @@
           设备统计
         </div>
       </div>
-      <SimpleForm :data="equipList" class="simpleForm" />
+      <SimpleForm :table-data="equipList" class="simpleForm" />
     </div>
     <!-- end -->
   </div>

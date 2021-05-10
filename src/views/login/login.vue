@@ -1,7 +1,7 @@
 <template>
   <div class="login-box">
     <div class="logo-box">
-      <Adaptive :data="['100%', '32%']">
+      <Adaptive :size="['100%', '32%']">
         <van-image
           width="100%"
           height="100%"
@@ -85,7 +85,7 @@
         </van-tab>
       </van-tabs>
       <div class="login-button-box">
-        <Adaptive :data="['100%', '13.333%']">
+        <Adaptive :size="['100%', '13.333%']">
           <van-button type="default" class="login-button" color="linear-gradient(78deg, #008EFF, #1DF2FF)" @click="login">
             登录
           </van-button>

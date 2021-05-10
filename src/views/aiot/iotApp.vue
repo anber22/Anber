@@ -35,7 +35,7 @@
             @load="getEquipInfoList"
           >
             <div v-for="item in equipInfoList" :key="item.index" @click="toDetailInfo(item.equipId)">
-              <Adaptive :data="['100%','49.9%']" class="physicalUnionApplication-card">
+              <Adaptive :size="['100%','49.9%']" class="physicalUnionApplication-card">
                 <PhysicalUnionApplication :equip-info="item" />
               </Adaptive>
             </div>
@@ -53,7 +53,7 @@
             @load="getEquipInfoList"
           >
             <div v-for="item in equipInfoList" :key="item.index" @click="toDetailInfo(item.equipId)">
-              <Adaptive :data="['100%','77.9%']" class="environmentalMonitoring-card">
+              <Adaptive :size="['100%','77.9%']" class="environmentalMonitoring-card">
                 <EnvironmentalMonitoring :equip-info="item" />
               </Adaptive>
             </div>
@@ -97,8 +97,8 @@
             @load="getEquipInfoList"
           >
             <div v-for="item in equipInfoList" :key="item.index" @click="toDetailInfo(item.equipId)">
-              <Adaptive :data="['100%','31.39%']" class="physicalUnionApplication-list-card">
-                <PhysicalUnionApplicationListCard :data="item" />
+              <Adaptive :size="['100%','31.39%']" class="physicalUnionApplication-list-card">
+                <PhysicalUnionApplicationListCard :equip-list-data="item" />
               </Adaptive>
             </div>
           </van-list>

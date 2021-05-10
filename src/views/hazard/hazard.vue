@@ -21,8 +21,8 @@
         @load="getAnalysisList"
       >
         <div v-for="item in hazardList" :key="item.index" @click="showDetail(item.id)">
-          <Adaptive :data="['94%','38.39%']" class="hazard-list-card">
-            <HazardListCard :data="item" />
+          <Adaptive :size="['94%','38.39%']" class="hazard-list-card">
+            <HazardListCard :hazar-data="item" />
           </Adaptive>
         </div>
       </van-list>
@@ -46,7 +46,6 @@
 <script>
 import HazardListCard from 'cmp/hazardListCard/HazardListCard'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
-
 import Api from '@/api/hazard/hazard.js'
 
 export default {
@@ -152,7 +151,6 @@ export default {
       if (params.page === res.data.total) {
         this.finished = true
       }
-      this.loadding = false
     },
     /**
      * 获取设备类型列表

@@ -15,7 +15,7 @@
 import * as echarts from 'echarts'
 export default {
   props: {
-    data: {
+    pieData: {
       type: Object,
       default: null
     }
@@ -33,7 +33,7 @@ export default {
   },
   watch: {
     activeType(index) {
-      const activeData = this.data.data.filter(item => item.type === index)
+      const activeData = this.pieData.data.filter(item => item.type === index)
       this.departName = activeData.length > 0 ? activeData[0].name : ''
       this.count = activeData.length > 0 ? activeData[0].count : ''
       this.$emit('activeType', index)
@@ -50,8 +50,8 @@ export default {
   },
   methods: {
     init() {
-      this.departName = this.data.data[0].name
-      this.count = this.data.data[0].count
+      this.departName = this.pieData.data[0].name
+      this.count = this.pieData.data[0].count
       this.myChart = this.$echarts.init(this.$refs.chartId)
       this.option = {
         tooltip: {
@@ -105,7 +105,7 @@ export default {
             labelLayout: {
               hideOverlap: false
             },
-            data: this.data.data,
+            data: this.pieData.data,
             zlevel: 6
           }, {
             name: '内阴影圈',

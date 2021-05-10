@@ -137,7 +137,7 @@ export const asyncRouterMap = [
       },
       {
         path: '/placeResourceEditorial',
-        name: 'PlaceResourscEditorial',
+        name: 'PlaceResourceEditorial',
         component: () => import('@/views/placeResourceEditorial/placeResourceEditorial'),
         meta: { showFooter: true, title: '编辑网点', permissions: [] }
       },

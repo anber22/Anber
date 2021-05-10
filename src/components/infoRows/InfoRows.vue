@@ -1,16 +1,16 @@
 <template>
   <div class="infoRows">
     <div class="row-name">
-      {{ data.name }}
+      {{ infoData.name }}
     </div>
-    <div v-if="data.typed==='info'" class="row-info-value">
-      {{ data.content }}
+    <div v-if="infoData.typed==='info'" class="row-info-value">
+      {{ infoData.content }}
     </div>
-    <div v-else-if="data.typed==='status'" class="row-status-value">
-      <EquipStatus :electricity="data.content.equipPower" :signal="data.content.equipSignal" :status="data.content.onlineType" />
+    <div v-else-if="infoData.typed==='status'" class="row-status-value">
+      <EquipStatus :electricity="infoData.content.equipPower" :signal="infoData.content.equipSignal" :status="infoData.content.onlineType" />
     </div>
-    <div v-else-if="data.typed==='place'" class="row-place-value" @click="showDetail(data.content.placeId)">
-      {{ data.content.name }}
+    <div v-else-if="infoData.typed==='place'" class="row-place-value" @click="showDetail(infoData.content.placeId)">
+      {{ infoData.content.name }}
       <img src="@/assets/images/equip/address.png" alt="" class="infoRows-address-icon">
     </div>
   </div>
@@ -24,10 +24,9 @@ export default {
     EquipStatus
   },
   props: {
-    data: {
+    infoData: {
       type: Object,
-      // eslint-disable-next-line vue/require-valid-default-prop
-      default: {}
+      default: () => {}
     }
   },
   data() {

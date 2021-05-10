@@ -5,11 +5,11 @@
       <div class="title-name">
         <div class="left-select" style="margin-left: 4px;max-width: 60%">
           <van-cell is-link :title="equipTypeTitle" class="actions-title" @click="show = true" />
-          <van-action-sheet v-model="show" class="actions-content" :actions="data.equipType" :closeable="true" title="请选择" :round="false" @select="onChangeSystemType" />
+          <van-action-sheet v-model="show" class="actions-content" :actions="monitorAnalysisData.equipType" :closeable="true" title="请选择" :round="false" @select="onChangeSystemType" />
         </div>
         <div class="right-select">
           <van-dropdown-menu :overlay="false" :z-index="200" active-color="#B9CEE9">
-            <van-dropdown-item v-model="timeType" :options="data.dateType" @change="onChangeDateType" />
+            <van-dropdown-item v-model="timeType" :options="monitorAnalysisData.dateType" @change="onChangeDateType" />
           </van-dropdown-menu>
         </div>
       </div>
@@ -20,13 +20,13 @@
           隐患次数
         </p>
         <p class="detail-item-value color-light-blue">
-          {{ data.pieData.title }}
+          {{ monitorAnalysisData.pieData.title }}
         </p>
       </div>
     </div>
     <!-- <div class=""> -->
     <div class="analysisTimeline">
-      <Pie v-if="data.monitorAnalysisFlag" :data="data.pieData" />
+      <Pie v-if="monitorAnalysisData.monitorAnalysisFlag" :analysis-pie-data="monitorAnalysisData.pieData" />
     </div>
     <!-- </div> -->
   </div>
@@ -39,7 +39,7 @@ export default {
     Pie
   },
   props: {
-    data: {
+    monitorAnalysisData: {
       type: Object,
       default: null
     },
@@ -58,7 +58,7 @@ export default {
     }
   },
   mounted() {
-    this.equipTypeTitle = this.data.equipType[0].name
+    this.equipTypeTitle = this.monitorAnalysisData.equipType[0].name
   },
   methods: {
     onChangeSystemType(item) {

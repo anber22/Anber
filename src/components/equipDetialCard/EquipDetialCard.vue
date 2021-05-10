@@ -24,8 +24,8 @@ export default {
   props: {
     layout: {
       type: Object,
-      // eslint-disable-next-line vue/require-valid-default-prop
-      default: {}
+
+      default: () => {}
     }
 
   },

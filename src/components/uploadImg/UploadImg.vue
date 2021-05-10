@@ -25,13 +25,18 @@
 
 <script>
 import { ImagePreview } from 'vant'
-import WatermarkProcessing from '@/utils/watermarkProcessing'
+import WaterMarkProcessing from '@/utils/waterMarkProcessing'
 
 export default {
   components: {
     [ImagePreview.Component.name]: ImagePreview.Component
   },
-
+  props: {
+    waterMarkInfo: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data() {
     return {
       uploadImg: []
@@ -46,9 +51,9 @@ export default {
     async getPicture(e) {
       // 预览图片
 
-      const ws = new WatermarkProcessing()
+      const wm = new WaterMarkProcessing()
 
-      const file = window.URL.createObjectURL(e.target.files[0])
+      // const file = window.URL.createObjectURL(e.target.files[0])
 
       const isImg = e.target.files[0].type === 'image/jpeg'
       const isLt2M = e.target.files[0].size / 1024 / 1024 < 4
@@ -69,7 +74,7 @@ export default {
         })
         return false
       }
-      const imgFile = await ws.addWaterMark(e.target.files[0])
+      const imgFile = await wm.addWaterMark(e.target.files[0], this.waterMarkInfo)
 
       this.uploadImg.push(imgFile.dUrl)
       this.$emit('choiceImg', this.uploadImg)

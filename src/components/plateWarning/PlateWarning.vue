@@ -43,7 +43,7 @@ export default {
   props: {
     plateWarningData: {
       type: Array,
-      default: null
+      default: () => []
     }
   },
   data() {

@@ -14,7 +14,7 @@
           <EquipStatus class="equipStatus" :electricity="equip.equipPower" :signal="equip.equipSignal" :status="equip.onlineType" />
         </div>
         <div class="empty-row" />
-        <InfoRow v-for="(rowItem,index) in rowList" :key="index" :data="rowItem" class="infoRows" />
+        <InfoRow v-for="(rowItem,index) in rowList" :key="index" :info-data="rowItem" class="infoRows" />
         <div class="edit-row">
           <p class="important">
             *
@@ -52,7 +52,7 @@
             安装照片
           </p>
         </div>
-        <UploadImg class="uploadImg" @choiceImg="choiceImg" />
+        <UploadImg v-if="waterMarkInfo" class="uploadImg" :water-mark-info="waterMarkInfo" @choiceImg="choiceImg" />
         <div class="foot">
           <button class="submit-btn" @click="submit">
             保存
@@ -77,7 +77,8 @@
 import EquipStatus from 'cmp/equipStatus/EquipStatus'
 import InfoRow from 'cmp/infoRows/InfoRows'
 import UploadImg from 'cmp/uploadImg/UploadImg'
-import Api from '@/api/aiot/iotApp.js'
+import IotApi from '@/api/aiot/iotApp.js'
+import PlaceApi from '@/api/placeResource/placeResource'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 import Communal from '@/api/communal.js'
 export default {
@@ -97,16 +98,26 @@ export default {
       showPlatformPicker: false, // 是否显示物联网平台选择器
       platformName: '请选择物联网平台', // 当前选中平台名称
       platformId: 0, // 选中平台id
-      platformList: [] // 平台数组
+      platformList: [], // 平台数组
+      waterMarkInfo: null // 水印信息
     }
   },
   created() {
-    this.equipId = 300
+    this.equipId = this.$route.query.equipId
     // this.$route.query.equipId
     this.getPlatform()
     this.getEquip()
   },
   methods: {
+    /**
+     * 获取当前设备网点id
+     */
+    async getPlace() {
+      const res = await PlaceApi.placeResourceDetail(this.equip.placeId)
+      if (res.code === 200) {
+        this.waterMarkInfo = res.data
+      }
+    },
     /**
      * 提交修改
      */
@@ -136,7 +147,7 @@ export default {
      * 获取设备信息
      */
     async getEquip() {
-      const res = await Api.equipDtailInfo(this.equipId)
+      const res = await IotApi.equipDtailInfo(this.equipId)
       if (res.code === 200) {
         let equipInfo = { ...res.data }
         equipInfo = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', equipInfo)
@@ -166,6 +177,7 @@ export default {
         ]
         this.equip = equipInfo
       }
+      this.getPlace()
     },
     /**
      * 选择图片  待用
