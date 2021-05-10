@@ -75,7 +75,7 @@
             </Adaptive>
             <p>智慧视觉</p>
           </div>
-          <div @click="goJump('/placeResourse')">
+          <div @click="goJump('/placeResource')">
             <Adaptive class="module-item" :data="['75.4%', '75.4%']">
               <van-image
                 fit="contain"

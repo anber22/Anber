@@ -75,7 +75,7 @@
         "desc": "绑定设备",
         "permissions": ["1", "2", "4"]
       },
-      "PlaceResourseEditorial": {
+      "PlaceResourceEditorial": {
         "desc":"编辑网点",
         "permissions": ["1", "2", "4"]
       },

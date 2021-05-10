@@ -207,7 +207,7 @@ export default {
       navbar的编辑按钮
     */
     toeEdit() {
-      this.$router.push({ path: '/placeResourseEditorial', query: { placeResourseId: this.detailPlaceId }})
+      this.$router.push({ path: '/placeResourceEditorial', query: { placeResourceId: this.detailPlaceId }})
     }
   }
 }

@@ -25,7 +25,7 @@ router.beforeEach((to, from, next) => {
           router.addRoutes(store.getters.addRouters)
           console.log('路由过滤完毕', store.getters.addRouters)
           if (to.path === '/') {
-            next({ path: '/editEquip' })
+            next({ path: '/home' })
           } else {
             next(to.path)
           }

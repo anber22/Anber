@@ -1,5 +1,5 @@
 <template>
-  <div class="placeResourseEditorial">
+  <div class="placeResourceEditorial">
     <!--标题框 -->
     <!-- <div class="van-nav-bar">
       <i>a</i>
@@ -189,7 +189,7 @@ export default {
     console.log('打印', this.$route)
   },
   created() {
-    this.detailPlaceId = this.$route.query.placeResourseId
+    this.detailPlaceId = this.$route.query.placeResourceId
 
     this.getPlaceTypeList()
     this.getPlaceResourceDetail()
@@ -321,7 +321,7 @@ export default {
 
 </script>
 <style scoped>
-.placeResourseEditorial{
+.placResourceEditorial{
   background-color: #101720;
   width: 92%;
   height: calc(100% - 46px);
@@ -405,17 +405,17 @@ export default {
 
 </style>
 <style>
-.placeResourseEditorial input::-webkit-input-placeholder{
+.placeResourceEditorial input::-webkit-input-placeholder{
   font-size: 16px;
   font-family: PingFang SC;
   font-weight: 400;
   color: #373F4A;
 }
-.placeResourseEditorial .van-cell__value--alone {
+.placeResourceEditorial .van-cell__value--alone {
     color: #373F4A;
     text-align: left;
 }
-.placeResourseEditorial .van-cell{
+.placeResourceEditorial .van-cell{
     position: relative;
     display: -webkit-box;
     box-sizing: border-box;
@@ -428,51 +428,51 @@ export default {
     background-color: #101720;
     border-bottom: 1px solid #283444;
 }
-.placeResourseEditorial .van-cell::after{
+.placeResourceEditorial .van-cell::after{
   border: none;
 }
-.placeResourseEditorial .van-cell--clickable{
+.placeResourceEditorial .van-cell--clickable{
   padding: 0px;
   padding-bottom: 20px;
 }
-.placeResourseEditorial .van-picker-column{
+.placeResourceEditorial .van-picker-column{
   background-color: #10161F;
 }
-.placeResourseEditorial .van-picker__title{
+.placeResourceEditorial .van-picker__title{
   color: #FFFEFE;
   font-size: 16px;
 }
-.placeResourseEditorial .van-ellipsis{
+.placeResourceEditorial .van-ellipsis{
   font-size: 14px;
   font-family: PingFang SC;
   font-weight: 400;
   color: #FFFEFE;
 }
-.placeResourseEditorial .van-picker__toolbar{
+.placeResourceEditorial .van-picker__toolbar{
   background-color: #10161F;
 }
-.placeResourseEditorial .van-picker-column__item{
+.placeResourceEditorial .van-picker-column__item{
   background-color: #10161F;
 }
 
-.placeResourseEditorial .van-cascader__option{
+.placeResourceEditorial .van-cascader__option{
   color: #10161F
 }
-.placeResourseEditorial .van-cascader__option span,
-.placeResourseEditorial .van-tab span{
+.placeResourceEditorial .van-cascader__option span,
+.placeResourceEditorial .van-tab span{
   color: #FFFEFE;
   font-size: 14px;
 }
-.placeResourseEditorial .van-picker__mask{
+.placeResourceEditorial .van-picker__mask{
   background-image: linear-gradient(180deg,hsla(216, 32%, 9%, .4),hsla(216, 32%, 9%, .9)),linear-gradient(0deg,hsla(216, 32%, 9%, .4),hsla(216, 32%, 9%, .9));
 }
-.placeResourseEditorial .van-cascader{
+.placeResourceEditorial .van-cascader{
   background-color:#10161F;
 }
-.placeResourseEditorial .van-tabs__nav--complete{
+.placeResourceEditorial .van-tabs__nav--complete{
   background-color:#10161F;
 }
-.placeResourseEditorial .van-cascader__title {
+.placeResourceEditorial .van-cascader__title {
     font-weight: 500;
     font-size: 16px;
     line-height: 20px;
@@ -480,28 +480,28 @@ export default {
     padding-left: 112px;
 
 }
-.placeResourseEditorial .van-cascader__header{
+.placeResourceEditorial .van-cascader__header{
   background-color:#10161F;
 }
-.placeResourseEditorial .van-tabs__line{
+.placeResourceEditorial .van-tabs__line{
   background-color: #06F0FE;
   width: 23px;
   height: 1px;
 }
-.placeResourseEditorial .van-cascader__option:active{
+.placeResourceEditorial .van-cascader__option:active{
   background-color: transparent;
 }
-.placeResourseEditorial .van-field__control{
+.placeResourceEditorial .van-field__control{
   color: #B9CEE9;
 }
-.placeResourseEditorial .van-tab--active .van-tab__text{
+.placeResourceEditorial .van-tab--active .van-tab__text{
   color: #06F0FE
 }
-.placeResourseEditorial .store-btn{
+.placeResourceEditorial .store-btn{
   margin-top: 41px;
   margin-bottom: 11px
 }
-.placeResourseEditorial .PlaceDetailCard-bind-equip{
+.placeResourceEditorial .PlaceDetailCard-bind-equip{
   box-sizing: border-box;
   margin-top: 4%;
   margin-bottom: 8%;

@@ -71,9 +71,9 @@ export const asyncRouterMap = [
         meta: { title: '设备详情', permissions: [], edit: true }
       },
       {
-        path: '/placeResourse',
+        path: '/placeResource',
         name: 'PlaceResource',
-        component: () => import('@/views/placeResourse/placeResourse'),
+        component: () => import('@/views/placeResource/placeResource'),
         meta: { title: '网点管理', permissions: [], edit: false }
       },
       {
@@ -136,9 +136,9 @@ export const asyncRouterMap = [
         meta: { showFooter: true, title: '绑定设备', permissions: [] }
       },
       {
-        path: '/placeResourseEditorial',
-        name: 'PlaceResourseEditorial',
-        component: () => import('@/views/placeResourseEditorial/placeResourseEditorial'),
+        path: '/placeResourceEditorial',
+        name: 'PlaceResourscEditorial',
+        component: () => import('@/views/placeResourceEditorial/placeResourceEditorial'),
         meta: { showFooter: true, title: '编辑网点', permissions: [] }
       },
       {
