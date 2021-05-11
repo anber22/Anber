@@ -4,7 +4,7 @@ const webpack = require("webpack");
 
 module.exports = merge(base, {
   mode: "development",
-  devtool: "cheap-source-map",
+  devtool: "source-map",
   devServer: {
     publicPath: '/',
     // index: 'index.html',
