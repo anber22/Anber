@@ -6,7 +6,7 @@
 <script>
 export default {
   props: {
-    data: {
+    lineData: {
       type: Object,
       default: null
     }
@@ -27,8 +27,8 @@ export default {
   },
   methods: {
     init() {
-      let interval = 2  // 日期间隔
-      const _xAxisData = this.data.xAxis.data
+      let interval = 2 // 日期间隔
+      const _xAxisData = this.lineData.xAxis.data
       if (_xAxisData.length < 7) {
         interval = 0
       } else if (_xAxisData.length > 6 && _xAxisData.length < 12) {
@@ -36,9 +36,9 @@ export default {
       } else {
         interval = 5
       }
-      let dotHtml = '<span style="display:inline-block;margin-right:5px;margin-bottom: 4px;width:13px;height:2px;background-color:rgba(24, 237, 250, 1)"></span>'
-      let plateHtml = '<span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:#f6fd7e;margin-right:5px;margin-top:-2px;"></span>'
-      let tip = this.data.name === '隐患数'? dotHtml + this.data.name : plateHtml + this.data.name
+      const dotHtml = '<span style="display:inline-block;margin-right:5px;margin-bottom: 4px;width:13px;height:2px;background-color:rgba(24, 237, 250, 1)"></span>'
+      const plateHtml = '<span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:#f6fd7e;margin-right:5px;margin-top:-2px;"></span>'
+      const tip = this.lineData.name === '隐患数' ? dotHtml + this.lineData.name : plateHtml + this.lineData.name
       // 基于准备好的dom，初始化echarts实例
       const myChart = this.$echarts.init(this.$refs.chartId)
       // 指定图表的配置项和数据
@@ -46,12 +46,12 @@ export default {
         color: ['rgba(24, 237, 250, 0.5)'],
         backgroundColor: 'rgba(0, 133, 247, 0)',
         title: {
-          text: this.data.title,
+          text: this.lineData.title,
           textStyle: {
             fontSize: 14,
             color: 'rgba(139, 163, 194, 1)'
           },
-          show: this.data.name === '隐患数'? true : false
+          show: this.lineData.name === '隐患数'
         },
         tooltip: {
           trigger: 'axis',
@@ -66,7 +66,7 @@ export default {
           textStyle: {
             color: '#8BA3C2'
           },
-          borderColor: this.data.name === '隐患数'? 'rgba(24, 237, 250, 1)' : '#4f9a9d',
+          borderColor: this.lineData.name === '隐患数' ? 'rgba(24, 237, 250, 1)' : '#4f9a9d',
           borderWidth: 1,
           triggerOn: 'mousemove|click',
           className: 'MaxLine-echarts-tooltip',
@@ -81,12 +81,12 @@ export default {
           left: '2%',
           right: '2.5%',
           bottom: '8%',
-          top: this.data.name === '隐患数'? '28%' : '5%',
+          top: this.lineData.name === '隐患数' ? '28%' : '5%',
           containLabel: true
         },
         xAxis: {
         // boundaryGap: false,
-          data: this.data.xAxis.data,
+          data: this.lineData.xAxis.data,
           offset: 8,
           axisLine: { // X轴轴线的样式
             lineStyle: {
@@ -134,12 +134,12 @@ export default {
           }
         },
         series: [{
-          name: this.data.name,
+          name: this.lineData.name,
           type: 'line',
           barGap: 0,
-          data: this.data.series.data,
+          data: this.lineData.series.data,
           symbol: 'none',
-          smooth: this.data.series.smooth,  // 是否平滑曲线显示
+          smooth: this.lineData.series.smooth, // 是否平滑曲线显示
           areaStyle: {
             color: {
               type: 'linear',
@@ -148,11 +148,11 @@ export default {
               x2: 0,
               y2: 1,
               colorStops: [{
-                offset: 0, color: this.data.name === '隐患数' ? 'rgba(24, 237, 250, 0.25)': 'rgba(76, 200, 172, 0.25)' // 0% 处的颜色
+                offset: 0, color: this.lineData.name === '隐患数' ? 'rgba(24, 237, 250, 0.25)' : 'rgba(76, 200, 172, 0.25)' // 0% 处的颜色
               }, {
-                offset: 0.2, color: this.data.name === '隐患数'? 'rgba(24, 237, 250, 0.4)' : 'rgba(76, 200, 172, 0.4)' // 20% 处的颜色
+                offset: 0.2, color: this.lineData.name === '隐患数' ? 'rgba(24, 237, 250, 0.4)' : 'rgba(76, 200, 172, 0.4)' // 20% 处的颜色
               }, {
-                offset: 0.5, color: this.data.name === '隐患数'? 'rgba(24, 237, 250, 0.2)' : 'rgba(76, 200, 172, 0.2)' // 50% 处的颜色
+                offset: 0.5, color: this.lineData.name === '隐患数' ? 'rgba(24, 237, 250, 0.2)' : 'rgba(76, 200, 172, 0.2)' // 50% 处的颜色
               }, {
                 offset: 1, color: 'transparent' // 100% 处的颜色
               }]
@@ -160,7 +160,7 @@ export default {
           },
           lineStyle: {
           // 线的颜色
-            color: this.data.name === '隐患数'? 'rgba(24, 237, 250, 1)':'rgba(76, 200, 172, 1)',
+            color: this.lineData.name === '隐患数' ? 'rgba(24, 237, 250, 1)' : 'rgba(76, 200, 172, 1)',
             width: 1
           }
         }]

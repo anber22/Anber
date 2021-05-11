@@ -1,6 +1,6 @@
 <template>
   <div class="towerCraneMonitoring">
-    <Adaptive :equip-info="['100%','60.9%']">
+    <Adaptive :size="['100%','60.9%']">
       <!-- 标题 start -->
       <div class="towerCraneMonitoring-header">
         <div class="towerCraneMonitoring-title">
@@ -80,7 +80,7 @@
     <!-- end -->
   </div>
 
-  <!-- <Adaptive :data="['37%','36%']" class="towerCraneMonitoring-content-img">
+  <!-- <Adaptive :size="['37%','36%']" class="towerCraneMonitoring-content-img">
       <img src="@/assets/images/equip/camera-bg-img.png" alt="" class="camera-bg-img">
     </Adaptive> -->
 </template>
@@ -96,7 +96,7 @@ export default {
   props: {
     equipInfo: {
       type: Object,
-      default: null
+      default: () => {}
     }
   },
   data() {

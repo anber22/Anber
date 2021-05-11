@@ -6,7 +6,7 @@
 <script>
 export default {
   props: {
-    data: {
+    lineData: {
       type: Object,
       default: null
     }
@@ -28,7 +28,7 @@ export default {
   methods: {
     init() {
       let interval = 4
-      const _xAxisData = this.data.xAxis.data
+      const _xAxisData = this.lineData.xAxis.data
       if (_xAxisData.length < 8) {
         interval = 0
       } else if (_xAxisData.length > 7 && _xAxisData.length < 14) {
@@ -46,7 +46,7 @@ export default {
       const option = {
         color: ['rgba(0, 133, 247, 1)', 'rgba(40, 255, 187, 1)'],
         title: {
-          text: this.data.title,
+          text: this.lineData.title,
           textStyle: {
             fontSize: '16px',
             color: '#333'
@@ -97,7 +97,7 @@ export default {
         },
         xAxis: {
         // boundaryGap: false,
-          data: this.data.xAxis.data,
+          data: this.lineData.xAxis.data,
           axisLine: { // X轴轴线的样式
             lineStyle: {
               color: 'rgba(255, 255, 255, 0.1)'
@@ -147,9 +147,9 @@ export default {
           name: '事件数',
           type: 'line',
           barGap: 0,
-          data: this.data.series.data,
+          data: this.lineData.series.data,
           symbol: 'none',
-          smooth: this.data.series.smooth,
+          smooth: this.lineData.series.smooth,
           areaStyle: {
             color: {
               type: 'linear',
@@ -180,9 +180,9 @@ export default {
           name: '故障数',
           type: 'line',
           barGap: 0,
-          data: this.data.series.data2,
+          data: this.lineData.series.data2,
           symbol: 'none',
-          smooth: this.data.series.smooth,
+          smooth: this.lineData.series.smooth,
           areaStyle: {
             color: {
               type: 'linear',

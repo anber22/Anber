@@ -20,14 +20,19 @@
               <input v-if="item.type==='input'" v-model="item.value" type="test" class="item-input" :placeholder="item.placeholder" :style="i===1?'width: calc(100% - 40px)': ''" @keydown.enter="onchange(i)">
               <!-- <img v-if="i===1" src="@/assets/images/equip/scan.png" /> -->
 
-              <div v-if="i===1&&showErr" class="imei-err">{{imeiErr}}</div>
-              <div v-if="item.type==='display'" class="item-display">{{item.value}}</div>
+              <div v-if="i===1&&showErr" class="imei-err">
+                {{ imeiErr }}
+              </div>
+              <div v-if="item.type==='display'" class="item-display">
+                {{ item.value }}
+              </div>
             </div>
           </div>
         </div>
         <div class="submit">
-
-          <van-button @click="preserve">提交</van-button>
+          <van-button @click="preserve">
+            提交
+          </van-button>
         </div>
       </template>
     </div>
@@ -89,8 +94,8 @@ export default {
     }
   },
   created() {
-    this.location = this.$route.query.lng? [this.$route.query.lng, this.$route.query.lat]: [113.54342, 22.26666]
-    this.viewList[0].value = this.$route.query.lng? this.$route.query.lng +','+ this.$route.query.lat: '113.54342, 22.26666'
+    this.location = this.$route.query.lng ? [this.$route.query.lng, this.$route.query.lat] : [113.54342, 22.26666]
+    this.viewList[0].value = this.$route.query.lng ? this.$route.query.lng + ',' + this.$route.query.lat : '113.54342, 22.26666'
     this.init()
   },
   methods: {
@@ -107,41 +112,41 @@ export default {
           plugins: [] // 需要加载的 AMapUI ui插件
         },
 
-        Loca:{                // 是否加载 Loca， 缺省不加载
-          version: '1.3.2'    // Loca 版本，缺省 1.3.2
-        },
-      }).then((AMap)=> {
-        let _this = this
+        Loca: { // 是否加载 Loca， 缺省不加载
+          version: '1.3.2' // Loca 版本，缺省 1.3.2
+        }
+      }).then((AMap) => {
+        const _this = this
         // 其他坐标转高德坐标
-        AMap.convertFrom(_this.location, 'gps', function (status, result) {
+        AMap.convertFrom(_this.location, 'gps', function(status, result) {
           if (result.info === 'ok') {
-            const lnglats = result.locations; // Array.<LngLat>
+            const lnglats = result.locations // Array.<LngLat>
             _this.location = [lnglats[0].lng, lnglats[0].lat]
-            _this.viewList[0].value  = lnglats[0].lng + ',' + lnglats[0].lat
+            _this.viewList[0].value = lnglats[0].lng + ',' + lnglats[0].lat
           }
-        });
+        })
         _this.map = new AMap.Map('container', {
-          mapStyle: 'amap://styles/e4aa2adc79a5186729bb5cd463d5b1a3',  // 地图样式（自定义样式）
-          resizeEnable: true,  // 是否监控地图容器尺寸变化
-          zoom: 17,  // 地图显示的缩放级别
+          mapStyle: 'amap://styles/e4aa2adc79a5186729bb5cd463d5b1a3', // 地图样式（自定义样式）
+          resizeEnable: true, // 是否监控地图容器尺寸变化
+          zoom: 17, // 地图显示的缩放级别
           center: _this.location
         })
         // 地图缩放情况
-        _this.map.on('zoomend', ()=> {
-          let zoom = _this.map.getZoom();
+        _this.map.on('zoomend', () => {
+          const zoom = _this.map.getZoom()
           console.log('zoom---', zoom)
         })
         _this.mapAddMarker()
-        AMap.plugin(['AMap.Autocomplete'], ()=> {
-          let auto = new AMap.Autocomplete({
+        AMap.plugin(['AMap.Autocomplete'], () => {
+          const auto = new AMap.Autocomplete({
             input: 'address',
             outPutDirAuto: false
           })
-          // 搜索框搜索地址 
+          // 搜索框搜索地址
           AMap.event.addListener(auto, 'select', (e) => {
             // console.log('搜索', e)
             _this.viewList[0].value = e.poi.location.lng + ',' + e.poi.location.lat
-            _this.location = [e.poi.location.lng , e.poi.location.lat]
+            _this.location = [e.poi.location.lng, e.poi.location.lat]
             _this.map.remove(_this.cameraMarker)
             _this.mapAddMarker()
           })
@@ -159,33 +164,32 @@ export default {
       if (this.typeID === 10) imgUrl = require('@/assets/images/equip/ambient-green.png')
       if (this.typeID === 11) imgUrl = require('@/assets/images/equip/tower-green.png')
 
-      let location = this.viewList[0].value.split(',')
+      const location = this.viewList[0].value.split(',')
       console.log('location---', location)
-      this.map.setCenter(location)  // 设置地图中心点
+      this.map.setCenter(location) // 设置地图中心点
       this.cameraMarker = new AMap.Marker({
         position: location,
         map: this.map,
-        anchor:'bottom-center',
-        icon: new AMap.Icon({            
-          image: imgUrl,                // 图表路径
-          size: new AMap.Size(30, 36),  //图标大小
-          imageSize: new AMap.Size(30,36)
+        anchor: 'bottom-center',
+        icon: new AMap.Icon({
+          image: imgUrl, // 图表路径
+          size: new AMap.Size(30, 36),  // 图标大小
+          imageSize: new AMap.Size(30, 36)
         }),
-        draggable: true         // 图标自由移动
+        draggable: true // 图标自由移动
       })
       // 获取图标自由移动结束后的坐标
       this.cameraMarker.on('dragend', (e) => {
         this.viewList[0].value = e.lnglat.lng + ',' + e.lnglat.lat
-      });
+      })
       // this.markers.push(cameraMarker)
-      this.map.add(this.cameraMarker);
+      this.map.add(this.cameraMarker)
     },
     /**
      * 输入框失焦调用
      */
     onchange(inx) {
-
-      if (inx === 0)  {
+      if (inx === 0) {
         this.map.remove(this.cameraMarker)
         this.mapAddMarker()
       }
@@ -202,7 +206,7 @@ export default {
       // console.log(res, 'res----')
       if (res.code === 200) {
         this.showErr = false
-        if(res.data !== this.typeID) {
+        if (res.data !== this.typeID) {
           this.typeID = res.data
           this.map.remove(this.cameraMarker)
           this.mapAddMarker()
@@ -229,7 +233,7 @@ export default {
         return
       }
       // window.localStorage.removeItem('equipList')
-      let list = window.localStorage.getItem('equipList') ? window.localStorage.getItem('equipList') : []
+      const list = window.localStorage.getItem('equipList') ? window.localStorage.getItem('equipList') : []
       const item = {
         location: this.viewList[0].value,
         imei: this.viewList[1].value,

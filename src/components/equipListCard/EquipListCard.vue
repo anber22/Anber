@@ -3,10 +3,10 @@
     <!-- 标题 start -->
     <div class="equipListCard-header">
       <div class="equipListCard-title">
-        {{ data.equipName }}
+        {{ equipListData.equipName }}
       </div>
       <div class="equipListCard-state">
-        <EquipStatus :electricity="data.equipPower" :signal="data.equipSignal" :status="data.onlineType" />
+        <EquipStatus :electricity="equipListData.equipPower" :signal="equipListData.equipSignal" :status="equipListData.onlineType" />
       </div>
     </div>
     <!-- end -->
@@ -15,19 +15,19 @@
     <div class="equipListCard-content">
       <div class="equipListCard-content-row">
         <div class="equipListCard-content-row-name">
-          {{ data.imei }}
+          {{ equipListData.imei }}
           <div class="equipListCard-type">
-            {{ data.equipTypeName }}
+            {{ equipListData.equipTypeName }}
           </div>
         </div>
-        <a @click.stop="callPhone(data.placeId)">
+        <a @click.stop="callPhone(equipListData.placeId)">
           <img src="@/assets/images/equip/phone.png" alt="" class="equipListCard-content-row-icon">
         </a>
       </div>
       <div class="equipListCard-content-row">
         <div class="equipListCard-content-row-name">
-          <span class="equipListCard-content-row-place-name" @click.stop="showDetail(data.placeId)">
-            {{ data.placeName }}
+          <span class="equipListCard-content-row-place-name" @click.stop="showDetail(equipListData.placeId)">
+            {{ equipListData.placeName }}
           </span>
         </div>
         <img src="@/assets/images/equip/navigation.png" alt="" class="equipListCard-content-row-icon" @click.stop="showLocation()">
@@ -51,10 +51,9 @@ export default {
   },
 
   props: {
-    data: {
+    equipListData: {
       type: Object,
-      // eslint-disable-next-line vue/require-valid-default-prop
-      default: {}
+      default: () => {}
     }
   },
 
@@ -135,7 +134,6 @@ export default {
     //         }
     //       },
     //       fail: (res) => {
-    //         console.log(res, 123321)
     //       }
     //     })
     //   })

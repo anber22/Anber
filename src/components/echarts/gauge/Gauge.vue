@@ -6,9 +6,9 @@
 <script>
 export default {
   props: {
-    data: {
+    gaugeData: {
       type: Object,
-      default: null
+      default: () => {}
     }
   },
   data() {
@@ -437,8 +437,8 @@ export default {
       }]
 
     }
-    if (this.data.onlinePercent > 0) {
-      this.option.series[0].data[0].value = this.data.onlinePercent
+    if (this.gaugeData.onlinePercent > 0) {
+      this.option.series[0].data[0].value = this.gaugeData.onlinePercent
       this.myChart.setOption(this.option, true)
     }
     this.myChart.setOption(this.option, true)

@@ -1,39 +1,39 @@
 <template>
-  <div class="placeResourceListCard" @click="goJump(data.placeId)">
+  <div class="placeResourceListCard" @click="goJump(placeData.placeId)">
     <div class="placeResourceListCard-header">
       <div class="placeResourceListCard-title">
-        {{ data.placeName }}
+        {{ placeData.placeName }}
       </div>
       <div class="placeResourceListCard-equip-count">
         物联设备：
         <div class="placeResourceListCard-equip-count-num">
-          {{ data.count }}
+          {{ placeData.count }}
         </div>
       </div>
     </div>
     <div class="placeResourceListCard-content">
       <div class="placeResourceListCard-content-row">
         <div class="placeResourceListCard-content-row-name">
-          {{ data.managerName }}
+          {{ placeData.managerName }}
           <div class="placeResourceListCard-phone">
-            {{ data.phone }}
+            {{ placeData.phone }}
           </div>
           <div class="placeResourceListCard-type">
-            {{ data.placeTypeName }}
+            {{ placeData.placeTypeName }}
           </div>
         </div>
-        <a @click.stop="callPhone(data.placeId)">
+        <a @click.stop="callPhone(placeData.placeId)">
           <img src="@/assets/images/equip/phone.png" alt="" class="placeResourceListCard-content-row-icon">
         </a>
       </div>
       <div class="placeResourceListCard-content-row">
         <div class="placeResourceListCard-content-row-name">
-          <!-- {{ data.placeName }} -->
+          <!-- {{ placeData.placeName }} -->
           <span class="placeResourceListCard-content-row-adress-name">
-            {{ data.placeAddress }}
+            {{ placeData.placeAddress }}
           </span>
         </div>
-        <a @click.stop="toMap(data.placeId)">
+        <a @click.stop="toMap(placeData.placeId)">
           <img src="@/assets/images/equip/navigation.png" alt="" class="placeResourceListCard-content-row-icon">
         </a>
       </div>
@@ -49,10 +49,9 @@ export default {
     // EquipStatus
   },
   props: {
-    data: {
+    placeData: {
       type: Object,
-      // eslint-disable-next-line vue/require-valid-default-prop
-      default: {}
+      default: () => {}
     }
   },
 
@@ -91,7 +90,7 @@ export default {
         path: '/placeResourceDetail',
         query: {
           placeId: id,
-          placeTypeName: this.data.placeTypeName
+          placeTypeName: this.placeData.placeTypeName
         }
       })
     }

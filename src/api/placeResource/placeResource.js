@@ -38,7 +38,7 @@ class PlaceResource {
     })
   }
   // 获取辖区树接口
-  async getPlaceTree() {
+  async getDepartTree() {
     return await request({
       url: `/apis/depart/tree`,
       method: 'get'

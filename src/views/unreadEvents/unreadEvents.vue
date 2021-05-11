@@ -71,7 +71,7 @@
         @load="getHazardList"
       >
         <div v-for="(item, index) in hazardLists" :key="index" class="events-item">
-          <Adaptive :data="['100%','20.27%']">
+          <Adaptive :size="['100%','20.27%']">
             <div class="events-item-content">
               <van-image
                 width="20.27%"

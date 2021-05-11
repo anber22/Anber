@@ -9,7 +9,7 @@
         <img src="@/assets/images/home/title-icon.png" alt="" class="iotApp-detail-title-icon">
         设备信息
       </div>
-      <InfoRow v-for="(rowItem,index) in rowList" :key="index" :data="rowItem" class="detail-info" />
+      <InfoRow v-for="(rowItem,index) in rowList" :key="index" :info-data="rowItem" class="detail-info" />
     </div>
     <!-- end -->
     <!-- 实时数据 || 实时监控 start -->
@@ -38,7 +38,7 @@
             刷新
           </div>
         </div>
-        <InfoRow v-for="(rowItem,index) in realTimeRows" :key="index" :data="rowItem" class="realtime-data" />
+        <InfoRow v-for="(rowItem,index) in realTimeRows" :key="index" :info-data="rowItem" class="realtime-data" />
       </div>
     </div>
     <!-- end -->

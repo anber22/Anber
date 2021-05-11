@@ -79,7 +79,7 @@
               发生时间:
             </div>
             <div class="hazardDetail-submit-content-info-row-value">
-              {{ timeTransformation(detailInfo.createdTime) }}
+              {{ changeDate(detailInfo.createdTime) }}
             </div>
           </div>
         </div>
@@ -155,6 +155,13 @@ export default {
       loading: true
     }
   },
+  computed: {
+    changeDate: function() {
+      return function(val) {
+        return this.timeTransformation(val)
+      }
+    }
+  },
   mounted() {
     this.detailInfoId = this.$route.query.hazardId
     this.getHazardDetail()
@@ -208,10 +215,8 @@ export default {
       const params = {
         id: this.detailInfoId
       }
-      // console.log('隐患信息处理')
       const res = await Api.hazardDealInfo(params)
       if (res.code === 200) {
-        console.log('隐患信息res--', res)
         this.dealInfo = { ...res.data }
       }
     }

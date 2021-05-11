@@ -3,7 +3,7 @@
     <div class="home-bg">
       <div class="home-box">
         <!-- banner start-->
-        <Adaptive :data="['100%', '43.5%']">
+        <Adaptive :size="['100%', '43.5%']">
           <van-swipe class="banner-box" :autoplay="10000" :show-indicators="false" indicator-color="white">
             <!-- <van-swipe-item>
               <van-image
@@ -43,7 +43,7 @@
         <!-- 实时事件 start-->
         <div class="functional-module">
           <div @click="goJump('/iotApp')">
-            <Adaptive class="module-item" :data="['75.4%', '75.4%']">
+            <Adaptive class="module-item" :size="['75.4%', '75.4%']">
               <van-image
                 fit="contain"
                 :src="require('/src/assets/images/home/iot.png')"
@@ -54,7 +54,7 @@
             <p>物联应用</p>
           </div>
           <div hidden>
-            <Adaptive class="module-item" :data="['75.4%', '75.4%']">
+            <Adaptive class="module-item" :size="['75.4%', '75.4%']">
               <van-image
                 fit="contain"
                 :src="require('/src/assets/images/home/hazard.png')"
@@ -65,7 +65,7 @@
             <p>隐患统计</p>
           </div>
           <div @click="goJump('/video')">
-            <Adaptive class="module-item" :data="['75.4%', '75.4%']">
+            <Adaptive class="module-item" :size="['75.4%', '75.4%']">
               <van-image
                 fit="contain"
                 :src="require('/src/assets/images/home/video.png')"
@@ -76,7 +76,7 @@
             <p>智慧视觉</p>
           </div>
           <div @click="goJump('/placeResource')">
-            <Adaptive class="module-item" :data="['75.4%', '75.4%']">
+            <Adaptive class="module-item" :size="['75.4%', '75.4%']">
               <van-image
                 fit="contain"
                 :src="require('/src/assets/images/home/place.png')"
@@ -87,7 +87,7 @@
             <p>网点管理</p>
           </div>
           <div @click="goJump('/hazard')">
-            <Adaptive class="module-item" :data="['75.4%', '75.4%']">
+            <Adaptive class="module-item" :size="['75.4%', '75.4%']">
               <van-image
                 fit="contain"
                 :src="require('/src/assets/images/home/manage.png')"
@@ -98,7 +98,7 @@
             <p>隐患管理</p>
           </div>
           <div hidden>
-            <Adaptive class="module-item" :data="['75.4%', '75.4%']">
+            <Adaptive class="module-item" :size="['75.4%', '75.4%']">
               <van-image
                 fit="contain"
                 :src="require('/src/assets/images/home/scan.png')"
@@ -109,7 +109,7 @@
             <p>扫一扫</p>
           </div>
           <div @click="goJump('/propertyPlate')">
-            <Adaptive class="module-item" :data="['75.4%', '75.4%']">
+            <Adaptive class="module-item" :size="['75.4%', '75.4%']">
               <van-image
                 fit="contain"
                 :src="require('/src/assets/images/home/video.png')"
@@ -120,7 +120,7 @@
             <p>物业看板</p>
           </div>
           <div @click="goJump('/safetyCommitteePlate')">
-            <Adaptive class="module-item" :data="['75.4%', '75.4%']">
+            <Adaptive class="module-item" :size="['75.4%', '75.4%']">
               <van-image
                 fit="contain"
                 :src="require('/src/assets/images/home/video.png')"
@@ -162,7 +162,6 @@ export default {
   },
   data() {
     return {
-      ccccc: true,
       hazardLists: [],
       subsystemList: [
         {
@@ -184,19 +183,12 @@ export default {
   },
   created() {
     this.getHiddenDangerList()
-
     // this.initSockets()
   },
   methods: {
     onMessage(msg) {
-      this.ccccc = true
-
       this.hazardLists.splice(2, 1)
       this.hazardLists.splice(0, 0, msg)
-
-
-      this.ccccc = false
-
       this.$forceUpdate()
     },
     initSockets() {
@@ -223,7 +215,6 @@ export default {
      * 获取隐患列表 top10
      */
     async getHiddenDangerList() {
-      this.ccccc = true
       const res = await Api.hiddenDangerList(3)
       let temp = []
       if (res.code === 200) {
@@ -240,7 +231,6 @@ export default {
         })
       })
       this.hazardLists = temp
-      this.ccccc = false
     }
   }
 }

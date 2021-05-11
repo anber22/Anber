@@ -1,5 +1,5 @@
 <template>
-  <div class="adaptive" :style="'width:'+data[0]+';padding-bottom:'+data[1]+';'">
+  <div class="adaptive" :style="'width:'+size[0]+';padding-bottom:'+size[1]+';'">
     <div class="inside-content">
       <slot />
     </div>
@@ -13,12 +13,9 @@ export default {
 
   },
   props: {
-    data: {
+    size: {
       type: Array,
-      // eslint-disable-next-line vue/require-valid-default-prop
-      default: function() {
-        return []
-      }
+      default: () => { }
     }
   },
   data() {

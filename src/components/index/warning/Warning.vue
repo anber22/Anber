@@ -44,13 +44,13 @@ export default {
 
   },
   props: {
-    data: {
+    warningData: {
       type: Array,
-      default: null
+      default: () => []
     },
     system: {
       type: Array,
-      default: null
+      default: () => []
     }
   },
   data() {
@@ -73,7 +73,7 @@ export default {
     }
   },
   created() {
-    this.ulList = this.data
+    this.ulList = this.warningData
     this.systemList = this.system
     if (this.ulList !== null) {
       this.currentSystemtypeImage = this.ulList[0].imgUrl
@@ -131,7 +131,7 @@ export default {
      * 时间格式转换
      */
     dateFormat(date) {
-      var dateFormat = new DateTransformation()
+      const dateFormat = new DateTransformation()
       return dateFormat.dateDifference(date)
     }
   }

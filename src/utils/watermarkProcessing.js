@@ -1,11 +1,19 @@
+import DateTransformation from '@/utils/dateTransformation'
+
 export default class WatermarkProcessing {
   /**
    * 图片加水印
    * @param {*} file
    * @returns
    */
-  addWaterMark(file) {
+  addWaterMark(file, waterMarkInfo) {
     return new Promise((resolve) => {
+      const timestamp = Date.parse(new Date())
+      const dateFormat = new DateTransformation()
+      const nowDate = dateFormat.dataFormat(timestamp)
+      let date = (nowDate + '').slice(0, 10)
+      const time = (nowDate + '').slice(11, 16)
+      date = date.replace(/-/g, '/')
       const reader = new FileReader()
       // new 一个FileReader之后用readAsDataURL
       reader.readAsDataURL(file)
@@ -48,7 +56,7 @@ export default class WatermarkProcessing {
 
         // 网点背景
         context.fillStyle = my_gradient
-        context.fillRect(10, imageHeight - (138 * widthPercent), imageWidth * 0.2, imageWidth * 0.2 * 0.333)
+        context.fillRect(10, imageHeight - (136 * widthPercent), imageWidth * 0.2 + (waterMarkInfo.placeName.length - 4) * 9, imageWidth * 0.2 * 0.333)
         context.globalAlpha = 0.7
         // 详细信息背景
         context.fillStyle = '#707070'
@@ -58,36 +66,35 @@ export default class WatermarkProcessing {
         context.strokeRect(10, imageHeight - (90 * widthPercent), imageWidth * 0.5, imageWidth * 0.5 * 0.333)
 
         // 字体样式 字体粗体 字体大小/间距 字体包
-        context.font = 'normal bold ' + widthPercent * 15 + 'px/20px PingFang SC,sans-serif'
+        context.font = 'normal bold ' + widthPercent * 16 + 'px/20px PingFang SC,sans-serif'
         // 字体颜色
         context.shadowColor = '#1F1E1E'
         context.shadowBlur = 10
         context.shadowOffsetX = 1
         context.shadowOffsetY = 1
         context.fillStyle = 'white'
-        context.fillText('港湾一号', 19, imageHeight - (119 * widthPercent))
+        context.fillText(waterMarkInfo.placeName, 19, imageHeight - (119 * widthPercent))
         context.shadowOffsetX = 0
         context.shadowOffsetY = 0
         // 文字的内容 开始宽度 开始高度
-        context.fillText('2021/04/27', 20, imageHeight - (29 * widthPercent))
-        context.font = widthPercent * 10 + 'px PingFang SC'
+        context.fillText(date, 16, imageHeight - (29 * widthPercent))
+        context.font = widthPercent * 12 + 'px PingFang SC'
 
         // 上传人
-        context.fillText('上传人: 吴亦凡', 145 * widthPercent, imageHeight - (widthPercent * 70))
+        context.fillText('上传人:' + waterMarkInfo.managerName, 142 * widthPercent, imageHeight - (widthPercent * 70))
 
-        context.font = widthPercent * 10 + 'px PingFang SC'
         // 北纬
-        context.fillText('经纬度:', 145 * widthPercent, imageHeight - (widthPercent * 48))
+        context.fillText('经纬度:', 142 * widthPercent, imageHeight - (widthPercent * 48))
         // 东经
-        context.fillText('116.400819, 40.000549', 145 * widthPercent, imageHeight - (widthPercent * 26))
+        context.fillText(waterMarkInfo.lat + ',' + waterMarkInfo.lat, 142 * widthPercent, imageHeight - (widthPercent * 26))
         // 时间
-        context.font = widthPercent * 25 + 'px PingFang SC'
-        context.fillText('8:00', 20, imageHeight - (65 * widthPercent))
+        context.font = widthPercent * 35 + 'px PingFang SC'
+        context.fillText(time, 16, imageHeight - (64 * widthPercent))
 
         context.beginPath()
-        context.moveTo(128 * widthPercent, imageHeight - (widthPercent * 79))
+        context.moveTo(127 * widthPercent, imageHeight - (widthPercent * 79))
         context.lineWidth = 2
-        context.lineTo(128 * widthPercent, imageHeight - (widthPercent * 19))
+        context.lineTo(127 * widthPercent, imageHeight - (widthPercent * 19))
         context.strokeStyle = '#7DF4FA'
         context.stroke()
 

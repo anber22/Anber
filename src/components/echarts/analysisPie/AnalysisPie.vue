@@ -7,7 +7,7 @@
 <script>
 export default {
   props: {
-    data: {
+    analysisPieData: {
       type: Object,
       default: null
     }
@@ -19,6 +19,7 @@ export default {
   },
   mounted() {
     this.init()
+
     const width = document.documentElement.clientWidth || document.body.clientWidth
     this.zoom = 1 / (width / 375)
     window.addEventListener('resize', () => {
@@ -29,18 +30,18 @@ export default {
   methods: {
     init() {
       let _data = []
-      if (this.data.title < 1 || this.data.title === null) {
+      if (this.analysisPieData.title < 1 || this.analysisPieData.title === null) {
         _data = [{
           name: '暂无数据',
           value: 0,
           precent: 0
         }]
       } else {
-        _data = this.data.data
+        _data = this.analysisPieData.data
       }
       const myChart = this.$echarts.init(this.$refs.chartId)
       const option = {
-        color: this.data.color,
+        color: this.analysisPieData.color,
         tooltip: {
           show: true,
           trigger: 'item',

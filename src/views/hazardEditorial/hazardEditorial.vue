@@ -244,17 +244,14 @@ export default {
       隐患处理信息编辑+保存按钮
     */
     async updateProcessRecord() {
-      // console.log('adajd')
       const param = {
         id: this.detailInfoId,
         condition: ''
       }
       param.condition = '?recheck=' + this.reviewRadio + '&checkWay=' + this.modeRadio +
       '&reason=' + this.dangerCause + '&result=' + this.treatResult
-      // console.log('处理信息param--', param)
       const res = await Api.getProcessRecord(param)
       if (res.code === 200) {
-        console.log('处理信息连接成功')
       }
     }
 

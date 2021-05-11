@@ -70,7 +70,7 @@
       <img src="@/assets/images/home/title-icon.png" alt="">
       物联设备({{ itoEquipList.length }})
     </div>
-    <PlaceDetailCard class="PlaceDetailCard-bind-equip" :data="itoEquipList" />
+    <PlaceDetailCard class="PlaceDetailCard-bind-equip" :place-detail-data="itoEquipList" />
     <!-- 绑定设备 -->
     <p class="binding-device">
       <img src="@/assets/images/equip/add.png" alt="">
@@ -194,7 +194,7 @@ export default {
     this.getPlaceTypeList()
     this.getPlaceResourceDetail()
     this.getPlaceResourceEquip(this.detailPlaceId)
-    this.getPlaceTypeTree()
+    // this.getDepartTypeTree()
   },
   methods: {
     async getPlaceTypeList() {
@@ -312,8 +312,8 @@ export default {
     /*
       获取辖区树
     */
-    async getPlaceTypeTree() {
-      const a = await Api.getPlaceTree()
+    async getDepartTypeTree() {
+      const a = await Api.getDepartTree()
       console.log('辖区树res--', a)
     }
   }
@@ -321,7 +321,7 @@ export default {
 
 </script>
 <style scoped>
-.placResourceEditorial{
+.placeResourceEditorial{
   background-color: #101720;
   width: 92%;
   height: calc(100% - 46px);

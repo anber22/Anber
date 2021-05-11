@@ -72,7 +72,7 @@
     </div>
     <!-- end -->
 
-    <!-- <Adaptive :data="['37%','36%']" class="environmentalMonitoring-content-img">
+    <!-- <Adaptive :size="['37%','36%']" class="environmentalMonitoring-content-img">
       <img src="@/assets/images/equip/camera-bg-img.png" alt="" class="camera-bg-img">
     </Adaptive> -->
   </div>
@@ -90,8 +90,7 @@ export default {
   props: {
     equipInfo: {
       type: Object,
-      // eslint-disable-next-line vue/require-valid-default-prop
-      default: {}
+      default: () => {}
     }
   },
   data() {
@@ -107,8 +106,6 @@ export default {
   },
   watch: {
     equipInfo(val, oldVal) {
-      console.log('环境监测设备信息监听', val)
-
       this.setEquipDetailCardListData()
     }
   },

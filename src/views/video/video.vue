@@ -11,7 +11,7 @@
             <span style="color: #6F85A2">加载中...</span>
           </van-loading>
           <div v-if="equipsFlag">
-            <Video v-for="(iitem, iindex) in item.equips" :key="iindex" :data="iitem" :placename="item.placeName" />
+            <Video v-for="(iitem, iindex) in item.equips" :key="iindex" :video-info="iitem" :place-name="item.placeName" />
           </div>
         </van-collapse-item>
       </van-collapse>

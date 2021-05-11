@@ -76,7 +76,7 @@
       绑定设备
     </p>
     <!-- 保存按钮 -->
-    <van-button class="store-btn" block color="linear-gradient(100deg, #1DF2FF,#008EFF )" @click="getPlaceResourcInfo">
+    <van-button class="store-btn" block color="linear-gradient(100deg, #1DF2FF,#008EFF )" @click="getPlaceResourceInfo">
       保存
     </van-button>
   </div>
@@ -183,14 +183,12 @@ export default {
   methods: {
     async getPlaceTypeList() {
       this.pickcolumns = await this.$store.getters.placeType
-      // console.log('网点类型列表', this.pickcolumns)
     },
     showPopup() {
       this.show = true
     },
     onConfirm(value) {
       this.placeTypeName = value.name
-      // console.log('dadjga', value)
       // this.placeTypeName
       this.showPicker = false
     },
@@ -214,7 +212,6 @@ export default {
         managerName: this.netinfodetail[4].answer,
         phone: this.netinfodetail[5].answer
       }
-      console.log('obj--', obj)
       if (this.netinfodetail[0].answer === '') {
         this.$toast({
           message: '请补充完善网点名称',
@@ -237,7 +234,6 @@ export default {
         return
       }
       const res = await Api.placeResourceInfo(obj)
-      // console.log('新增网点obj--', obj)
       if (res.code === 200) {
         this.$toast({
           message: '网点新增成功',
@@ -250,8 +246,7 @@ export default {
       获取辖区树
     */
     async getPlaceTypeTree() {
-      const a = await Api.getPlaceTree()
-      console.log('辖区树a--', a)
+      const a = await Api.getDepartTree()
     }
   }
 

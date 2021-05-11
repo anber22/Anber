@@ -1,9 +1,9 @@
 <!-- 首页应用列表 -->
 <template>
   <div class="equipList">
-    <div v-for="(item,index) in data" :key="index" @click="showCard(item.id)">
+    <div v-for="(item,index) in equipData" :key="index" @click="showCard(item.id)">
       <!--  @click="showCard(item.id)" -->
-      <Adaptive :data="['100%','24.4%']" class="equipList-item">
+      <Adaptive :size="['100%','24.4%']" class="equipList-item">
         <div class="equipList-item-left">
           <img class="equipList-equip-img" :src="item.imgUrl" alt="">
           <p class="equipList-item-title">
@@ -45,10 +45,9 @@
 
 export default {
   props: {
-    data: {
+    equipData: {
       type: Array,
-      // eslint-disable-next-line vue/require-valid-default-prop
-      default: {}
+      default: () => []
     }
   },
   data() {

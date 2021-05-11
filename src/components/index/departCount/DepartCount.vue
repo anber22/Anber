@@ -5,7 +5,7 @@
         在线
       </p>
       <p class="detail-item-value color-light-blue">
-        {{ data.online }}
+        {{ departCount.online }}
       </p>
     </div>
     <div class="detail-item">
@@ -13,7 +13,7 @@
         隐患
       </p>
       <p class="detail-item-value color-light-yellow">
-        {{ data.trouble }}
+        {{ departCount.trouble }}
       </p>
     </div>
     <div class="detail-item">
@@ -21,7 +21,7 @@
         离线
       </p>
       <p class="detail-item-value color-light-red">
-        {{ data.outline }}
+        {{ departCount.outline }}
       </p>
     </div>
   </div>
@@ -30,9 +30,9 @@
 <script>
 export default {
   props: {
-    data: {
+    departCount: {
       type: Object,
-      default: null
+      default: () => {}
     }
   },
   data() {

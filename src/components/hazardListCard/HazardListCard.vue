@@ -3,19 +3,19 @@
   <div class="hazardListCard">
     <!-- 隐患列表卡片 头部标题 start -->
     <div class="hazardListCard-header">
-      <div v-if="data.isDone===1" class="hazardListCard-status-deal">
+      <div v-if="hazarData.isDone===1" class="hazardListCard-status-deal">
         已处理
       </div>
       <div v-else class="hazardListCard-status">
         未处理
       </div>
       <div class="hazardListCard-analysis-name">
-        {{ data.hazardTypeName }}
+        {{ hazarData.hazardTypeName }}
       </div>
 
       <div class="hazardListCard-equip-count">
-        <div :class="data.hazardCategory===2?'hazardListCard-event-type-orange':'hazardListCard-event-type-red'">
-          {{ data.hazardCategory===2?"故障":"事件" }}
+        <div :class="hazarData.hazardCategory===2?'hazardListCard-event-type-orange':'hazardListCard-event-type-red'">
+          {{ hazarData.hazardCategory===2?"故障":"事件" }}
         </div>
       </div>
     </div>
@@ -25,26 +25,26 @@
     <div class="hazardListCard-content">
       <div class="hazardListCard-content-row">
         <div class="hazardListCard-content-row-name">
-          {{ data.equipTypeName+"-"+data.placeName+"-"+data.equipAddress }}
+          {{ hazarData.equipTypeName+"-"+hazarData.placeName+"-"+hazarData.equipAddress }}
           <!-- 安全帽监测-港湾一号-湾9栋401大门口 -->
         </div>
-        <a class="hazardListCard-content-row-a" @click.stop="callPhone(data.placePhone)">
+        <a class="hazardListCard-content-row-a" @click.stop="callPhone(hazarData.placePhone)">
           <img src="@/assets/images/equip/phone.png" alt="" class="hazardListCard-content-row-icon">
         </a>
-        <a class="hazardListCard-content-row-a" @click.stop="toMap(data.placeId)">
+        <a class="hazardListCard-content-row-a" @click.stop="toMap(hazarData.placeId)">
           <img src="@/assets/images/equip/navigation.png" alt="" class="hazardListCard-content-row-icon">
         </a>
       </div>
       <div class="hazardListCard-content-row">
         <div class="hazardListCard-content-row-name">
-          <!-- {{ data.placeName }} -->
-          {{ data.imei }}
+          <!-- {{ hazarData.placeName }} -->
+          {{ hazarData.imei }}
         </div>
       </div>
       <div class="hazardListCard-content-row">
         <div class="hazardListCard-content-row-name">
-          <!-- {{ data.placeName }} -->
-          {{ timeTransformation(data.createdTime) }}
+          <!-- {{ hazarData.placeName }} -->
+          {{ changeDate(hazarData.createdTime) }}
         </div>
       </div>
     </div>
@@ -55,16 +55,14 @@
 
 <script>
 import DateFormat from '@/utils/dateTransformation'
-import Api from '@/api/placeResource/placeResource'
 export default {
   components: {
     // EquipStatus
   },
   props: {
-    data: {
+    hazarData: {
       type: Object,
-      // eslint-disable-next-line vue/require-valid-default-prop
-      default: {}
+      default: () => {}
     }
   },
 
@@ -74,6 +72,13 @@ export default {
         wifi: 80,
         electricity: 80,
         statusName: '正常'
+      }
+    }
+  },
+  computed: {
+    changeDate: function() {
+      return function(val) {
+        return this.timeTransformation(val)
       }
     }
   },

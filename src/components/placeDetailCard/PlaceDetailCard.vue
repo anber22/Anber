@@ -1,6 +1,6 @@
 <template>
   <div class="PlaceDetailCard-bind-equip">
-    <div v-for="(item, index) in data" :key="index" class="equipcard">
+    <div v-for="(item, index) in placeDetailData" :key="index" class="equipcard">
       <div class="equipcard-top">
         <p>枪型摄像头</p>
         <!-- 状态放在这里 -->
@@ -27,7 +27,7 @@
     <!-- <div class="PlaceDetailCard">
       <div class="PlaceDetailCard-header">
         <div class="PlaceDetailCard-title">
-          {{ data.equipName }}
+          {{ placeDetailData.equipName }}
         </div>
         <div class="PlaceDetailCard-state"> -->
     <!-- <div class="PlaceDetailCard-hidden-trouble">
@@ -35,14 +35,14 @@
           <van-icon name="arrow" color="#ffff" class="PlaceDetailCard-hidden-trouble-icon" />
         </div> -->
     <!-- <div class="PlaceDetailCard-state-box">
-            <EquipStatus :data="equipStatus" />
+            <EquipStatus :placeDetailData="equipStatus" />
           </div>
         </div>
       </div>
       <div class="PlaceDetailCard-content">
         <div class="PlaceDetail-top-text">
-          <span class="PlaceDetail-model PlaceDetail-ellipsis">{{ data.equipTypeName }}</span>
-          <span class="PlaceDetail-imei-code PlaceDetail-ellipsis">{{ data.imei }}</span>
+          <span class="PlaceDetail-model PlaceDetail-ellipsis">{{ placeDetailData.equipTypeName }}</span>
+          <span class="PlaceDetail-imei-code PlaceDetail-ellipsis">{{ placeDetailData.imei }}</span>
         </div>
         <div class="PlaceDetail-bottom-text">
           <van-image
@@ -54,7 +54,7 @@
             :show-error="false"
             :show-loading="false"
           />
-          {{ data.equipAddress }}
+          {{ placeDetailData.equipAddress }}
         </div>
         <div class="PlaceDetail-unbundling">
           -
@@ -71,10 +71,9 @@ export default {
     EquipStatus
   },
   props: {
-    data: {
-      type: Object,
-      // eslint-disable-next-line vue/require-valid-default-prop
-      default: []
+    placeDetailData: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
