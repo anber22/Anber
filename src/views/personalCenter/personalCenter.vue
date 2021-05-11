@@ -12,7 +12,7 @@
              height="13"
              :src="require('/src/assets/images/personalCenter/message.png')" 
              />
-            消息中心
+            <span class="message-center">消息中心</span>
           </div>
         </template>
         <template #default>
@@ -110,7 +110,8 @@ export default {
     justify-content: center;
     align-items: center;
     position: absolute;
-    right: 1em;
+    right: 2px;
+    top: 3px;
     width: 1.3em;
     height: 1.3em;
     color: #FFFFFF;
@@ -119,7 +120,9 @@ export default {
   }
 
   .message-title {
-    font-weight: 400;
+    display: flex;
+    align-items: center;
+    font-weight: 300;
     font-size: 14px;
     color: #BACEE9;
   }
@@ -128,9 +131,15 @@ export default {
     margin:  15px;
   }
 
+  .message-center {
+    display: inline-block;
+    margin-left: 12px;
+  }
+
   .message .van-cell {
     background-color: #101720;
   }
+
 
   .error-push {
     margin-top: 15px;

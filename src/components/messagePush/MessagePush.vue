@@ -1,6 +1,6 @@
 <template>
   <div class="message-push">
-    <van-cell value="内容" is-link>
+    <van-cell value="内容">
       <template #title>
         <page-title :title="title"/>
       </template>
@@ -65,15 +65,26 @@ export default {
     height: 45px;
     background-color: #07101A;
     padding: 2px 16px; 
-    margin-bottom: 20px;
+    margin-bottom: 5px;
   }
 
   .message-push .van-cell::after {
     border-bottom: 0;
   }
 
+  .message-push .van-switch {
+    width: 33px;
+    height: 20px;
+  }
+
   .message-push .van-switch__node {
     background-color: #06101B;
+    height: 20px;
+    width: 20px;
+  }
+
+  .message-push .van-switch--on  .van-switch__node {
+    transform: translateX(13px);
   }
 
   .options {
@@ -85,16 +96,21 @@ export default {
   .options .van-radio-group--horizontal {
     display: flex;
     justify-content: space-between;
-    padding: 0 15px;
+    padding: 0 26px;
   }
 
   .options .van-radio__label {
     color: #8CA4C3;
+    font-size: 15px;
   }
 
   .options .van-icon {
-    width: 15px;
-    height: 15px;
+    position: relative;
+    top: 4px;
+    width: 14px;
+    height: 14px;
+    border: 1px solid #99b2d3;
+    border-radius: 1px;
   }
 
   .options  .van-radio__icon--checked .van-icon {

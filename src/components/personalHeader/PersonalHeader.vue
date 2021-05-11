@@ -29,7 +29,6 @@ export default {
   .personalHeader {
     display: flex;
     flex-direction: row;
-    padding-top: 30px;
     padding-left: 15px;
     height: 100px;
     align-items: center;
@@ -39,14 +38,14 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-left: .6em;
-    margin-top: .3em
+    margin-left: 15px;
+    margin-top: 3px;
   }
 
   .username {
     font-size: 16px;
-    font-weight: 500;
-    color: #BACEE9;
+    font-weight: 360;
+    color: #B9CDE8;
   }
 
   .phone {
