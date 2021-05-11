@@ -116,7 +116,15 @@ export default {
   .options  .van-radio__icon--checked .van-icon {
     color: #0F1721;
     background: linear-gradient(78deg,#1df2ff 19%, #008eff 100%);
+    border: 0;
   }
+
+  .options  .van-radio__icon--checked .van-icon::before {
+    position: relative;
+    right: 1px;
+    bottom: 3px;
+  }
+
 
   .end-line {
     height: 1px;
