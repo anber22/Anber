@@ -52,7 +52,7 @@
             安装照片
           </p>
         </div>
-        <UploadImg v-if="waterMarkInfo" class="uploadImg" :water-mark-info="waterMarkInfo" @choiceImg="choiceImg" />
+        <UploadImg v-if="waterMarkInfo" class="upload-img" :water-mark-info="waterMarkInfo" @getImgList="getImgList" />
         <div class="foot">
           <button class="submit-btn" @click="submit">
             保存
@@ -182,7 +182,7 @@ export default {
     /**
      * 选择图片  待用
      */
-    choiceImg(e) {
+    getImgList(e) {
     },
     /**
      * 打开物联网平台选择器

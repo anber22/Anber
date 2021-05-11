@@ -59,7 +59,6 @@ export default {
   },
   watch: {
     // '$route'(to, from) {
-    //   console.log('路由跳转', from, to)
     //   if (from.path === '/login' || (from.path === '/' && to.path !== '/login')) {
     //     this.initSockets()
     //   }
@@ -148,8 +147,6 @@ export default {
     messageQueue(msg) {
       // 开启消息队列
       this.working = true
-
-      console.log('触发执行', this.hazardList[0].equipAddress)
       // 打开消息蒙层
       this.show = true
       // 清除闪烁定时器

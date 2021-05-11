@@ -186,7 +186,6 @@ export default {
     }
   },
   mounted() {
-    console.log('打印', this.$route)
   },
   created() {
     this.detailPlaceId = this.$route.query.placeResourceId

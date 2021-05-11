@@ -73,7 +73,6 @@ export default {
       show: false,
       status: 0,
       loading: false,
-      loadding: true,
       equipId: 0,
       page: 0,
       finished: false
@@ -122,8 +121,6 @@ export default {
      * 获取隐患列表
      */
     async getAnalysisList() {
-      this.loadding = true
-
       const params = {
         type: 0,
         page: ++this.page,

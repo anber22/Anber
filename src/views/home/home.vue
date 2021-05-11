@@ -112,7 +112,7 @@
             <Adaptive class="module-item" :size="['75.4%', '75.4%']">
               <van-image
                 fit="contain"
-                :src="require('/src/assets/images/home/video.png')"
+                :src="require('/src/assets/images/home/property-plate.png')"
                 :show-error="false"
                 :show-loading="false"
               />
@@ -123,7 +123,7 @@
             <Adaptive class="module-item" :size="['75.4%', '75.4%']">
               <van-image
                 fit="contain"
-                :src="require('/src/assets/images/home/video.png')"
+                :src="require('/src/assets/images/home/safety-committee-plate.png')"
                 :show-error="false"
                 :show-loading="false"
               />

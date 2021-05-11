@@ -87,7 +87,13 @@
 2. 在dom上使用组件，传入imei：'123456',imei为String类型
    <Video :imei="imei" /> 
 
-## socket使用说明 ## /src/utils/socket.js  示例： /src/components/globalWarning/GlobalWarning
+## socket使用说明 ## /src/utils/socket.js  示例： /src/components/layout/Layout
 1. 在construct里面定好开发环境和正式环境的用户名跟用户密码，用于连接socket
 2. 开启socket需要传入 订阅频道，订阅频道的dom订阅着对象（订阅频道消息触发会把消息分发给订阅的dom订阅着对象）
 3. 退出页面 ， 需要退订socket的对应频道的dom订阅者 ， 如果退订之后这个频道的dom订阅者数组为空，就直接将这个频道删除
+
+## 上传图片组件使用说明 ##
+1. 引入组件 import UploadImg from 'cmp/uploadImg/UploadImg'
+2. 使用组件  <UploadImg :water-mark-info="水印信息（网点详情）" @getImgList="监听选择或者删除图片的emit，触发收集图片信息的带参函数" />
+3. base64 转图片待调试接口时更新
+ 

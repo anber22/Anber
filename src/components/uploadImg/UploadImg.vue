@@ -47,6 +47,7 @@ export default {
   methods: {
     deleteImg(index) {
       this.uploadImg.splice(index, 1)
+      this.$emit('getImgList', this.uploadImg)
     },
     async getPicture(e) {
       // 预览图片
