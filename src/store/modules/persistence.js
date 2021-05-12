@@ -69,8 +69,8 @@ const persistence = {
 
 const genRequest = (commit) => {
   // 柯里化生成相应函数
-  const requestByType =  (typeRequest, commitType, param) => {
-    return async () => {
+  const requestByType = (typeRequest, commitType, param) => {
+    return async() => {
       const reqParam = param === undefined ? undefined : param
       const result = await typeRequest(reqParam)
       if (result.code === 200) {

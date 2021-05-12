@@ -104,7 +104,16 @@
       <p class="quest">
         手机号
       </p>
-      <input v-model="resourceInfo.phone" class="inputs" type="text" placeholder="请输入手机号">
+      <van-form>
+        <van-field
+          v-model="resourceInfo.phone"
+          :rules="[
+            { pattern: /^1[3456789]\d{9}$/, message: '手机号码格式错误'}
+          ]"
+          placeholder="请输入手机号"
+          class="inputs"
+        />
+      </van-form>
     </div>
     <!-- 责任书 -->
     <div class="netinfo-detail border-no ">
@@ -138,7 +147,7 @@
       绑定设备
     </p>
     <!-- 保存按钮 -->
-    <van-button class="store-btn" block color="linear-gradient(100deg, #1DF2FF,#008EFF )" @click="getPlaceResourceInfo">
+    <van-button class="store-btn" block color="linear-gradient(100deg, #1DF2FF,#008EFF )" @click="addPlaceResourceInfo">
       保存
     </van-button>
   </div>
@@ -158,7 +167,7 @@ export default {
   data() {
     return {
       itoEquipList: [], // 设备列表
-      equipList: [],
+      equipList: [], // 本地拿到新增绑定设备列表
       resourceInfo: {
         name: '', // 网点名称
         type: '', // 网点类型
@@ -175,40 +184,7 @@ export default {
         value: 'departId',
         children: 'children'
       }, // 选择辖区自定义字段名
-      departOptions: [
-        {
-          departName: '华南地区',
-          departId: '330000',
-          children: [
-            {
-              departName: '广东省',
-              departId: '330100',
-              children: [
-                { departName: '广州市', departId: '330101' },
-                { departName: '深圳市', departId: '330102' },
-                { departName: '珠海市', departId: '330103' }
-              ]
-            },
-            {
-              departName: '湖南省',
-              departId: '330200',
-              children: [
-                { departName: '岳阳市', departId: '330201' },
-                { departName: '长沙市', departId: '330202' },
-                { departName: '张家界市', departId: '330203' }
-              ]
-            },
-            {
-              departName: '广西壮族自治区',
-              departId: '330300',
-              children: [
-                { departName: '柳州市', departId: '330301' },
-                { departName: '南宁市', departId: '330302' },
-                { departName: '北海市', departId: '330303' }
-              ]
-            }]
-        }
-      ], // 辖区树
+      departOptions: [], // 辖区树
       pickcolumns: [], // 网点类型列表
       placeTypeName: '',
       showPicker: false,
@@ -229,55 +205,14 @@ export default {
       this.manageEquipList()
     }
     this.getPlaceTypeList()
-    // this.getPlaceTypeTree()
+    this.getPlaceTypeTree()
   },
   methods: {
-    /**
-     *  绑定设备列表
-     */
-    async manageEquipList() {
-      this.equipList = JSON.parse(window.localStorage.getItem('equipList'))
-      const list = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', this.equipList)
-      list.forEach(item => {
-        const obj = {
-          equipAddress: item.address,
-          equipTypeName: item.equipTypeName,
-          imei: item.imei,
-          equipName: item.equipName
-        }
-        this.itoEquipList.push(obj)
-      })
-      console.log('itoEquipList-----', this.itoEquipList)
-    },
-    /**
-     * 删除绑定设备
-     */
-    deleteBindEquip(index) {
-      console.log('index---', index)
-      this.$dialog.confirm({
-        message: '是否确定解绑？',
-        className: 'del-equip',
-        confirmButtonColor: '#06F0FE',
-        cancelButtonColor: '#6F85A2'
-      })
-        .then(() => {
-          console.log('确认---')
-          // this.itoEquipList.splice(index, 1)
-          // this.equipList.splice(index, 1)
-          // window.localStorage.setItem('equipList', JSON.stringify(this.equipList))
-        })
-        .catch(() => {
-          console.log('取消---')
-        // on cancel
-        })
-      // 询问是否确认删除
-    },
     /**
      * 获取网点类型列表
      */
     async getPlaceTypeList() {
       this.pickcolumns = await this.$store.getters.placeType
-      console.log('网点类型列表', this.pickcolumns)
     },
     /**
      * 网点类型选择
@@ -285,7 +220,6 @@ export default {
     confirmPicker(value) {
       this.placeTypeName = value.name
       this.resourceInfo.type = value.id
-      console.log('网点类型', value)
       this.showPicker = false
     },
     /**
@@ -293,7 +227,7 @@ export default {
      */
     finishDepart({ selectedOptions }) {
       this.departName = selectedOptions[selectedOptions.length - 1].departName
-      this.resourceInfo.departId = selectedOptions[selectedOptions.length - 1].departID
+      this.resourceInfo.departId = selectedOptions[selectedOptions.length - 1].departId
       this.showCascader = false
     },
     /**
@@ -307,13 +241,13 @@ export default {
      */
     confirmDepart() {
       this.departName = this.selectedOptions[this.selectedOptions.length - 1].departName
-      this.resourceInfo.departId = this.selectedOptions[this.selectedOptions.length - 1].departID
+      this.resourceInfo.departId = this.selectedOptions[this.selectedOptions.length - 1].departId
       this.showCascader = false
     },
     /**
      * 保存新增网点
      */
-    async getPlaceResourceInfo() {
+    async addPlaceResourceInfo() {
       if (this.resourceInfo.name === '') {
         this.$toast('请补充完善网点名称')
         return
@@ -327,16 +261,35 @@ export default {
         return
       }
       const res = await Api.placeResourceInfo(this.resourceInfo)
-      if (res.code === 200) {
-        this.$toast('网点新增成功')
+      if (res.code === 201) {
+        const id = res.data
+        this.addbindEquip(id)
+        // this.$toast('网点新增成功')
+      }
+    },
+    /**
+     * 绑定设备
+     */
+    async addbindEquip(id) {
+      for (let i = 0; i < this.equipList.length; i++) {
+        const element = this.equipList[i]
+        const param = {
+          lon: element.lon,
+          lat: element.lat,
+          address: element.address
+        }
+        const res = await Api.bindEquip(id, element.imei, param)
+        console.log(res)
       }
     },
     /**
      * 获取辖区树
      */
     async getPlaceTypeTree() {
-      const res = await Api.getPlaceTree()
-      console.log('辖区树a--', res)
+      const res = await Api.getDepartTree()
+      if (res.code === 200) {
+        this.departOptions = res.data
+      }
     },
     /**
      * 绑定设备
@@ -355,6 +308,40 @@ export default {
           status: true
         }
       })
+    },
+    /**
+     *  绑定设备列表
+     */
+    async manageEquipList() {
+      this.equipList = JSON.parse(window.localStorage.getItem('equipList'))
+      const list = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', this.equipList)
+      list.forEach(item => {
+        const obj = {
+          equipAddress: item.address,
+          equipTypeName: item.equipTypeName,
+          imei: item.imei,
+          equipName: item.equipName
+        }
+        this.itoEquipList.push(obj)
+      })
+    },
+    /**
+     * 删除绑定设备
+     */
+    deleteBindEquip(index) {
+      this.$dialog.confirm({
+        message: '是否确定解绑？',
+        className: 'del-equip',
+        confirmButtonColor: '#06F0FE',
+        cancelButtonColor: '#6F85A2'
+      })
+        .then(() => {
+          this.itoEquipList.splice(index, 1)
+          this.equipList.splice(index, 1)
+          window.localStorage.setItem('equipList', JSON.stringify(this.equipList))
+        })
+        .catch(() => {
+        })
     },
     /**
      * 选择图片  待用

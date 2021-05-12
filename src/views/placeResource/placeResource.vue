@@ -91,7 +91,7 @@ export default {
 <style scoped>
 .placeResource{
   width: 100%;
-  height: calc(100% - 46px);
+  height: calc(100% - 45px);
   position: fixed;
   background-color: #101720;
   position: relative;
