@@ -2,26 +2,26 @@
   <div class="PlaceDetailCard-bind-equip">
     <div v-for="(item, index) in placeDetailData" :key="index" class="equipcard">
       <div class="equipcard-top">
-        <p>枪型摄像头</p>
+        <p>{{ item.equipName }}</p>
         <!-- 状态放在这里 -->
-        <EquipStatus class="equip-status" :electricity="item.equipStatus.electricity" :signal="item.equipStatus.signal" :status="item.equipStatus.statusname" />
+        <EquipStatus v-if="!statusAdd" class="equip-status" :electricity="item.equipStatus.electricity" :signal="item.equipStatus.signal" :status="item.equipStatus.statusname" />
       </div>
       <div class="content">
         <ul class="gun-IMEI">
           <li class="gun-type">
-            {{ item.contentDetail.info[0] }}
+            {{ item.equipTypeName }}
           </li>
           <li class="IMEI-num">
-            {{ item.contentDetail.info[1] }}
+            {{ item.imei }}
           </li>
         </ul>
         <ul class="locat-address">
           <img class="locat-img" src="@/assets/images/equip/address.png" alt="">
           <li class="gun-address">
-            {{ item.contentDetail.info[2] }}
+            {{ item.equipAddress }}
           </li>
         </ul>
-        <img class="reduce-img" src="@/assets/images/equip/reduce.png" alt="">
+        <img class="reduce-img" src="@/assets/images/equip/reduce.png" alt="" @click="$emit('deleteEquip', index)">
       </div>
     </div>
     <!-- <div class="PlaceDetailCard">
@@ -74,6 +74,10 @@ export default {
     placeDetailData: {
       type: Array,
       default: () => []
+    },
+    statusAdd: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

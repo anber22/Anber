@@ -303,7 +303,7 @@ export default {
       获取辖区树
     */
     async getDepartTypeTree() {
-      const a = await Api.getDepartTree()
+      // const res = await Api.getDepartTree()
     }
   }
 }

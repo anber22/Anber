@@ -124,27 +124,17 @@
 import Api from '@/api/placeResource/placeResource'
 import PlaceDetailCard from 'cmp/placeDetailCard/PlaceDetailCard'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
-import EquipStatus from 'cmp/equipStatus/EquipStatus'
 
 export default {
   name: 'PlaceResourceDetail',
   components: {
-    PlaceDetailCard,
-    EquipStatus
+    PlaceDetailCard
   },
 
   data() {
     return {
       placeResourceDetail: {},
       placeResource: [],
-
-      test: [
-        {
-          id: 1
-        }, {
-          id: 2
-        }
-      ],
       loading: true,
 
       placeResourceDetailId: 0,
@@ -181,7 +171,8 @@ export default {
     async getPlaceResourceEquip(id) {
       const res = await Api.placeResourceEquip(id)
       if (res.code === 200) {
-        const dataArray = [...res.data]
+        let dataArray = [...res.data]
+        dataArray = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', dataArray)
         const arr = []
         for (let i = 0; i < dataArray.length; i++) {
           const element = dataArray[i]
@@ -191,9 +182,10 @@ export default {
               electricity: element.equipPower,
               signal: element.equipSignal
             },
-            contentDetail: {
-              info: [element.equipName, element.imei, element.equipAddress]
-            }
+            equipName: element.equipName,
+            imei: element.imei,
+            equipAddress: element.equipAddress,
+            equipTypeName: element.equipTypeName
           }
           arr.push(obj)
         }

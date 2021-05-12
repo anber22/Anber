@@ -1,77 +1,139 @@
 <template>
   <div class="placeResourceEditorial">
-    <!--标题框 -->
-    <!-- <div class="van-nav-bar">
-      <i>a</i>
-      新增网点
-    </div> -->
     <!-- 网点信息list -->
     <div class="net-info">
       <img src="@/assets/images/home/title-icon.png" alt="">
       网点信息
     </div>
-    <!-- 网点信息详情 -->
-    <div v-for="(item,index) in netinfodetail" :key="index" class="netinfo-detail">
-      <span :class="item.required?'sign':'sign-none'" style="color:red;font-size:12px" :required="item.required">*</span>
+    <!-- 网点名称 -->
+    <div class="netinfo-detail">
+      <span class="sign">*</span>
       <p class="quest">
-        {{ item.question }}
+        网点名称
       </p>
-      <template v-if="item.type==='input'">
-        <input v-model="item.answer" class="inputs" type="text" :placeholder="item.value">
-      </template>
-      <!-- 网点类型 -->
-      <template v-if="item.type==='picker'">
+      <van-form>
+        <van-field
+          v-model="resourceInfo.name"
+          :rules="[{ required: true, message: '请输入网点名称' }]"
+          placeholder="请输入网点名称"
+          class="inputs"
+        />
+      </van-form>
+    </div>
+    <!-- 网点类型 -->
+    <div class="netinfo-detail">
+      <span class="sign">*</span>
+      <p class="quest">
+        网点类型
+      </p>
+      <van-form>
         <van-field
           v-model="placeTypeName"
           readonly
           clickable
           is-link
           placeholder="请选择网点类型"
+          :rules="[{ required: true, message: '请选择网点类型' }]"
           @click="showPicker = true"
         />
-        <van-popup v-model="showPicker" round position="bottom">
-          <van-picker
-            class="picker"
-            title="网点类型"
-            :default-index="0"
-            value-key="name"
-            show-toolbar
-            :columns="pickcolumns"
-            @confirm="onConfirm"
-            @cancel="onCancel"
-          />
-        </van-popup>
-      </template>
-      <!-- 所属辖区 -->
-      <template v-if="item.type==='cascader'">
+      </van-form>
+      <van-popup v-model="showPicker" round position="bottom">
+        <van-picker
+          class="picker"
+          title="网点类型"
+          :default-index="0"
+          value-key="name"
+          show-toolbar
+          :columns="pickcolumns"
+          @confirm="confirmPicker"
+          @cancel="showPicker=false"
+        />
+      </van-popup>
+    </div>
+    <!-- 网点地址 -->
+    <div class="netinfo-detail">
+      <span class="sign-none">*</span>
+      <p class="quest">
+        网点地址
+      </p>
+      <input v-model="resourceInfo.address" class="inputs" type="text" placeholder="请输入网点地址">
+    </div>
+    <!-- 所属辖区 -->
+    <div class="netinfo-detail">
+      <span class="sign">*</span>
+      <p class="quest">
+        所属辖区
+      </p>
+      <van-form>
         <van-field
-          v-model="fieldValue"
+          v-model="departName"
           class="pops"
           is-link
           readonly
           placeholder="请选择所属辖区"
-          @click="show = true"
+          :rules="[{ required: true, message: '请选择所属辖区' }]"
+          @click="showCascader = true"
         />
-        <van-popup v-model="show" round position="bottom">
-          <van-cascader
-            v-model="cascaderValue"
-            title="请选择所属辖区"
-            :options="options"
-            @close="show = false"
-            @finish="onFinish"
-          />
-        </van-popup>
-      </template>
+      </van-form>
+      <van-popup v-model="showCascader" round position="bottom">
+        <van-cascader
+          v-model="departName"
+          title="请选择所属辖区"
+          :field-names="fieldNames"
+          :options="departOptions"
+          @close="showCascader=false"
+          @change="onchange"
+          @finish="finishDepart"
+        />
+        <van-button class="depart-btn" block color="linear-gradient(100deg, #1DF2FF,#008EFF )" @click="confirmDepart">
+          确定
+        </van-button>
+      </van-popup>
+    </div>
+    <!-- 负责人 -->
+    <div class="netinfo-detail">
+      <span class="sign-none">*</span>
+      <p class="quest">
+        负责人
+      </p>
+      <input v-model="resourceInfo.managerName" class="inputs" type="text" placeholder="请输入负责人">
+    </div>
+    <!-- 手机号 -->
+    <div class="netinfo-detail">
+      <span class="sign-none">*</span>
+      <p class="quest">
+        手机号
+      </p>
+      <input v-model="resourceInfo.phone" class="inputs" type="text" placeholder="请输入手机号">
     </div>
     <!-- 责任书 -->
+    <div class="netinfo-detail border-no ">
+      <span class="sign-none">*</span>
+      <p class="quest">
+        责任书
+      </p>
+      <div class="resource-img">
+        <UploadImg class="uploadImg" :water-mark-info="waterMarkInfo" @choiceImg="choiceImg" />
+      </div>
+    </div>
     <!-- 网点照片 -->
+    <div class="netinfo-detail border-no">
+      <span class="sign-none">*</span>
+      <p class="quest">
+        网点照片
+      </p>
+      <div class="resource-img">
+        <UploadImg class="uploadImg" :water-mark-info="waterMarkInfo" @choiceImg="choiceImg" />
+      </div>
+    </div>
     <!-- 物联设备 -->
     <div class="Ito-equip">
       <img src="@/assets/images/home/title-icon.png" alt="">
       物联设备({{ itoEquipList.length }})
     </div>
+    <PlaceDetailCard class="PlaceDetailCard-bind-equip" :place-detail-data="itoEquipList" :status-add="true" @deleteEquip="deleteBindEquip" />
     <!-- 绑定设备 -->
-    <p class="binding-device">
+    <p class="binding-device" @click="AddEquip">
       <img src="@/assets/images/equip/add.png" alt="">
       绑定设备
     </p>
@@ -84,60 +146,36 @@
 
 <script>
 import Api from '@/api/placeResource/placeResource.js'
+import PlaceDetailCard from 'cmp/placeDetailCard/PlaceDetailCard'
+import UploadImg from 'cmp/uploadImg/UploadImg'
+import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 
 export default {
+  components: {
+    PlaceDetailCard,
+    UploadImg
+  },
   data() {
     return {
-      itoEquipList: [],
-
-      netinfodetail: [
-        {
-          question: '网点名称',
-          value: '请输入网点名称',
-          required: true,
-          type: 'input',
-          answer: ''
-        },
-        {
-          question: '网点类型',
-          value: '请选择网点类型',
-          required: true,
-          type: 'picker',
-          answer: ''
-        },
-        {
-          question: '网点地址',
-          value: '请输入网点地址',
-          required: false,
-          type: 'input',
-          answer: ''
-        },
-        {
-          question: '所属辖区',
-          value: '请选择所属辖区',
-          required: true,
-          type: 'cascader',
-          answer: ''
-        },
-        {
-          question: '负责人',
-          value: '请输入负责人',
-          required: false,
-          type: 'input',
-          answer: ''
-        },
-        {
-          question: '手机号',
-          value: '请输入手机号',
-          required: false,
-          type: 'input',
-          answer: ''
-        }
-      ],
-      show: false,
-      fieldValue: '',
-      cascaderValue: '',
-      options: [
+      itoEquipList: [], // 设备列表
+      equipList: [],
+      resourceInfo: {
+        name: '', // 网点名称
+        type: '', // 网点类型
+        address: '', // 网点地址
+        departId: '', // 网点辖区
+        managerName: '', // 负责人
+        phone: '' // 手机号
+      },
+      departName: '', // 辖区名字
+      selectedOptions: [], // 辖区选中数组
+      showCascader: false, // 选中辖区弹窗
+      fieldNames: {
+        text: 'departName',
+        value: 'departId',
+        children: 'children'
+      }, // 选择辖区自定义字段名
+      departOptions: [
         {
           departName: '华南地区',
           departId: '330000',
@@ -170,83 +208,158 @@ export default {
               ]
             }]
         }
-      ],
-      pickcolumns: [],
+      ], // 辖区树
+      pickcolumns: [], // 网点类型列表
       placeTypeName: '',
-      showPicker: false
+      showPicker: false,
+      waterMarkInfo: {
+        placeName: '网点名称'
+      } // 水印信息
     }
   },
   created() {
+    if (window.localStorage.getItem('placeResource')) {
+      const placeResource = JSON.parse(window.localStorage.getItem('placeResource'))
+      this.resourceInfo = placeResource.resourceInfo
+      this.selectedOptions = placeResource.selectedOptions
+      this.placeTypeName = placeResource.placeTypeName
+      this.departName = placeResource.selectedOptions.length > 0 ? placeResource.selectedOptions[placeResource.selectedOptions.length - 1].departName : ''
+    }
+    if (window.localStorage.getItem('equipList')) {
+      this.manageEquipList()
+    }
     this.getPlaceTypeList()
-    this.getPlaceTypeTree()
+    // this.getPlaceTypeTree()
   },
   methods: {
+    /**
+     *  绑定设备列表
+     */
+    async manageEquipList() {
+      this.equipList = JSON.parse(window.localStorage.getItem('equipList'))
+      const list = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', this.equipList)
+      list.forEach(item => {
+        const obj = {
+          equipAddress: item.address,
+          equipTypeName: item.equipTypeName,
+          imei: item.imei,
+          equipName: item.equipName
+        }
+        this.itoEquipList.push(obj)
+      })
+      console.log('itoEquipList-----', this.itoEquipList)
+    },
+    /**
+     * 删除绑定设备
+     */
+    deleteBindEquip(index) {
+      console.log('index---', index)
+      this.$dialog.confirm({
+        message: '是否确定解绑？',
+        className: 'del-equip',
+        confirmButtonColor: '#06F0FE',
+        cancelButtonColor: '#6F85A2'
+      })
+        .then(() => {
+          console.log('确认---')
+          // this.itoEquipList.splice(index, 1)
+          // this.equipList.splice(index, 1)
+          // window.localStorage.setItem('equipList', JSON.stringify(this.equipList))
+        })
+        .catch(() => {
+          console.log('取消---')
+        // on cancel
+        })
+      // 询问是否确认删除
+    },
+    /**
+     * 获取网点类型列表
+     */
     async getPlaceTypeList() {
       this.pickcolumns = await this.$store.getters.placeType
+      console.log('网点类型列表', this.pickcolumns)
     },
-    showPopup() {
-      this.show = true
-    },
-    onConfirm(value) {
+    /**
+     * 网点类型选择
+     */
+    confirmPicker(value) {
       this.placeTypeName = value.name
-      // this.placeTypeName
+      this.resourceInfo.type = value.id
+      console.log('网点类型', value)
       this.showPicker = false
     },
-    onCancel() {
-      this.showPicker = false
+    /**
+     * 所属辖区选择-最后一级
+     */
+    finishDepart({ selectedOptions }) {
+      this.departName = selectedOptions[selectedOptions.length - 1].departName
+      this.resourceInfo.departId = selectedOptions[selectedOptions.length - 1].departID
+      this.showCascader = false
     },
-    onFinish({ selectedOptions }) {
-      this.show = false
-      this.fieldValue = selectedOptions.map((option) => option.text).join('/')
+    /**
+     * 所属辖区选择-选中
+     */
+    onchange({ selectedOptions }) {
+      this.selectedOptions = selectedOptions
     },
-
-    /*
-      保存按钮：把数据传到后端
-    */
+    /**
+     * 所属辖区选择-确认
+     */
+    confirmDepart() {
+      this.departName = this.selectedOptions[this.selectedOptions.length - 1].departName
+      this.resourceInfo.departId = this.selectedOptions[this.selectedOptions.length - 1].departID
+      this.showCascader = false
+    },
+    /**
+     * 保存新增网点
+     */
     async getPlaceResourceInfo() {
-      const obj = {
-        name: this.netinfodetail[0].answer,
-        type: this.placeTypeName,
-        address: this.netinfodetail[2].answer,
-        departId: this.cascaderValue,
-        managerName: this.netinfodetail[4].answer,
-        phone: this.netinfodetail[5].answer
-      }
-      if (this.netinfodetail[0].answer === '') {
-        this.$toast({
-          message: '请补充完善网点名称',
-          position: 'bottom'
-        })
+      if (this.resourceInfo.name === '') {
+        this.$toast('请补充完善网点名称')
         return
       }
-      if (this.netinfodetail[1].answer === '') {
-        this.$toast({
-          message: '请补充完善网点类型',
-          position: 'bottom'
-        })
+      if (this.resourceInfo.type === '') {
+        this.$toast('请补充完善网点类型')
         return
       }
-      if (this.netinfodetail[3].answer === '') {
-        this.$toast({
-          message: '请补充完善所属辖区',
-          position: 'bottom'
-        })
+      if (this.resourceInfo.departId === '') {
+        this.$toast('请补充完善所属辖区')
         return
       }
-      const res = await Api.placeResourceInfo(obj)
+      const res = await Api.placeResourceInfo(this.resourceInfo)
       if (res.code === 200) {
-        this.$toast({
-          message: '网点新增成功',
-          position: 'bottom'
-        })
+        this.$toast('网点新增成功')
       }
     },
-
-    /*
-      获取辖区树
-    */
+    /**
+     * 获取辖区树
+     */
     async getPlaceTypeTree() {
-      const a = await Api.getDepartTree()
+      const res = await Api.getPlaceTree()
+      console.log('辖区树a--', res)
+    },
+    /**
+     * 绑定设备
+     */
+    AddEquip() {
+      // 获取微信地理位置-获取成功才跳页面
+      const placeResource = {
+        resourceInfo: this.resourceInfo,
+        selectedOptions: this.selectedOptions,
+        placeTypeName: this.placeTypeName
+      }
+      window.localStorage.setItem('placeResource', JSON.stringify(placeResource)) // 保存辖区信息到本地
+      this.$router.push({
+        path: '/bindEquip',
+        query: {
+          status: true
+        }
+      })
+    },
+    /**
+     * 选择图片  待用
+     */
+    choiceImg(e) {
     }
   }
 
@@ -256,7 +369,7 @@ export default {
 .placeResourceEditorial{
   background-color: #101720;
   width: 92%;
-  height: 100%;
+  height: calc(100% - 46px);
   position: fixed;
   color: #ffffff;
   overflow: scroll;
@@ -292,11 +405,17 @@ export default {
   padding: 8px 0;
 }
 .binding-device img{
-  width: 17px;
-  height: 17px;
+  width: 16px;
+  height: 16px;
+  vertical-align: -2px;
 }
 .netinfo-detail{
-  padding: 0 11px;
+  padding: 0 0 0 10px;
+  border-bottom: 1px solid #283444;
+  margin-bottom: 15px;
+}
+.border-no {
+  border-bottom: none;
 }
 .quest{
   font-size: 12px;
@@ -312,13 +431,13 @@ export default {
   font-family: PingFang SC;
   font-weight: 400;
   color:#B9CEE9;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-bottom: 1px solid #283444;
-  padding-bottom: 20px;
+  border: none;
+  padding-bottom: 15px;
+  padding-top: 5px;
 }
-.sign{
+.sign {
+  color:red;
+  font-size:12px;
   display: inline-block;
 }
 .sign-none{
@@ -334,38 +453,68 @@ export default {
   border-bottom: 1px solid #283444;
   padding:0 0 20px 0;
 }
+.depart-btn {
+  width: 80%;
+  margin: 15px auto;
+}
+.resource-img {
+  min-height: 100px;
+}
+.resource-img .uploadImg {
+  margin-left: 0  !important;
+
+}
 
 </style>
 <style>
-.placeResourceEditorial input::-webkit-input-placeholder{
+.del-equip {
+  background: #101720;
+  border-radius: 0;
+}
+.del-equip .van-button--default {
+  background: #101720;
+
+}
+.del-equip .van-hairline--top::after {
+  border-color: #283444;
+}
+.del-equip .van-dialog__message {
+  color: #B9CEE9;
+  font-size: 16px;
+  font-family: PingFang SC;
+  font-weight: 400;
+}
+.del-equip .van-dialog__content--isolated {
+  min-height: 80px;
+}
+.placeResourceEditorial input::-webkit-input-placeholder, .placeResourceEditorial .van-field__control::-webkit-input-placeholder{
   font-size: 16px;
   font-family: PingFang SC;
   font-weight: 400;
   color: #373F4A;
 }
 .placeResourceEditorial .van-cell__value--alone {
-    color: #373F4A;
-    text-align: left;
+  color: #373F4A;
+  text-align: left;
 }
 .placeResourceEditorial .van-cell{
-    position: relative;
-    display: -webkit-box;
-    box-sizing: border-box;
-    width: 100%;
-    padding-bottom: 20px;
-    overflow: hidden;
-    color: #323233;
-    font-size: 16px;
-    line-height: 24px;
-    background-color: #101720;
-    border-bottom: 1px solid #283444;
+  position: relative;
+  display: -webkit-box;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 5px 0 15px;
+  overflow: hidden;
+  color: #323233;
+  font-size: 16px;
+  line-height: 24px;
+  background-color: #101720;
+  border-bottom: none;
 }
 .placeResourceEditorial .van-cell::after{
   border: none;
 }
 .placeResourceEditorial .van-cell--clickable{
-  padding: 0px;
-  padding-bottom: 20px;
+  padding: 5px 0px 15px;
 }
 .placeResourceEditorial .van-picker-column{
   background-color: #10161F;
@@ -430,6 +579,16 @@ export default {
   color: #06F0FE
 }
 .placeResourceEditorial .store-btn{
-  margin-top: 41px
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+.placeResourceEditorial .van-popup {
+  background: #10161F;
+}
+.placeResourceEditorial .van-cascader__options {
+  height: 330px;
+}
+.placeResourceEditorial .van-field--error .van-field__control {
+  color: #B9CEE9 !important;
 }
 </style>

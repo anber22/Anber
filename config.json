@@ -71,7 +71,7 @@
         "desc": "未读事件列表",
         "permissions": ["1", "2", "4"]
       },
-      "BindDevice": {
+      "BindEquip": {
         "desc": "绑定设备",
         "permissions": ["1", "2", "4"]
       },
