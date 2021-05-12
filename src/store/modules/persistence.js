@@ -51,7 +51,7 @@ const persistence = {
       // 判断如果没有值才去请求
       if (persistence.state[param].length < 1) {
         const requests = genRequest(commit)
-        requests[param]()
+        await requests[param]()
       }
     },
     /**
