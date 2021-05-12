@@ -47,31 +47,9 @@ const persistence = {
      * @param {*} param
      */
     async  getDataByHttp({ commit }, param) {
-      let result = []
-      // 判断如果没有值才去请求
-      if (persistence.state[param].length < 1) {
-        if (param === 'hazardType') {
-          result = await Api.hazardTypeList(0)
-          if (result.code === 200) {
-            commit('SET_HAZARD_TYPE', result.data)
-          }
-        } else if (param === 'placeType') {
-          result = await Api.placeTypeList()
-          if (result.code === 200) {
-            commit('SET_PLACE_TYPE', result.data)
-          }
-        } else if (param === 'equipType') {
-          result = await Api.equipTypeList(0)
-          if (result.code === 200) {
-            commit('SET_EQUIP_TYPE', result.data)
-          }
-        } else if (param === 'platformList') {
-          result = await Api.platformList()
-          if (result.code === 200) {
-            commit('SET_PLATFORM_LIST', result.data)
-          }
-        }
-      }
+      // 生成相应的请求方法集合，生成的requests只要调用相应属性的方法即可
+      const requests = genRequest(commit)
+      requests[param]()
     },
     /**
      * 查询全部需要存到vuex的数据
@@ -83,6 +61,26 @@ const persistence = {
         persistence.actions.getDataByHttp({ commit }, param)
       })
     }
+  }
+}
+
+const genRequest = (commit) => {
+  // 柯里化生成相应函数
+  const requestByType =  (typeRequest, commitType, param) => {
+    return async () => {
+      const reqParam = param === undefined ? undefined : param
+      const result = await typeRequest(reqParam)
+      if (result.code === 200) {
+        commit(commitType, result.data)
+      }
+    }
+  }
+
+  return {
+    hazardType: requestByType(Api.hazardTypeList, 'SET_HAZARD_TYPE', 0),
+    placeType: requestByType(Api.placeTypeList, 'SET_PLACE_TYPE'),
+    equipType: requestByType(Api.equipTypeList, 'SET_EQUIP_TYPE', 0),
+    platformList: requestByType(Api.platformList, 'SET_PLATFORM_LIST')
   }
 }
 
