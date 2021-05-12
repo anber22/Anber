@@ -114,7 +114,7 @@ export default {
   background-size: 345px 32px
 }
 .equipcard-top p{
-  width: 75px;
+  /* width: 75px; */
   height: 32px;
   line-height: 32px;
   padding: 0px;

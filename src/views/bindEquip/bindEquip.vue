@@ -59,7 +59,7 @@
             </div>
             <div class="item-type">
               <div class="item-display">
-                {{ equipItem.typeName }}
+                {{ typeName }}
               </div>
             </div>
           </div>
@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import Api from '@/api/aiot/iotApp.js'
+import Api from '@/api/placeResource/placeResource.js'
 import AMapLoader from '@amap/amap-jsapi-loader'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 import UploadImg from 'cmp/uploadImg/UploadImg'
@@ -255,12 +255,12 @@ export default {
         this.equipItem.equipType = res.data.equipType
         this.equipItem.equipName = res.data.equipName
         let placeResourceDetail = { equipType: res.data.equipType }
-        placeResourceDetail = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', [placeResourceDetail])
-        this.typeName = placeResourceDetail[0].equipTypeName
+        placeResourceDetail = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', placeResourceDetail)
+        this.typeName = placeResourceDetail.equipTypeName
         this.showErr = false
       } else {
         this.showErr = true
-        this.imeiErr = 'IMEI码不正确'
+        this.imeiErr = res.message
       }
     },
     /**
@@ -276,8 +276,12 @@ export default {
       //   this.$toast('请选择经纬度')
       //   return
       // }
-      if (this.equipItem.imei === '' || this.showErr) {
+      if (this.equipItem.imei === '') {
         this.$toast('请输入IMEI码')
+        return
+      }
+      if (this.showErr) {
+        this.$toast('请输入正确的IMEI码')
         return
       }
       if (this.equipItem.address === '') {

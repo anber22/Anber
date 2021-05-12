@@ -51,7 +51,7 @@ const persistence = {
       // 判断如果没有值才去请求
       if (persistence.state[param].length < 1) {
         const requests = genRequest(commit)
-        requests[param]()
+        await requests[param]()
       }
     },
     /**
@@ -69,8 +69,8 @@ const persistence = {
 
 const genRequest = (commit) => {
   // 柯里化生成相应函数
-  const requestByType =  (typeRequest, commitType, param) => {
-    return async () => {
+  const requestByType = (typeRequest, commitType, param) => {
+    return async() => {
       const reqParam = param === undefined ? undefined : param
       const result = await typeRequest(reqParam)
       if (result.code === 200) {

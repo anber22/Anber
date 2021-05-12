@@ -22,11 +22,12 @@ class PlaceResource {
       method: 'get'
     })
   }
-  //  获取网点新增
+  //  新增网点
   async placeResourceInfo(param) {
     return await request({
-      url: `/apis/place/${param}`,
-      method: 'post'
+      url: `/apis/place`,
+      method: 'post',
+      data: param
     })
   }
   // 获取网点修改
@@ -42,6 +43,21 @@ class PlaceResource {
     return await request({
       url: `/apis/depart/tree`,
       method: 'get'
+    })
+  }
+  // 根据IMEI查找设备
+  async equipImei(param) {
+    return await request({
+      url: `/apis/equip/type/imei/${param}`,
+      method: 'get'
+    })
+  }
+  // 关联设备
+  async bindEquip(id, imei, param) {
+    return await request({
+      url: `/apis/place/id/${id}/equip/imei/${imei}`,
+      method: 'post',
+      data: param
     })
   }
 }
