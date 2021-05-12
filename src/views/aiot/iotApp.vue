@@ -279,7 +279,6 @@ export default {
           const temp = JSON.parse(JSON.stringify(this.equipInfoList))
           // 如果是环境监测
           await this.getRealData(temp, system, system === 10 ? 'environmentRealTimeData' : system === 11 ? 'towerRealTimeInfo' : '')
-
           // 获取设备列表id对应的未处理事件数
 
           for (let i = 0; i < temp.length; i++) {

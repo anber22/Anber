@@ -27,6 +27,10 @@ const user = {
     },
     SET_PERMISSIONS: (state, permissions) => {
       state.permissions = permissions
+    },
+    REMOVE_TOKEN: (state, token) => {
+      state.token = ''
+      removeToken()
     }
   },
 
@@ -68,6 +72,9 @@ const user = {
     GetInfo({ commit, state }) {
       const roles = ''
       commit('SET_ROLES', roles)
+    },
+    RemoveToken({commit, state}) {
+      commit('REMOVE_TOKEN')
     }
   }
 }

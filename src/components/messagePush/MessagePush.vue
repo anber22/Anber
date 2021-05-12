@@ -16,6 +16,7 @@
    <div class="options">
      <van-radio-group v-model="messageOptions"
       direction="horizontal"
+      :disabled="!isPushed"
     >
        <van-radio name="1" shape="square">微信公众号</van-radio>
        <van-radio name="2" shape="square">语音</van-radio>
@@ -102,6 +103,31 @@ export default {
   .options .van-radio__label {
     color: #8CA4C3;
     font-size: 15px;
+  }
+
+  .options .van-radio--disabled {
+    opacity: .5;
+  }
+
+  .options .van-radio--disabled > * {
+    background-color: #07101A;
+  }
+
+  .options .van-radio__icon--disabled.van-radio__icon--checked .van-icon {
+    background: none !important;
+    border: 1px solid #99b2d3 !important
+  }
+
+  .options .van-radio__icon--disabled > *::before {
+    display: none;
+  }
+
+  .options .van-radio__icon--disabled .van-icon {
+    background-color: #07101A;
+  }
+
+  .options .options .van-radio__icon--checked .van-icon {
+    background-color: #07101A;
   }
 
   .options .van-icon {

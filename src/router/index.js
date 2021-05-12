@@ -164,7 +164,7 @@ export const asyncRouterMap = [
 ]
 // TODO: 使用 config.json影响动态路由的内容
 // 读取 config.json中动态路由的名字
-const routesName = Reflect.ownKeys(config.router.routes)
+const routesName = new Set(Reflect.ownKeys(config.router.routes))
 // 读取 config.json中动态路由中对应的权限对象
 const routes = config.router.routes
 
@@ -177,14 +177,9 @@ const isInList = (route) => {
     return true
   }
 
-  // 判断是否在 config.json当中 any
-  if (routesName.some((routeName, index) => {
-    if (routeName === route.name) {
-      // 同步处理已经遍历的名字, 减轻当存在大量配置路由的情况性能骤减的情况
-      routesName.splice(index, 1)
-      return true
-    }
-  })) {
+  // 判断是否在 config.json当中 
+  if (routesName.has(route.name))
+  {
     route.meta.permissions = Reflect.get(routes, route.name).permissions
     return true
   } else {
