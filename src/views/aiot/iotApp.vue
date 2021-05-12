@@ -276,11 +276,14 @@ export default {
       // 这里用到函数防抖，如果频繁调用该函数则在间隔时间之内不再调用再执行
       const getRealData = this.jsStabilization.stabilization(
         async function getRealDataList() {
+          // 用前頭函數就可以減少that
           // 打开loadding
           that.loading = true
           let realTimeData = {}
+          // 建議對拷貝函數封裝成實用函數
           const temp = JSON.parse(JSON.stringify(that.equipInfoList))
           // 如果是环境监测
+          // 用策略模式封裝system的業務邏輯，然後把取數的邏輯再做一層抽象
           if (system === 10) {
             for (let i = 0; i < temp.length; i++) {
               // 判断当前子系统不是当前在遍历请求的时候就break出循环
