@@ -167,7 +167,6 @@ export default {
       if (res.code === 200) {
         let rows = [...res.data.rows]
 
-        // console.log('接口返回', rows)
         // 数据全部加载完成
         if (res.data.page * 1 > res.data.total * 1) {
           this.finished = true
@@ -224,7 +223,6 @@ export default {
      */
     moreSelect(actions) {
       this.more = actions
-      console.log(this.more)
       this.hazardLists = []
       this.page = 0
       this.finished = false

@@ -197,16 +197,13 @@ export default {
   },
   methods: {
     async getPlaceTypeList() {
-      // console.log('打印store', this.$store)
       this.pickcolumns = await this.$store.getters.placeType
-      console.log('网点类型列表', this.pickcolumns)
     },
     showPopup() {
       this.show = true
     },
     onConfirm(value) {
       this.placeName = value.name
-      // console.log('网点类型选择的是', value.name, this.placeName)
       this.netinfodetail[1].answer = value.name
       this.showPicker = false
     },
@@ -219,7 +216,6 @@ export default {
     },
     // 保存功能
     async savePlaceResourceInfo() {
-      console.log('保存成功')
       // 判断必填的是否未填
       if (this.netinfodetail[0].answer === '') {
         this.$toast({
@@ -251,7 +247,6 @@ export default {
         managerName: this.netinfodetail[4].answer,
         phone: this.netinfodetail[5].answer
       }
-      console.log('param', param)
       const res = await Api.updateplaceResource(this.detailPlaceId, param)
       if (res.code === 200) {
         this.$toast({
@@ -270,7 +265,6 @@ export default {
         this.placeResourceDetail = res.data
       }
       this.placeResourceDetail = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', [this.placeResourceDetail])
-      console.log('网点详情', this.placeResourceDetail)
       this.placeResourceDetail = this.placeResourceDetail[0]
       this.netinfodetail[0].answer = this.placeResourceDetail.placeName
       this.netinfodetail[1].answer = this.placeResourceDetail.placeTypeName
@@ -283,12 +277,9 @@ export default {
      * 获取当前网点关联的设备列表
      */
     async getPlaceResourceEquip(detailPlaceId) {
-      // console.log(id, 'id----')
       const res = await Api.placeResourceEquip(detailPlaceId)
-      // console.log('关联设备的res-----', res.data)
       if (res.code === 200) {
         const dataArr = [...res.data]
-        console.log('dataArr-----', dataArr)
         const arr = []
         for (let i = 0; i < dataArr.length; i++) {
           const element = dataArr[i]
@@ -313,7 +304,6 @@ export default {
     */
     async getDepartTypeTree() {
       const a = await Api.getDepartTree()
-      console.log('辖区树res--', a)
     }
   }
 }
