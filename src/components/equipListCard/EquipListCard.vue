@@ -75,9 +75,7 @@ export default {
   },
   methods: {
     // async showLocation() {
-    //   console.log('点击查看定位')
     //   const res = await WechatApi.getWechatToken()
-    //   console.log('wechatToken', res)
     //   await this.getWeChat(res.data.ticket, res.data.timestamp)
     //   setTimeout(() => {
     //     wx.openLocation({
@@ -99,7 +97,6 @@ export default {
     //   //   'jsapi_ticket=' + ticket + '&noncestr=' + nonceStr + '&timestamp=' + time + '&url=' + 'http://zfiot.ctjt.cn/'
     //   //   // 'jsapi_ticket=HoagFKDcsGMVCIY2vOjf9i3IF-shbDKKVLpdbBVlpLBzTrYaS87ejfq89tDIqD9rTBjtOPEliZvbYY5pGYJYRQ&noncestr=Wm3WZYTPz0wzccnW&timestamp=1618824131&url=http://zfiot.ctjt.cn'
     //   // )
-    //   console.log(signature)
 
     //   wx.config({
     //     debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来
@@ -113,9 +110,7 @@ export default {
     //       'scanQRCode'
     //     ] // 必填，需要使用的JS接口列表
     //   })
-    //   console.log('jweixin.config配置出错1', signature)
     //   wx.error(function(res) {
-    //     console.log('jweixin.config配置出错2')
     //   })
     //   wx.ready(() => {
     //     wx.checkJsApi({
@@ -127,10 +122,8 @@ export default {
     //       ], // 需要检测的JS接口列表，所有JS接口列表见附录2,
     //       success: (res) => {
     //         // this.$forceUpdate()
-    //         console.log('config校验成功')
     //         this.ticket = ticket
     //         if (res.errMsg === 'checkJsApi:ok') {
-    //           console.log(res)
     //         }
     //       },
     //       fail: (res) => {

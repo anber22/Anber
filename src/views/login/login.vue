@@ -98,6 +98,8 @@
 <script>
 import Regular from '@/utils/regular'
 import User from '@/api/user'
+import { setToken } from '@/utils/auth'
+
 export default {
   components: {
 
@@ -106,8 +108,8 @@ export default {
     return {
       activeTab: 1,
       isPasswordData: {
-        userName: '18928058888',
-        password: '123456'
+        userName: '13825651111',
+        password: 'ctjt88888'
       },
       isSMSData: {
         phone: '',
@@ -178,17 +180,16 @@ export default {
         this.$Toast('验证码不能为空')
         return
       }
-      /**
-       * 暂时不请求接口，勿删此段注释代码
-       */
-      // const res = await this.$store.dispatch('LoginByCode', param)
-      // if (res.code === 200) {
-      // this.$Toast(res.message)
-      this.$Toast('登录成功')
-      this.$router.push('/home')
-      // } else {
-      //   this.$Toast(res.message)
-      // }
+
+      const res = await User.postUserLogin(param)
+      if (res.code === 200) {
+        // 缓存token
+        setToken(res.data.token)
+        this.$Toast('登录成功')
+        this.$router.push('/home')
+      } else {
+        this.$Toast(res.message)
+      }
     },
     /**
      *密码登录
@@ -198,7 +199,7 @@ export default {
       const param = {
         phone: this.isPasswordData.userName,
         password: this.isPasswordData.password,
-        loginType: 0
+        loginType: 1
       }
       if (!param.phone) {
         this.$Toast('账号不能为空')
@@ -212,18 +213,16 @@ export default {
         this.$Toast('密码不能为空')
         return
       }
-      /**
-       * 暂时不请求接口，勿删此段注释代码
-       */
-      // const res = await this.$store.dispatch('Login', param)
+      const res = await User.postUserLogin(param)
+      if (res.code === 200) {
+        // 缓存token
+        setToken(res.data.token)
 
-      // if (res.code === 200) {
-      //   this.$Toast(res.message)
-      this.$Toast('登录成功')
-      this.$router.push('/home')
-      // } else {
-      //   this.$Toast(res.message)
-      // }
+        this.$Toast('登录成功', res.data.token)
+        this.$router.push('/home').catch(() => {})
+      } else {
+        this.$Toast(res.message)
+      }
     }
   }
 }

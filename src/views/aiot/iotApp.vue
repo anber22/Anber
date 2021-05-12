@@ -269,52 +269,20 @@ export default {
       // 2、 在循环内用当前展示的子系统id和调用时传入的id做比较，如果不匹配则是用户切换了子系统，那么我们就需要这个if来中断我们的切换之前的子系统的遍历请求
       //     用跳出循环的方式来控制我们的发请求
       // 遗留问题：
-      // 1、 当前方法做了两件事，代码混乱，作用域发生变化
-      // 2、 用户下拉需要等待前十条的实时数据和隐患数据加载完毕才能加载后面十条，体验稍差
-      // 因为作用域问题
-      const that = this
+      // 1、 用户下拉需要等待前十条的实时数据和隐患数据加载完毕才能加载后面十条，体验稍差
       // 这里用到函数防抖，如果频繁调用该函数则在间隔时间之内不再调用再执行
-      const getRealData = this.jsStabilization.stabilization(
-        async function getRealDataList() {
-          // 用前頭函數就可以減少that
+      const getRealDataAndHzardCount = this.jsStabilization.stabilization(
+        //
+        async() => {
           // 打开loadding
-          that.loading = true
-          let realTimeData = {}
-          // 建議對拷貝函數封裝成實用函數
-          const temp = JSON.parse(JSON.stringify(that.equipInfoList))
+          this.loading = true
+          const temp = JSON.parse(JSON.stringify(this.equipInfoList))
           // 如果是环境监测
-          // 用策略模式封裝system的業務邏輯，然後把取數的邏輯再做一層抽象
-          if (system === 10) {
-            for (let i = 0; i < temp.length; i++) {
-              // 判断当前子系统不是当前在遍历请求的时候就break出循环
-              if (that.dataLoadingStart !== system) {
-                break
-              }
-              // 如果某一项不是不存在，就跳过
-              if (temp[i].windSpeed === undefined) {
-                realTimeData = await Api.environmentRealTimeData(temp[i].equipId)
-                if (realTimeData.code === 200 && realTimeData.data) {
-                  temp[i] = Object.assign(realTimeData.data, temp[i])
-                }
-              }
-            }
-          } else if (system === 11) { // 如果是塔机监测
-            for (let i = 0; i < temp.length; i++) {
-              if (that.dataLoadingStart !== system) {
-                break
-              }
-              if (temp[i].windSpeed === undefined) {
-                realTimeData = await Api.towerRealTimeInfo(temp[i].equipId)
-                if (realTimeData.code === 200 && realTimeData.data) {
-                  temp[i] = Object.assign(realTimeData.data, temp[i])
-                }
-              }
-            }
-          }
+          await this.getRealData(temp, system, system === 10 ? 'environmentRealTimeData' : system === 11 ? 'towerRealTimeInfo' : '')
           // 获取设备列表id对应的未处理事件数
 
           for (let i = 0; i < temp.length; i++) {
-            if (that.dataLoadingStart !== system) {
+            if (this.dataLoadingStart !== system) {
               break
             }
             if (temp[i].count === undefined) {
@@ -324,13 +292,32 @@ export default {
               }
             }
           }
-          if (that.dataLoadingStart === system) {
-            that.equipInfoList = JSON.parse(JSON.stringify(temp))
-            that.loading = false
+          if (this.dataLoadingStart === system) {
+            this.equipInfoList = JSON.parse(JSON.stringify(temp))
+            this.loading = false
           }
         }
         , 1000)
-      getRealData()
+      getRealDataAndHzardCount()
+    },
+    async getRealData(equipList, system, interfaceName) {
+      if (interfaceName === '') {
+        return
+      }
+      for (let i = 0; i < equipList.length; i++) {
+        let realTimeData = {}
+        // 判断当前子系统不是当前在遍历请求的时候就break出循环
+        if (this.dataLoadingStart !== system) {
+          break
+        }
+        // 如果某一项不是不存在，就跳过
+        if (equipList[i].windSpeed === undefined) {
+          realTimeData = await Api[interfaceName](equipList[i].equipId)
+          if (realTimeData.code === 200 && realTimeData.data) {
+            equipList[i] = Object.assign(realTimeData.data, equipList[i])
+          }
+        }
+      }
     }
   }
 }

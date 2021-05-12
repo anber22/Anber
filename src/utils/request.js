@@ -31,6 +31,9 @@ request.interceptors.request.use(
     // }
 
     // 查找cookie有没有token ，有则添加token请求头
+    if (process.env.NODE_ENV === 'development') {
+      config.url = config.url.replace('/apis', '')
+    }
     if (getToken()) {
       config.headers.token = getToken()
     }
@@ -67,22 +70,25 @@ class MessageTip extends Vue {
 
 request.interceptors.response.use(
   response => {
-    if (response.data.status === 401) {
-      MessageTip.instance(response.data.status)
+    if (response.data.code === 401) {
+      const cur = window.document.location.href
+
+      const localhostPath = cur.substring(0, cur.indexOf(window.document.location.pathname))
+      MessageTip.instance(response.data.code)
 
       removeToken() // 清除token
-      window.location.replace('https://beta.zhgtwx.ctjt.cn/mobile/login') // 重定向路由地址
+
+      window.location.replace(process.env.NODE_ENV === 'development' ? localhostPath + '/login' : 'https://beta.zhgtwx.ctjt.cn/mobile/login') // 重定向路由地址
     }
 
-    if (response.data.status === 500) {
-      MessageTip.instance(response.data.status)
+    if (response.data.code === 500) {
+      MessageTip.instance(response.data.code)
     }
     return response.data
   },
 
   error => {
-    console.log('请求失败响应', error)
-    error.response === undefined ? Toast.fail({ message: '请求超时，请检查网络情况！', duration: 3000 }) : MessageTip.instance(error.response.status)
+    error.response === undefined ? Toast.fail({ message: '请求超时，请检查网络情况！', duration: 3000 }) : MessageTip.instance(error.response.code)
     return Promise.reject(error)
   }
 )

@@ -81,6 +81,7 @@ import IotApi from '@/api/aiot/iotApp.js'
 import PlaceApi from '@/api/placeResource/placeResource'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 import Communal from '@/api/communal.js'
+import { Dialog } from 'vant'
 export default {
   components: {
     EquipStatus,
@@ -122,20 +123,31 @@ export default {
      * 提交修改
      */
     async submit() {
-      const param = {
-        equipAddress: this.equipAddress,
-        platformId: this.platformId
-      }
-      const res = await Communal.platformList(this.equipId, param)
-      if (res.code === 200) {
-        this.$toast.success({
-          message: res.message,
-          duration: 2000
+      Dialog.confirm({
+        title: '标题',
+        message: '弹窗内容'
+      })
+        .then(() => {
+          // on confirm
         })
-        setTimeout(() => {
-          this.$router.back()
-        }, 2000)
-      }
+        .catch(() => {
+          // on cancel
+        })
+      return null
+      // const param = {
+      //   equipAddress: this.equipAddress,
+      //   platformId: this.platformId
+      // }
+      // const res = await Communal.platformList(this.equipId, param)
+      // if (res.code === 200) {
+      //   this.$toast.success({
+      //     message: res.message,
+      //     duration: 2000
+      //   })
+      //   setTimeout(() => {
+      //     this.$router.back()
+      //   }, 2000)
+      // }
     },
     /**
      * 获取物联网平台列表

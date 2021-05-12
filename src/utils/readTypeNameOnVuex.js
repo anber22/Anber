@@ -18,10 +18,10 @@ class ReadTypeNameOnVuex {
   async conversion(typeName, propertyName, newPropertyName, info) {
     const typeList = await store.getters[typeName]
     if (!Array.isArray(info)) {
-      info[newPropertyName] = typeList.filter(item => item.id === info[propertyName])[0].name
+      info[newPropertyName] = typeList.filter(item => Number(item.id) === Number(info[propertyName]))[0].name
     } else {
       info.forEach(item => {
-        item[newPropertyName] = typeList.filter(typeItem => typeItem.id === item[propertyName])[0].name
+        item[newPropertyName] = typeList.filter(typeItem => Number(typeItem.id) === Number(item[propertyName]))[0].name
       })
     }
     return info
