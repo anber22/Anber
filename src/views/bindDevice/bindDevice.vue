@@ -134,7 +134,6 @@ export default {
         // 地图缩放情况
         _this.map.on('zoomend', () => {
           const zoom = _this.map.getZoom()
-          console.log('zoom---', zoom)
         })
         _this.mapAddMarker()
         AMap.plugin(['AMap.Autocomplete'], () => {

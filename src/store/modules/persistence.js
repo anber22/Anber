@@ -58,12 +58,12 @@ const persistence = {
         } else if (param === 'placeType') {
           result = await Api.placeTypeList()
           if (result.code === 200) {
-            commit('SET_PLACE_TYPE', result.data)
+            await commit('SET_PLACE_TYPE', result.data)
           }
         } else if (param === 'equipType') {
           result = await Api.equipTypeList(0)
           if (result.code === 200) {
-            commit('SET_EQUIP_TYPE', result.data)
+            await commit('SET_EQUIP_TYPE', result.data)
           }
         } else if (param === 'platformList') {
           result = await Api.platformList()
