@@ -36,7 +36,7 @@
 
     <!-- 退出账号 start -->
       <div class="log-out">
-        <van-button plain hairline type="primary">
+        <van-button @click="RemoveToken" plain hairline type="primary">
           退出当前账号
         </van-button>
       </div>
@@ -48,6 +48,7 @@
 import personalCenter from "@/api/personalCenter/personalCenter";
 import PersonalHeader from "cmp/personalHeader/PersonalHeader";
 import MessagePush from "cmp/messagePush/MessagePush";
+import {mapActions} from 'vuex';
 
 export default {
   name: "personalCenter",
@@ -73,6 +74,9 @@ export default {
     this.getPersonInfo()
   },
   methods: {
+    ...mapActions([
+      'RemoveToken'
+    ]),
     goNext() {
       this.$router.push('/iotApp')
     },
@@ -85,7 +89,8 @@ export default {
       } catch (e) {
         throw e;
       }
-    }
+    },
+
   }
 }
 </script>
