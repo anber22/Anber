@@ -48,8 +48,6 @@ const persistence = {
      */
     async  getDataByHttp({ commit }, param) {
       // 生成相应的请求方法集合，生成的requests只要调用相应属性的方法即可
-      const requests = genRequest(commit)
-      requests[param]()
       // 判断如果没有值才去请求
       if (persistence.state[param].length < 1) {
         const requests = genRequest(commit)
