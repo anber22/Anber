@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { getToken, removeToken } from '@/utils/auth'
 import Vue from 'vue'
+import { Toast } from 'vant'
+import ErrorCode from '@/utils/ErrorCode'
 import Config from '../../config.json'
 
 // create an request instance
@@ -10,7 +12,7 @@ const request = axios.create({
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
 })
-
+const errorCode = new ErrorCode()
 request.defaults.headers.post['Content-Type'] =
   'application/x-www-form-urlencoded'
 
@@ -52,33 +54,37 @@ class MessageTip extends Vue {
     if (!this.messageTipInstance) {
       this.messageTipInstance = new MessageTip()
     }
-    this.messageTipInstance.errorInfo(code)
+    this.messageTipInstance.errorInfo(errorCode.getMessage(code))
   }
 
   // 错误码提示
   errorInfo(errorCode) {
-    // IviewMsg.msgFun(EC.getMessage(errorCode))
+    Toast.fail(errorCode)
   }
 }
 
 // 响应拦截器
+
 request.interceptors.response.use(
   response => {
     if (response.data.status === 401) {
-      // IviewMsg.msgFun('登录过期')
+      MessageTip.instance(response.data.status)
+
       removeToken() // 清除token
-      window.location.replace('http://aiot.ctjt.cn/#/login') // 重定向路由地址
+      window.location.replace('https://beta.zhgtwx.ctjt.cn/mobile/login') // 重定向路由地址
     }
 
     if (response.data.status === 500) {
-      // IviewMsg.msgFun(response.data.msg)
+      MessageTip.instance(response.data.status)
     }
     return response.data
   },
 
   error => {
-    MessageTip.instance(error.response.status)
+    console.log('请求失败响应', error)
+    error.response === undefined ? Toast.fail({ message: '请求超时，请检查网络情况！', duration: 3000 }) : MessageTip.instance(error.response.status)
     return Promise.reject(error)
   }
 )
+
 export default request

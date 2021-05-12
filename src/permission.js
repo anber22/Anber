@@ -12,7 +12,6 @@ router.beforeEach((to, from, next) => {
   if (getToken()) {
     // 跳过登陆
     if (to.path === '/login') {
-      console.log('to===/login')
       next({ path: '/' })
     } else {
       // 此处获取userInfo个人信息,检查权限信息是否存在
