@@ -35,6 +35,10 @@ export default {
     waterMarkInfo: {
       type: Object,
       default: () => {}
+    },
+    oldImgList: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -42,15 +46,27 @@ export default {
       uploadImg: []
     }
   },
+  created() {
+    // 如果该设备有绑定信息，则将之前的照片显示
+    if (this.oldImgList.length !== 0) {
+      this.uploadImg = this.oldImgList
+    }
+  },
   methods: {
     deleteImg(index) {
+      if (this.oldImgList.length > 0 && index < this.oldImgList.length) {
+        this.$emit('getImgList', this.uploadImg, `${this.uploadImg[index].imgUrl.replace('https://minio.ctjt.cn:8996/upload', '')}`)
+      } else {
+        this.$emit('getImgList', this.uploadImg, '')
+      }
       this.uploadImg.splice(index, 1)
-      this.$emit('getImgList', this.uploadImg)
     },
     async getPicture(e) {
       // 预览图片
       const wm = new WaterMarkProcessing()
+      // 图片格式为 jpg
       const isImg = e.target.files[0].type === 'image/jpeg'
+      // 图片大小上限为3m
       const isLt2M = e.target.files[0].size / 1024 / 1024 < 4
       if (!isImg) {
         this.$Toast.fail({
@@ -68,21 +84,21 @@ export default {
         })
         return false
       }
+      // 给图片加上水印
       const imgFile = await wm.addWaterMark(e.target.files[0], this.waterMarkInfo)
-
       this.uploadImg.push({ file: imgFile.dUrl, imgUrl: window.URL.createObjectURL(imgFile.dUrl) })
       this.$emit('getImgList', this.uploadImg)
       // 将图片文件转化成base64格式图片
-      var reader = new FileReader()
-      reader.onload = (e) => {
-        // e.target.result  就是从本地读取的图片的base64格式,将它上传给服务器即可
-        // 使用axios的post方法上传即可
-      }
-      reader.readAsDataURL(e.target.files[0])
     },
+    /**
+     * 选中图片触发函数
+     */
     choiceImg() {
       this.$refs.choice.click()
     },
+    /**
+     * 点击放大图片
+     */
     showImg(e) {
       const imgList = this.uploadImg.map(item => item.imgUrl)
       ImagePreview({

@@ -107,5 +107,12 @@ class IotApp {
       data: param
     })
   }
+  // 删除文件
+  async deleteFile(param) {
+    return await request({
+      url: `/apis/file${param}`,
+      method: 'delete'
+    })
+  }
 }
 export default new IotApp()

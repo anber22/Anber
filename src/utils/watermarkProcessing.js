@@ -81,10 +81,15 @@ export default class WatermarkProcessing {
         // 上传人
         context.fillText('上传人:' + waterMarkInfo.managerName, 142 * widthPercent, imageHeight - (widthPercent * 70))
 
-        // 北纬
+        // 经纬度
         context.fillText('经纬度:', 142 * widthPercent, imageHeight - (widthPercent * 48))
-        // 东经
-        context.fillText(waterMarkInfo.lat + ',' + waterMarkInfo.lat, 142 * widthPercent, imageHeight - (widthPercent * 26))
+
+        if (waterMarkInfo.lat && waterMarkInfo.lat) {
+          context.fillText(waterMarkInfo.lat + ',' + waterMarkInfo.lat, 142 * widthPercent, imageHeight - (widthPercent * 26))
+        } else {
+          context.fillText('暂无坐标', 142 * widthPercent, imageHeight - (widthPercent * 26))
+        }
+
         // 时间
         context.font = widthPercent * 35 + 'px PingFang SC'
         context.fillText(time, 16, imageHeight - (64 * widthPercent))

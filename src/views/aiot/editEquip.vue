@@ -52,7 +52,7 @@
             安装照片
           </p>
         </div>
-        <UploadImg v-if="waterMarkInfo" class="upload-img" :water-mark-info="waterMarkInfo" @getImgList="getImgList" />
+        <UploadImg v-if="waterMarkInfo" ref="uploadImg" class="upload-img" :old-img-list="equip.picture" :water-mark-info="waterMarkInfo" @getImgList="getImgList" />
         <div class="foot">
           <button class="submit-btn" @click="submit">
             保存
@@ -98,7 +98,7 @@ export default {
       uploadImg: [], // 上传图片数组
       showPlatformPicker: false, // 是否显示物联网平台选择器
       platformName: '请选择物联网平台', // 当前选中平台名称
-      platformId: 0, // 选中平台id
+      platformId: -1, // 选中平台id
       platformList: [], // 平台数组
       waterMarkInfo: null, // 水印信息
       imgList: [],
@@ -126,6 +126,10 @@ export default {
      * 提交修改，把修改设备信息接口和上传文件接口提取出来
      */
     async submit() {
+      if (this.equipAddress.length === 0 || this.platformId === -1) {
+        Toast.fail('提交失败，请检查表单带 * 数据是否填写完整！')
+        return
+      }
       // 获取修改设备信息结果
       const editResults = await this.updateEquipInfo()
       if (editResults) {
@@ -217,15 +221,36 @@ export default {
             typed: 'info'
           }
         ]
+        if (equipInfo.picture) {
+          equipInfo.picture.forEach((item, index) => {
+            equipInfo.picture[index] = { imgUrl: 'https://minio.ctjt.cn:8996/upload' + equipInfo.picture[index] }
+          })
+        }
         this.equip = equipInfo
       }
       this.getPlace()
     },
     /**
-     * 选择图片  待用
+     * 选择图片
+     * @img {*}  图片列表
+     * @deleteUri 点击删除图片的uri
      */
-    getImgList(e) {
-      this.imgList = e
+    async getImgList(img, deleteUri) {
+      this.imgList = img
+
+      console.log(deleteUri)
+      // 如果不是删除图片则传的deleteUri 为空字符
+      if (deleteUri.length !== 0) {
+        // * name 点击删除图片的uri
+        // * type 图片类型(2网点图片,3网点责任书,4设备安装图片)
+        // networkId 网点id
+        // imei 设备imei码
+        const param = '?name=' + deleteUri + '&type=4&networkId=' + this.equip.placeId + '&imei=' + this.equip.imei
+        const res = await IotApi.deleteFile(param)
+        if (res.code === 200) {
+          Toast.success('删除成功！')
+        }
+      }
     },
     convertBase64UrlToBlob(urlData) {
       var bytes = window.atob(urlData.split(',')[1]) // 去掉url的头，并转换为byte
@@ -266,8 +291,12 @@ export default {
 <style scoped>
 .editEquip{
   width: 100%;
+  height: auto;
+  background-color: rgba(16, 23, 32, 1);
+}
+.content{
+   width: 100%;
   height: 100%;
-  position: fixed;
   overflow: scroll;
   background-color: rgba(16, 23, 32, 1);
 }
@@ -356,6 +385,8 @@ export default {
   font-weight: 500;
   color: #FFFFFF;
   margin-top: 10px;
+  margin-bottom: 990px;
+
 }
 .foot{
   height: 30px;
@@ -363,7 +394,6 @@ export default {
   margin-top: 30px;
   border-top: 1px solid #283444;
   float: left;
-  margin-bottom: 90px;
 }
 .edit-row{
   height: 8px;
