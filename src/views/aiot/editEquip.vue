@@ -81,7 +81,7 @@ import IotApi from '@/api/aiot/iotApp.js'
 import PlaceApi from '@/api/placeResource/placeResource'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 import Communal from '@/api/communal.js'
-import { Dialog } from 'vant'
+import { Dialog, Toast } from 'vant'
 export default {
   components: {
     EquipStatus,
@@ -100,12 +100,15 @@ export default {
       platformName: '请选择物联网平台', // 当前选中平台名称
       platformId: 0, // 选中平台id
       platformList: [], // 平台数组
-      waterMarkInfo: null // 水印信息
+      waterMarkInfo: null, // 水印信息
+      imgList: [],
+      uploadFailedMsg: '您的'
     }
   },
   created() {
     this.equipId = this.$route.query.equipId
     // this.$route.query.equipId
+
     this.getPlatform()
     this.getEquip()
   },
@@ -120,34 +123,61 @@ export default {
       }
     },
     /**
-     * 提交修改
+     * 提交修改，把修改设备信息接口和上传文件接口提取出来
      */
     async submit() {
-      Dialog.confirm({
-        title: '标题',
-        message: '弹窗内容'
-      })
-        .then(() => {
-          // on confirm
-        })
-        .catch(() => {
-          // on cancel
-        })
-      return null
-      // const param = {
-      //   equipAddress: this.equipAddress,
-      //   platformId: this.platformId
-      // }
-      // const res = await Communal.platformList(this.equipId, param)
-      // if (res.code === 200) {
-      //   this.$toast.success({
-      //     message: res.message,
-      //     duration: 2000
-      //   })
-      //   setTimeout(() => {
-      //     this.$router.back()
-      //   }, 2000)
-      // }
+      // 获取修改设备信息结果
+      const editResults = await this.updateEquipInfo()
+      if (editResults) {
+        // 遍历图片列表，进行上传操作
+        for (let i = 0; i < this.imgList.length; i++) {
+          await this.uploadFile(this.imgList[i].file, i)
+        }
+        // 上传失败
+        if (this.uploadFailedMsg.length > 2) {
+          // 拼装上传失败提示信息
+          this.uploadFailedMsg = this.uploadFailedMsg + '张图片上传失败，请检查网络或者更换图片上传～'
+          Toast.fail(this.uploadFailedMsg)
+        } else { // 上传成功
+          Toast.success('修改成功！三秒后跳转设备详情页面～')
+          setTimeout(() => {
+            this.$router.back()
+          }, 3000)
+        }
+      }
+    },
+    /**
+     * 修改设备信息
+     */
+    async updateEquipInfo() {
+      const param = {
+        equipAddress: this.equipAddress,
+        platformId: this.platformId
+      }
+      const res = await IotApi.updateEquip(this.equipId, param)
+      if (res.code === 200) {
+        return true
+      } else {
+        return false
+      }
+    },
+    /**
+     * 上传文件
+     */
+    async uploadFile(e, index) {
+      // 这里需要用formdata的格式提交参数
+      const param = new FormData()
+      param.append('file', e)
+      param.append('type', 4)
+      param.append('imei', this.equip.imei)
+      const res = await IotApi.uploadFile(param)
+      if (res.code === 200) {
+        return true
+      } else {
+        // 记录上传失败的图片下表，用于提交完成之后告知用户
+        this.uploadFailedList = this.uploadFailedList + `第${index}`
+        return false
+      }
     },
     /**
      * 获取物联网平台列表
@@ -195,6 +225,19 @@ export default {
      * 选择图片  待用
      */
     getImgList(e) {
+      this.imgList = e
+    },
+    convertBase64UrlToBlob(urlData) {
+      var bytes = window.atob(urlData.split(',')[1]) // 去掉url的头，并转换为byte
+
+      // 处理异常,将ascii码小于0的转换为大于0
+      var ab = new ArrayBuffer(bytes.length)
+      var ia = new Uint8Array(ab)
+      for (var i = 0; i < bytes.length; i++) {
+        ia[i] = bytes.charCodeAt(i)
+      }
+
+      return new Blob([ab], { type: 'image/png' })
     },
     /**
      * 打开物联网平台选择器
@@ -214,6 +257,7 @@ export default {
     onConfirm(e) {
       this.showPlatformPicker = false
       this.platformName = e.name
+      this.platformId = e.id
     }
   }
 }

@@ -1,9 +1,6 @@
-/* eslint-disable no-unused-vars */
-import { number } from 'echarts'
-
 export default class Regular {
   /**
-   * 手机号检验111111111111111111111
+   * 手机号检验
    * @param {*} value
    * @returns
    */

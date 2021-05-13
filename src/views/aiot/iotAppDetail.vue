@@ -197,22 +197,23 @@ export default {
         },
         {
           name: '物联网平台:',
-          content: 'OneNet',
+          content: equipDetailInfo.platformName,
           typed: 'info'
         }
       ]
       this.equipInfo = equipDetailInfo
-      const bindingRes = await Api.bindingLogList(this.equipInfo.imei)
-      if (bindingRes.code === 200) {
-        const bindingList = bindingRes.data.list
-        const dataTran = new DateFormat()
+      // 查询日志列表，暂时不做， 不能删
+      // const bindingRes = await Api.bindingLogList(this.equipInfo.imei)
+      // if (bindingRes.code === 200) {
+      //   const bindingList = bindingRes.data.list
+      //   const dataTran = new DateFormat()
 
-        bindingList.forEach(item => {
-          const dateTime = dataTran.dataFormatStamp(item.createdTime)
-          //  dataTran.dataFormat(1619392568000)
-          this.logData.push({ date: dateTime.slice(0, 10), time: dateTime.slice(10, 19), editType: item.operationType, createdName: item.workerName, placeName: item.placeName })
-        })
-      }
+      //   bindingList.forEach(item => {
+      //     const dateTime = dataTran.dataFormatStamp(item.createdTime)
+      //     //  dataTran.dataFormat(1619392568000)
+      //     this.logData.push({ date: dateTime.slice(0, 10), time: dateTime.slice(10, 19), editType: item.operationType, createdName: item.workerName, placeName: item.placeName })
+      //   })
+      // }
 
       if (this.systemId === 5 || this.systemId === 11) {
         if (this.systemId === 11) {

@@ -80,15 +80,14 @@ request.interceptors.response.use(
 
       window.location.replace(process.env.NODE_ENV === 'development' ? localhostPath + '/login' : 'https://beta.zhgtwx.ctjt.cn/mobile/login') // 重定向路由地址
     }
-
-    if (response.data.code === 500) {
+    if (response.data.code !== 200) {
       MessageTip.instance(response.data.code)
     }
+
     return response.data
   },
 
   error => {
-    error.response === undefined ? Toast.fail({ message: '请求超时，请检查网络情况！', duration: 3000 }) : MessageTip.instance(error.response.code)
     return Promise.reject(error)
   }
 )

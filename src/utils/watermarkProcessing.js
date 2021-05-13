@@ -16,6 +16,7 @@ export default class WatermarkProcessing {
       date = date.replace(/-/g, '/')
       const reader = new FileReader()
       // new 一个FileReader之后用readAsDataURL
+      const fileName = file.name
       reader.readAsDataURL(file)
       const image = new Image()
       reader.onload = (e) => {
@@ -40,9 +41,6 @@ export default class WatermarkProcessing {
         const widthPercent = imageWidth / 500
 
         context.drawImage(image, 0, 0, imageWidth, imageHeight)
-
-        // const fontHeight = imageHeight
-        // const fontWidth = imageWidth
 
         // 字体对其方式
         context.textAlign = 'left'
@@ -99,11 +97,21 @@ export default class WatermarkProcessing {
         context.stroke()
 
         // 这里因为需要预览图片, 所以包装一个对象, 都传递出去
+
         const img = {
           dUrl: canvas.toDataURL('image/jpeg'),
           blob: ''
         }
-
+        var arr = img.dUrl.split(',')
+        var mime = arr[0].match(/:(.*?);/)[1]
+        var bstr = atob(arr[1])
+        var n = bstr.length
+        var u8arr = new Uint8Array(n)
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n)
+        }
+        var file = new File([u8arr], fileName, { type: mime })
+        img.dUrl = file
         // blob这里是异步的, 但是又不支持 async/await, 所以用 Promise
         const blob = new Promise((resolve, reject) => {
           canvas.toBlob((blob) => {

@@ -86,7 +86,7 @@ class IotApp {
   //  修改设备信息
   async updateEquip(equipId, param) {
     return await request({
-      url: `/simulation/equip/id/${equipId}/info`,
+      url: `/apis/equip/id/${equipId}/info`,
       method: 'put',
       data: param
     })
@@ -97,6 +97,14 @@ class IotApp {
       url: `/apis/equip/type/imei/${param}`,
       method: 'get'
 
+    })
+  }
+  // 上传文件
+  async uploadFile(param) {
+    return await request({
+      url: `/apis/file`,
+      method: 'post',
+      data: param
     })
   }
 }

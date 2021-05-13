@@ -9,8 +9,6 @@ const whiteList = ['/login']// no redirect whitelist
 // TODO: 过滤请求路径
 router.beforeEach((to, from, next) => {
   // 检查是否存在 token
-  console.log('当前跳转', to.path)
-
   if (getToken()) {
     // 跳过登陆
 
@@ -25,7 +23,6 @@ router.beforeEach((to, from, next) => {
         // 初始化权限对应的路由到动态路由当中
         store.dispatch('GenerateRoutes', { permissions }).then(() => {
           router.addRoutes(store.getters.addRouters)
-          console.log('跳转是/', to.path)
           if (to.path === '/') {
             next({ path: '/home' })
           } else {

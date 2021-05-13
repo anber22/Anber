@@ -6,7 +6,7 @@
       <div class="delete-img-icon" @click.stop="deleteImg(index)">
         ×
       </div>
-      <img :src="item" alt="" class="img">
+      <img :src="item.imgUrl" alt="" class="img">
     </div>
 
     <div v-if="uploadImg.length < 6" class="img-item" @click="choiceImg">
@@ -42,8 +42,6 @@ export default {
       uploadImg: []
     }
   },
-  created() {
-  },
   methods: {
     deleteImg(index) {
       this.uploadImg.splice(index, 1)
@@ -51,14 +49,9 @@ export default {
     },
     async getPicture(e) {
       // 预览图片
-
       const wm = new WaterMarkProcessing()
-
-      // const file = window.URL.createObjectURL(e.target.files[0])
-
       const isImg = e.target.files[0].type === 'image/jpeg'
       const isLt2M = e.target.files[0].size / 1024 / 1024 < 4
-
       if (!isImg) {
         this.$Toast.fail({
           message: '上传图片只能是 JPG 格式!',
@@ -77,8 +70,8 @@ export default {
       }
       const imgFile = await wm.addWaterMark(e.target.files[0], this.waterMarkInfo)
 
-      this.uploadImg.push(imgFile.dUrl)
-      this.$emit('choiceImg', this.uploadImg)
+      this.uploadImg.push({ file: imgFile.dUrl, imgUrl: window.URL.createObjectURL(imgFile.dUrl) })
+      this.$emit('getImgList', this.uploadImg)
       // 将图片文件转化成base64格式图片
       var reader = new FileReader()
       reader.onload = (e) => {
@@ -91,8 +84,9 @@ export default {
       this.$refs.choice.click()
     },
     showImg(e) {
+      const imgList = this.uploadImg.map(item => item.imgUrl)
       ImagePreview({
-        images: this.uploadImg,
+        images: imgList,
         startPosition: e
       })
     }
