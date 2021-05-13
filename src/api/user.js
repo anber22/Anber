@@ -27,5 +27,12 @@ class User {
       method: 'get'
     })
   }
+  // 获取个人信息 （用token识别）
+  async personInfo() {
+    return await request({
+      url: `/apis/user/info`,
+      method: 'get'
+    })
+  }
 }
 export default new User()

@@ -98,7 +98,7 @@
 <script>
 import Regular from '@/utils/regular'
 import User from '@/api/user'
-import { setToken } from '@/utils/auth'
+import { setToken, setUserInfo } from '@/utils/auth'
 
 export default {
   components: {
@@ -219,9 +219,19 @@ export default {
         setToken(res.data.token)
 
         this.$Toast('登录成功', res.data.token)
+
+        this.getUserInfo()
         this.$router.push('/home').catch(() => {})
       } else {
         this.$Toast(res.message)
+      }
+    },
+    async getUserInfo() {
+      const res = await User.personInfo()
+      if (res.code === 200) {
+        console.log('获取个人信息', res.data)
+        // 缓存token
+        setUserInfo({ ...res.data })
       }
     }
   }

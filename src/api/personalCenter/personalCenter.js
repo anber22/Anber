@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
-class personalCenter {
-  async personInfo () {
+class PersonalCenter {
+  async personInfo() {
     return await request({
       url: `/apis/user/info`,
       method: 'get'
@@ -9,4 +9,4 @@ class personalCenter {
   }
 }
 
-export default new personalCenter();
+export default new PersonalCenter()

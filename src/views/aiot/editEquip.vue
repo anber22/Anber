@@ -54,9 +54,9 @@
         </div>
         <UploadImg v-if="waterMarkInfo" ref="uploadImg" class="upload-img" :old-img-list="equip.picture" :water-mark-info="waterMarkInfo" @getImgList="getImgList" />
         <div class="foot">
-          <button class="submit-btn" @click="submit">
+          <van-button :loading="loading" class="submit-btn" type="info" loading-text="加载中..." :disabled="loading" @click="submit">
             保存
-          </button>
+          </van-button>
         </div>
       </div>
       <van-popup v-model="showPlatformPicker" position="bottom" :style="{ height: '40%' }">
@@ -80,13 +80,15 @@ import UploadImg from 'cmp/uploadImg/UploadImg'
 import IotApi from '@/api/aiot/iotApp.js'
 import PlaceApi from '@/api/placeResource/placeResource'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
-import Communal from '@/api/communal.js'
+import { getUserInfo } from '@/utils/auth'
+
 import { Dialog, Toast } from 'vant'
 export default {
   components: {
     EquipStatus,
     InfoRow,
     UploadImg
+
   },
 
   data() {
@@ -102,7 +104,8 @@ export default {
       platformList: [], // 平台数组
       waterMarkInfo: null, // 水印信息
       imgList: [],
-      uploadFailedMsg: '您的'
+      uploadFailedMsg: '您的',
+      loading: false
     }
   },
   created() {
@@ -119,22 +122,31 @@ export default {
     async getPlace() {
       const res = await PlaceApi.placeResourceDetail(this.equip.placeId)
       if (res.code === 200) {
-        this.waterMarkInfo = res.data
+        console.log(getUserInfo())
+        this.waterMarkInfo = {
+          placeName: res.data.placeName,
+          managerName: JSON.parse(getUserInfo()).name,
+          lat: res.data.lat,
+          lon: res.data.lon
+        }
       }
     },
     /**
      * 提交修改，把修改设备信息接口和上传文件接口提取出来
      */
     async submit() {
+      console.log('点击')
+      this.loading = true
       if (this.equipAddress.length === 0 || this.platformId === -1) {
         Toast.fail('提交失败，请检查表单带 * 数据是否填写完整！')
+        this.loading = false
         return
       }
       // 获取修改设备信息结果
       const editResults = await this.updateEquipInfo()
       if (editResults) {
-        // 遍历图片列表，进行上传操作
-        for (let i = 0; i < this.imgList.length; i++) {
+        // 遍历图片列表，进行上传操作, 初始下标为该设备原来的图片列表的长度-1 ，即可保证之前上传的就不会再上传
+        for (let i = (this.equip.picture.length !== 0 ? this.equip.picture.length - 1 : 0); i < this.imgList.length; i++) {
           await this.uploadFile(this.imgList[i].file, i)
         }
         // 上传失败
@@ -142,8 +154,10 @@ export default {
           // 拼装上传失败提示信息
           this.uploadFailedMsg = this.uploadFailedMsg + '张图片上传失败，请检查网络或者更换图片上传～'
           Toast.fail(this.uploadFailedMsg)
+          this.loading = false
         } else { // 上传成功
           Toast.success('修改成功！三秒后跳转设备详情页面～')
+          this.loading = true
           setTimeout(() => {
             this.$router.back()
           }, 3000)
@@ -179,7 +193,7 @@ export default {
         return true
       } else {
         // 记录上传失败的图片下表，用于提交完成之后告知用户
-        this.uploadFailedList = this.uploadFailedList + `第${index}`
+        this.uploadFailedList = this.uploadFailedList + `第${index + 1}`
         return false
       }
     },
@@ -225,6 +239,8 @@ export default {
           equipInfo.picture.forEach((item, index) => {
             equipInfo.picture[index] = { imgUrl: 'https://minio.ctjt.cn:8996/upload' + equipInfo.picture[index] }
           })
+        } else {
+          equipInfo.picture = []
         }
         this.equip = equipInfo
       }
@@ -237,6 +253,7 @@ export default {
      */
     async getImgList(img, deleteUri) {
       this.imgList = img
+      console.log('删除图片uri', deleteUri)
       // 如果不是删除图片则传的deleteUri 为空字符
       if (deleteUri.length !== 0) {
         // * name 点击删除图片的uri
@@ -289,13 +306,17 @@ export default {
 <style scoped>
 .editEquip{
   width: 100%;
-  height: auto;
+  height: 100%;
+  position: fixed;
   background-color: rgba(16, 23, 32, 1);
 }
 .content{
-   width: 100%;
-  height: 100%;
+  position: fixed;
+
+  width: 100%;
+  height: 92%;
   overflow: scroll;
+
   background-color: rgba(16, 23, 32, 1);
 }
 .iotApp-detail-title-icon{
@@ -383,11 +404,9 @@ export default {
   font-weight: 500;
   color: #FFFFFF;
   margin-top: 10px;
-  margin-bottom: 990px;
-
 }
 .foot{
-  height: 30px;
+  height: 90px;
   width: 100%;
   margin-top: 30px;
   border-top: 1px solid #283444;

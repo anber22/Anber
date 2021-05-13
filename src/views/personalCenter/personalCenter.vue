@@ -8,15 +8,17 @@
         <template #title>
           <div class="message-title">
             <van-image
-             width="14"
-             height="13"
-             :src="require('/src/assets/images/personalCenter/message.png')" 
-             />
+              width="14"
+              height="13"
+              :src="require('/src/assets/images/personalCenter/message.png')"
+            />
             <span class="message-center">消息中心</span>
           </div>
         </template>
         <template #default>
-          <div class="message-number">2</div>
+          <div class="message-number">
+            2
+          </div>
         </template>
       </van-cell>
     </div>
@@ -35,23 +37,23 @@
     <!-- 消息推送 start -->
 
     <!-- 退出账号 start -->
-      <div class="log-out">
-        <van-button @click="RemoveToken" plain hairline type="primary">
-          退出当前账号
-        </van-button>
-      </div>
+    <div class="log-out">
+      <van-button plain hairline type="primary" @click="RemoveToken">
+        退出当前账号
+      </van-button>
+    </div>
     <!-- 退出账号 end -->
   </div>
 </template>
 
 <script>
-import personalCenter from "@/api/personalCenter/personalCenter";
-import PersonalHeader from "cmp/personalHeader/PersonalHeader";
-import MessagePush from "cmp/messagePush/MessagePush";
-import {mapActions} from 'vuex';
+import personalCenter from '@/api/user'
+import PersonalHeader from 'cmp/personalHeader/PersonalHeader'
+import MessagePush from 'cmp/messagePush/MessagePush'
+import { mapActions } from 'vuex'
 
 export default {
-  name: "personalCenter",
+  name: 'PersonalCenter',
   components: {
     PersonalHeader,
     MessagePush
@@ -82,14 +84,14 @@ export default {
     },
     async getPersonInfo() {
       try {
-        const res = await personalCenter.personInfo();
+        const res = await personalCenter.personInfo()
         if (res.code === 200) {
-          this.personInfo = {...res.data};
+          this.personInfo = { ...res.data }
         }
       } catch (e) {
-        throw e;
+        throw e
       }
-    },
+    }
 
   }
 }
@@ -109,7 +111,7 @@ export default {
     flex-direction: column;
     margin: 0 auto;
   }
-  
+
   .message-number {
     display: flex;
     justify-content: center;
@@ -145,7 +147,6 @@ export default {
     background-color: #101720;
   }
 
-
   .error-push {
     margin-top: 15px;
   }
@@ -166,6 +167,5 @@ export default {
     color: #4D628F;
     font-size: 16px;
   }
-
 
 </style>

@@ -1,7 +1,7 @@
 
 <template>
   <!-- 上传图片 -->
-  <div class="uploadImg">
+  <div class="upload-img">
     <div v-for="(item ,index) in uploadImg" :key="index" class="img-item" @click="showImg(index)">
       <div class="delete-img-icon" @click.stop="deleteImg(index)">
         ×
@@ -16,6 +16,7 @@
     <input
       id="file"
       ref="choice"
+      :value="imgValue"
       type="file"
       accept="image/*"
       @change="getPicture($event)"
@@ -43,13 +44,14 @@ export default {
   },
   data() {
     return {
-      uploadImg: []
+      uploadImg: [],
+      imgValue: ''
     }
   },
   created() {
     // 如果该设备有绑定信息，则将之前的照片显示
     if (this.oldImgList.length !== 0) {
-      this.uploadImg = this.oldImgList
+      this.uploadImg = JSON.parse(JSON.stringify(this.oldImgList))
     }
   },
   methods: {
@@ -60,6 +62,7 @@ export default {
         this.$emit('getImgList', this.uploadImg, '')
       }
       this.uploadImg.splice(index, 1)
+      this.imgValue = ''
     },
     async getPicture(e) {
       // 预览图片
@@ -87,7 +90,7 @@ export default {
       // 给图片加上水印
       const imgFile = await wm.addWaterMark(e.target.files[0], this.waterMarkInfo)
       this.uploadImg.push({ file: imgFile.dUrl, imgUrl: window.URL.createObjectURL(imgFile.dUrl) })
-      this.$emit('getImgList', this.uploadImg)
+      this.$emit('getImgList', this.uploadImg, '')
       // 将图片文件转化成base64格式图片
     },
     /**
@@ -111,8 +114,8 @@ export default {
 </script>
 
 <style scoped>
-.uploadImg{
-  width: 100%;
+.upload-img{
+  width: 100% -25;
   height: auto;
   margin-left: 25px
 }
