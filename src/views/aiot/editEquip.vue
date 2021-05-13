@@ -81,8 +81,6 @@ import IotApi from '@/api/aiot/iotApp.js'
 import PlaceApi from '@/api/placeResource/placeResource'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 import { getUserInfo } from '@/utils/auth'
-
-import { Dialog, Toast } from 'vant'
 export default {
   components: {
     EquipStatus,
@@ -138,7 +136,7 @@ export default {
       console.log('点击')
       this.loading = true
       if (this.equipAddress.length === 0 || this.platformId === -1) {
-        Toast.fail('提交失败，请检查表单带 * 数据是否填写完整！')
+        this.$toast.fail('提交失败，请检查表单带 * 数据是否填写完整！')
         this.loading = false
         return
       }
@@ -153,10 +151,10 @@ export default {
         if (this.uploadFailedMsg.length > 2) {
           // 拼装上传失败提示信息
           this.uploadFailedMsg = this.uploadFailedMsg + '张图片上传失败，请检查网络或者更换图片上传～'
-          Toast.fail(this.uploadFailedMsg)
+          this.$toast.fail(this.uploadFailedMsg)
           this.loading = false
         } else { // 上传成功
-          Toast.success('修改成功！三秒后跳转设备详情页面～')
+          this.$toast.success('修改成功！三秒后跳转设备详情页面～')
           this.loading = true
           setTimeout(() => {
             this.$router.back()
@@ -263,7 +261,7 @@ export default {
         const param = '?name=' + deleteUri + '&type=4&networkId=' + this.equip.placeId + '&imei=' + this.equip.imei
         const res = await IotApi.deleteFile(param)
         if (res.code === 200) {
-          Toast.success('删除成功！')
+          this.$toast.success('删除成功！')
         }
       }
     },
