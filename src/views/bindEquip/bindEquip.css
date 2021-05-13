@@ -1,4 +1,4 @@
-.bind-device {
+.bind-equip {
   width: 100%;
   height: calc(100% - 46px);
   background: #101720;
@@ -91,6 +91,7 @@
   font-size: 16px;
   font-family: PingFang SC;
   font-weight: 400;
+  padding: 0;
 }
 .item-display {
   color: #6F85A2;
@@ -118,4 +119,14 @@
 .imei-err {
   margin-bottom: -5px;
   margin-top: 5px;
+}
+.imei {
+  width: calc(100% - 40px);
+  display: inline-block;
+}
+.equip-img {
+  min-height: 100px;
+}
+.equip-img .uploadImg {
+  margin-left: 0 !important;
 }

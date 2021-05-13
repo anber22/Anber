@@ -130,9 +130,9 @@ export const asyncRouterMap = [
         meta: { showFooter: true, title: '未读事件列表', permissions: [] }
       },
       {
-        path: '/bindDevice',
-        name: 'BindDevice',
-        component: () => import('@/views/bindDevice/bindDevice'),
+        path: '/bindEquip',
+        name: 'BindEquip',
+        component: () => import('@/views/bindEquip/bindEquip'),
         meta: { showFooter: true, title: '绑定设备', permissions: [] }
       },
       {
@@ -177,9 +177,8 @@ const isInList = (route) => {
     return true
   }
 
-  // 判断是否在 config.json当中 
-  if (routesName.has(route.name))
-  {
+  // 判断是否在 config.json当中
+  if (routesName.has(route.name)) {
     route.meta.permissions = Reflect.get(routes, route.name).permissions
     return true
   } else {

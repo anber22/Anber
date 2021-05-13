@@ -88,10 +88,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .placeResource{
   width: 100%;
-  height: 100%;
+  height: calc(100% - 45px);
   position: fixed;
   background-color: #101720;
   position: relative;
@@ -100,30 +100,30 @@ export default {
   height: 54px;
   width: 54px;
   position: absolute;
-  top: 580px;
-  left: 306px;
+  bottom: 54px;
+  right: 24px;
   z-index: 9999;
 }
 .placeResource-content{
 padding: 0px 3% 52% 3%;
   width: 100%;
-  height: 80%;
+  height: 85%;
   position: fixed;
   overflow: scroll;
 }
 .placeResource-list-card{
   margin-top: 3%;
 }
-.van-search__content {
+</style>
+<style>
+.placeResource .van-search__content {
   background-color: #1A212B;
-
 }
-input::-webkit-input-placeholder{
+.placeResource input::-webkit-input-placeholder{
   color: #373F4A !important;
-
-font-size: 12px
+  font-size: 12px
 }
-.van-field__control{
+.placeResource .van-field__control{
   color: #8BA3C2;
 }
 </style>
