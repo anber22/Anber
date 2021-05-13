@@ -237,8 +237,6 @@ export default {
      */
     async getImgList(img, deleteUri) {
       this.imgList = img
-
-      console.log(deleteUri)
       // 如果不是删除图片则传的deleteUri 为空字符
       if (deleteUri.length !== 0) {
         // * name 点击删除图片的uri
