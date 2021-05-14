@@ -22,7 +22,10 @@ export function setUserInfo(userInfo) {
 }
 
 export function getUserInfo() {
-  return Cookies.get(UserInfo)
+  const cookie = Cookies.get(UserInfo)
+  const userInfo = JSON.parse(cookie)
+
+  return userInfo
 }
 
 export function removeUserInfo() {
