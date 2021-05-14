@@ -83,16 +83,11 @@ export default {
       this.$router.push('/iotApp')
     },
     async getPersonInfo() {
-      try {
-        const res = await personalCenter.personInfo()
-        if (res.code === 200) {
-          this.personInfo = { ...res.data }
-        }
-      } catch (e) {
-        throw e
+      const res = await personalCenter.personInfo()
+      if (res.code === 200) {
+        this.personInfo = { ...res.data }
       }
     }
-
   }
 }
 </script>

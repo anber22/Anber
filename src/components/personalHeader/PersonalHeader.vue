@@ -7,25 +7,29 @@
       :src="personInfo.avatar"
     />
     <div class="info-display">
-      <p class="username">{{personInfo.userName}}</p>
-      <p class="phone">{{personInfo.phone}}</p>
+      <p class="username">
+        {{ personInfo.userName }}
+      </p>
+      <p class="phone">
+        {{ personInfo.phone }}
+      </p>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "personalHeader",
+  name: 'PersonalHeader',
   props: {
     personInfo: {
       type: Object,
       default: {}
     }
-  },
+  }
 }
 </script>
 
-<style scoped>
+<style scoped >
   .personalHeader {
     display: flex;
     flex-direction: row;
@@ -33,7 +37,7 @@ export default {
     height: 100px;
     align-items: center;
   }
-  
+
   .info-display {
     display: flex;
     flex-direction: column;
@@ -47,10 +51,8 @@ export default {
     font-weight: 360;
     color: #B9CDE8;
   }
-
   .phone {
     color: #6F86A3;
     font-size: 12px;
   }
-
 </style>

@@ -229,8 +229,7 @@ export default {
     async getUserInfo() {
       const res = await User.personInfo()
       if (res.code === 200) {
-        console.log('获取个人信息', res.data)
-        // 缓存token
+        // 缓存userInfo
         setUserInfo({ ...res.data })
       }
     }

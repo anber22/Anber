@@ -27,7 +27,7 @@ class User {
       method: 'get'
     })
   }
-  // 获取个人信息 （用token识别）
+  // 获取个人信息 （用token识别id）
   async personInfo() {
     return await request({
       url: `/apis/user/info`,

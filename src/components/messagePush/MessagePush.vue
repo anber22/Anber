@@ -2,52 +2,58 @@
   <div class="message-push">
     <van-cell value="内容">
       <template #title>
-        <page-title :title="title"/>
+        <page-title :title="title" />
       </template>
       <template #default>
         <div class="switch">
-          <van-switch v-model="isPushed"
+          <van-switch
+            v-model="isPushed"
             active-color="#13E8FF"
             inactive-color="#8B96B5"
-           />
+          />
         </div>
       </template>
-   </van-cell>
-   <div class="options">
-     <van-radio-group v-model="messageOptions"
-      direction="horizontal"
-      :disabled="!isPushed"
-    >
-       <van-radio name="1" shape="square">微信公众号</van-radio>
-       <van-radio name="2" shape="square">语音</van-radio>
-       <van-radio name="3" shape="square">短信</van-radio>
-    </van-radio-group>
-   </div>
+    </van-cell>
+    <div class="options">
+      <van-radio-group
+        v-model="messageOptions"
+        direction="horizontal"
+        :disabled="!isPushed"
+      >
+        <van-radio name="1" shape="square">
+          微信公众号
+        </van-radio>
+        <van-radio name="2" shape="square">
+          语音
+        </van-radio>
+        <van-radio name="3" shape="square">
+          短信
+        </van-radio>
+      </van-radio-group>
+    </div>
 
-   <div class="end-line">
-   </div>
-
+    <div class="end-line" />
   </div>
 </template>
 
 <script>
-import PageTitle from 'cmp/pageTitle/PageTitle';
+import PageTitle from 'cmp/pageTitle/PageTitle'
 
 export default {
-  name: "messagePush",
+  name: 'MessagePush',
+  components: {
+    PageTitle
+  },
   props: {
     title: {
       type: String,
       require: true
     }
   },
-  components: {
-    PageTitle
-  },
   data() {
     return {
       isPushed: true,
-      messageOptions: ""
+      messageOptions: ''
     }
   }
 }
@@ -65,7 +71,7 @@ export default {
   .message-push .van-cell {
     height: 45px;
     background-color: #07101A;
-    padding: 2px 16px; 
+    padding: 2px 16px;
     margin-bottom: 5px;
   }
 
@@ -150,7 +156,6 @@ export default {
     right: 1px;
     bottom: 3px;
   }
-
 
   .end-line {
     height: 1px;

@@ -17,12 +17,11 @@ export function removeToken() {
 }
 
 export function setUserInfo(userInfo) {
-  console.log('工具获取到用户信息', userInfo)
   return Cookies.set(UserInfo, userInfo)
 }
 
 export function getUserInfo() {
-  return Cookies.get(UserInfo)
+  return JSON.parse(Cookies.get(UserInfo))
 }
 
 export function removeUserInfo() {

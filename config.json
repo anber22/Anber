@@ -105,6 +105,7 @@
       }
     }
   },
+  "figureBedAddress":"https://minio.ctjt.cn:8996/upload",
   "css":{
     "desc":"css样式对应注释size==》大小；color==》颜色；position==》定位 ",
     "size":{
