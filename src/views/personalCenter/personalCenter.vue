@@ -1,44 +1,65 @@
 <template>
-  <div class="personalCenter">
-    <personalHeader :person-info="headerInfo" />
+  <div class="personal-center">
+    <!-- 背景 start -->
+    <div class="personal-center-background">
+      <!-- 用户头像 start -->
+      <div class="personal-header">
+        <van-image
+          round
+          width="46px"
+          height="46px"
+          :src="personInfo.avatar"
+        />
+        <div class="info-display">
+          <p class="username">
+            {{ personInfo.name }}
+          </p>
+          <p class="phone">
+            {{ personInfo.phone }}
+          </p>
+        </div>
+      </div>
+      <!-- 用户头像 end -->
 
-    <!-- 消息中心 start -->
-    <div class="message">
-      <van-cell is-link to="UnreadEvents">
-        <template #title>
-          <div class="message-title">
-            <van-image
-              width="14"
-              height="13"
-              :src="require('/src/assets/images/personalCenter/message.png')"
-            />
-            <span class="message-center">消息中心</span>
-          </div>
-        </template>
-        <template #default>
-          <div class="message-number">
-            2
-          </div>
-        </template>
-      </van-cell>
-    </div>
+      <!-- 消息中心 start -->
+      <div class="message">
+        <van-cell is-link to="UnreadEvents">
+          <template #title>
+            <div class="message-title">
+              <van-image
+                width="14"
+                height="13"
+                :src="require('/src/assets/images/personalCenter/message.png')"
+              />
+              <span class="message-center">消息中心</span>
+            </div>
+          </template>
+          <template #default>
+            <div class="message-number">
+              2
+            </div>
+          </template>
+        </van-cell>
+      </div>
     <!-- 消息中心 end -->
+    </div>
+    <!-- 背景 end -->
 
     <!-- 消息推送 start -->
     <div class="event-push">
       <message-push :title="'事件推送'" />
     </div>
-    <!-- 消息推送 start -->
+    <!-- 消息推送 end -->
 
     <!-- 消息推送 start -->
     <div class="error-push">
       <message-push :title="'故障推送'" />
     </div>
-    <!-- 消息推送 start -->
+    <!-- 消息推送 end -->
 
     <!-- 退出账号 start -->
     <div class="log-out">
-      <van-button plain hairline type="primary" @click="RemoveToken">
+      <van-button plain hairline type="primary" @click="logOut">
         退出当前账号
       </van-button>
     </div>
@@ -47,29 +68,18 @@
 </template>
 
 <script>
-import personalCenter from '@/api/user'
-import PersonalHeader from 'cmp/personalHeader/PersonalHeader'
+import { getUserInfo } from '@/utils/auth.js'
 import MessagePush from 'cmp/messagePush/MessagePush'
 import { mapActions } from 'vuex'
 
 export default {
   name: 'PersonalCenter',
   components: {
-    PersonalHeader,
     MessagePush
   },
   data() {
     return {
       personInfo: {}
-    }
-  },
-  computed: {
-    headerInfo() {
-      return {
-        phone: this.personInfo.phone,
-        avatar: this.personInfo.avatar,
-        userName: this.personInfo.userName
-      }
     }
   },
   created() {
@@ -79,78 +89,25 @@ export default {
     ...mapActions([
       'RemoveToken'
     ]),
+    logOut() {
+      this.RemoveToken()
+      this.$router.push('/login')
+    },
     goNext() {
       this.$router.push('/iotApp')
     },
-    async getPersonInfo() {
-      const res = await personalCenter.personInfo()
-      if (res.code === 200) {
-        this.personInfo = { ...res.data }
-      }
+
+    getPersonInfo() {
+      const res = getUserInfo()
+      this.personInfo = res
     }
   }
 }
 </script>
 
 <style>
-  .title {
-    font-size: 50px;
-  }
-
-  .personalCenter{
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    background-color: #101720;
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-  }
-
-  .message-number {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    right: 2px;
-    top: 3px;
-    width: 1.3em;
-    height: 1.3em;
-    color: #FFFFFF;
-    background: #FF1041;
-    border-radius: 50%;
-  }
-
-  .message-title {
-    display: flex;
-    align-items: center;
-    font-weight: 300;
-    font-size: 14px;
-    color: #BACEE9;
-  }
-
-  .message {
-    margin:  15px;
-  }
-
-  .message-center {
-    display: inline-block;
-    margin-left: 12px;
-  }
-
   .message .van-cell {
-    background-color: #101720;
-  }
-
-  .error-push {
-    margin-top: 15px;
-  }
-
-  .log-out {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 30vh;
+    background-color: #151d27;
   }
 
   .log-out .van-button {
@@ -164,3 +121,4 @@ export default {
   }
 
 </style>
+<style src="./PersonalCenter.css" scoped/>

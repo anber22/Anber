@@ -1,0 +1,19 @@
+.end-line {
+  height: 1px;
+  width: 345px;
+  background-color: #283444;
+}
+
+.message-push {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.options {
+  width: 100%;
+  color: #8CA4C3;
+  margin-bottom: 15px;
+}
