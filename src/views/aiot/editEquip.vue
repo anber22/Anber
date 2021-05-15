@@ -156,7 +156,8 @@ export default {
           this.uploadFailedMsg = this.uploadFailedMsg + '张图片上传失败，请检查网络或者更换图片上传～'
           this.$toast.fail(this.uploadFailedMsg)
           this.uploadFailedList.forEach((item) => {
-            this.$refs.uploadImg.splice(item, 1)
+            // 用filter来做数组删除操作 如果是对象的话，需要指定对象值唯一属性来匹配
+            this.$refs.uploadImg = this.$refs.uploadImg.filter(v => v !== item)
           })
           this.loading = false
         } else { // 上传成功
@@ -203,7 +204,7 @@ export default {
       } else {
         // 记录上传失败的图片下表，用于提交完成之后告知用户
         this.uploadFailedMsg = this.uploadFailedMsg + `第${index + 1}`
-        this.uploadFailedList.push(index)
+        this.uploadFailedList.push(this.$refs.uploadImg[index])
         return false
       }
     },
