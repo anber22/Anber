@@ -2,10 +2,10 @@
   <div class="placeResource">
     <img class="add-outlet" src="@/assets/images/equip/add-outlet.png" alt="" @click="$router.push({path:'/placeResourceAddition'})">
     <van-search v-model="queryCondition" placeholder="网点名称/网点地址" background="#101720" @search="onSearch" />
-    <div class="placeResource-content">
-      <van-loading v-if="!placeResourceList" size="24px" vertical>
+    <div v-if="placeResourceList" class="placeResource-content">
+      <!-- <van-loading v-if="loading" size="24px" vertical>
         加载中...
-      </van-loading>
+      </van-loading> -->
       <van-list
         v-model="loading"
         :finished="finished"
@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      loading: false,
+      loading: true,
       placeResourceList: [],
       queryCondition: '',
       placeTypeList: [],
@@ -49,6 +49,7 @@ export default {
   },
   methods: {
     async getPlaceResourceList() {
+      this.loading = true
       const params = {
         // systemType: this.thisSubsystemId,
         page: ++this.page,
@@ -66,14 +67,33 @@ export default {
           this.placeResourceList = []
           return
         }
+        listData.forEach(async(item) => {
+          const params = '?networkId=' + item.placeId
+          const res = await Api.placeResourceCount(params)
+          if (res.code === 200) {
+            console.log('count-', res.data)
+            item.count = res.data
+          }
+          console.log('await count', item.count)
+        })
         // 去vuex获取该网点的网点类型名称，放到数组集合里
         listData = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', listData)
+
         this.placeResourceList = this.placeResourceList.concat(listData)
+        console.log('this.placeResourceList---', this.placeResourceList)
       }
       if (params.page === res.data.total) {
         this.finished = true
       }
       this.loading = false
+    },
+    async getPlaceResourceCount(id) {
+      const params = '?networkId=' + id
+      const res = await Api.placeResourceCount(params)
+      if (res.code === 200) {
+        console.log('count-', res.data)
+        return res.data
+      }
     },
     /**
      * 搜索触发事件

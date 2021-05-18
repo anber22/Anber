@@ -151,15 +151,15 @@ export default {
         condition: ''
       }
       const pDate = this.screenDate.length > 0 ? 'startDate=' + new DateFormat().dataFormatNo(this.screenDate[0]) + ' 00:00:00' + '&endDate=' + new DateFormat().dataFormatNo(this.screenDate[1]) + ' 23:59:59' : ''
-      const pMore = this.more.value != 0 ? 'isRead=' + this.more.value : ''
+      const pMore = this.more.value !== 0 ? 'isRead=' + this.more.value : ''
       if (this.screenDate.length > 0) {
-        if (this.more.value != 0) {
+        if (this.more.value !== 0) {
           params.condition = '?' + pDate + '&' + pMore
         } else {
           params.condition = '?' + pDate
         }
       } else {
-        if (this.more.value != 0) {
+        if (this.more.value !== 0) {
           params.condition = '?' + pMore
         }
       }

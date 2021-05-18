@@ -7,6 +7,12 @@ class PlaceResource {
       url: `/apis/place/page/${param.page}/size/${param.size}${param.condition}`,
       method: 'get'
     })
+  }//  获取网点设备总数
+  async placeResourceCount(param) {
+    return await request({
+      url: `/apis/equip/countings${param}`,
+      method: 'get'
+    })
   }
   //  获取网点详情
   async placeResourceDetail(param) {
