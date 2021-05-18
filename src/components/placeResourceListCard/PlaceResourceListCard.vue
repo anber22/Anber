@@ -61,8 +61,19 @@ export default {
         wifi: 80,
         electricity: 80,
         statusName: '正常'
-      }
+      },
+      placeInfo: {}
     }
+  },
+  watch: {
+    placeData(val, oldVal) {
+      console.log('网点信息', val)
+      this.placeInfo = val
+    }
+  },
+  mounted() {
+    console.log('卡片创建')
+    this.placeInfo = this.placeData
   },
   methods: {
     /**
