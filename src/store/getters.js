@@ -12,7 +12,8 @@ const getters = {
   equipType: state => get(state, 'equipType'),
   platformList: state => get(state, 'platformList'),
   applicationEquipList: state => state.index.applicationEquipList,
-  activeCollapseName: state => state.video.activeCollapseName
+  activeCollapseName: state => state.video.activeCollapseName,
+  menus: state => state.permission.menus
 }
 /**
  * 判断对应的值是否为空，如果有直接返回。如果没有就去获取

@@ -5,11 +5,19 @@ import store from '../store'
 Vue.directive('permission', {
   inserted: (el, binding, vnode) => {
     // TODO: 截取自定义组件 component的 name
-    let [,,, componentName] = vnode.tag.split('-')
+    let componentName = ''
+    if (vnode.tag.indexOf('-') !== -1) {
+      const cmpArray = vnode.tag.split('-')
+      componentName = cmpArray[cmpArray.length - 1]
+    } else {
+      componentName = vnode.tag
+    }
+    console.log('节点名称', componentName)
     // TODO: 满足部分需要父子组件一同管理的组件 (非固化父子关系的组件, 不推荐使用)
     if (binding.arg === 'parent') {
       componentName = `${binding.value}-${componentName}`
     }
+    console.log(componentName, vnode)
 
     // TODO: 获取配置文件中的组件库
     const components = config.router.components

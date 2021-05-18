@@ -35,7 +35,7 @@
           </div>
         </Adaptive>
         <Adaptive :size="['100%','12.75%']" class="warning-box">
-          <Warning v-if="hiddenDangerList.length>1" ref="Warning" class="warning" :warning-data="hiddenDangerList" :system="subsystemList" />
+          <Warning ref="Warning" class="warning" :warning-data="hiddenDangerList" :system="subsystemList" />
           <!--  -->
         </Adaptive>
         <!-- end -->
@@ -248,7 +248,7 @@ export default {
 
     this.getOnlinePercent()
     this.$nextTick(function() {
-      // this.initSockets()
+      this.initSockets()
     })
   },
   destroyed() { // 页面销毁时清除定时器
@@ -269,6 +269,7 @@ export default {
      */
     initSockets() {
       if (this.$refs.Warning === undefined) {
+        console.log('没加载完')
         setTimeout(() => {
           this.initSockets()
         }, 500)
@@ -301,6 +302,7 @@ export default {
             }
           ]
         }]
+      console.log('智慧高投', topicList)
       Socket.initSocket(topicList)
     },
     /**

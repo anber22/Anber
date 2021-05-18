@@ -11,7 +11,7 @@
       </div>
       <InfoRow v-for="(rowItem,index) in rowList" :key="index" :info-data="rowItem" class="detail-info" />
 
-      <div v-if=" equipInfo" class="img-info-box">
+      <div v-if="rowList" class="img-info-box">
         <div class="equip-img-title">
           设备照片：
         </div>

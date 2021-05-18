@@ -9,7 +9,10 @@ export function getToken() {
 }
 
 export function setToken(token, data) {
-  return Cookies.set(TokenKey, token, { expires: data })
+  return new Promise(resolve => {
+    Cookies.set(TokenKey, token, { expires: data })
+    resolve()
+  })
 }
 
 export function removeToken() {

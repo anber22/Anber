@@ -34,5 +34,12 @@ class User {
       method: 'get'
     })
   }
+  // 获取用户拥有对应的权限列表 （用token识别id）
+  async permissionList() {
+    return await request({
+      url: `/apis/permission/list`,
+      method: 'get'
+    })
+  }
 }
 export default new User()

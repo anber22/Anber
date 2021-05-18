@@ -60,5 +60,12 @@ class PlaceResource {
       data: param
     })
   }
+  // 获取自己得瑟辖区列表
+  async departList() {
+    return await request({
+      url: `/apis/depart/list`,
+      method: 'get'
+    })
+  }
 }
 export default new PlaceResource()

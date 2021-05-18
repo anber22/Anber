@@ -10,6 +10,7 @@ function hasPermission(permissions, route) {
     // 用户拥有的权限, 其中一个被包含在路由所需要的权限即通过
     // return roles.some(role => route.meta.roles.includes(role))
     // 用户拥有的权限必须要大于等于路由所需要的权限才可通过
+    console.log('开始匹配了', route.meta.permissions, permissions)
     return route.meta.permissions.every(role => permissions.includes(role))
   } else {
     return true
@@ -39,13 +40,16 @@ function filterAsyncRouter(routes, permissions) {
 const permission = {
   state: {
     routers: constantRouterMap,
+    menus: [],
     addRouters: []
   },
   mutations: {
     SET_ROUTERS: (state, routers) => {
       state.addRouters = routers
       state.routers = routers.concat(constantRouterMap)
-
+    },
+    SET_MENUS: (state, menus) => {
+      state.menus = menus
     }
   },
   actions: {
@@ -53,7 +57,7 @@ const permission = {
     GenerateRoutes({ commit }, data) {
       return new Promise(resolve => {
         const { permissions } = data
-        let accessedRouters
+        let accessedRouters, menus
         // 是否拥有 管理员角色
         if (permissions.includes('SuperAdmin')) {
           // 授予全部权限
@@ -61,9 +65,12 @@ const permission = {
         } else {
           // 赋予过滤后符合的权限
           accessedRouters = filterAsyncRouter(asyncRouterMap, permissions)
+          menus = filterAsyncRouter(accessedRouters, ['NetworkApplication', 'SmartView', 'NetworkPointResource', 'AnalysisCounting'])
+          console.log('guolv', menus, accessedRouters)
         }
         // 注册最后的权限列表
         commit('SET_ROUTERS', accessedRouters)
+        commit('SET_MENUS', menus)
 
         resolve()
       })
