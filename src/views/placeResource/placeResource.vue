@@ -2,10 +2,10 @@
   <div class="placeResource">
     <img class="add-outlet" src="@/assets/images/equip/add-outlet.png" alt="" @click="$router.push({path:'/placeResourceAddition'})">
     <van-search v-model="queryCondition" placeholder="网点名称/网点地址" background="#101720" @search="onSearch" />
-    <div v-if="placeResourceList" class="placeResource-content">
-      <!-- <van-loading v-if="loading" size="24px" vertical>
+    <div v-if="placeResourceList.length>0" class="placeResource-content">
+      <van-loading v-if="loading" size="24px" vertical>
         加载中...
-      </van-loading> -->
+      </van-loading>
       <van-list
         v-model="loading"
         :finished="finished"
@@ -14,9 +14,11 @@
         :immediate-check="false"
         @load="getPlaceResourceList"
       >
-        <Adaptive v-for="item in placeResourceList" :key="item.index" :size="['94%','31.39%']" class="placeResource-list-card">
-          <PlaceResourceListCard :place-data="item" />
-        </Adaptive>
+        <div v-for="item in placeResourceList" :key="item.index">
+          <Adaptive :size="['94%','31.39%']" class="placeResource-list-card">
+            <PlaceResourceListCard :place-data="item" />
+          </Adaptive>
+        </div>
       </van-list>
     </div>
   </div>
@@ -25,6 +27,7 @@
 <script>
 import PlaceResourceListCard from 'cmp/placeResourceListCard/PlaceResourceListCard'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
+import JsStabilization from '@/utils/jsStabilization'
 
 import Api from '@/api/placeResource/placeResource.js'
 
@@ -39,13 +42,15 @@ export default {
       queryCondition: '',
       placeTypeList: [],
       page: 0,
-      finished: false
+      finished: false,
+      jsStabilization: null
     }
   },
   mounted() {
     if (this.placeResourceList.length === 0) {
       this.getPlaceResourceList()
     }
+    this.jsStabilization = new JsStabilization()
   },
   methods: {
     async getPlaceResourceList() {
@@ -57,35 +62,47 @@ export default {
         condition: (this.queryCondition.length < 1 ? '' : ('?condition=' + this.queryCondition))
       }
       const res = await Api.placeResourceList(params)
-
+      const total = res.data.total
+      let listData = []
       if (res.code === 200) {
-        let listData = [...res.data.rows]
-
+        listData = [...res.data.rows]
+        if (params.page > total) {
+          this.finished = true
+          this.loading = false
+          this.placeResourceList = this.placeResourceList.concat(listData)
+          // return
+        }
         if (listData.length === 0) {
           this.loading = false
-          this.finished = true
-          this.placeResourceList = []
-          return
+          // this.finished = true
+          this.placeResourceList = listData
+          // return
         }
-        listData.forEach(async(item) => {
-          const params = '?networkId=' + item.placeId
-          const res = await Api.placeResourceCount(params)
-          if (res.code === 200) {
-            console.log('count-', res.data)
-            item.count = res.data
+      }
+      // 去vuex获取该网点的网点类型名称，放到数组集合里
+      listData = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', listData)
+      this.placeResourceList = this.placeResourceList.concat(listData)
+      const getRealDataAndHzardCount = this.jsStabilization.stabilization(
+        //
+        async() => {
+          this.loading = true
+          const listData = JSON.parse(JSON.stringify(this.placeResourceList))
+          for (let i = 0; i < listData.length; i++) {
+            const params = '?networkId=' + listData[i].placeId
+            const res = await Api.placeResourceCount(params)
+            if (res.code === 200) {
+              console.log('count-', res.data)
+              listData[i]['count'] = res.data
+            }
+            console.log('await count', listData[i].count)
           }
-          console.log('await count', item.count)
-        })
-        // 去vuex获取该网点的网点类型名称，放到数组集合里
-        listData = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', listData)
 
-        this.placeResourceList = this.placeResourceList.concat(listData)
-        console.log('this.placeResourceList---', this.placeResourceList)
-      }
-      if (params.page === res.data.total) {
-        this.finished = true
-      }
-      this.loading = false
+          this.placeResourceList = JSON.parse(JSON.stringify(listData))
+          console.log('end', this.placeResourceList)
+          this.loading = false
+          console.log('this.placeResourceList---', this.placeResourceList)
+        }, 1000)
+      getRealDataAndHzardCount()
     },
     async getPlaceResourceCount(id) {
       const params = '?networkId=' + id

@@ -66,13 +66,13 @@ class PlaceResource {
       data: param
     })
   }
-<<<<<<< HEAD
-  // 获取自己得瑟辖区列表
+  // 获取自己得的区列表
   async departList() {
     return await request({
       url: `/apis/depart/list`,
       method: 'get'
-=======
+    })
+  }
   // 解绑设备
   async deleteEquip(id, imei) {
     return await request({
@@ -101,7 +101,6 @@ class PlaceResource {
       url: `/apis/file/connect`,
       method: 'post',
       data: param
->>>>>>> cc85c4ad40134f6942cafc0dc9e75a255db2812b
     })
   }
 }

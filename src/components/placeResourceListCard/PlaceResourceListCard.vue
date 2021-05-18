@@ -4,7 +4,7 @@
       <div class="placeResourceListCard-title">
         {{ placeData.placeName }}
       </div>
-      <div class="placeResourceListCard-equip-count">
+      <div v-if="placeData.count !== undefined" class="placeResourceListCard-equip-count">
         物联设备：
         <div class="placeResourceListCard-equip-count-num">
           {{ placeData.count }}
@@ -54,7 +54,6 @@ export default {
       default: () => {}
     }
   },
-
   data() {
     return {
       equipStatus: {
@@ -66,13 +65,13 @@ export default {
     }
   },
   watch: {
-    placeData(val, oldVal) {
-      console.log('网点信息', val)
+    placeData: function(val, oldVal) {
+      console.log('watch', val)
       this.placeInfo = val
     }
   },
   mounted() {
-    console.log('卡片创建')
+    console.log('卡片创建111')
     this.placeInfo = this.placeData
   },
   methods: {
