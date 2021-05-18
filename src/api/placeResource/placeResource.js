@@ -60,5 +60,35 @@ class PlaceResource {
       data: param
     })
   }
+  // 解绑设备
+  async deleteEquip(id, imei) {
+    return await request({
+      url: `/apis/place/id/${id}/equip/imei/${imei}`,
+      method: 'delete'
+    })
+  }
+  // 上传文件
+  async uploadFile(param) {
+    return await request({
+      url: `/apis/file`,
+      method: 'post',
+      data: param
+    })
+  }
+  // 删除文件
+  async deleteFile(param) {
+    return await request({
+      url: `/apis/file${param}`,
+      method: 'delete'
+    })
+  }
+  // 关联图片
+  async connectFile(param) {
+    return await request({
+      url: `/apis/file/connect`,
+      method: 'post',
+      data: param
+    })
+  }
 }
 export default new PlaceResource()

@@ -22,8 +22,8 @@ module.exports = merge(base, {
     proxy: {
       //设置代理
       "/apis": {
-        // target: "https://www.k8s.ctjt.cn",
-        target: "http://192.168.3.250:14790",
+        target: "https://www.k8s.ctjt.cn",
+        //target: "http://192.168.3.250:14790",
         pathRewrite: { "^/apis": "" },
         changeOrigin: true,
         secure: false, // 目标服务器地址是否是安全协议

@@ -147,7 +147,7 @@ export default {
       }
       if (this.editResults) {
         // 遍历图片列表，进行上传操作, 初始下标为该设备原来的图片列表的长度-1 ，即可保证之前上传的就不会再上传
-        for (let i = (this.equip.picture.length !== 0 ? this.equip.picture.length : 0); i < this.imgList.length; i++) {
+        for (let i = this.equip.picture.length; i < this.imgList.length; i++) {
           await this.uploadFile(this.imgList[i].file, i)
         }
         // 上传失败
