@@ -32,7 +32,7 @@ class Socket {
    * @param {*} channelNameList
    */
   async initSocket(channelNameList) {
-    if ((departList.length < 1 || !departList) && getToken) {
+    if ((departList.length < 1 || !departList) && getToken()) {
       const res = await DepartApi.departList()
       if (res.code === 200) {
         departList = res.data
