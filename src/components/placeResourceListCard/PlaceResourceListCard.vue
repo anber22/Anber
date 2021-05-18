@@ -66,12 +66,10 @@ export default {
   },
   watch: {
     placeData: function(val, oldVal) {
-      console.log('watch', val)
       this.placeInfo = val
     }
   },
   mounted() {
-    console.log('卡片创建111')
     this.placeInfo = this.placeData
   },
   methods: {

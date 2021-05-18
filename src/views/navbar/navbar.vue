@@ -30,7 +30,6 @@ export default {
     $route: {
       handler(val, oldVal) {
         this.title = this.$route.meta.title
-        console.log('this.route', this.$route)
         this.showEdit = this.$route.meta.edit
       },
       // 深度观察监听

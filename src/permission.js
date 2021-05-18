@@ -9,7 +9,6 @@ const whiteList = ['/login']// no redirect whitelist
 
 // TODO: 过滤请求路径
 router.beforeEach((to, from, next) => {
-  console.log('过滤路由', store.getters.addRouters)
   // 检查是否存在 token
   if (getToken()) {
     // 跳过登陆
@@ -22,7 +21,6 @@ router.beforeEach((to, from, next) => {
         // 加载权限 (这里应该是请求后端接口, 进行加载权限列表) 下面手动 set到对应的值内了
         let permissions = []
         UserApi.permissionList().then(res => {
-          console.log('获取用户权限列表', res)
           if (res.code === 200) {
             permissions = res.data
             // ['NetworkApplication', '0', '1', '2', '4']
@@ -37,7 +35,6 @@ router.beforeEach((to, from, next) => {
           }
         })
       } else {
-        console.log(`next`, to, from)
         next()
       }
     }

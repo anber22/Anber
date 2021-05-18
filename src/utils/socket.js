@@ -31,10 +31,8 @@ class Socket {
    * @param {*} channelNameList
    */
   async initSocket(channelNameList) {
-    console.log('最外层', channelNameList)
     if (departList.length < 1 || !departList) {
       const res = await DepartApi.departList()
-      console.log('辖区列表', res)
       if (res.code === 200) {
         departList = res.data
       }
@@ -78,7 +76,6 @@ class Socket {
     // 订阅频道
     let topic = ''
     connet = true
-    console.log('开始订阅频道', requestList)
     requestList.forEach(item => {
       departList.forEach(departItem => {
         // 事件频道
@@ -116,7 +113,6 @@ class Socket {
    */
   identificationOfTheChannel(channelName, ref) {
     // 如果已存频道数组不为空，则需要提取传入频道的新增频道，或者是已存频道的新增dom订阅者
-    console.log('新频道', channelName)
     if (requestList.length > 0) {
       channelName.forEach(cItem => {
         // 遍历两个数组，找出相同频道名称的对象，返回形式为数组

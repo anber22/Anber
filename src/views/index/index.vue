@@ -271,7 +271,6 @@ export default {
      */
     initSockets() {
       if (this.$refs.Warning === undefined) {
-        console.log('没加载完')
         setTimeout(() => {
           this.initSockets()
         }, 500)
@@ -304,7 +303,6 @@ export default {
             }
           ]
         }]
-      console.log('智慧高投', topicList)
       Socket.initSocket(topicList)
     },
     /**

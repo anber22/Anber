@@ -91,16 +91,12 @@ export default {
             const params = '?networkId=' + listData[i].placeId
             const res = await Api.placeResourceCount(params)
             if (res.code === 200) {
-              console.log('count-', res.data)
               listData[i]['count'] = res.data
             }
-            console.log('await count', listData[i].count)
           }
 
           this.placeResourceList = JSON.parse(JSON.stringify(listData))
-          console.log('end', this.placeResourceList)
           this.loading = false
-          console.log('this.placeResourceList---', this.placeResourceList)
         }, 1000)
       getRealDataAndHzardCount()
     },
@@ -108,7 +104,6 @@ export default {
       const params = '?networkId=' + id
       const res = await Api.placeResourceCount(params)
       if (res.code === 200) {
-        console.log('count-', res.data)
         return res.data
       }
     },

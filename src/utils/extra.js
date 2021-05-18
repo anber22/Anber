@@ -12,12 +12,10 @@ Vue.directive('permission', {
     } else {
       componentName = vnode.tag
     }
-    console.log('节点名称', componentName)
     // TODO: 满足部分需要父子组件一同管理的组件 (非固化父子关系的组件, 不推荐使用)
     if (binding.arg === 'parent') {
       componentName = `${binding.value}-${componentName}`
     }
-    console.log(componentName, vnode)
 
     // TODO: 获取配置文件中的组件库
     const components = config.router.components
