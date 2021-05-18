@@ -2,6 +2,7 @@ let requestPath = 'wss://beta.zhgtwx.ctjt.cn/ws'
 
 import Stomp from 'stompjs'
 import DepartApi from '@/api/placeResource/placeResource'
+import { getToken, setUserInfo } from '@/utils/auth'
 
 let socket = null
 // 频道列表
@@ -31,7 +32,7 @@ class Socket {
    * @param {*} channelNameList
    */
   async initSocket(channelNameList) {
-    if (departList.length < 1 || !departList) {
+    if (departList.length < 1 || !departList && getToken) {
       const res = await DepartApi.departList()
       if (res.code === 200) {
         departList = res.data
