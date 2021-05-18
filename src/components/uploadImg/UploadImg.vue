@@ -26,7 +26,7 @@
 
 <script>
 import { ImagePreview } from 'vant'
-import WaterMarkProcessing from '@/utils/waterMarkProcessing'
+import WaterMarkProcessing from '@/utils/watermarkProcessing'
 import Config from '../../../config.json'
 
 export default {
