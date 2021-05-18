@@ -121,4 +121,4 @@ export default {
   }
 
 </style>
-<style src="./PersonalCenter.css" scoped/>
+<style src="./personalCenter.css" scoped/>
