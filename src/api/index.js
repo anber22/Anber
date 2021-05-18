@@ -52,7 +52,7 @@ class Index {
   // 辖区统计-设备状态
   async departEquipCounting(param) {
     return await request({
-      url: `/depart/id/${param}/equip/status/counting`,
+      url: `/apis/depart/id/${param}/equip/status/counting`,
       method: 'get'
     })
   }
