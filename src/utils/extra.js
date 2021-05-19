@@ -43,3 +43,9 @@ Vue.directive('permission', {
     }
   }
 })
+
+const stopEvent = (el) => {
+  el.addEventListener('click', (e) => {
+    e.stopImmediatePropagation()
+  }, true)
+}
