@@ -43,7 +43,7 @@
                   :rules="[{ required: true, message: '请输入IMEI码' }]"
                   class="item-input "
                   placeholder="请输入IMEI码"
-                  @keydown.enter="onchange(1)"
+                  @keydown.enter="getEquipImei"
                 />
               </van-form>
               <img src="@/assets/images/equip/scan.png">
@@ -88,7 +88,7 @@
               <span class="title">安装照片</span>
             </div>
             <div class="equip-img">
-              <UploadImg class="uploadImg" :water-mark-info="waterMarkInfo" @choiceImg="choiceImg" />
+              <UploadImg v-if="waterMarkInfo" ref="uploadImg" class="upload-img" :old-img-list="uploadImages" :water-mark-info="waterMarkInfo" @getImgList="getUploadImg" />
             </div>
           </div>
         </div>
@@ -107,6 +107,7 @@ import Api from '@/api/placeResource/placeResource.js'
 import AMapLoader from '@amap/amap-jsapi-loader'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 import UploadImg from 'cmp/uploadImg/UploadImg'
+import Config from '../../../config.json'
 export default {
   name: 'BindEquip',
   components: {
@@ -125,7 +126,8 @@ export default {
         equipType: 5,
         address: '',
         equipName: '',
-        equipImg: []
+        equipImg: [],
+        uploadNames: []
       },
       typeName: '',
       location: '113.54342, 22.26666',
@@ -133,18 +135,23 @@ export default {
       showErr: false,
       imeiErr: '',
       status: false,
-      waterMarkInfo: {
-        placeName: '网点名称'
-      } // 水印信息
+      waterMarkInfo: {}, // 水印信息
+      uploadStatus: false,
+      uploadImages: [], // 已上传图片
+      placeId: '', // 网点id
+      uploadFailedMsg: '您的', // 上传失败提示
+      uploadFailedList: [] // 上传失败图片下标数组
     }
   },
   created() {
     this.status = this.$route.query.status
+    if (this.$route.query.placeId) this.placeId = this.$route.query.placeId
     if (this.$route.query.lon) {
       this.location = [this.$route.query.lon, this.$route.query.lat]
       this.equipItem.lon = this.$route.query.lon
       this.equipItem.lat = this.$route.query.lat
     }
+    if (window.localStorage.getItem('placeResource')) this.manageResourceInfo()
     this.init()
   },
   methods: {
@@ -235,16 +242,16 @@ export default {
       this.map.add(this.cameraMarker)
     },
     /**
+     * 获取本地网点水印信息
+     */
+    manageResourceInfo() {
+      const placeResource = JSON.parse(window.localStorage.getItem('placeResource'))
+      this.waterMarkInfo = placeResource.waterMarkInfo
+    },
+    /**
      * 输入框失焦调用
      */
     onchange(inx) {
-      // if (inx === 0) {
-      //   this.map.remove(this.cameraMarker)
-      //   this.mapAddMarker(AMap)
-      // }
-      if (inx === 1) {
-        this.getEquipImei()
-      }
     },
     /**
      * 根据IMEI查找设备
@@ -264,9 +271,45 @@ export default {
       }
     },
     /**
-     * 选择图片  待用
+     * 选择图片 责任书
+     * @img {*}  图片列表
+     * @deleteUri 点击删除图片的uri
      */
-    choiceImg(e) {
+    async getUploadImg(img, deleteUri, deleteIndex, images) {
+      this.equipItem.equipImg = img
+      if (images && this.status) this.uploadDutyimg(images)
+      // 如果不是删除图片则传的deleteUri 为空字符
+      if (deleteUri.length > 0) {
+        // * name 点击删除图片的uri
+        // * type 图片类型(2网点图片,3网点责任书,4设备安装图片)
+        // networkId 网点id
+        // imei 设备imei码
+        let param = ''
+        if (this.status) {
+          param = '?name=' + deleteUri
+        } else {
+          param = '?name=' + deleteUri + '&type=4&networkId=' + this.placeId + '&imei=' + this.equipItem.imei
+        }
+        const res = await Api.deleteFile(param)
+        if (res.code === 200) {
+          this.$toast.success('删除成功')
+          // 如果触发删除方法，则把equip里面的对应的图片页删了
+          this.uploadImages.splice(deleteIndex, 1)
+          this.equipItem.uploadNames.splice(deleteIndex, 1)
+        }
+      }
+    },
+    /**
+     * 上传图片（未绑定网点/设备）
+     */
+    async uploadDutyimg(item) {
+      const param = new FormData()
+      param.append('file', item.file)
+      const res = await Api.uploadFile(param)
+      if (res.code === 200) {
+        this.uploadImages.push({ imgUrl: Config.figureBedAddress + res.data })
+        this.equipItem.uploadNames.push(res.data)
+      }
     },
     /**
      * 保存新增设备
@@ -288,23 +331,80 @@ export default {
         this.$toast('请输入安装位置')
         return
       }
+      if (this.equipItem.equipImg.length <= 0) {
+        this.$toast('请上传安装照片')
+        return
+      }
       if (this.status) {
         const list = window.localStorage.getItem('equipList') ? JSON.parse(window.localStorage.getItem('equipList')) : []
         list.push(this.equipItem)
         window.localStorage.setItem('equipList', JSON.stringify(list))
         this.$router.go(-1)
       } else {
-        const id = this.$route.query.id
-        const param = {
-          lon: this.equipItem.lon,
-          lat: this.equipItem.lat,
-          address: this.equipItem.address
+        if (!this.uploadStatus) this.uploadStatus = await this.updateEquipInfo()
+        if (this.uploadStatus) {
+          for (let i = this.uploadImages.length; i < this.equipItem.equipImg.length; i++) {
+            await this.uploadFile(this.equipItem.equipImg[i].file, i)
+          }
+          // 上传失败
+          if (this.uploadFailedMsg.length > 2) {
+            // 拼装上传失败提示信息
+            this.uploadFailedMsg = this.uploadFailedMsg + '张图片上传失败，请检查网络或者更换图片上传～'
+            this.$toast.fail(this.uploadFailedMsg)
+            this.uploadFailedList.forEach((item) => {
+              // 用filter来做数组删除操作 如果是对象的话，需要指定对象值唯一属性来匹配
+              this.$refs.uploadImg = this.$refs.uploadImg.filter(v => v !== item)
+            })
+            this.loading = false
+          } else { // 上传成功
+            this.$toast.success({
+              message: '绑定设备成功！三秒后跳转网点编辑页面～',
+              overlay: true,
+              duration: 3000
+            })
+            this.loading = false
+            setTimeout(() => {
+              this.$router.back()
+            }, 3000)
+          }
         }
-        const res = await Api.bindEquip(id, this.equipItem.imei, param)
-        if (res.code === 200) {
-          this.$toast('绑定成功')
-          this.$router.go(-1)
-        }
+      }
+    },
+    /**
+     * 绑定设备
+     */
+    async updateEquipInfo() {
+      const param = {
+        lon: this.equipItem.lon,
+        lat: this.equipItem.lat,
+        address: this.equipItem.address
+      }
+      const res = await Api.bindEquip(this.placeId, this.equipItem.imei, param)
+      if (res.code === 200) {
+        return true
+      } else {
+        return false
+      }
+    },
+    /**
+     * 上传文件
+     */
+    async uploadFile(file, index) {
+      // 这里需要用formdata的格式提交参数
+      const param = new FormData()
+      param.append('file', file)
+      param.append('type', 4)
+      param.append('imei', this.equip.imei)
+      const res = await Api.uploadFile(param)
+      if (res.code === 200) {
+        this.uploadImages.push({ imgUrl: Config.figureBedAddress + res.data })
+        return true
+      } else {
+        // 记录上传失败的图片下表，用于提交完成之后告知用户
+        this.uploadFailedMsg = this.uploadFailedMsg + `第${index + 1}`
+        this.uploadFailedList.push(this.$refs.uploadImg[index])
+        this.uploadFailedList.push(index)
+        return false
       }
     }
   }

@@ -2,8 +2,8 @@
   <div class="placeResource">
     <img class="add-outlet" src="@/assets/images/equip/add-outlet.png" alt="" @click="$router.push({path:'/placeResourceAddition'})">
     <van-search v-model="queryCondition" placeholder="网点名称/网点地址" background="#101720" @search="onSearch" />
-    <div class="placeResource-content">
-      <van-loading v-if="!placeResourceList" size="24px" vertical>
+    <div v-if="placeResourceList.length>0" class="placeResource-content">
+      <van-loading v-if="loading" size="24px" vertical>
         加载中...
       </van-loading>
       <van-list
@@ -14,9 +14,11 @@
         :immediate-check="false"
         @load="getPlaceResourceList"
       >
-        <Adaptive v-for="item in placeResourceList" :key="item.index" :size="['94%','31.39%']" class="placeResource-list-card">
-          <PlaceResourceListCard :place-data="item" />
-        </Adaptive>
+        <div v-for="item in placeResourceList" :key="item.index">
+          <Adaptive :size="['94%','31.39%']" class="placeResource-list-card">
+            <PlaceResourceListCard :place-data="item" />
+          </Adaptive>
+        </div>
       </van-list>
     </div>
   </div>
@@ -25,6 +27,7 @@
 <script>
 import PlaceResourceListCard from 'cmp/placeResourceListCard/PlaceResourceListCard'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
+import JsStabilization from '@/utils/jsStabilization'
 
 import Api from '@/api/placeResource/placeResource.js'
 
@@ -34,21 +37,24 @@ export default {
   },
   data() {
     return {
-      loading: false,
+      loading: true,
       placeResourceList: [],
       queryCondition: '',
       placeTypeList: [],
       page: 0,
-      finished: false
+      finished: false,
+      jsStabilization: null
     }
   },
   mounted() {
     if (this.placeResourceList.length === 0) {
       this.getPlaceResourceList()
     }
+    this.jsStabilization = new JsStabilization()
   },
   methods: {
     async getPlaceResourceList() {
+      this.loading = true
       const params = {
         // systemType: this.thisSubsystemId,
         page: ++this.page,
@@ -56,24 +62,50 @@ export default {
         condition: (this.queryCondition.length < 1 ? '' : ('?condition=' + this.queryCondition))
       }
       const res = await Api.placeResourceList(params)
-
+      const total = res.data.total
+      let listData = []
       if (res.code === 200) {
-        let listData = [...res.data.rows]
-
+        listData = [...res.data.rows]
+        if (params.page > total) {
+          this.finished = true
+          this.loading = false
+          this.placeResourceList = this.placeResourceList.concat(listData)
+          // return
+        }
         if (listData.length === 0) {
           this.loading = false
-          this.finished = true
-          this.placeResourceList = []
-          return
+          // this.finished = true
+          this.placeResourceList = listData
+          // return
         }
-        // 去vuex获取该网点的网点类型名称，放到数组集合里
-        listData = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', listData)
-        this.placeResourceList = this.placeResourceList.concat(listData)
       }
-      if (params.page === res.data.total) {
-        this.finished = true
+      // 去vuex获取该网点的网点类型名称，放到数组集合里
+      listData = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', listData)
+      this.placeResourceList = this.placeResourceList.concat(listData)
+      const getRealDataAndHzardCount = this.jsStabilization.stabilization(
+        //
+        async() => {
+          this.loading = true
+          const listData = JSON.parse(JSON.stringify(this.placeResourceList))
+          for (let i = 0; i < listData.length; i++) {
+            const params = '?networkId=' + listData[i].placeId
+            const res = await Api.placeResourceCount(params)
+            if (res.code === 200) {
+              listData[i]['count'] = res.data
+            }
+          }
+
+          this.placeResourceList = JSON.parse(JSON.stringify(listData))
+          this.loading = false
+        }, 1000)
+      getRealDataAndHzardCount()
+    },
+    async getPlaceResourceCount(id) {
+      const params = '?networkId=' + id
+      const res = await Api.placeResourceCount(params)
+      if (res.code === 200) {
+        return res.data
       }
-      this.loading = false
     },
     /**
      * 搜索触发事件

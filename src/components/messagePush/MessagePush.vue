@@ -143,5 +143,6 @@ export default {
     right: 1px;
     bottom: 3px;
   }
+
 </style>
 <style src="./MessagePush.css" scoped/>

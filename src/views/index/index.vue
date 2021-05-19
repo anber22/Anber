@@ -35,7 +35,7 @@
           </div>
         </Adaptive>
         <Adaptive :size="['100%','12.75%']" class="warning-box">
-          <Warning v-if="hiddenDangerList.length>1" ref="Warning" class="warning" :warning-data="hiddenDangerList" :system="subsystemList" />
+          <Warning ref="Warning" class="warning" :warning-data="hiddenDangerList" :system="subsystemList" />
           <!--  -->
         </Adaptive>
         <!-- end -->
@@ -212,7 +212,9 @@ export default {
       hiddenDangerList: [],
       onlinePercent: 0,
       analysisHeight: 134,
-      screenWidth: null
+      screenWidth: null,
+      departList: [],
+      departIndex: 0
     }
   },
   computed: {
@@ -248,7 +250,7 @@ export default {
 
     this.getOnlinePercent()
     this.$nextTick(function() {
-      // this.initSockets()
+      this.initSockets()
     })
   },
   destroyed() { // 页面销毁时清除定时器
@@ -372,7 +374,7 @@ export default {
      */
     activeType(type) {
       this.lineDataFlag = false
-      const countObj = this.departCountList.filter(item => type === item.departId)
+      const countObj = this.departList.filter(item => type === item.departId)
       this.departCountData = {
         online: countObj.length > 0 ? countObj[0].data.online : '',
         outline: countObj.length > 0 ? countObj[0].data.outline : '',
@@ -384,28 +386,38 @@ export default {
      * 获取辖区统计数据
      */
     async getDepartCounting() {
-      const res = await Api.departCounting()
+      const res = await Api.departCountingList()
       this.maxPieDataFlag = false
       if (res.code === 200) {
-        this.departCountList = [...res.data]
-        const dataArr = [...res.data]
-        dataArr.forEach(item => {
-          this.maxPieData.data.push({
-            value: item.data.count,
-            name: item.departName,
-            type: item.departId,
-            count: item.data.count
-          })
+        this.departList = [...res.data]
+        await this.departList.forEach(async(item, i) => {
+          await this.getDepartEquipCounting(item.departId, i, item.departName)
         })
-        // 使用当前第一个辖区id去获取该辖区隐患分析数据---折线图数据
-        this.getTroubleAnalysis(dataArr[0].departId)
-        this.departCountData = {
-          online: dataArr[0].data.online,
-          outline: dataArr[0].data.outline,
-          trouble: dataArr[0].data.trouble
+      }
+    },
+    /**
+     * 辖区统计-设备状态
+     */
+    async getDepartEquipCounting(id, i, name) {
+      const res = await Api.departEquipCounting(id)
+      if (res.code === 200) {
+        this.departList[i].data = { ...res.data }
+        this.maxPieData.data.push({
+          value: res.data.count,
+          name: name,
+          type: id,
+          count: res.data.count
+        })
+        if (i === 0) {
+          this.getTroubleAnalysis(id)
+          this.departCountData = {
+            online: res.data.online,
+            outline: res.data.outline,
+            trouble: res.data.trouble
+          }
         }
       }
-      this.maxPieDataFlag = true
+      if (i === this.departList.length - 1) { this.maxPieDataFlag = true }
     },
     /**
      * 辖区统计联动，当前选中辖区的隐患分析（近15天）

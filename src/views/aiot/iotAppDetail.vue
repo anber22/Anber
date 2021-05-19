@@ -10,6 +10,15 @@
         设备信息
       </div>
       <InfoRow v-for="(rowItem,index) in rowList" :key="index" :info-data="rowItem" class="detail-info" />
+
+      <div v-if="rowList" class="img-info-box">
+        <div class="equip-img-title">
+          设备照片：
+        </div>
+        <div class="img-box">
+          <img v-for="(item,index) in equipInfo.picture" :key="index" :src="item" alt="" class="equip-img" @click="showImg(index)">
+        </div>
+      </div>
     </div>
     <!-- end -->
     <!-- 实时数据 || 实时监控 start -->
@@ -64,8 +73,10 @@ import InfoRow from '@/components/infoRows/InfoRows'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 import VideoPlayer from 'cmp/videoPlayer/VideoPlayer'
 import VideoUUID from '@/utils/videoUUID'
-import Config from '/config.json'
 import BindingLog from 'cmp/bindingLog/BindingLog'
+import Config from '../../../config.json'
+import { ImagePreview } from 'vant'
+
 import DateFormat from '@/utils/dateTransformation'
 
 import Api from '@/api/aiot/iotApp.js'
@@ -74,7 +85,9 @@ export default {
   components: {
     InfoRow,
     VideoPlayer,
-    BindingLog
+    BindingLog,
+    [ImagePreview.Component.name]: ImagePreview.Component
+
   },
 
   data() {
@@ -151,6 +164,11 @@ export default {
       }
       equipDetailInfo = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', equipDetailInfo)
       equipDetailInfo = await ReadTypeNameOnVuex.conversion('platformList', 'platformId', 'platformName', equipDetailInfo)
+      if (equipDetailInfo.picture) {
+        equipDetailInfo.picture.forEach((item, index) => {
+          equipDetailInfo.picture[index] = Config.figureBedAddress + equipDetailInfo.picture[index]
+        })
+      }
       this.rowList = [
         {
           name: '设备状态:',
@@ -326,12 +344,18 @@ export default {
       this.player.src(video)
       // this.player.load()
       this.player.play()
+    },
+    showImg(index) {
+      ImagePreview({
+        images: this.equipInfo.picture,
+        startPosition: index
+      })
     }
   }
 }
 </script>
 
-<style >
+<style scoped>
 .iotApp-detail{
   width: 100%;
   height: 100%;
@@ -360,10 +384,7 @@ export default {
   height: 237px;
    margin-left: 8.5%;
 }
-.demo-carousel .vjs-custom-skin .video-js {
-  width: 100% !important;
-  height: 74%;
-}
+
 .realtime-data{
   width: 70%;
 }
@@ -402,5 +423,44 @@ export default {
 .refresh-img{
   width: 13px;
   height: 13px;
+}
+.img-info-box{
+  width: calc(100% - 1px) ;
+  height: auto;
+  margin : 10px 20px;
+  padding-top: 10px;
+  border-top: 1px solid #283444;
+
+}
+.equip-img{
+  width: 79px;
+  height: 79px;
+  display: inline-block;
+  margin-right: 4px;
+  margin-top: 4px;
+}
+.equip-img-title{
+  width: 85px;
+  text-align: right;
+  height: 32px;
+  line-height: 32px;
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #6F85A2;
+  display: inline-block;
+  vertical-align: top;
+}
+.img-box{
+  width: 70%;
+  height: auto;
+  display: inline-block;
+  margin-top: 6px;
+}
+</style>
+<style >
+.demo-carousel .vjs-custom-skin .video-js {
+  width: 100% !important;
+  height: 74%;
 }
 </style>

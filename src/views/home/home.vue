@@ -42,97 +42,20 @@
         <!-- end -->
         <!-- 实时事件 start-->
         <div class="functional-module">
-          <div @click="goJump('/iotApp')">
+          <div v-for="(item,index) in menuList" :key="index" @click="goJump(item.path)">
             <Adaptive class="module-item" :size="['75.4%', '75.4%']">
               <van-image
                 fit="contain"
-                :src="require('/src/assets/images/home/iot.png')"
+                :src="icon[item.name]"
                 :show-error="false"
                 :show-loading="false"
               />
             </Adaptive>
-            <p>物联应用</p>
-          </div>
-          <div hidden>
-            <Adaptive class="module-item" :size="['75.4%', '75.4%']">
-              <van-image
-                fit="contain"
-                :src="require('/src/assets/images/home/hazard.png')"
-                :show-error="false"
-                :show-loading="false"
-              />
-            </Adaptive>
-            <p>隐患统计</p>
-          </div>
-          <div @click="goJump('/video')">
-            <Adaptive class="module-item" :size="['75.4%', '75.4%']">
-              <van-image
-                fit="contain"
-                :src="require('/src/assets/images/home/video.png')"
-                :show-error="false"
-                :show-loading="false"
-              />
-            </Adaptive>
-            <p>智慧视觉</p>
-          </div>
-          <div @click="goJump('/placeResource')">
-            <Adaptive class="module-item" :size="['75.4%', '75.4%']">
-              <van-image
-                fit="contain"
-                :src="require('/src/assets/images/home/place.png')"
-                :show-error="false"
-                :show-loading="false"
-              />
-            </Adaptive>
-            <p>网点管理</p>
-          </div>
-          <div @click="goJump('/hazard')">
-            <Adaptive class="module-item" :size="['75.4%', '75.4%']">
-              <van-image
-                fit="contain"
-                :src="require('/src/assets/images/home/manage.png')"
-                :show-error="false"
-                :show-loading="false"
-              />
-            </Adaptive>
-            <p>隐患管理</p>
-          </div>
-          <div hidden>
-            <Adaptive class="module-item" :size="['75.4%', '75.4%']">
-              <van-image
-                fit="contain"
-                :src="require('/src/assets/images/home/scan.png')"
-                :show-error="false"
-                :show-loading="false"
-              />
-            </Adaptive>
-            <p>扫一扫</p>
-          </div>
-          <div @click="goJump('/propertyPlate')">
-            <Adaptive class="module-item" :size="['75.4%', '75.4%']">
-              <van-image
-                fit="contain"
-                :src="require('/src/assets/images/home/property-plate.png')"
-                :show-error="false"
-                :show-loading="false"
-              />
-            </Adaptive>
-            <p>物业看板</p>
-          </div>
-          <div @click="goJump('/safetyCommitteePlate')">
-            <Adaptive class="module-item" :size="['75.4%', '75.4%']">
-              <van-image
-                fit="contain"
-                :src="require('/src/assets/images/home/safety-committee-plate.png')"
-                :show-error="false"
-                :show-loading="false"
-              />
-            </Adaptive>
-            <p>安委看板</p>
+            <p>{{ item.title }}</p>
           </div>
         </div>
         <!-- end -->
-        <div class="realtime-events">
+        <div v-permission:[type]="`Home-Hzard`" class="realtime-events">
           <div class="title" @click="goJump('/unreadEvents')">
             <van-image
               width="4px"
@@ -162,6 +85,7 @@ export default {
   },
   data() {
     return {
+      type: 'parent',
       hazardLists: [],
       subsystemList: [
         {
@@ -177,15 +101,37 @@ export default {
           name: '塔机监测',
           imgUrl: require('/src/assets/images/index/crane-monitoring.png')
         }
-      ]
+      ],
+      icon: {
+        IotApp: require('@/assets/images/home/iot.png'),
+        PlaceResource: require('@/assets/images/home/place.png'),
+        Statistics: require('@/assets/images/home/hazard.png'),
+        WisdomVisual: require('@/assets/images/home/video.png')
+      },
 
+      menuList: []
     }
   },
   created() {
     this.getHiddenDangerList()
-    // this.initSockets()
+
+    this.getMenuList()
+    this.initSockets()
   },
   methods: {
+    /**
+     * 根据权限获取菜单列表
+     */
+    getMenuList() {
+      let menus = this.$store.getters.menus
+      menus = menus[menus.length - 1].children
+
+      menus.forEach((item, index) => {
+        if (item.meta.menu) {
+          this.menuList.push({ name: item.name, path: item.path, title: item.meta.title })
+        }
+      })
+    },
     onMessage(msg) {
       this.hazardLists.splice(2, 1)
       this.hazardLists.splice(0, 0, msg)

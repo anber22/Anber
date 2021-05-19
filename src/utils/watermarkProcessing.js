@@ -107,6 +107,7 @@ export default class WatermarkProcessing {
           dUrl: canvas.toDataURL('image/jpeg'),
           blob: ''
         }
+        // 将canvas生成出来的base64图片转换成文件
         var arr = img.dUrl.split(',')
         var mime = arr[0].match(/:(.*?);/)[1]
         var bstr = atob(arr[1])

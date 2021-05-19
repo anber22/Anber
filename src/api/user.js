@@ -27,10 +27,17 @@ class User {
       method: 'get'
     })
   }
-  // 获取个人信息 （用token识别）
+  // 获取个人信息 （用token识别id）
   async personInfo() {
     return await request({
       url: `/apis/user/info`,
+      method: 'get'
+    })
+  }
+  // 获取用户拥有对应的权限列表 （用token识别id）
+  async permissionList() {
+    return await request({
+      url: `/apis/permission/list`,
       method: 'get'
     })
   }

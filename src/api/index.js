@@ -42,6 +42,20 @@ class Index {
       method: 'get'
     })
   }
+  // 辖区统计-辖区列表
+  async departCountingList() {
+    return await request({
+      url: `/apis/depart/list/size/10`,
+      method: 'get'
+    })
+  }
+  // 辖区统计-设备状态
+  async departEquipCounting(param) {
+    return await request({
+      url: `/apis/depart/id/${param}/equip/status/counting`,
+      method: 'get'
+    })
+  }
   // 辖区统计联动，当前选中辖区的隐患分析（近15天）
   async troubleAnalysis(param) {
     return await request({

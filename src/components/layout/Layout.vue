@@ -60,9 +60,9 @@ export default {
   watch: {
     '$route'(to, from) {
       // console.log('路由跳转', from, to)
-      // if (from.path === '/login' || (from.path === '/' && to.path !== '/login')) {
-      //   this.initSockets()
-      // }
+      if (from.path === '/login' || (from.path === '/' && to.path !== '/login')) {
+        this.initSockets()
+      }
       if (from.path === '/placeResourceAddition' && to.path === '/placeResource') {
         window.localStorage.removeItem('equipList')
         window.localStorage.removeItem('placeResource')
@@ -70,7 +70,7 @@ export default {
     }
   },
   mounted() {
-    // this.initSockets()
+    this.initSockets()
   },
   methods: {
     /**

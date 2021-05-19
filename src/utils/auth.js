@@ -9,7 +9,10 @@ export function getToken() {
 }
 
 export function setToken(token, data) {
-  return Cookies.set(TokenKey, token, { expires: data })
+  return new Promise(resolve => {
+    Cookies.set(TokenKey, token, { expires: data })
+    resolve()
+  })
 }
 
 export function removeToken() {
@@ -17,15 +20,11 @@ export function removeToken() {
 }
 
 export function setUserInfo(userInfo) {
-  console.log('工具获取到用户信息', userInfo)
   return Cookies.set(UserInfo, userInfo)
 }
 
 export function getUserInfo() {
-  const cookie = Cookies.get(UserInfo)
-  const userInfo = JSON.parse(cookie)
-
-  return userInfo
+  return JSON.parse(Cookies.get(UserInfo))
 }
 
 export function removeUserInfo() {

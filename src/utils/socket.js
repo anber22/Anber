@@ -1,21 +1,26 @@
-const requestPath = 'wss://beta.zhgtwx.ctjt.cn/ws'
 
 import Stomp from 'stompjs'
-
+import DepartApi from '@/api/placeResource/placeResource'
+import { getToken } from '@/utils/auth'
 let socket = null
 // 频道列表
 let requestList = []
 // 连接状态
 let connet = false
+// 辖区列表
+let departList = []
+let requestPath = ''
 /*
  *初始化socket
  */
 class Socket {
   constructor() {
     if (`${process.env.NODE_ENV}` === 'development') {
+      requestPath = 'ws://server12.ctjt.cn:15654/ws'
       this.accountName = 'webclient'
       this.passWord = 'webclient'
     } else {
+      requestPath = 'wss://aiot.rabbitmq.ctjt.cn/ws'
       this.accountName = 'webclient'
       this.passWord = 'webclient'
     }
@@ -26,6 +31,12 @@ class Socket {
    * @param {*} channelNameList
    */
   async initSocket(channelNameList) {
+    if ((departList.length < 1 || !departList) && getToken()) {
+      const res = await DepartApi.departList()
+      if (res.code === 200) {
+        departList = res.data
+      }
+    }
     // 如果socket已经已经创建那就把之前订阅的频道先取消订阅，这一步需要在处理传入频道数组对象之前，因为处理之后会把已存的频道数组对象的频道id覆盖掉
     if (socket !== null) {
       requestList.forEach(item => {
@@ -66,20 +77,22 @@ class Socket {
     let topic = ''
     connet = true
     requestList.forEach(item => {
-      // 事件频道
-      if (item.topicName === 'realTimeWarning') {
-        topic = '/exchange/aiot-event-message/' + '12345678'
-      // 数量频道
-      } else if (item.topicName === 'realTimeStatistics') {
-        topic = '/exchange/aiot-counting-message/' + '12345678'
-      }
-      // 向后台发起频道订阅，将订阅回调的id存入对应的频道，当其他dom接入的时候需要根据频道id去去掉订阅对应的频道
-      item['id'] = socket.subscribe(topic, (msg) => {
+      departList.forEach(departItem => {
+        // 事件频道
+        if (item.topicName === 'realTimeWarning') {
+          topic = '/exchange/aiot-event-message/' + departItem.departId
+          // 数量频道
+        } else if (item.topicName === 'realTimeStatistics') {
+          topic = '/exchange/aiot-counting-message/' + departItem.departId
+        }
+        // 向后台发起频道订阅，将订阅回调的id存入对应的频道，当其他dom接入的时候需要根据频道id去去掉订阅对应的频道
+        item['id'] = socket.subscribe(topic, (msg) => {
         // 事件回调触发 => 给对应频道的dom节点分发信息
-        item.refsList.forEach(item => {
-          item.dom.onMessage(JSON.parse(msg.body))
-        })
-      }).id
+          item.refsList.forEach(item => {
+            item.dom.onMessage(JSON.parse(msg.body))
+          })
+        }).id
+      })
     })
   }
 
@@ -89,9 +102,9 @@ class Socket {
    * @param {*} frame
    */
   onFailed(frame) {
-    setTimeout(() => {
-      Socket.initSocket()
-    }, 2000)
+    // setTimeout(() => {
+    Socket.initSocket(requestList)
+    // }, 2000)
   }
 
   /**

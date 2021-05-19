@@ -7,6 +7,12 @@ class PlaceResource {
       url: `/apis/place/page/${param.page}/size/${param.size}${param.condition}`,
       method: 'get'
     })
+  }//  获取网点设备总数
+  async placeResourceCount(param) {
+    return await request({
+      url: `/apis/equip/countings${param}`,
+      method: 'get'
+    })
   }
   //  获取网点详情
   async placeResourceDetail(param) {
@@ -56,6 +62,43 @@ class PlaceResource {
   async bindEquip(id, imei, param) {
     return await request({
       url: `/apis/place/id/${id}/equip/imei/${imei}`,
+      method: 'post',
+      data: param
+    })
+  }
+  // 获取自己得的区列表
+  async departList() {
+    return await request({
+      url: `/apis/depart/list`,
+      method: 'get'
+    })
+  }
+  // 解绑设备
+  async deleteEquip(id, imei) {
+    return await request({
+      url: `/apis/place/id/${id}/equip/imei/${imei}`,
+      method: 'delete'
+    })
+  }
+  // 上传文件
+  async uploadFile(param) {
+    return await request({
+      url: `/apis/file`,
+      method: 'post',
+      data: param
+    })
+  }
+  // 删除文件
+  async deleteFile(param) {
+    return await request({
+      url: `/apis/file${param}`,
+      method: 'delete'
+    })
+  }
+  // 关联图片
+  async connectFile(param) {
+    return await request({
+      url: `/apis/file/connect`,
       method: 'post',
       data: param
     })

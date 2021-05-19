@@ -96,6 +96,7 @@ export default {
     goNext() {
       this.$router.push('/iotApp')
     },
+
     getPersonInfo() {
       const res = getUserInfo()
       this.personInfo = res

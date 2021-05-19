@@ -27,6 +27,7 @@
 <script>
 import { ImagePreview } from 'vant'
 import WaterMarkProcessing from '@/utils/waterMarkProcessing'
+import Config from '../../../config.json'
 
 export default {
   components: {
@@ -57,7 +58,7 @@ export default {
   methods: {
     deleteImg(index) {
       if (this.oldImgList.length > 0 && index < this.oldImgList.length) {
-        this.$emit('getImgList', this.uploadImg, `${this.uploadImg[index].imgUrl.replace('https://minio.ctjt.cn:8996/upload', '')}`)
+        this.$emit('getImgList', this.uploadImg, `${this.uploadImg[index].imgUrl.replace(Config.figureBedAddress, '')}`, index)
       } else {
         this.$emit('getImgList', this.uploadImg, '')
       }
@@ -89,9 +90,9 @@ export default {
       }
       // 给图片加上水印
       const imgFile = await wm.addWaterMark(e.target.files[0], this.waterMarkInfo)
-      this.uploadImg.push({ file: imgFile.dUrl, imgUrl: window.URL.createObjectURL(imgFile.dUrl) })
-      this.$emit('getImgList', this.uploadImg, '')
-      // 将图片文件转化成base64格式图片
+      const images = { file: imgFile.dUrl, imgUrl: window.URL.createObjectURL(imgFile.dUrl) }
+      this.uploadImg.push(images)
+      this.$emit('getImgList', this.uploadImg, '', '', images)
     },
     /**
      * 选中图片触发函数
@@ -115,7 +116,6 @@ export default {
 
 <style scoped>
 .upload-img{
-  width: 100% -25;
   height: auto;
   margin-left: 25px
 }

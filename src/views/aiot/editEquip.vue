@@ -54,7 +54,7 @@
         </div>
         <UploadImg v-if="waterMarkInfo" ref="uploadImg" class="upload-img" :old-img-list="equip.picture" :water-mark-info="waterMarkInfo" @getImgList="getImgList" />
         <div class="foot">
-          <van-button :loading="loading" class="submit-btn" type="info" loading-text="加载中..." :disabled="loading" @click="submit">
+          <van-button :loading="loading" class="submit-btn" type="info" loading-text="提交中..." @click="submit">
             保存
           </van-button>
         </div>
@@ -81,6 +81,7 @@ import IotApi from '@/api/aiot/iotApp.js'
 import PlaceApi from '@/api/placeResource/placeResource'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 import { getUserInfo } from '@/utils/auth'
+import Config from '../../../config.json'
 export default {
   components: {
     EquipStatus,
@@ -103,7 +104,9 @@ export default {
       waterMarkInfo: null, // 水印信息
       imgList: [],
       uploadFailedMsg: '您的',
-      loading: false
+      loading: false,
+      editResults: false,
+      uploadFailedList: [] // 上传失败图片下标数组
     }
   },
   created() {
@@ -120,10 +123,9 @@ export default {
     async getPlace() {
       const res = await PlaceApi.placeResourceDetail(this.equip.placeId)
       if (res.code === 200) {
-        console.log(getUserInfo())
         this.waterMarkInfo = {
           placeName: res.data.placeName,
-          managerName: JSON.parse(getUserInfo()).name,
+          managerName: getUserInfo().name,
           lat: res.data.lat,
           lon: res.data.lon
         }
@@ -133,7 +135,6 @@ export default {
      * 提交修改，把修改设备信息接口和上传文件接口提取出来
      */
     async submit() {
-      console.log('点击')
       this.loading = true
       if (this.equipAddress.length === 0 || this.platformId === -1) {
         this.$toast.fail('提交失败，请检查表单带 * 数据是否填写完整！')
@@ -141,10 +142,12 @@ export default {
         return
       }
       // 获取修改设备信息结果
-      const editResults = await this.updateEquipInfo()
-      if (editResults) {
+      if (!this.editResults) {
+        this.editResults = await this.updateEquipInfo()
+      }
+      if (this.editResults) {
         // 遍历图片列表，进行上传操作, 初始下标为该设备原来的图片列表的长度-1 ，即可保证之前上传的就不会再上传
-        for (let i = (this.equip.picture.length !== 0 ? this.equip.picture.length - 1 : 0); i < this.imgList.length; i++) {
+        for (let i = this.equip.picture.length; i < this.imgList.length; i++) {
           await this.uploadFile(this.imgList[i].file, i)
         }
         // 上传失败
@@ -152,10 +155,18 @@ export default {
           // 拼装上传失败提示信息
           this.uploadFailedMsg = this.uploadFailedMsg + '张图片上传失败，请检查网络或者更换图片上传～'
           this.$toast.fail(this.uploadFailedMsg)
+          this.uploadFailedList.forEach((item) => {
+            // 用filter来做数组删除操作 如果是对象的话，需要指定对象值唯一属性来匹配
+            this.$refs.uploadImg = this.$refs.uploadImg.filter(v => v !== item)
+          })
           this.loading = false
         } else { // 上传成功
-          this.$toast.success('修改成功！三秒后跳转设备详情页面～')
-          this.loading = true
+          this.$toast.success({
+            message: '修改成功！三秒后跳转设备详情页面～',
+            overlay: true,
+            duration: 3000
+          })
+          this.loading = false
           setTimeout(() => {
             this.$router.back()
           }, 3000)
@@ -188,10 +199,12 @@ export default {
       param.append('imei', this.equip.imei)
       const res = await IotApi.uploadFile(param)
       if (res.code === 200) {
+        this.equip.picture.push({ imgUrl: Config.figureBedAddress + res.data })
         return true
       } else {
         // 记录上传失败的图片下表，用于提交完成之后告知用户
-        this.uploadFailedList = this.uploadFailedList + `第${index + 1}`
+        this.uploadFailedMsg = this.uploadFailedMsg + `第${index + 1}`
+        this.uploadFailedList.push(this.$refs.uploadImg[index])
         return false
       }
     },
@@ -235,7 +248,7 @@ export default {
         ]
         if (equipInfo.picture) {
           equipInfo.picture.forEach((item, index) => {
-            equipInfo.picture[index] = { imgUrl: 'https://minio.ctjt.cn:8996/upload' + equipInfo.picture[index] }
+            equipInfo.picture[index] = { imgUrl: Config.figureBedAddress + equipInfo.picture[index] }
           })
         } else {
           equipInfo.picture = []
@@ -249,11 +262,10 @@ export default {
      * @img {*}  图片列表
      * @deleteUri 点击删除图片的uri
      */
-    async getImgList(img, deleteUri) {
+    async getImgList(img, deleteUri, deleteIndex) {
       this.imgList = img
-      console.log('删除图片uri', deleteUri)
       // 如果不是删除图片则传的deleteUri 为空字符
-      if (deleteUri.length !== 0) {
+      if (deleteUri.length > 0) {
         // * name 点击删除图片的uri
         // * type 图片类型(2网点图片,3网点责任书,4设备安装图片)
         // networkId 网点id
@@ -262,20 +274,10 @@ export default {
         const res = await IotApi.deleteFile(param)
         if (res.code === 200) {
           this.$toast.success('删除成功！')
+          // 如果触发删除方法，则把equip里面的对应的图片页删了
+          this.equip.picture.splice(deleteIndex, 1)
         }
       }
-    },
-    convertBase64UrlToBlob(urlData) {
-      var bytes = window.atob(urlData.split(',')[1]) // 去掉url的头，并转换为byte
-
-      // 处理异常,将ascii码小于0的转换为大于0
-      var ab = new ArrayBuffer(bytes.length)
-      var ia = new Uint8Array(ab)
-      for (var i = 0; i < bytes.length; i++) {
-        ia[i] = bytes.charCodeAt(i)
-      }
-
-      return new Blob([ab], { type: 'image/png' })
     },
     /**
      * 打开物联网平台选择器
