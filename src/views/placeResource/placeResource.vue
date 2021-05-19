@@ -15,7 +15,7 @@
         @load="getPlaceResourceList"
       >
         <div v-for="item in placeResourceList" :key="item.index">
-          <Adaptive :size="['94%','31.39%']" class="placeResource-list-card">
+          <Adaptive :size="['100%','31.39%']" class="placeResource-list-card">
             <PlaceResourceListCard :place-data="item" />
           </Adaptive>
         </div>
@@ -124,9 +124,10 @@ export default {
 .placeResource{
   width: 100%;
   height: calc(100% - 45px);
-  position: fixed;
+  /* position: fixed; */
   background-color: #101720;
   position: relative;
+  -webkit-overflow-scrolling: touch;
 }
 .add-outlet{
   height: 54px;
@@ -137,11 +138,12 @@ export default {
   z-index: 9999;
 }
 .placeResource-content{
-padding: 0px 3% 52% 3%;
-  width: 100%;
-  height: 85%;
-  position: fixed;
-  overflow: scroll;
+  padding: 0px 3% 5% 3%;
+  width: 94%;
+  height: 88%;
+  /* position: fixed; */
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 .placeResource-list-card{
   margin-top: 3%;
