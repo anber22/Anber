@@ -157,6 +157,7 @@ class Socket {
     requestList.forEach((item, index) => {
       item.refsList.forEach((ref, refindex) => {
         if (ref.domName === domName) {
+          ref = null
           item.refsList.splice(refindex)
           // 如果删除dom订阅者对象后，订阅数组为空，直接删除这个频道
           if (item.refsList.length === 0) {
