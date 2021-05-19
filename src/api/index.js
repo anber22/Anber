@@ -14,10 +14,10 @@ class Index {
       method: 'get'
     })
   }
-  //  设备总数
+  //  设备总数/在线数/离线数
   async equipCountings(param) {
     return await request({
-      url: `/apis/equip/countings`,
+      url: `/apis/equip/countings${param}`,
       method: 'get'
     })
   }
