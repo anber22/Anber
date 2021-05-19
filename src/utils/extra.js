@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import config from '../../config.json'
 import store from '../store'
-import permission from '../store/modules/permission'
 
 Vue.directive('permission', {
   inserted: (el, binding, vnode) => {
@@ -27,14 +26,6 @@ Vue.directive('permission', {
       const { permissions } = Reflect.get(components, componentName)
       // 获取当前用户拥有的权限 (角色)
       const _permissions = store.getters.permissions
-      // 普通权限
-      const normalPermission = permissions.filter(permission => permission.indexOf('-') === -1)
-      // 特征权限
-      const eventPermission = permissions.map(permission => {
-        if (permission.indexOf('-') !== -1) {
-          return permission.split('-')[0]
-        }
-      })
 
       // TODO: 组件权限全匹配
       console.log(`组件权限全匹配结果: ` + permissions.every(permission => [..._permissions].includes(permission)))
@@ -42,17 +33,10 @@ Vue.directive('permission', {
       console.log(`组件权限部分匹配结果: ` + permissions.some(permission => [..._permissions].includes(permission)))
 
       // 当前版本取全匹配权限
-      const res = normalPermission.every(permission => [..._permissions].includes(permission))
+      const res = permissions.every(permission => [..._permissions].includes(permission))
 
       // 检查有没有存在超权限 (角色)的情况
       const isSuperAdmin = _permissions.some(role => role === 'SuperAdmin')
-
-      if (res) {
-        const isValid = eventPermission.every(permission => [..._permissions].includes(permission))
-        if (!isValid) {
-          stopEvent(el)
-        }
-      }
 
       // 如果是超权限 (角色), 则不进行过滤处理~
       if (!isSuperAdmin) {
@@ -66,9 +50,3 @@ Vue.directive('permission', {
     }
   }
 })
-
-const stopEvent = (el) => {
-  el.addEventListener('click', (e) => {
-    e.stopImmediatePropagation()
-  }, true)
-}
