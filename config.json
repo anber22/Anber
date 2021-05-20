@@ -113,7 +113,7 @@
         "permissions": ["NetworkApplication","NetworkApplicationVideo"]
       },
       "Home-Hzard-div":{
-        "permissions":["VideoHazardRead","EnvirmentHazardRead","TowerHazardRead"]
+        "permissions":["VideoHazardRead","EnvirmentHazardRead","TowerHazardRead","Analysis","AnalysisCounting"]
       }
     }
   },

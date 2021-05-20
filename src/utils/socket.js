@@ -2,6 +2,8 @@
 import Stomp from 'stompjs'
 import DepartApi from '@/api/placeResource/placeResource'
 import { getToken } from '@/utils/auth'
+import Vue from 'vue'
+
 let socket = null
 // 频道列表
 let requestList = []
@@ -44,6 +46,7 @@ class Socket {
         socket.unsubscribe(item.id)
       })
     }
+
     // 处理频道数组对象
     await this.identificationOfTheChannel(channelNameList)
     // 我们的socket是socket包装的websocket 所以用Stomp.over(socket)
@@ -150,7 +153,7 @@ class Socket {
     }
   }
   /**
-   * 退订频道函数 （页面推出调用此方法删除对应的订阅dom对象）
+   * 退订频道函数 （页面退出调用此方法删除对应的订阅dom对象）
    * @param {*} domName
    */
   unsubscribe(domName) {
@@ -167,5 +170,4 @@ class Socket {
     })
   }
 }
-
 export default new Socket()

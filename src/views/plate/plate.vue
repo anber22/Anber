@@ -14,7 +14,7 @@
       </div>
 
       <div class="equipList-detail">
-        <div v-for="(item , index) in warnList" :key="index" class="equipList-detail-item" :style=" 'color:'+item.color" @click="1===index?check():uncheck()">
+        <div v-for="(item , index) in hazardCountList" :key="index" class="equipList-detail-item" :style=" 'color:'+item.color" @click="1===index?check():uncheck()">
           <p>
             {{ item.value }}
           </p>
@@ -82,6 +82,7 @@
 import SimpleForm from 'cmp/simpleForm/SimpleForm'
 import MaxLine from 'cmp/echarts/mixLine/MixLine'
 import PlateWarning from 'cmp/plateWarning/PlateWarning'
+import PlateApi from '@/api/gtPlate/gtPlate'
 export default {
   components: {
     SimpleForm,
@@ -90,6 +91,7 @@ export default {
   },
   data() {
     return {
+      pageType: 0,
       dateType: [ // 时间下拉框值
         {
           value: 1,
@@ -242,7 +244,7 @@ export default {
         }
 
       },
-      warnList: [ // 预警数据数组
+      hazardCountList: [ // 预警数据数组
         {
           name: '今日预警',
           value: 3,
@@ -295,11 +297,15 @@ export default {
       ],
       play: false,
       router: 'PropertyPlate'
-
     }
   },
   created() {
-    this.router = this.$router.history.current.name
+    if (this.$route.path === '/propertyPlate') {
+      this.pageType = 12
+    } else if (this.$route.path === '/safetyCommitteePlate') {
+      this.pageType = 13
+    }
+
     if (this.$router.history.current.name !== 'PropertyPlate') {
       this.equipList.row = [
         {
@@ -399,7 +405,13 @@ export default {
     clearInterval(this.timer)
   },
   methods: {
-
+    getHzardCount() {
+      // const conditions = ''
+      this.hazardCountList.forEach(async(item, index) => {
+        // conditions=`?networkType=${this.pageType}&days=${index===0?1:index===1?7:index===2?30}`
+        this.hazardCountList[index].value = await PlateApi.hazardCount()
+      })
+    },
     onChangeDateType(value) {
       this.$emit('timeType', value)
     }

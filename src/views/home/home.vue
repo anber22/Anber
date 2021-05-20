@@ -106,7 +106,9 @@ export default {
         IotApp: require('@/assets/images/home/iot.png'),
         PlaceResource: require('@/assets/images/home/place.png'),
         Statistics: require('@/assets/images/home/hazard.png'),
-        WisdomVisual: require('@/assets/images/home/video.png')
+        WisdomVisual: require('@/assets/images/home/video.png'),
+        PropertyPlate: require('@/assets/images/home/property-plate.png'),
+        SafetyCommitteePlate: require('@/assets/images/home/safety-committee-plate.png')
       },
 
       menuList: []

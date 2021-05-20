@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import App from './views/App'
-import { setToken } from './utils/auth'
 import router from './router' // 引入路由
 import VueRouter from 'vue-router'
 import Vant from 'vant'
