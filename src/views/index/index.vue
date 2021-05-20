@@ -140,7 +140,8 @@ export default {
       ],
       gaugeData: {},
       gaugeDataFlag: false,
-      equipCountings: '',
+      equipCountings: '', // 设备总数
+      equipOnlineCount: 0, // 设备在线数
       branchesCountings: '',
       equipList: [],
       maxPieData: {
@@ -248,7 +249,7 @@ export default {
     this.getDepartCounting()
     store.dispatch('generatePersistence')
 
-    this.getOnlinePercent()
+    // this.getOnlinePercent()
     this.$nextTick(function() {
       this.initSockets()
     })
@@ -309,10 +310,27 @@ export default {
      * 获取设备总数
      */
     async getEquipCountings() {
-      const res = await Api.equipCountings()
+      const res = await Api.equipCountings('')
 
       if (res.code === 200) {
         this.equipCountings = parseInt(res.data).toLocaleString()
+        this.getEquipOnlineCount()
+      }
+    },
+    /**
+     * 获取设备在线数
+     */
+    async getEquipOnlineCount() {
+      const params = '?onlineType=1'
+      const res = await Api.equipCountings(params)
+
+      if (res.code === 200) {
+        this.equipOnlineCount = parseInt(res.data).toLocaleString()
+        console.log('设备总数/在线数', this.equipCountings, this.equipOnlineCount)
+        const onlinePercent = ((this.equipOnlineCount / this.equipCountings) * 100).toFixed(2)
+        Reflect.set(this.gaugeData, 'onlinePercent', onlinePercent)
+        // this.gaugeData.onlinePercent = res.data
+        this.gaugeDataFlag = true
       }
     },
     async getHazardTypeList() {

@@ -47,13 +47,13 @@
 
     <!-- 消息推送 start -->
     <div class="event-push">
-      <message-push :title="'事件推送'" />
+      <MessagePush :title="'事件推送'" />
     </div>
     <!-- 消息推送 end -->
 
     <!-- 消息推送 start -->
     <div class="error-push">
-      <message-push :title="'故障推送'" />
+      <MessagePush :title="'故障推送'" />
     </div>
     <!-- 消息推送 end -->
 

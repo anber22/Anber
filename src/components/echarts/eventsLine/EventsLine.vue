@@ -1,5 +1,5 @@
 <template>
-  <div :style="`zoom:${zoom};transform:scale(${1/zoom});transform-origin: 0 0;`">
+  <div>
     <div ref="chartId" class="lineMain" />
   </div>
 </template>

@@ -328,14 +328,14 @@ export default {
   font-size: 50px;
 }
 .iotApp{
-  position: fixed;
-  height: 100%;
+  /* position: fixed; */
+  height: calc(100% - 45px);
   width: 100%;
   background-color: #101720;
 
 }
 .iot-content{
-  position: fixed;
+  /* position: fixed; */
   padding: 0px 3% 13% 3%;
   height: 80%;
   width: 94%;
