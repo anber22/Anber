@@ -4,11 +4,10 @@
     <div class="hidden-trouble-detail">
       <div class="out-rect">
         <div v-if="violationsList.length>0" class="in-rect">
-          <ul class="vio-list">
+          <ul class="vio-list" :class="!index && play?'vio-up':''">
             <li
               v-for="(item,index) in violationsList"
               :key="index"
-              :class="!index && play?'toUp':''"
             >
               <!-- ！违规停放 -->
               <div class="illegal-parking">
@@ -138,8 +137,12 @@ export default {
   padding:0px 13px;
   overflow: hidden;
 }
-.toUp {
-  margin-top: -55px; /*key code*/
-  transition: all 1s; /*key code*/
+/* .toUp {
+  margin-top: -55px;
+  transition: all 1s;
+} */
+.vio-list.vio-up li{
+  transition-duration: 1000ms;
+  transform: translateY(-60px);
 }
 </style>
