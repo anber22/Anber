@@ -21,7 +21,7 @@
         @load="getAnalysisList"
       >
         <div v-for="item in hazardList" :key="item.index" @click="showDetail(item.id)">
-          <Adaptive :size="['94%','38.39%']" class="hazard-list-card">
+          <Adaptive :size="['100%','38.39%']" class="hazard-list-card">
             <HazardListCard :hazar-data="item" />
           </Adaptive>
         </div>
@@ -145,7 +145,7 @@ export default {
 
       this.hazardList = this.hazardList.concat(temp)
       this.loading = false
-      if (params.page === res.data.total) {
+      if (params.page === 3) {
         this.finished = true
       }
     },

@@ -411,8 +411,8 @@ export default {
 .plate{
   background-color: #0E1820;
   width: 92%;
-  height: 100%;
-  position: fixed;
+  height: calc(100% - 75px);
+  /* position: fixed; */
   color: #ffffff;
   overflow: scroll;
   padding: 15px;
@@ -502,7 +502,7 @@ export default {
   justify-content: space-around;
 }
 .equipList-detail-item{
-  width: 21%;
+  /* width: 21%; */
   height: 50px;
   display: inline-block;
   padding: 5px 14px;
@@ -510,7 +510,7 @@ export default {
 }
 .equipList-detail-item-title{
   height: 9px;
-  width: 65px;
+  /* width: 65px; */
   font-size: 16px;
   font-family: SourceHanSansCN;
   font-weight: 400;
@@ -585,7 +585,6 @@ export default {
 .equipment-statistics{
   height: auto;
   width: 100%;
-  margin-bottom: 90px;
 }
 
 </style>

@@ -1,16 +1,16 @@
 .video-view{
-  position: fixed;
+  /* position: fixed; */
   width: 100%;
-  height: calc(100% - 46px);
+  height: calc(100% - 65px);
   background-color: rgba(16, 23, 32, 1);
   color: #fff;
-  min-height: calc(100% - 46px);
+  /* min-height: calc(100% - 45px); */
   padding-bottom: 20px;
 }
 .video-content{
-  position: fixed;
+  /* position: fixed; */
   width: 92%;
-  height: calc(100% - 110px);
+  height: calc(100% - 60px);
   overflow: scroll;
   padding: 0 4%;
 }

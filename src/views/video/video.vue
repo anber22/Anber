@@ -137,7 +137,7 @@ export default {
   padding-left: 15px;
 }
 .video-view .van-search{
-  padding: 20px 16px 0
+  padding: 20px 16px 10px
 }
 .video-view .van-field__left-icon .van-icon{
   font-size: 24px

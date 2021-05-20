@@ -1,14 +1,14 @@
 .hazard{
-  position: fixed;
+  /* position: fixed; */
   width: 100%;
-  height: 100%;
+  height: calc(100% - 45px);
   background-color: #101720;
 }
 .hazard-content{
-  position: fixed;
-  padding: 0px 3% 52% 3%;
-  width: 100%;
-  height: 80%;
+  /* position: fixed; */
+  padding: 0px 4%;
+  width: 92%;
+  height: 90%;
   overflow: scroll;
 }
 .hazard-list-card{
