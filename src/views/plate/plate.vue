@@ -243,6 +243,7 @@ export default {
     this.getHzardList()
     this.getHeartBeatStatistical('heartBeatStatisticalLastMonth', { month: 1, conditions: `?networkType=${this.pageType}` })
     this.getEquipStatistical()
+    this.getHazardTrend()
     this.initSockets()
   },
   destroyed() {
@@ -298,7 +299,6 @@ export default {
       if (res.code === 200) {
         this.undoneHazardCount = res.data
       }
-<<<<<<< HEAD
     },
     /**
      * 获取预警列表 （top10）
@@ -316,20 +316,13 @@ export default {
       const dateTransformation = new DateTransformation()
       this.violationsList.forEach((item, index) => {
         this.violationsList[index].createdTime = dateTransformation.dateDifference(this.violationsList[index].createdTime)
-=======
-    }
-    this.getHazardTrend()
-  },
-  destroyed() {
-    clearInterval(this.timer)
-  },
-  methods: {
+      })
+    },
     getHzardCount() {
       // const conditions = ''
       this.hazardCountList.forEach(async(item, index) => {
         // conditions=`?networkType=${this.pageType}&days=${index===0?1:index===1?7:index===2?30}`
         this.hazardCountList[index].value = await PlateApi.hazardCount()
->>>>>>> e7365969ce85393eedb5c9cc4474fba604d7339b
       })
     },
     /**
@@ -351,7 +344,6 @@ export default {
     onChangeDateType(value) {
       console.log('切换', this.timeType)
       this.$emit('timeType', value)
-<<<<<<< HEAD
       let param = []
       if (this.timeType === 1) {
         param = {
@@ -379,7 +371,6 @@ export default {
       })
       this.equipList.row = temp
       console.log('事件', this.equipList.row)
-=======
     },
     /**
      * 获取近30天预警趋势
@@ -397,7 +388,6 @@ export default {
         })
         this.lineDataFlag = true
       }
->>>>>>> e7365969ce85393eedb5c9cc4474fba604d7339b
     }
   }
 }

@@ -4,7 +4,7 @@
     <div class="hidden-trouble-detail">
       <div class="out-rect">
         <div v-if="violationsList.length>0" class="in-rect">
-          <ul class="vio-list" :class="!index && play?'vio-up':''">
+          <ul class="vio-list" :class=" play?'vio-up':''">
             <li
               v-for="(item,index) in violationsList"
               :key="index"
