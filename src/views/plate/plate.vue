@@ -62,7 +62,7 @@
       </div>
       <div class="warning-line">
         <Adaptive :size="['100%','56%']" style=" overflow: hidden; ">
-          <MaxLine :line-data="lineData" style=" overflow: hidden; " />
+          <MaxLine v-if="lineDataFlag" :line-data="lineData" style=" overflow: hidden; " />
         </Adaptive>
       </div>
     </div>
@@ -194,21 +194,22 @@ export default {
 
         ]
       },
-      lineData: { // 折线统计图数据
+      lineData: { // 预警趋势折线统计图数据
         title: '预警数',
         name: '预警数',
         xAxis: {
-          data: ['03.25', '03.26', '03.27', '03.28', '03.29', '03.30', '03.31', '04.01', '04.02', '04.03', '04.04', '04.05', '04.06', '04.07', '04.08', '04.09', '04.10', '04.11', '04.12', '04.13', '04.14', '04.15', '04.16', '04.17', '04.18', '04.19', '04.20', '04.21', '04.22', '04.23']
+          data: []
         },
         yAxis: {
           splitLineColor: 'rgba(76,200,172, 0.3)'
         },
         series: {
-          data: ['8', '8', '8', '8', '8', '8', '17', '17', '28', '19', '10', '10', '20', '12', '12', '12', '12', '12', '14', '15', '10', '20', '20', '20', '20', '20', '20', '20', '20', '20'],
+          data: [],
           smooth: false
         }
 
       },
+      lineDataFlag: false, // 预警趋势图表是否显示
       hazardCountList: [ // 预警数据数组
         {
           name: '今日预警',
@@ -297,6 +298,7 @@ export default {
       if (res.code === 200) {
         this.undoneHazardCount = res.data
       }
+<<<<<<< HEAD
     },
     /**
      * 获取预警列表 （top10）
@@ -314,6 +316,20 @@ export default {
       const dateTransformation = new DateTransformation()
       this.violationsList.forEach((item, index) => {
         this.violationsList[index].createdTime = dateTransformation.dateDifference(this.violationsList[index].createdTime)
+=======
+    }
+    this.getHazardTrend()
+  },
+  destroyed() {
+    clearInterval(this.timer)
+  },
+  methods: {
+    getHzardCount() {
+      // const conditions = ''
+      this.hazardCountList.forEach(async(item, index) => {
+        // conditions=`?networkType=${this.pageType}&days=${index===0?1:index===1?7:index===2?30}`
+        this.hazardCountList[index].value = await PlateApi.hazardCount()
+>>>>>>> e7365969ce85393eedb5c9cc4474fba604d7339b
       })
     },
     /**
@@ -335,6 +351,7 @@ export default {
     onChangeDateType(value) {
       console.log('切换', this.timeType)
       this.$emit('timeType', value)
+<<<<<<< HEAD
       let param = []
       if (this.timeType === 1) {
         param = {
@@ -362,6 +379,25 @@ export default {
       })
       this.equipList.row = temp
       console.log('事件', this.equipList.row)
+=======
+    },
+    /**
+     * 获取近30天预警趋势
+     */
+    async getHazardTrend() {
+      const params = {
+        conditions: '?conditions=' + this.pageType
+      }
+      const res = await PlateApi.hazardTrend(params)
+      if (res.code === 200) {
+        const dataArr = [...res.data]
+        dataArr.forEach(item => {
+          this.lineData.xAxis.data.push(item.date.substring(4, 6) + '.' + item.date.substring(6, 8))
+          this.lineData.series.data.push(item.count)
+        })
+        this.lineDataFlag = true
+      }
+>>>>>>> e7365969ce85393eedb5c9cc4474fba604d7339b
     }
   }
 }

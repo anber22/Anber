@@ -1,9 +1,10 @@
 .index{
   width: 92%;
-  height: 100%;
+  /* height: 100%; */
   padding: 0px 4% 0px 4%;
   /* background-color: rgba(16, 23, 32, 1); */
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .equip-count{
   border-radius:5px;
@@ -75,9 +76,10 @@
 }
 .index-bg{
   width: 100%;
-  height: max-content;
+  /* height: max-content; */
   background-image: url('@/assets/images/index/zhgt-bg.png');
   background-color: rgba(16, 23, 32, 1);
   background-repeat: no-repeat;
   background-size:100% 100%;
+  /* height: auto; */
 }

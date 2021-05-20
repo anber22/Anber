@@ -1,93 +1,91 @@
 <template>
-  <div ref="index">
-    <div class="index-bg">
-      <div class="index">
-        <!-- 顶部设备网点数量统计 start -->
-        <Adaptive class="equip-count" :size="['47.9%','18.67%']">
-          <div class="count-title">
-            设备总数
-          </div>
-          <div class="count-value">
-            {{ equipCountings }}
-          </div>
-        </Adaptive>
-        <Adaptive class="branches-count" :size="['47.9%','18.67%']">
-          <div class="count-title">
-            网点数
-          </div>
-          <div class="count-value">
-            {{ branchesCountings }}
-          </div>
-        </Adaptive>
-        <!-- end -->
-        <!-- 设备在线率 start -->
-        <Adaptive :size="['100%','60%']">
-          <Gauge v-if="gaugeDataFlag" ref="Gauge" :gauge-data="gaugeData" />
-        </Adaptive>
-        <!-- 分割线line -->
-        <div style="width: 100%;height: 8px;background: #131B25;margin-top: 14px" />
-        <!-- end -->
-        <!-- 实时预警 start -->
-        <Adaptive :size="['100%','5.57%']" class="title-box">
-          <div class="title-style" />
-          <div class="title-name">
-            实时预警
-          </div>
-        </Adaptive>
-        <Adaptive :size="['100%','12.75%']" class="warning-box">
-          <Warning ref="Warning" class="warning" :warning-data="hiddenDangerList" :system="subsystemList" />
-          <!--  -->
-        </Adaptive>
-        <!-- end -->
-        <!-- 应用列表 start -->
-        <Adaptive :size="['100%','5.57%']" class="title-box">
-          <div class="title-style" />
-          <div class="title-name">
-            应用列表
-          </div>
-        </Adaptive>
-        <van-loading v-if="loading" size="24px" vertical>
-          加载中...
-        </van-loading>
-        <EquipList :equip-data="equipList" />
-        <!-- end -->
+  <div ref="index" class="index-bg">
+    <div class="index">
+      <!-- 顶部设备网点数量统计 start -->
+      <Adaptive class="equip-count" :size="['47.9%','18.67%']">
+        <div class="count-title">
+          设备总数
+        </div>
+        <div class="count-value">
+          {{ equipCountings }}
+        </div>
+      </Adaptive>
+      <Adaptive class="branches-count" :size="['47.9%','18.67%']">
+        <div class="count-title">
+          网点数
+        </div>
+        <div class="count-value">
+          {{ branchesCountings }}
+        </div>
+      </Adaptive>
+      <!-- end -->
+      <!-- 设备在线率 start -->
+      <Adaptive :size="['100%','60%']">
+        <Gauge v-if="gaugeDataFlag" ref="Gauge" :gauge-data="gaugeData" />
+      </Adaptive>
+      <!-- 分割线line -->
+      <div style="width: 100%;height: 8px;background: #131B25;margin-top: 14px" />
+      <!-- end -->
+      <!-- 实时预警 start -->
+      <Adaptive :size="['100%','5.57%']" class="title-box">
+        <div class="title-style" />
+        <div class="title-name">
+          实时预警
+        </div>
+      </Adaptive>
+      <Adaptive :size="['100%','12.75%']" class="warning-box">
+        <Warning ref="Warning" class="warning" :warning-data="hiddenDangerList" :system="subsystemList" />
+        <!--  -->
+      </Adaptive>
+      <!-- end -->
+      <!-- 应用列表 start -->
+      <Adaptive :size="['100%','5.57%']" class="title-box">
+        <div class="title-style" />
+        <div class="title-name">
+          应用列表
+        </div>
+      </Adaptive>
+      <van-loading v-if="loading" size="24px" vertical>
+        加载中...
+      </van-loading>
+      <EquipList :equip-data="equipList" />
+      <!-- end -->
 
-        <!-- 辖区统计 start  -->
-        <Adaptive :size="['100%','5.57%']" class="title-box">
-          <div class="title-style" />
-          <div class="title-name">
-            辖区统计
-          </div>
-        </Adaptive>
+      <!-- 辖区统计 start  -->
+      <Adaptive :size="['100%','5.57%']" class="title-box">
+        <div class="title-style" />
+        <div class="title-name">
+          辖区统计
+        </div>
+      </Adaptive>
 
-        <DepartCount :depart-count="departCountData" />
-        <van-loading v-if="!lineDataFlag && !maxPieDataFlag" size="24px" vertical>
-          加载中...
-        </van-loading>
-        <Adaptive :size="['100%','70%']">
-          <MaxPie v-if="maxPieDataFlag" :pie-data="maxPieData" @activeType="activeType" />
-        </Adaptive>
-        <Adaptive :size="['100%','56%']" style=" overflow: hidden; ">
-          <MaxLine v-if="lineDataFlag" :line-data="lineData" style=" overflow: hidden; " />
-        </Adaptive>
-        <!-- end -->
-        <!-- 监测分析，近一月/近一年/全部 -->
-        <Adaptive :size="['100%', analysisHeight +'%']">
-          <MonitorAnalysis v-if="!loading" :monitor-analysis-data="monitorAnalysisData" @timeType="getDateType" @systemType="getMonitorSystemType" />
-        </Adaptive>
-        <!-- legend 图例 -->
-        <!-- <div class="legend">
+      <DepartCount :depart-count="departCountData" />
+      <van-loading v-if="!lineDataFlag && !maxPieDataFlag" size="24px" vertical>
+        加载中...
+      </van-loading>
+      <Adaptive :size="['100%','70%']">
+        <MaxPie v-if="maxPieDataFlag" :pie-data="maxPieData" @activeType="activeType" />
+      </Adaptive>
+      <Adaptive :size="['100%','56%']" style=" overflow: hidden; ">
+        <MaxLine v-if="lineDataFlag" :line-data="lineData" style=" overflow: hidden; " />
+      </Adaptive>
+      <!-- end -->
+      <!-- 监测分析，近一月/近一年/全部 -->
+      <Adaptive :size="['100%', analysisHeight +'%']">
+        <MonitorAnalysis v-if="!loading" :monitor-analysis-data="monitorAnalysisData" @timeType="getDateType" @systemType="getMonitorSystemType" />
+      </Adaptive>
+      <!-- legend 图例 -->
+      <!-- <div class="legend">
       <p v-for="(item, index) in monitorAnalysisData.pieData.data" :key="index">
         <span :style="{ background: item.color }" />{{ item.name }}&emsp;&emsp;{{ item.value }}次&emsp;&emsp;&ensp;{{ item.precent }}%
       </p>
     </div> -->
-        <!-- end -->
-        <!-- 事件数故障数统计分析 start  -->
-        <Adaptive :size="['100%','76%']">
-          <Events v-if="!loading" :event-data="eventData" @systemType="getSystemType" />
-        </Adaptive>
-        <!-- end -->
-      </div>
+      <!-- end -->
+      <!-- 事件数故障数统计分析 start  -->
+      <Adaptive :size="['100%','76%']">
+        <Events v-if="!loading" :event-data="eventData" @systemType="getSystemType" />
+      </Adaptive>
+      <!-- end -->
     </div>
   </div>
 </template>
