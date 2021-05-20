@@ -15,7 +15,7 @@ module.exports = merge(base, {
     // },
     historyApiFallback: true,
     compress: true, // 启用压缩,
-    // host: "192.168.3.41", // 这里可以把ip改成自己电脑的ip，手机连上 ctjt-link 就可以在手机上预览项目
+    host: "192.168.3.41", // 这里可以把ip改成自己电脑的ip，手机连上 ctjt-link 就可以在手机上预览项目
     port: 1229, // 端口
     open: true, // 自动打开浏览器
     hot: true,
