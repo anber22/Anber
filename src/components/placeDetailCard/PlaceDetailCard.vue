@@ -21,7 +21,7 @@
             {{ item.equipAddress }}
           </li>
         </ul>
-        <img class="reduce-img" src="@/assets/images/equip/reduce.png" alt="" @click="$emit('deleteEquip', index)">
+        <!-- <img class="reduce-img" src="@/assets/images/equip/reduce.png" alt="" @click="$emit('deleteEquip', index)"> -->
       </div>
     </div>
     <!-- <div class="PlaceDetailCard">

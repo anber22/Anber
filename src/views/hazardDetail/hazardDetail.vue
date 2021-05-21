@@ -94,7 +94,7 @@
         <img src="@/assets/images/home/title-icon.png" alt="" class="hazardDetail-submit-titil-icon">
         处理信息
       </div>
-      <div v-if="detailInfo.isDone===1" class="hazardDetail-submit-content">
+      <!-- <div v-if="detailInfo.isDone===1" class="hazardDetail-submit-content">
         <div class="hazardDetail-deal-content-info-row">
           <div class="hazardDetail-deal-content-info-row-name">
             隐患复核:
@@ -125,9 +125,9 @@
             {{ dealInfo.result }}
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <div v-else class="hazardDetail-deal-content-none">
+      <div class="hazardDetail-deal-content-none">
         暂无处理信息
       </div>
     </div>

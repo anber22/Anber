@@ -103,7 +103,7 @@
         </Adaptive> -->
         <PlaceDetailCard class="PlaceDetailCard-bind-equip" :place-detail-data="placeResource" />
 
-        <p class="binding-device">
+        <!-- <p class="binding-device">
           <van-image
             width="18px"
             height="18px"
@@ -114,7 +114,7 @@
             :show-loading="false"
           />
           绑定设备
-        </p>
+        </p> -->
       </div>
     </div>
   </div>

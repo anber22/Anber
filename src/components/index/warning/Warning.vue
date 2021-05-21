@@ -16,7 +16,7 @@
                 {{ rowItem.systemName }}
               </div>
               <div class="colItem content width-30">
-                {{ rowItem.onlineMsg }}
+                {{ rowItem.hazardTypeName }}
               </div>
               <div class="colItem content width-27">
                 {{ rowItem.placeName }}
