@@ -131,7 +131,7 @@ export default {
   },
   mounted() {
     this.equipId = this.$route.query.id
-    this.systemId = Number(this.$route.query.systemId)
+    this.systemId = this.$route.query.systemId + ''
     this.getEquipDetailInfo()
   },
   methods: {

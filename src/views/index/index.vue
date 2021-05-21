@@ -48,7 +48,7 @@
       <van-loading v-if="loading" size="24px" vertical>
         加载中...
       </van-loading>
-      <EquipList :equip-data="equipList" />
+      <EquipList v-if="equipList.length>0" :equip-data="equipList" />
       <!-- end -->
 
       <!-- 辖区统计 start  -->
@@ -122,19 +122,6 @@ export default {
       Warning: 'Warning',
       loading: true,
       subsystemList: [
-        {
-          id: 5,
-          name: '智慧视觉',
-          imgUrl: require('/src/assets/images/index/wisdom-visual.png')
-        }, {
-          id: 10,
-          name: '环境监测',
-          imgUrl: require('/src/assets/images/index/environmental-monitoring.png')
-        }, {
-          id: 11,
-          name: '塔机监测',
-          imgUrl: require('/src/assets/images/index/crane-monitoring.png')
-        }
       ],
       gaugeData: {},
       gaugeDataFlag: false,
@@ -231,14 +218,7 @@ export default {
     }
   },
   created() {
-    // setTimeout(() => {
-    //   this.socket()
-    // }, 1000)
-    // this.subsystemList.forEach(item => {
-    //   item.imgUrl = require(item.imgUrl)
-    // })
-
-    // const temp = Socket.onMessages('equipCount')
+    this.subsystemList = Config.subsystemList
     this.getHazardTypeList()
     this.getHiddenDangerList()
     this.getEquipCountings()
@@ -324,7 +304,6 @@ export default {
 
       if (res.code === 200) {
         this.equipOnlineCount = parseInt(res.data).toLocaleString()
-        console.log('设备总数/在线数', this.equipCountings, this.equipOnlineCount)
         const onlinePercent = ((this.equipOnlineCount / this.equipCountings) * 100).toFixed(2)
         Reflect.set(this.gaugeData, 'onlinePercent', onlinePercent)
         // this.gaugeData.onlinePercent = res.data
@@ -357,6 +336,7 @@ export default {
      */
     async getEquipList() {
       this.loading = true
+
       // this.equipList = this.applicationEquipList
       this.equipList = await this.$store.dispatch('GetApplicationlist')
       const combined = this.subsystemList.reduce((acc, cur) => {

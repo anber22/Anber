@@ -135,18 +135,18 @@
   },
   "subsystemList":[
     {
-      "id":5,
+      "id":"5",
       "name":"智慧视觉",
-      "imgUrl": "/src/assets/images/index/wisdom-visual.png"
+      "imgUrl": "wisdom-visual.png"
     },{
-      "id":10,
+      "id":"10",
 
       "name":"环境监测",
-      "imgUrl":"/src/assets/images/index/environmental-monitoring.png"
+      "imgUrl":"environmental-monitoring.png"
     },{
-      "id":11,
+      "id":"11",
       "name":"塔机监测",
-      "imgUrl":"/src/assets/images/index/crane-monitoring.png"
+      "imgUrl":"crane-monitoring.png"
     }
   ],
   "diyComponent":{

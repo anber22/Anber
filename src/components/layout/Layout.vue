@@ -59,7 +59,6 @@ export default {
   },
   watch: {
     '$route'(to, from) {
-      // console.log('路由跳转', from, to)
       if (from.path === '/placeResourceAddition' && to.path === '/placeResource') {
         window.localStorage.removeItem('equipList')
         window.localStorage.removeItem('placeResource')
@@ -73,7 +72,6 @@ export default {
     }
   },
   mounted() {
-    console.log('当前路由', this.$route.path === '/login')
     if (this.$route.path !== '/login') {
       this.initSockets()
     }

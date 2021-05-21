@@ -4,7 +4,7 @@
     <div class="hidden-trouble-detail">
       <div class="out-rect">
         <div v-if="ulList.length>0" class="in-rect">
-          <img class="equip-img" :src="currentSystemtypeImage" alt="">
+          <img class="equip-img" :src="require(`@/assets/images/index/${currentSystemtypeImage}`) " alt="">
           <ul class="list">
             <li
               v-for="(rowItem, index) in ulList"
@@ -89,7 +89,7 @@ export default {
     onMessage(msg) {
       clearInterval(this.timer)
       this.systemList.forEach(cItem => {
-        if (Number(msg.type) === cItem.id) {
+        if (msg.type === cItem.id) {
           msg['imgUrl'] = cItem.imgUrl
           msg['systemName'] = cItem.name
         }
