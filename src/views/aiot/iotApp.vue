@@ -25,7 +25,7 @@
       </van-loading>
       <div v-if="isCard">
         <!-- 智慧视觉卡片 start -->
-        <div v-if="thisSubsystemId===5 && equipInfoList.length>0" class="show-list">
+        <div v-if="thisSubsystemId==='5' && equipInfoList.length>0" class="show-list">
           <van-list
             v-model="loading"
             :finished="finished"
@@ -43,7 +43,7 @@
         </div>
         <!-- end -->
         <!-- 环境监测卡片 start -->
-        <div v-if="thisSubsystemId===10 && equipInfoList.length>0" class="show-list">
+        <div v-if="thisSubsystemId==='10' && equipInfoList.length>0" class="show-list">
           <van-list
             v-model="loading"
             :finished="finished"
@@ -61,7 +61,7 @@
         </div>
         <!-- end -->
         <!-- 塔机卡片 start -->
-        <div v-if="thisSubsystemId===11 && equipInfoList.length>0 && !loading" class="show-list">
+        <div v-if="thisSubsystemId==='11' && equipInfoList.length>0 && !loading" class="show-list">
           <van-list
             v-model="loading"
             :finished="finished"
@@ -145,21 +145,21 @@ export default {
         { text: '环境监测', value: '10' },
         { text: '塔机监测', value: '11' }
       ],
-      thisSubsystemId: 5, // 当前选中系统
+      thisSubsystemId: '5', // 当前选中系统
       isCard: false, // 展示形式 （列表||卡片）
       queryCondition: '', // 查询条件 （这里只有模糊查询）
       equipInfoList: [], // 设备卡片信息
       page: 0, // 当前页数
       finished: false, // 是否加载全部
-      dataLoadingStart: 5, // 数据开始加载的子系统id
+      dataLoadingStart: '5', // 数据开始加载的子系统id
       jsStabilization: null, // 函数防抖实例对象
-      delaySystemId: 5 // 延时系统id
+      delaySystemId: '5' // 延时系统id
     }
   },
   created() {
     // 渲染页面查询卡片列表片数据
     if (this.$route.query.systemId) {
-      this.thisSubsystemId = Number(this.$route.query.systemId)
+      this.thisSubsystemId = this.$route.query.systemId
     }
     this.jsStabilization = new JsStabilization()
     this.getEquipInfoList()
@@ -222,12 +222,12 @@ export default {
       let temp = []
       let system = ''
       // 根据对应的设备类型去请求相对应系统的接口
-      if (this.thisSubsystemId === 10) {
-        system = 10
-      } else if (this.thisSubsystemId === 11) {
-        system = 11
-      } else if (this.thisSubsystemId === 5) {
-        system = 5
+      if (this.thisSubsystemId === '10') {
+        system = '10'
+      } else if (this.thisSubsystemId === '11') {
+        system = '11'
+      } else if (this.thisSubsystemId === '5') {
+        system = '5'
       }
       const params = {
         systemType: this.thisSubsystemId,
@@ -278,7 +278,7 @@ export default {
           this.loading = true
           const temp = JSON.parse(JSON.stringify(this.equipInfoList))
           // 如果是环境监测
-          await this.getRealData(temp, system, system === 10 ? 'environmentRealTimeData' : system === 11 ? 'towerRealTimeInfo' : '')
+          await this.getRealData(temp, system, system === '10' ? 'environmentRealTimeData' : system === '11' ? 'towerRealTimeInfo' : '')
           // 获取设备列表id对应的未处理事件数
 
           for (let i = 0; i < temp.length; i++) {

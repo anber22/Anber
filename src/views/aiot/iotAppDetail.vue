@@ -23,7 +23,7 @@
     <!-- end -->
     <!-- 实时数据 || 实时监控 start -->
     <div v-show="active===1">
-      <div v-if="systemId === 5 || systemId === 11">
+      <div v-if="systemId === '5' || systemId === '11'">
         <div class="iotApp-detail-title">
           <img src="@/assets/images/home/title-icon.png" alt="" class="iotApp-detail-title-icon">
           实时监控
@@ -38,7 +38,7 @@
           />
         </div>
       </div>
-      <div v-if="systemId===10">
+      <div v-if="systemId==='10'">
         <div class="iotApp-detail-title">
           <img src="@/assets/images/home/title-icon.png" alt="" class="iotApp-detail-title-icon">
           实时数据
@@ -233,8 +233,8 @@ export default {
       //   })
       // }
 
-      if (this.systemId === 5 || this.systemId === 11) {
-        if (this.systemId === 11) {
+      if (this.systemId === '5' || this.systemId === '11') {
+        if (this.systemId === '11') {
           const detailRes = await Api.towerRealTimeInfo(this.equipId)
           let realDate = {}
           if (detailRes.code === 200) {
@@ -292,7 +292,7 @@ export default {
           source = videoUrl + '/mag/hls/' + VideoUUID.match(this.equipInfo.imei) + '/0/live.m3u8'
         }
         this.playVideo(source)
-      } else if (this.systemId === 10) {
+      } else if (this.systemId === '10') {
         this.getEnvironmentRealTime()
       }
     },
