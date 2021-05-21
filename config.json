@@ -36,8 +36,8 @@
         "permissions": ["NetworkPointResource"]
       },
       "Statistics": {
-        "desc":"隐患管理AnalysisCounting",
-        "permissions": []
+        "desc":"隐患管理",
+        "permissions": ["AnalysisCounting"]
       },
       "WisdomVisual": {
         "desc":"智慧视觉",
