@@ -97,22 +97,25 @@ export default {
 <style scoped>
 .illegal-parking{
   display: inline;
-  font-size: 15px;
+  font-size: 12px;
   font-family: PingFang SC;
   font-weight: 400;
   color: #FF1743;
+  overflow: hidden;
+  vertical-align: middle;
 }
 
 .alert-icon{
   width: 24px;
   height: 23px;
+  vertical-align: middle;
 }
 .park-address{
   width: 110px;
   /* height: 100%; */
   line-height: 15px;
   margin : 0px 20px;
-  font-size: 14px;
+  font-size: 12px;
   font-family: PingFang SC;
   font-weight: 400;
   color: #B9CEE9;
@@ -124,7 +127,7 @@ export default {
   color: #B9CEE9;
   font-weight: 400;
   display: inline-block;
-  font-size: 15px;
+  font-size: 12px;
 }
 .vio-list{
   list-style: none;
