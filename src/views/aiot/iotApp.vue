@@ -141,9 +141,9 @@ export default {
     return {
       loading: true, // 加载状态
       subsystemList: [ // 系统选择下拉菜单
-        { text: '智慧视觉', value: 5 },
-        { text: '环境监测', value: 10 },
-        { text: '塔机监测', value: 11 }
+        { text: '智慧视觉', value: '5' },
+        { text: '环境监测', value: '10' },
+        { text: '塔机监测', value: '11' }
       ],
       thisSubsystemId: 5, // 当前选中系统
       isCard: false, // 展示形式 （列表||卡片）

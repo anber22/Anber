@@ -112,9 +112,9 @@ export default {
     return {
       showType: false, // 系统类型弹窗
       typeActions: [
-        { text: '智慧视觉', id: 5 },
-        { text: '环境监测', id: 10 },
-        { text: '塔机监测', id: 11 }
+        { text: '智慧视觉', id: '5' },
+        { text: '环境监测', id: '10' },
+        { text: '塔机监测', id: '11' }
       ], // 系统类型
       type: { text: '系统类型', id: 0 },
       showDate: false, // 选择日期弹窗

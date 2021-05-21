@@ -62,14 +62,6 @@ export default {
       this.hazardList = newVal
     }
   },
-  // watch: {
-  //   data: {
-  //     handler(data) {
-  //       this.hazardList = data
-  //     },
-  //     deep: true // 划重点
-  //   }
-  // },
   mounted() {
   },
   methods: {

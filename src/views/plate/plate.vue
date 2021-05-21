@@ -247,7 +247,6 @@ export default {
     this.initSockets()
   },
   destroyed() {
-    console.log('当前页面销毁')
     Socket.unsubscribe('PlateWarning')
   },
   methods: {
@@ -259,7 +258,6 @@ export default {
           msg.createdTime = dateTransformation.dateDifference(msg.createdTime)
           this.violationsList.splice(0, 0, msg)
           this.$forceUpdate()
-          console.log('收到推送当前是' + msg.networkType, this.violationsList)
         }
       }
     },
@@ -312,7 +310,6 @@ export default {
       if (res.code === 200) {
         this.violationsList = res.data
       }
-      console.log('安委', this.violationsList)
       const dateTransformation = new DateTransformation()
       this.violationsList.forEach((item, index) => {
         this.violationsList[index].createdTime = dateTransformation.dateDifference(this.violationsList[index].createdTime)
@@ -338,11 +335,9 @@ export default {
           temp[index]['undone'] = item.count - item.done
         })
         this.eventList.row = temp
-        console.log('事件', this.eventList.row)
       }
     },
     onChangeDateType(value) {
-      console.log('切换', this.timeType)
       this.$emit('timeType', value)
       let param = []
       if (this.timeType === 1) {
@@ -370,7 +365,6 @@ export default {
         temp[index]['outline'] = item.count - item.online
       })
       this.equipList.row = temp
-      console.log('事件', this.equipList.row)
     },
     /**
      * 获取近30天预警趋势

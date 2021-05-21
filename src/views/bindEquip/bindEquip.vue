@@ -190,7 +190,6 @@ export default {
             // 地图缩放情况
             _this.map.on('zoomend', () => {
               const zoom = _this.map.getZoom()
-              console.log('zoom---', zoom)
             })
             _this.mapAddMarker(AMap)
             AMap.plugin(['AMap.Autocomplete'], () => {
@@ -200,7 +199,6 @@ export default {
               })
               // 搜索框搜索地址
               AMap.event.addListener(auto, 'select', (e) => {
-                // console.log('搜索', e)
                 _this.equipItem.lon = e.poi.location.lng
                 _this.equipItem.lat = e.poi.location.lat
                 _this.centerLocation = [e.poi.location.lng, e.poi.location.lat]

@@ -19,13 +19,13 @@ class ReadTypeNameOnVuex {
     const typeList = await store.getters[typeName]
     let temp = []
     if (!Array.isArray(info)) {
-      temp = typeList.filter(item => Number(item.id) === Number(info[propertyName]))
+      temp = typeList.filter(item => item.id === info[propertyName])
       if (temp.length !== 0) {
         info[newPropertyName] = temp[0].name
       }
     } else {
       info.forEach(item => {
-        temp = typeList.filter(typeItem => Number(typeItem.id) === Number(item[propertyName]))
+        temp = typeList.filter(typeItem => typeItem.id === item[propertyName])
         if (temp.length !== 0) {
           item[newPropertyName] = temp[0].name
         }

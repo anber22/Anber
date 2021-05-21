@@ -67,17 +67,18 @@
             />
             实时事件
           </div>
-          <RealtimeEventCard :hazard-data="hazardLists" />
+          <RealtimeEventCard :hazard-data="hazardList" />
         </div>
       </div>
     </div>
   </div>
-</template>
+</template>subsystemList
 
 <script>
 import Api from '@/api/index'
 import RealtimeEventCard from 'cmp/realtimeEventCard/RealtimeEventCard'
 import Socket from '@/utils/socket'
+import Config from '/config.json'
 
 export default {
   components: {
@@ -86,21 +87,8 @@ export default {
   data() {
     return {
       type: 'parent',
-      hazardLists: [],
+      hazardList: [],
       subsystemList: [
-        {
-          id: 5,
-          name: '智慧视觉',
-          imgUrl: require('/src/assets/images/index/wisdom-visual.png')
-        }, {
-          id: 10,
-          name: '环境监测',
-          imgUrl: require('/src/assets/images/index/environmental-monitoring.png')
-        }, {
-          id: 11,
-          name: '塔机监测',
-          imgUrl: require('/src/assets/images/index/crane-monitoring.png')
-        }
       ],
       icon: {
         IotApp: require('@/assets/images/home/iot.png'),
@@ -115,6 +103,7 @@ export default {
     }
   },
   created() {
+    this.subsystemList = Config.subsystemList
     this.getHiddenDangerList()
 
     this.getMenuList()
@@ -135,8 +124,8 @@ export default {
       })
     },
     onMessage(msg) {
-      this.hazardLists.splice(2, 1)
-      this.hazardLists.splice(0, 0, msg)
+      this.hazardList.splice(2, 1)
+      this.hazardList.splice(0, 0, msg)
       this.$forceUpdate()
     },
     initSockets() {
@@ -178,7 +167,7 @@ export default {
           }
         })
       })
-      this.hazardLists = temp
+      this.hazardList = temp
     }
   }
 }

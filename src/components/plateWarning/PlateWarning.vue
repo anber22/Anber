@@ -56,7 +56,6 @@ export default {
 
   },
   created() {
-    console.log('111', this.plateWarningData)
     this.violationsList = this.plateWarningData
     if (this.violationsList !== null) {
       if (this.violationsList.length > 1) {
