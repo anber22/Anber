@@ -25,13 +25,15 @@
       </div>
 
       <!-- 预警列表标题栏 -->
-      <div class="alert-list">
-        <h2>预警列表</h2>
-        <p>未处理<span>{{ undoneHazardCount }}</span>件</p>
-      </div>
-      <PlateWarning v-if="violationsList.length > 0" :plate-warning-data="violationsList" />
-      <div v-else class="nothing">
-        暂无数据
+      <div>
+        <div class="alert-list">
+          <h2>预警列表</h2>
+          <p>未处理<span>{{ undoneHazardCount }}</span>件</p>
+        </div>
+        <PlateWarning v-if="violationsList.length > 0" :plate-warning-data="violationsList" />
+        <div v-else class="nothing">
+          暂无数据
+        </div>
       </div>
     </div>
     <!-- end -->
@@ -49,7 +51,7 @@
           </van-dropdown-menu>
         </div>
       </div>
-      <SimpleForm v-if="eventList.row.length!==0" :table-data="eventList" class="simpleForm" />
+      <SimpleForm v-if="eventList.row.length!==0" :table-data="eventList" :network-type="pageType" table-type="0" :days="timeType===1?30:timeType===2?365:timeType===3?0:0" class="simpleForm" />
     </div>
     <!-- end -->
     <!-- 预警趋势 start -->
@@ -75,7 +77,7 @@
           设备统计
         </div>
       </div>
-      <SimpleForm v-if="equipList.row.length>0" :table-data="equipList" class="simpleForm" />
+      <SimpleForm v-if="equipList.row.length>0" :table-data="equipList" table-type="1" :network-type="pageType" class="simpleForm" />
       <div v-else class="nothing">
         暂无数据
       </div>
@@ -250,6 +252,9 @@ export default {
     Socket.unsubscribe('PlateWarning')
   },
   methods: {
+    /**
+     * 监听socket消息
+     */
     onMessage(msg) {
       if (msg.networkType !== undefined) {
         if (msg.networkType === this.pageType) {
@@ -261,6 +266,9 @@ export default {
         }
       }
     },
+    /**
+     * 初始化socket
+     */
     initSockets() {
       const topicList = [
         {
@@ -310,6 +318,8 @@ export default {
       if (res.code === 200) {
         this.violationsList = res.data
       }
+      this.violationsList = await ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', this.violationsList)
+
       const dateTransformation = new DateTransformation()
       this.violationsList.forEach((item, index) => {
         this.violationsList[index].createdTime = dateTransformation.dateDifference(this.violationsList[index].createdTime)
@@ -333,6 +343,7 @@ export default {
         temp = await ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', temp)
         temp.forEach((item, index) => {
           temp[index]['undone'] = item.count - item.done
+          temp[index]['condition'] = item.hazardType
         })
         this.eventList.row = temp
       }

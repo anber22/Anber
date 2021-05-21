@@ -6,7 +6,7 @@
       <div class="header-item">
         {{ colItem.name }}
       </div>
-      <div v-for="(rowItem,rowIndex) in tableData.row" :key="rowIndex" class="content-item">
+      <div v-for="(rowItem,rowIndex) in tableData.row" :key="rowIndex" class="content-item" @click="toOther(rowItem.condition,colItem.key)">
         {{ rowItem[colItem.key] }}
       </div>
     </div>
@@ -22,6 +22,18 @@ export default {
     tableData: {
       type: Object,
       default: () => {}
+    },
+    tableType: {
+      type: String,
+      default: ''
+    },
+    networkType: {
+      type: Number,
+      default: 0
+    },
+    days: {
+      type: Number,
+      default: 0
     }
   },
   data() {
@@ -32,7 +44,30 @@ export default {
   created() {
   },
   methods: {
-
+    toOther(condition, type) {
+      if (this.tableType === '0') {
+        this.$router.push({
+          path: '/hazard',
+          query: {
+            hazardType: condition,
+            dealType: type,
+            fromPage: this.$route.path,
+            networkType: this.networkType,
+            days: this.days
+          }
+        })
+      } else if (this.tableType === '1') {
+        // this.$router.push({
+        //   path: '/iotApp',
+        //   query: {
+        //     placeId: condition,
+        //     onlineType: type,
+        //     fromPage: this.$route.path,
+        //     networkType: this.networkType
+        //   }
+        // })
+      }
+    }
   }
 }
 </script>

@@ -23,7 +23,7 @@
 
       <!-- 消息中心 start -->
       <div class="message">
-        <van-cell is-link to="UnreadEvents">
+        <van-cell is-link>
           <template #title>
             <div class="message-title">
               <van-image

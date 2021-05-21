@@ -8,11 +8,12 @@
             <li
               v-for="(item,index) in violationsList"
               :key="index"
+              @click="toDetail(item.id)"
             >
               <!-- ！违规停放 -->
               <div class="illegal-parking">
                 <img class="alert-icon" src="@/assets/images/alert.png" alt="">
-                违规停放
+                {{ item.hazardTypeName }}
               </div>
               <!-- 地址 -->
               <div class="park-address">
@@ -67,6 +68,17 @@ export default {
     clearInterval(this.timer)
   },
   methods: {
+    /**
+     * 跳转详情
+     */
+    toDetail(hazardId) {
+      this.$router.push({
+        path: '/hazardDetail',
+        query: {
+          hazardId: hazardId
+        }
+      })
+    },
     startPlay() {
       const that = this
       that.play = true
@@ -87,7 +99,7 @@ export default {
   display: inline;
   font-size: 15px;
   font-family: PingFang SC;
-  font-weight: 100;
+  font-weight: 400;
   color: #FF1743;
 }
 
@@ -102,7 +114,7 @@ export default {
   margin : 0px 20px;
   font-size: 14px;
   font-family: PingFang SC;
-  font-weight: 100;
+  font-weight: 400;
   color: #B9CEE9;
   white-space: normal;
   word-break: break-all;
@@ -110,7 +122,7 @@ export default {
 }
 .violations-time{
   color: #B9CEE9;
-  font-weight: 100;
+  font-weight: 400;
   display: inline-block;
   font-size: 15px;
 }

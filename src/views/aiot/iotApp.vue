@@ -158,8 +158,17 @@ export default {
   },
   created() {
     // 渲染页面查询卡片列表片数据
-    if (this.$route.query.systemId) {
-      this.thisSubsystemId = this.$route.query.systemId
+
+    if (this.$route.query) {
+      if (this.$route.query.systemId) {
+        this.thisSubsystemId = this.$route.query.systemId
+      }
+      // if (this.$route.query.fromPage === '/propertyPlate') {
+      //   this.status = this.$route.query.onlineType === 'count' ? 0 : this.$route.query.onlineType === 'online' ? 1 : this.$route.query.onlineType === 'outline' ? 2 : 0
+      //   this.hazardType = this.$route.query.hazardType
+      //   this.networkType = this.$route.query.networkType
+      // } else if (this.$route.query.fromPage === '/safetyCommitteePlate') {
+      // }
     }
     this.jsStabilization = new JsStabilization()
     this.getEquipInfoList()

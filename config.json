@@ -36,8 +36,8 @@
         "permissions": ["NetworkPointResource"]
       },
       "Statistics": {
-        "desc":"隐患管理",
-        "permissions": ["AnalysisCounting"]
+        "desc":"隐患管理AnalysisCounting",
+        "permissions": []
       },
       "WisdomVisual": {
         "desc":"智慧视觉",
@@ -114,6 +114,15 @@
       },
       "Home-Hzard-div":{
         "permissions":["VideoHazardRead","EnvirmentHazardRead","TowerHazardRead","Analysis","AnalysisCounting"]
+      },
+      "Index-Hzard-div":{
+        "permissions":["VideoHazardRead","EnvirmentHazardRead","TowerHazardRead","Analysis","AnalysisCounting"]
+      },
+      "Plate-Hzard":{
+        "permissions":["VideoHazardRead","EnvirmentHazardRead","TowerHazardRead","Analysis","AnalysisCounting"]
+      },
+      "PlaceResource-Add-img":{
+        "permissions":["Network","NetworkCreate"]
       }
     }
   },

@@ -1,6 +1,6 @@
 <template>
   <div class="placeResource">
-    <img class="add-outlet" src="@/assets/images/equip/add-outlet.png" alt="" @click="$router.push({path:'/placeResourceAddition'})">
+    <img v-permission:[type]="`PlaceResource-Add`" class="add-outlet" src="@/assets/images/equip/add-outlet.png" alt="" @click="$router.push({path:'/placeResourceAddition'})">
     <van-search v-model="queryCondition" placeholder="网点名称/网点地址" background="#101720" @search="onSearch" />
     <div v-if="placeResourceList.length>0" class="placeResource-content">
       <van-loading v-if="loading" size="24px" vertical>

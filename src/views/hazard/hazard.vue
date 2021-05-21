@@ -46,6 +46,8 @@
 <script>
 import HazardListCard from 'cmp/hazardListCard/HazardListCard'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
+import DateTransformation from '@/utils/dateTransformation.js'
+
 import Api from '@/api/hazard/hazard.js'
 
 export default {
@@ -56,7 +58,8 @@ export default {
     return {
       hazardList: [],
       queryCondition: '',
-      equipType: 0,
+      hazardType: 0,
+      hazardTypeId: 0,
       columns: [
         // 第一列
         {
@@ -75,13 +78,34 @@ export default {
       loading: false,
       equipId: 0,
       page: 0,
-      finished: false
+      finished: false,
+      networkType: 0,
+      endDate: '',
+      startDate: ''
     }
   },
   mounted() {
-    this.equipId = this.$route.query ? this.$route.query.equipId : 0
-    this.getAnalysisList()
     this.getHazardTypeList()
+    if (this.$route.query) {
+      this.equipId = this.$route.query.equipId ? this.$route.query.equipId : 0
+      if (this.$route.query.fromPage === '/propertyPlate') {
+        const dateTransformation = new DateTransformation()
+        const dd = new Date()
+        this.endDate = dateTransformation.dataFormat(JSON.parse(JSON.stringify(dd)))
+        dd.setDate(dd.getDate() - this.$route.query.days)// 获取AddDayCount天后的日期
+        this.startDate = dateTransformation.dataFormat(dd)
+        this.startDate = this.startDate.slice(0, 10) + ' 00:00:00'
+        this.status = this.$route.query.dealType === 'count' ? 0 : this.$route.query.dealType === 'undone' ? 1 : this.$route.query.dealType === 'done' ? 2 : 0
+
+        this.hazardTypeId = this.$route.query.hazardType
+
+        this.networkType = this.$route.query.networkType
+      }
+      // else if (this.$route.query.fromPage === '/safetyCommitteePlate') {
+      // }
+    }
+
+    this.getAnalysisList()
   },
   methods: {
     /**
@@ -100,11 +124,12 @@ export default {
      */
     onConfirm(value, index) {
       this.show = false
-      this.equipType = index[0]
+      this.hazardType = index[0]
       this.status = index[1]
       this.hazardList = []
       this.finished = false
       this.page = 0
+      this.hazardTypeId = 0
       // this.formattingCondition()
       this.getAnalysisList()
     },
@@ -115,6 +140,7 @@ export default {
       this.hazardList = []
       this.finished = false
       this.page = 0
+      this.hazardTypeId = 0
       this.getAnalysisList()
     },
     /**
@@ -150,7 +176,7 @@ export default {
       }
     },
     /**
-     * 获取设备类型列表
+     * 获取隐患类型列表
      */
     async getHazardTypeList() {
       const res = await Api.hazardTypeList(0)
@@ -171,17 +197,26 @@ export default {
         conditionStr = conditionStr + '?condition=' + this.queryCondition
         first = true
       }
-      if (this.equipType !== 0) {
+      if (this.hazardType !== 0) {
         if (!first) {
-          conditionStr = conditionStr + '?hazardType=' + this.hazardTypeList[(this.equipType === 0 ? 0 : this.equipType - 1)].id
+          conditionStr = conditionStr + '?hazardType=' + this.hazardTypeList[(this.hazardType === 0 ? 0 : this.hazardType - 1)].id
           first = true
         } else {
-          conditionStr = conditionStr + '&hazardType=' + this.hazardTypeList[(this.equipType === 0 ? 0 : this.equipType - 1)].id
+          conditionStr = conditionStr + '&hazardType=' + this.hazardTypeList[(this.hazardType === 0 ? 0 : this.hazardType - 1)].id
+        }
+      }
+      if (this.hazardTypeId !== 0) {
+        if (!first) {
+          conditionStr = conditionStr + '?hazardType=' + this.hazardTypeId
+          first = true
+        } else {
+          conditionStr = conditionStr + '&hazardType=' + this.hazardTypeId
         }
       }
       if (this.status !== 0) {
         if (!first) {
           conditionStr = conditionStr + '?isDone=' + (this.status - 1)
+          first = true
         } else {
           conditionStr = conditionStr + '&isDone=' + (this.status - 1)
         }
@@ -189,8 +224,24 @@ export default {
       if (this.equipId > 0) {
         if (!first) {
           conditionStr = conditionStr + '?equipId=' + (this.equipId)
+          first = true
         } else {
           conditionStr = conditionStr + '&equipId=' + (this.equipId)
+        }
+      }
+      if (this.networkType > 0) {
+        if (!first) {
+          conditionStr = conditionStr + '?networkType=' + (this.networkType)
+          first = true
+        } else {
+          conditionStr = conditionStr + '&networkType=' + (this.networkType)
+        }
+      }
+      if (this.startDate !== '' && this.endDate !== '') {
+        if (!first) {
+          conditionStr = conditionStr + '?startDate=' + (this.startDate) + '&endDate=' + (this.endDate)
+        } else {
+          conditionStr = conditionStr + '&startDate=' + (this.startDate) + '&endDate=' + (this.endDate)
         }
       }
       return conditionStr

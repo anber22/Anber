@@ -27,16 +27,19 @@
       <div style="width: 100%;height: 8px;background: #131B25;margin-top: 14px" />
       <!-- end -->
       <!-- 实时预警 start -->
-      <Adaptive :size="['100%','5.57%']" class="title-box">
-        <div class="title-style" />
-        <div class="title-name">
-          实时预警
-        </div>
-      </Adaptive>
-      <Adaptive :size="['100%','12.75%']" class="warning-box">
-        <Warning ref="Warning" class="warning" :warning-data="hiddenDangerList" :system="subsystemList" />
+      <div v-permission:[type]="`Index-Hzard`">
+        <Adaptive :size="['100%','5.57%']" class="title-box">
+          <div class="title-style" />
+          <div class="title-name">
+            实时预警
+          </div>
+        </Adaptive>
+        <Adaptive :size="['100%','12.75%']" class="warning-box">
+          <Warning ref="Warning" class="warning" :warning-data="hiddenDangerList" :system="subsystemList" />
         <!--  -->
-      </Adaptive>
+        </Adaptive>
+      </div>
+
       <!-- end -->
       <!-- 应用列表 start -->
       <Adaptive :size="['100%','5.57%']" class="title-box">
@@ -102,6 +105,8 @@ import Config from '/config.json'
 import DepartCount from 'cmp/index/departCount/DepartCount'
 import Events from 'cmp/index/events/Events'
 import MonitorAnalysis from 'cmp/index/monitorAnalysis/MonitorAnalysis'
+import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
+
 import { mapGetters } from 'vuex'
 import Socket from '@/utils/socket'
 
@@ -119,6 +124,7 @@ export default {
   },
   data() {
     return {
+      type: 'parent',
       Warning: 'Warning',
       loading: true,
       subsystemList: [
@@ -525,6 +531,8 @@ export default {
           }
         })
       })
+      temp = await ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', temp)
+
       this.hiddenDangerList = temp
     }
   }
