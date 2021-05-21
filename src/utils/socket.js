@@ -1,8 +1,7 @@
-let requestPath = 'wss://beta.zhgtwx.ctjt.cn/ws'
 
 import Stomp from 'stompjs'
 import DepartApi from '@/api/placeResource/placeResource'
-import { getToken, setUserInfo } from '@/utils/auth'
+import { getToken } from '@/utils/auth'
 
 let socket = null
 // 频道列表
@@ -11,6 +10,7 @@ let requestList = []
 let connet = false
 // 辖区列表
 let departList = []
+let requestPath = ''
 /*
  *初始化socket
  */
@@ -45,6 +45,7 @@ class Socket {
         socket.unsubscribe(item.id)
       })
     }
+
     // 处理频道数组对象
     await this.identificationOfTheChannel(channelNameList)
     // 我们的socket是socket包装的websocket 所以用Stomp.over(socket)
@@ -151,13 +152,14 @@ class Socket {
     }
   }
   /**
-   * 退订频道函数 （页面推出调用此方法删除对应的订阅dom对象）
+   * 退订频道函数 （页面退出调用此方法删除对应的订阅dom对象）
    * @param {*} domName
    */
   unsubscribe(domName) {
     requestList.forEach((item, index) => {
       item.refsList.forEach((ref, refindex) => {
         if (ref.domName === domName) {
+          // ref = null
           item.refsList.splice(refindex)
           // 如果删除dom订阅者对象后，订阅数组为空，直接删除这个频道
           if (item.refsList.length === 0) {
@@ -168,5 +170,4 @@ class Socket {
     })
   }
 }
-
 export default new Socket()

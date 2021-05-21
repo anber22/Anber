@@ -77,7 +77,7 @@ import BindingLog from 'cmp/bindingLog/BindingLog'
 import Config from '../../../config.json'
 import { ImagePreview } from 'vant'
 
-import DateFormat from '@/utils/dateTransformation'
+// import DateFormat from '@/utils/dateTransformation'
 
 import Api from '@/api/aiot/iotApp.js'
 export default {
@@ -358,9 +358,10 @@ export default {
 <style scoped>
 .iotApp-detail{
   width: 100%;
-  height: 100%;
-  position: fixed;
+  height: calc(100% - 45px);
+  /* position: fixed; */
   background-color: rgba(16, 23, 32, 1);
+  overflow-x: hidden;
 }
 .tab-content{
   width: 100%;

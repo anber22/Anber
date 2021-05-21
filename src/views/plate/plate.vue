@@ -14,7 +14,7 @@
       </div>
 
       <div class="equipList-detail">
-        <div v-for="(item , index) in warnList" :key="index" class="equipList-detail-item" :style=" 'color:'+item.color" @click="1===index?check():uncheck()">
+        <div v-for="(item , index) in hazardCountList" :key="index" class="equipList-detail-item" :style=" 'color:'+item.color" @click="1===index?check():uncheck()">
           <p>
             {{ item.value }}
           </p>
@@ -27,9 +27,12 @@
       <!-- 预警列表标题栏 -->
       <div class="alert-list">
         <h2>预警列表</h2>
-        <p>未处理<span>11</span>件</p>
+        <p>未处理<span>{{ undoneHazardCount }}</span>件</p>
       </div>
-      <PlateWarning :plate-warning-data="violationsList" />
+      <PlateWarning v-if="violationsList.length > 0" :plate-warning-data="violationsList" />
+      <div v-else class="nothing">
+        暂无数据
+      </div>
     </div>
     <!-- end -->
     <!-- 事件统计 start -->
@@ -46,7 +49,7 @@
           </van-dropdown-menu>
         </div>
       </div>
-      <SimpleForm :table-data="eventList" class="simpleForm" />
+      <SimpleForm v-if="eventList.row.length!==0" :table-data="eventList" class="simpleForm" />
     </div>
     <!-- end -->
     <!-- 预警趋势 start -->
@@ -59,7 +62,7 @@
       </div>
       <div class="warning-line">
         <Adaptive :size="['100%','56%']" style=" overflow: hidden; ">
-          <MaxLine :line-data="lineData" style=" overflow: hidden; " />
+          <MaxLine v-if="lineDataFlag" :line-data="lineData" style=" overflow: hidden; " />
         </Adaptive>
       </div>
     </div>
@@ -72,7 +75,10 @@
           设备统计
         </div>
       </div>
-      <SimpleForm :table-data="equipList" class="simpleForm" />
+      <SimpleForm v-if="equipList.row.length>0" :table-data="equipList" class="simpleForm" />
+      <div v-else class="nothing">
+        暂无数据
+      </div>
     </div>
     <!-- end -->
   </div>
@@ -82,6 +88,11 @@
 import SimpleForm from 'cmp/simpleForm/SimpleForm'
 import MaxLine from 'cmp/echarts/mixLine/MixLine'
 import PlateWarning from 'cmp/plateWarning/PlateWarning'
+import PlateApi from '@/api/gtPlate/gtPlate'
+import DateTransformation from '@/utils/dateTransformation.js'
+import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
+import Socket from '@/utils/socket'
+
 export default {
   components: {
     SimpleForm,
@@ -90,6 +101,8 @@ export default {
   },
   data() {
     return {
+      pageType: 0, // 页面类型 （12：物业看板 13: 安委看板）
+      undoneHazardCount: 0, // 未处理事件数
       dateType: [ // 时间下拉框值
         {
           value: 1,
@@ -109,14 +122,14 @@ export default {
         column: [ // 列头
           {
             name: '网点名称',
-            key: 'placeName',
+            key: 'networkName',
             width: '35%',
             text: 'left',
             color: '#9CB6CD'
           },
           {
             name: '设备总数',
-            key: 'equipCount',
+            key: 'count',
             width: '20%',
             text: 'center',
             color: '#9CB6CD'
@@ -124,7 +137,7 @@ export default {
           },
           {
             name: '在线数',
-            key: 'onlineCount',
+            key: 'online',
             width: '20%',
             text: 'center',
             color: '#11CAD9'
@@ -132,7 +145,7 @@ export default {
           },
           {
             name: '离线数',
-            key: 'outlineCount',
+            key: 'outline',
             width: '20%',
             text: 'center',
             color: '#F0FF76'
@@ -140,56 +153,21 @@ export default {
           }
         ],
         row: [ // 数据行
-          {
-            placeName: '港湾一号',
-            equipCount: '100',
-            onlineCount: '98',
-            outlineCount: '2'
-          },
-          {
-            placeName: '惠景合园',
-            equipCount: '100',
-            onlineCount: '98',
-            outlineCount: '2'
-          },
-          {
-            placeName: '惠景慧园',
-            equipCount: '100',
-            onlineCount: '98',
-            outlineCount: '2'
-          },
-          {
-            placeName: '民营科技园',
-            equipCount: '100',
-            onlineCount: '98',
-            outlineCount: '2'
-          },
-          {
-            placeName: '惠景海岸',
-            equipCount: '100',
-            onlineCount: '98',
-            outlineCount: '2'
-          },
-          {
-            placeName: '创新发展大厦',
-            equipCount: '100',
-            onlineCount: '98',
-            outlineCount: '2'
-          }
+
         ]
       },
       eventList: { // 事件统计列表
         column: [ // 列头
           {
             name: '事件类型',
-            key: 'eventTypeName',
+            key: 'hazardTypeName',
             width: '35%',
             text: 'left',
             color: '#9CB6CD'
           },
           {
             name: '事件总数',
-            key: 'eventCount',
+            key: 'count',
             width: '20%',
             text: 'center',
             color: '#9CB6CD'
@@ -197,7 +175,7 @@ export default {
           },
           {
             name: '已处理',
-            key: 'dealCount',
+            key: 'done',
             width: '20%',
             text: 'center',
             color: '#11CAD9'
@@ -205,7 +183,7 @@ export default {
           },
           {
             name: '未处理',
-            key: 'unDealCount',
+            key: 'undone',
             width: '20%',
             text: 'center',
             color: '#E3372F'
@@ -213,195 +191,203 @@ export default {
           }
         ],
         row: [ // 数据行
-          {
-            eventTypeName: '周界越界监测',
-            eventCount: '100',
-            dealCount: '98',
-            unDealCount: '2'
-          },
-          {
-            eventTypeName: '消防通道占用监测',
-            eventCount: '100',
-            dealCount: '97',
-            unDealCount: '3'
-          }
+
         ]
       },
-      lineData: { // 折线统计图数据
+      lineData: { // 预警趋势折线统计图数据
         title: '预警数',
         name: '预警数',
         xAxis: {
-          data: ['03.25', '03.26', '03.27', '03.28', '03.29', '03.30', '03.31', '04.01', '04.02', '04.03', '04.04', '04.05', '04.06', '04.07', '04.08', '04.09', '04.10', '04.11', '04.12', '04.13', '04.14', '04.15', '04.16', '04.17', '04.18', '04.19', '04.20', '04.21', '04.22', '04.23']
+          data: []
         },
         yAxis: {
           splitLineColor: 'rgba(76,200,172, 0.3)'
         },
         series: {
-          data: ['8', '8', '8', '8', '8', '8', '17', '17', '28', '19', '10', '10', '20', '12', '12', '12', '12', '12', '14', '15', '10', '20', '20', '20', '20', '20', '20', '20', '20', '20'],
+          data: [],
           smooth: false
         }
 
       },
-      warnList: [ // 预警数据数组
+      lineDataFlag: false, // 预警趋势图表是否显示
+      hazardCountList: [ // 预警数据数组
         {
           name: '今日预警',
-          value: 3,
+          value: 0,
           color: '#46FFEB'
         },
         {
           name: '本周预警',
-          value: 22,
+          value: 0,
           color: '#F7FF74'
         },
         {
           name: '本月预警',
-          value: 142,
+          value: 0,
           color: '#FF3C3C'
         }
       ],
-      violationsList: [
-        {
-          address: '港湾一号湾7湾8栋间',
-          time: '8分钟前'
-        },
-        {
-          address: '港湾一号湾2湾9栋间',
-          time: '8分钟前'
-        },
-        {
-          address: '港湾一号湾9湾1栋间',
-          time: '10分钟前'
-        },
-        {
-          address: '港湾一号湾9湾2栋间',
-          time: '59分钟前'
-        },
-        {
-          address: '港湾一号湾9湾3栋间',
-          time: '49分钟前'
-        },
-        {
-          address: '港湾一号湾9湾4栋间',
-          time: '39分钟前'
-        },
-        {
-          address: '港湾一号湾9湾5栋间',
-          time: '29分钟前'
-        },
-        {
-          address: '港湾一号湾9湾6栋间',
-          time: '19分钟前'
-        }
-      ],
+      violationsList: [],
       play: false,
       router: 'PropertyPlate'
-
     }
   },
   created() {
-    this.router = this.$router.history.current.name
-    if (this.$router.history.current.name !== 'PropertyPlate') {
-      this.equipList.row = [
-        {
-          placeName: '唐家第一工业园',
-          equipCount: '100',
-          onlineCount: '98',
-          outlineCount: '2'
-        },
-        {
-          placeName: '金发工地',
-          equipCount: '100',
-          onlineCount: '98',
-          outlineCount: '2'
-        },
-        {
-          placeName: '银溪雅园工地',
-          equipCount: '100',
-          onlineCount: '97',
-          outlineCount: '3'
-        },
-        {
-          placeName: '惠景海岸工地',
-          equipCount: '100',
-          onlineCount: '98',
-          outlineCount: '2'
-        },
-        {
-          placeName: '金地第一工业园',
-          equipCount: '100',
-          onlineCount: '98',
-          outlineCount: '2'
-        },
-        {
-          placeName: '后环工地',
-          equipCount: '100',
-          onlineCount: '97',
-          outlineCount: '3'
-        }
-      ]
-      this.violationsList = [
-        {
-          address: '金发工地正门',
-          time: '6分钟前'
-        },
-        {
-          address: '金发工地侧门',
-          time: '8分钟前'
-        },
-        {
-          address: '金发工地后门',
-          time: '10分钟前'
-        },
-        {
-          address: '金发工地正门',
-          time: '59分钟前'
-        },
-        {
-          address: '金发工地后门',
-          time: '49分钟前'
-        },
-        {
-          address: '金发工地正门',
-          time: '29分钟前'
-        },
-        {
-          address: '金发工地正侧门',
-          time: '29分钟前'
-        },
-        {
-          address: '金发工地正门',
-          time: '9分钟前'
-        }
-      ]
-      this.eventList.row = [
-        {
-          eventTypeName: '周界越界监测',
-          eventCount: '100',
-          dealCount: '98',
-          unDealCount: '2'
-        },
-        {
-          eventTypeName: '未佩戴安全帽',
-          eventCount: '100',
-          dealCount: '97',
-          unDealCount: '3'
-        }
-
-      ]
+    if (this.$route.path === '/propertyPlate') {
+      this.pageType = 12
+    } else if (this.$route.path === '/safetyCommitteePlate') {
+      this.pageType = 13
     }
-    if (this.violationsList !== null) {
-      if (this.violationsList.length > 1) {
-        this.timer = setInterval(this.startPlay, 3000)
-      }
-    }
+    this.getHzardCountByDays()
+    this.getUndoneHzardCount()
+    this.getHzardList()
+    this.getHeartBeatStatistical('heartBeatStatisticalLastMonth', { month: 1, conditions: `?networkType=${this.pageType}` })
+    this.getEquipStatistical()
+    this.getHazardTrend()
+    this.initSockets()
   },
   destroyed() {
-    clearInterval(this.timer)
+    console.log('当前页面销毁')
+    Socket.unsubscribe('PlateWarning')
   },
   methods: {
+    onMessage(msg) {
+      if (msg.networkType !== undefined) {
+        if (msg.networkType === this.pageType) {
+          const dateTransformation = new DateTransformation()
 
+          msg.createdTime = dateTransformation.dateDifference(msg.createdTime)
+          this.violationsList.splice(0, 0, msg)
+          this.$forceUpdate()
+          console.log('收到推送当前是' + msg.networkType, this.violationsList)
+        }
+      }
+    },
+    initSockets() {
+      const topicList = [
+        {
+          topicName: 'realTimeWarning',
+          refsList: [{
+            domName: 'PlateWarning',
+            dom: this
+          }]
+        }
+      ]
+      setTimeout(() => {
+        Socket.initSocket(topicList)
+      }, 1000)
+    },
+    /**
+     * 根据天数查询事件数量（全部类型）
+     */
+    getHzardCountByDays() {
+      let conditions = ''
+      this.hazardCountList.forEach(async(item, index) => {
+        conditions = `?networkType=${this.pageType}&days=${index === 0 ? 1 : index === 1 ? 7 : index === 2 ? 30 : 30}`
+        const res = await PlateApi.hazardCount(conditions)
+        if (res.code === 200) {
+          this.hazardCountList[index].value = res.data
+        }
+      })
+    },
+    /**
+     * 获取未处理事件数
+     */
+    async getUndoneHzardCount() {
+      const conditions = `?networkType=${this.pageType}&isDone=0`
+      const res = await PlateApi.hazardCount(conditions)
+      if (res.code === 200) {
+        this.undoneHazardCount = res.data
+      }
+    },
+    /**
+     * 获取预警列表 （top10）
+     */
+    async getHzardList() {
+      const param = {
+        size: 10,
+        conditions: `?networkType=${this.pageType}`
+      }
+      const res = await PlateApi.undoneHazardList(param)
+      if (res.code === 200) {
+        this.violationsList = res.data
+      }
+      console.log('安委', this.violationsList)
+      const dateTransformation = new DateTransformation()
+      this.violationsList.forEach((item, index) => {
+        this.violationsList[index].createdTime = dateTransformation.dateDifference(this.violationsList[index].createdTime)
+      })
+    },
+    getHzardCount() {
+      // const conditions = ''
+      this.hazardCountList.forEach(async(item, index) => {
+        // conditions=`?networkType=${this.pageType}&days=${index===0?1:index===1?7:index===2?30}`
+        this.hazardCountList[index].value = await PlateApi.hazardCount()
+      })
+    },
+    /**
+     * 获取事件统计列表
+     */
+    async getHeartBeatStatistical(requestName, param) {
+      const res = await PlateApi[requestName](param)
+
+      if (res.code === 200) {
+        let temp = res.data
+        temp = await ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', temp)
+        temp.forEach((item, index) => {
+          temp[index]['undone'] = item.count - item.done
+        })
+        this.eventList.row = temp
+        console.log('事件', this.eventList.row)
+      }
+    },
     onChangeDateType(value) {
+      console.log('切换', this.timeType)
       this.$emit('timeType', value)
+      let param = []
+      if (this.timeType === 1) {
+        param = {
+          month: 1,
+          conditions: `?networkType=${this.pageType}`
+        }
+        this.getHeartBeatStatistical('heartBeatStatisticalLastMonth', param)
+      } else if (this.timeType === 2) {
+        param = {
+          year: 1,
+          conditions: `?networkType=${this.pageType}`
+        }
+        this.getHeartBeatStatistical('heartBeatStatisticalLastYear', param)
+      } else if (this.timeType === 3) {
+        param = `?networkType=${this.pageType}`
+        this.getHeartBeatStatistical('heartBeatStatisticalAll', param)
+      }
+    },
+    async getEquipStatistical(value) {
+      const param = this.pageType
+      const res = await PlateApi.equipOnPlaceOnlineStatistical(param)
+      const temp = res.data
+      temp.forEach((item, index) => {
+        temp[index]['outline'] = item.count - item.online
+      })
+      this.equipList.row = temp
+      console.log('事件', this.equipList.row)
+    },
+    /**
+     * 获取近30天预警趋势
+     */
+    async getHazardTrend() {
+      const params = {
+        conditions: '?conditions=' + this.pageType
+      }
+      const res = await PlateApi.hazardTrend(params)
+      if (res.code === 200) {
+        const dataArr = [...res.data]
+        dataArr.forEach(item => {
+          this.lineData.xAxis.data.push(item.date.substring(4, 6) + '.' + item.date.substring(6, 8))
+          this.lineData.series.data.push(item.count)
+        })
+        this.lineDataFlag = true
+      }
     }
   }
 }
@@ -411,8 +397,8 @@ export default {
 .plate{
   background-color: #0E1820;
   width: 92%;
-  height: 100%;
-  position: fixed;
+  height: calc(100% - 75px);
+  /* position: fixed; */
   color: #ffffff;
   overflow: scroll;
   padding: 15px;
@@ -502,7 +488,7 @@ export default {
   justify-content: space-around;
 }
 .equipList-detail-item{
-  width: 21%;
+  /* width: 21%; */
   height: 50px;
   display: inline-block;
   padding: 5px 14px;
@@ -510,7 +496,7 @@ export default {
 }
 .equipList-detail-item-title{
   height: 9px;
-  width: 65px;
+  /* width: 65px; */
   font-size: 16px;
   font-family: SourceHanSansCN;
   font-weight: 400;
@@ -585,9 +571,13 @@ export default {
 .equipment-statistics{
   height: auto;
   width: 100%;
-  margin-bottom: 90px;
 }
-
+.nothing{
+  width: 100%;
+  height: 80px;
+  text-align: center;
+  line-height: 80px;
+}
 </style>
 <style >
 .plate .right-select{

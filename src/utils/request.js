@@ -8,7 +8,7 @@ import Config from '../../config.json'
 // create an request instance
 const request = axios.create({
   // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  baseURL: process.env.NODE_ENV === 'development' ? Config.developmentUrl : 'https://beta.zhgtwx.ctjt.cn',
+  baseURL: process.env.NODE_ENV === 'development' ? '' : 'https://beta.zhgtwx.ctjt.cn',
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
 })
@@ -31,9 +31,9 @@ request.interceptors.request.use(
     // }
 
     // 查找cookie有没有token ，有则添加token请求头
-    if (process.env.NODE_ENV === 'development') {
-      config.url = config.url.replace('/apis', '')
-    }
+    // if (process.env.NODE_ENV === 'development') {
+    //   config.url = config.url.replace('/apis', '')
+    // }
     if (getToken()) {
       config.headers.token = getToken()
     }
@@ -86,7 +86,6 @@ request.interceptors.response.use(
 
     return response.data
   },
-
   error => {
     return Promise.reject(error)
   }

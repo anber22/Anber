@@ -4,11 +4,10 @@
     <div class="hidden-trouble-detail">
       <div class="out-rect">
         <div v-if="violationsList.length>0" class="in-rect">
-          <ul class="vio-list">
+          <ul class="vio-list" :class=" play?'vio-up':''">
             <li
               v-for="(item,index) in violationsList"
               :key="index"
-              :class="!index && play?'toUp':''"
             >
               <!-- ！违规停放 -->
               <div class="illegal-parking">
@@ -17,11 +16,11 @@
               </div>
               <!-- 地址 -->
               <div class="park-address">
-                {{ item.address }}
+                {{ item.equipAddress }}
               </div>
               <!-- 时间 -->
               <div class="violations-time">
-                {{ item.time }}
+                {{ item.createdTime }}
               </div>
             </li>
           </ul>
@@ -57,6 +56,7 @@ export default {
 
   },
   created() {
+    console.log('111', this.plateWarningData)
     this.violationsList = this.plateWarningData
     if (this.violationsList !== null) {
       if (this.violationsList.length > 1) {
@@ -138,8 +138,12 @@ export default {
   padding:0px 13px;
   overflow: hidden;
 }
-.toUp {
-  margin-top: -55px; /*key code*/
-  transition: all 1s; /*key code*/
+/* .toUp {
+  margin-top: -55px;
+  transition: all 1s;
+} */
+.vio-list.vio-up li{
+  transition-duration: 1000ms;
+  transform: translateY(-60px);
 }
 </style>

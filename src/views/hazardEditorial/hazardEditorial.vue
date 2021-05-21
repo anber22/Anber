@@ -263,8 +263,8 @@ export default {
 .hazardEditorial{
   background-color: #101720;
   width: 90%;
-  height: 100%;
-  position: fixed;
+  height: calc(100% - 45px);
+  /* position: fixed; */
   padding:0px 5% 0px 5%;
   color: #ffffff;
   overflow: scroll;

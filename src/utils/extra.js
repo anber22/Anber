@@ -26,6 +26,7 @@ Vue.directive('permission', {
       const { permissions } = Reflect.get(components, componentName)
       // 获取当前用户拥有的权限 (角色)
       const _permissions = store.getters.permissions
+
       // TODO: 组件权限全匹配
       console.log(`组件权限全匹配结果: ` + permissions.every(permission => [..._permissions].includes(permission)))
       // TODO: 组件权限部分匹配

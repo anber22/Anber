@@ -105,18 +105,18 @@ export const asyncRouterMap = [
         component: () => import('@/views/hazardDetail/hazardDetail'),
         meta: { showFooter: true, title: '隐患详情', permissions: [], edit: true }
       },
-      // {
-      //   path: '/propertyPlate',
-      //   name: 'PropertyPlate',
-      //   component: () => import('@/views/plate/plate'),
-      //   meta: { showFooter: true, title: '物业看板', permissions: [], edit: false , menu: true}
-      // },
-      // {
-      //   path: '/safetyCommitteePlate',
-      //   name: 'SafetyCommitteePlate',
-      //   component: () => import('@/views/plate/plate'),
-      //   meta: { showFooter: true, title: '安委看板', permissions: [], edit: false , menu: true}
-      // },
+      {
+        path: '/propertyPlate',
+        name: 'PropertyPlate',
+        component: () => import('@/views/plate/plate'),
+        meta: { showFooter: true, title: '物业看板', permissions: [], edit: false, menu: true }
+      },
+      {
+        path: '/safetyCommitteePlate',
+        name: 'SafetyCommitteePlate',
+        component: () => import('@/views/plate/plate'),
+        meta: { showFooter: true, title: '安委看板', permissions: [], edit: false, menu: true }
+      },
       {
         path: '/editEquip',
         name: 'EditEquip',

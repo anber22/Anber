@@ -645,8 +645,8 @@ export default {
 .placeResourceEditorial{
   background-color: #101720;
   width: 92%;
-  height: calc(100% - 46px);
-  position: fixed;
+  height: calc(100% - 45px);
+  /* position: fixed; */
   color: #ffffff;
   overflow: scroll;
   padding: 0 15px;
@@ -679,6 +679,7 @@ export default {
   color: #B9CEE9;
   border: 1px #4D628F dashed;
   padding: 8px 0;
+  margin: 0 1px;
 }
 .binding-device img{
   width: 16px;

@@ -113,7 +113,7 @@
         "permissions": ["NetworkApplication","NetworkApplicationVideo"]
       },
       "Home-Hzard-div":{
-        "permissions":["VideoHazardRead","EnvirmentHazardRead","TowerHazardRead"]
+        "permissions":["VideoHazardRead","EnvirmentHazardRead","TowerHazardRead","Analysis","AnalysisCounting"]
       }
     }
   },
@@ -208,7 +208,7 @@
       "appsecret": "dxv9gjut"
     }]
   },
-  "developmentUrl": "http://192.168.3.250:14790",
+  "developmentUrl": "https://beta.zhgtwx.ctjt.cn",
   "testUrl":"https://beta.zhgtwx.ctjt.cn",
   "indexTitle": {
     "desc" : "title：首页标题配置项、isShow：是否显示标题、lable：标题文本、css：标题样式",

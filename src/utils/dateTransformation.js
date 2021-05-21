@@ -99,6 +99,8 @@ export default class DateTransformation {
       return `${hh} : ${mm}`
     } else if (minutes === 0) {
       return `< 1 min`
+    } else if (minutes < 0) {
+      return `-1 min`
     } else {
       return `${minutes} min`
     }

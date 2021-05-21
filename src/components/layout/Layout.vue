@@ -60,17 +60,26 @@ export default {
   watch: {
     '$route'(to, from) {
       // console.log('路由跳转', from, to)
-      if (from.path === '/login' || (from.path === '/' && to.path !== '/login')) {
-        this.initSockets()
-      }
       if (from.path === '/placeResourceAddition' && to.path === '/placeResource') {
         window.localStorage.removeItem('equipList')
         window.localStorage.removeItem('placeResource')
       }
+      if (this.$route.path === '/login') {
+        return
+      }
+      if ((from.path === '/login' || (from.path === '/' && to.path !== '/login')) && this.$route.path !== '/login') {
+        this.initSockets()
+      }
     }
   },
   mounted() {
-    this.initSockets()
+    console.log('当前路由', this.$route.path === '/login')
+    if (this.$route.path !== '/login') {
+      this.initSockets()
+    }
+  },
+  destroyed() {
+    Socket.unsubscribe('layout')
   },
   methods: {
     /**
@@ -100,11 +109,13 @@ export default {
      * 收到消息
      */
     onMessage(msg) {
-      // 收到socket通知添加msg到事件队列
-      this.hazardList.push(msg)
-      // 如果事件队列没有在执行 ，就开启事件队列
-      if (!this.working) {
-        this.messageQueue(msg)
+      if (this.$route.path !== '/login') {
+        // 收到socket通知添加msg到事件队列
+        this.hazardList.push(msg)
+        // 如果事件队列没有在执行 ，就开启事件队列
+        if (!this.working) {
+          this.messageQueue(msg)
+        }
       }
     },
     /**
