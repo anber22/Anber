@@ -35,9 +35,7 @@
             </div>
           </template>
           <template #default>
-            <div class="message-number">
-              2
-            </div>
+          <!-- <div class="message-number" /> -->
           </template>
         </van-cell>
       </div>
