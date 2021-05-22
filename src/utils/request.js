@@ -78,7 +78,7 @@ request.interceptors.response.use(
 
       removeToken() // 清除token
 
-      window.location.replace(process.env.NODE_ENV === 'development' ? localhostPath + '/login' : 'https://beta.zhgtwx.ctjt.cn/mobile/login') // 重定向路由地址
+      window.location.replace(process.env.NODE_ENV === 'development' ? localhostPath + '/login' : Config.prodConfigUrl + '/login') // 重定向路由地址
     }
     if (response.data.code !== 200) {
       MessageTip.instance(response.data.code)
