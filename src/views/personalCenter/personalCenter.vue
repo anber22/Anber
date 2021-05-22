@@ -35,9 +35,7 @@
             </div>
           </template>
           <template #default>
-            <div class="message-number">
-              2
-            </div>
+          <!-- <div class="message-number" /> -->
           </template>
         </van-cell>
       </div>
@@ -121,4 +119,4 @@ export default {
   }
 
 </style>
-<style src="./PersonalCenter.css" scoped/>
+<style src="./personalCenter.css" scoped/>
