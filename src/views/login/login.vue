@@ -13,7 +13,7 @@
       </Adaptive>
     </div>
     <p class="title">
-      高新建投智慧视觉平台
+      {{ title }}
     </p>
     <div class="tab-box">
       <van-tabs v-model="activeTab" title-active-color="#06F0FE" title-inactive-color="#6F85A2" line-height="2px">
@@ -99,6 +99,7 @@
 import Regular from '@/utils/regular'
 import User from '@/api/user'
 import { setToken, setUserInfo } from '@/utils/auth'
+import Config from '../../../config.json'
 
 export default {
   components: {
@@ -115,8 +116,12 @@ export default {
         phone: '',
         code: ''
       },
-      yzm_state: 0
+      yzm_state: 0,
+      title: ''
     }
+  },
+  created() {
+    this.title = Config.title
   },
   methods: {
     login() {

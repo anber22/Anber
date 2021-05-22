@@ -228,6 +228,7 @@
       "fontSize": "29px"
     }
   },
+  "title":"智慧高投物联网平台",
   "desc": "header字段说明：系统头部配置",
   "header": {
     "desc": "logo：头部左边logo图片文件名、css：头部标题样式",

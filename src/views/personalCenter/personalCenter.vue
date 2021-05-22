@@ -89,6 +89,7 @@ export default {
     ]),
     logOut() {
       this.RemoveToken()
+      this.$store.commit('SET_PERMISSIONS', [])
       this.$router.push('/login')
     },
     goNext() {
