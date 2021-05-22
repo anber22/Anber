@@ -218,7 +218,7 @@
     }]
   },
   "developmentUrl": "",
-  "prodConfigUrl":"http://157.122.150.59:8081",
+  "prodConfigUrl":"https://beta.zhgt.ctjt.cn",
   "indexTitle": {
     "desc" : "title：首页标题配置项、isShow：是否显示标题、lable：标题文本、css：标题样式",
     "isShow": true,
