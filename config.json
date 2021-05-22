@@ -217,9 +217,8 @@
       "appsecret": "dxv9gjut"
     }]
   },
-  "developmentUrl": "https://beta.zhgtwx.ctjt.cn",
-  "prodConfigUrl":"http://157.122.150.59:8082",
-  "testUrl":"https://beta.zhgtwx.ctjt.cn",
+  "developmentUrl": "",
+  "prodConfigUrl":"http://157.122.150.59:8081",
   "indexTitle": {
     "desc" : "title：首页标题配置项、isShow：是否显示标题、lable：标题文本、css：标题样式",
     "isShow": true,

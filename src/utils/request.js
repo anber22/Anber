@@ -8,7 +8,7 @@ import Config from '../../config.json'
 // create an request instance
 const request = axios.create({
   // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  baseURL: process.env.NODE_ENV === 'development' ? '' : 'https://beta.zhgtwx.ctjt.cn',
+  baseURL: process.env.NODE_ENV === 'development' ? Config.developmentUrl : Config.prodConfigUrl,
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
 })
