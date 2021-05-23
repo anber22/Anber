@@ -67,7 +67,7 @@ export default {
   },
     watch:{
     warningData(val){
-    this.ulList=this.warningData
+    this.ulList=val
     }
   },
   computed: {
