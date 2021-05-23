@@ -65,6 +65,11 @@ export default {
       systemList: []
     }
   },
+    watch:{
+    warningData(val){
+    this.ulList=this.warningData
+    }
+  },
   computed: {
     changeDate: function() {
       return function(val) {
