@@ -79,6 +79,7 @@ import Api from '@/api/index'
 import RealtimeEventCard from 'cmp/realtimeEventCard/RealtimeEventCard'
 import Socket from '@/utils/socket'
 import Config from '/config.json'
+import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 
 export default {
   components: {
@@ -167,6 +168,9 @@ export default {
           }
         })
       })
+      temp = await ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', temp)
+
+
       this.hazardList = temp
     }
   }

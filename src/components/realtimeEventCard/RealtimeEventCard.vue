@@ -17,7 +17,7 @@
             <p class="title1">
               {{ item.equipAddress }}
             </p>
-            <span class="title2">{{ item.onlineMsg }}</span>
+            <span class="title2">{{ item.hazardTypeName }}</span>
             <p class="title3">
               {{ changeDate(item.createdTime) }}
             </p>
