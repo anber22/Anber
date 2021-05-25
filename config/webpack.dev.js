@@ -49,7 +49,19 @@ module.exports = merge(base, {
         pathRewrite: { "^/zjvideo": "" },
         changeOrigin: true,
         secure: false, // 目标服务器地址是否是安全协议1
-      }
+      },
+      "/isc": {
+        target: "https://beta.zhgtwx.ctjt.cn:8081",
+        // pathRewrite: {"^/isc": "" },
+        changeOrigin: true,
+        secure: false, // 目标服务器地址是否是安全协议
+      },
+      "/iscvideo": {
+        target: "https://beta.zhgtwx.ctjt.cn:8081",
+        // pathRewrite: {"^/iscvideo": "" },
+        changeOrigin: true,
+        secure: false, // 目标服务器地址是否是安全协议
+      },
     } 
   },
   plugins: [new webpack.HotModuleReplacementPlugin()],

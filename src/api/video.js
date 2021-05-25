@@ -16,5 +16,12 @@ class Video {
       method: 'get'
     })
   }
+  // 获取视频地址
+  async videoUrl(param) {
+    return await request({
+      url: `/isc/video/url/uuid/${param}`,
+      method: 'get'
+    })
+  }
 }
 export default new Video()
