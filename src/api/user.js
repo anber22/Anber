@@ -7,7 +7,7 @@ class User {
       url: '/apis/login',
       method: 'post',
       data: {
-        loginType: 0,
+        loginType: 2,
         password: param.password,
         phone: param.phone
       }
@@ -23,7 +23,7 @@ class User {
   //  用户验证码登录接口
   async getUserLoginByCode(param) {
     return await request({
-      url: `/apis/login/phone/'${param.phone}'/code/'${param.code}'?loginType=0`,
+      url: `/apis/login/phone/'${param.phone}'/code/'${param.code}'?loginType=2`,
       method: 'get'
     })
   }

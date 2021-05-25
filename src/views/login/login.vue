@@ -171,7 +171,8 @@ export default {
       var regular = new Regular()
       const param = {
         phone: this.isSMSData.phone,
-        code: this.isSMSData.code
+        code: this.isSMSData.code,
+        loginType: 2
       }
       if (!param.phone) {
         this.$Toast('账号不能为空')
@@ -186,7 +187,7 @@ export default {
         return
       }
 
-      const res = await User.postUserLogin(param)
+      const res = await User.getUserLoginByCode(param)
       if (res.code === 200) {
         // 缓存token
         setToken(res.data.token)
