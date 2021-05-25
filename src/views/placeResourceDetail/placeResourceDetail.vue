@@ -52,9 +52,9 @@
             </a>
           </div>
           <!-- 勿删：责任书照片和网点照片 -->
-          <!-- <div class="text-item" style="display: flex;">
+          <div class="text-item" style="display: flex;">
             <span class="name phone-name">责任书：</span>
-            <div class="phone-box">
+            <div v-if="placeResourceDetail.dutyPitcture" class="phone-box">
               <Adaptive
                 v-for="(iitem, index) in placeResourceDetail.dutyPitcture"
                 :key="
@@ -64,14 +64,17 @@
               >
                 <van-image
                   fit="cover"
-                  :src="iitem"
+                  :src="imgPrefix+ iitem"
                 />
               </Adaptive>
+            </div>
+            <div v-else>
+              <span class="describe">暂无图片</span>
             </div>
           </div>
           <div class="text-item" style="display: flex;">
             <span class="name phone-name">网点照片：</span>
-            <div class="phone-box">
+            <div v-if="placeResourceDetail.placePicture" class="phone-box">
               <Adaptive
                 v-for="(iitem, index) in placeResourceDetail.placePicture"
                 :key="
@@ -81,11 +84,14 @@
               >
                 <van-image
                   fit="cover"
-                  :src="iitem"
+                  :src="imgPrefix+ iitem"
                 />
               </Adaptive>
             </div>
-          </div> -->
+            <div v-else>
+              <span class="describe">暂无图片</span>
+            </div>
+          </div>
         </div>
         <div class="title iotTitle">
           <van-image
@@ -124,6 +130,7 @@
 import Api from '@/api/placeResource/placeResource'
 import PlaceDetailCard from 'cmp/placeDetailCard/PlaceDetailCard'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
+import Config from '/config.json'
 
 export default {
   name: 'PlaceResourceDetail',
@@ -138,7 +145,8 @@ export default {
       loading: true,
 
       placeResourceDetailId: 0,
-      detailPlaceId: 0
+      detailPlaceId: 0,
+      imgPrefix: ''
     }
   },
   mounted() {
@@ -148,7 +156,7 @@ export default {
     this.detailPlaceId = this.$route.query.placeId
   },
   created() {
-
+    this.imgPrefix = Config.figureBedAddress
   },
   methods: {
     /**
