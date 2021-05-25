@@ -23,7 +23,7 @@ class User {
   //  用户验证码登录接口
   async getUserLoginByCode(param) {
     return await request({
-      url: `/apis/login/phone/'${param.phone}'/code/'${param.code}'?loginType=2`,
+      url: `/apis/login/phone/${param.phone}/code/${param.code}?loginType=2`,
       method: 'get'
     })
   }

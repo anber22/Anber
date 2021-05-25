@@ -135,7 +135,6 @@ export default {
     // 获取手机号验证码
     async getPhoneCode() {
       var regular = new Regular()
-
       const param = this.isSMSData.phone
       if (!param) {
         this.$Toast('手机号不能为空')
@@ -191,8 +190,10 @@ export default {
       if (res.code === 200) {
         // 缓存token
         setToken(res.data.token)
+        this.getUserInfo()
+
         this.$Toast('登录成功')
-        this.$router.push('/home')
+        this.$router.push('/home').catch(() => {})
       } else {
         this.$Toast(res.message)
       }

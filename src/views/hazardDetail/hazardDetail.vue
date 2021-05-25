@@ -69,7 +69,7 @@
             <div class="hazardDetail-submit-content-info-row-value">
               {{ detailInfo.managerName+"-"+detailInfo.placePhone }}
             </div>
-            <a @click.stop="callPhone(detailInfo.placeId)">
+            <a @click.stop="callPhone(detailInfo.placePhone)">
               <img src="@/assets/images/equip/phone.png" alt="" class="hazardDetail-submit-content-info-row-icon">
             </a>
           </div>
@@ -171,15 +171,25 @@ export default {
       this.$router.push({ path: '/hazardEditorial', query: { hazardId: this.detailInfoId }})
     },
     /**
-     * 拨号
+     * 跳转网点详情
      */
-    async  toPlaceDetail() {
+    async toPlaceDetail() {
       this.$router.push({
         path: '/placeResourceDetail',
         query: {
           placeId: this.detailInfoId
         }
       })
+    },
+    /**
+     * 跳转拨号
+     */
+    async callPhone(e) {
+      if (e && typeof e !== undefined) {
+        window.location.href = 'tel://' + e
+      } else {
+        this.$toast.fail('当前网点暂无负责人联系电话')
+      }
     },
     /**
      * 获取隐患详情信息

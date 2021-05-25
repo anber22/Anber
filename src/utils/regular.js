@@ -5,7 +5,8 @@ export default class Regular {
    * @returns
    */
   phone(value) {
-    const phone = /^1[3456789]\d{9}$/
+    const phone = /^1[0-9]{10}$/
+
     if (phone.test(value)) {
       return true
     } else {
