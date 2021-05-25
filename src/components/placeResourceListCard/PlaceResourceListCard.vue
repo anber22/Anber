@@ -84,11 +84,16 @@ export default {
      * 跳转拨号
      */
     async  callPhone(e) {
-      const res = await Api.placeResourceDetail(e)
-      if (res.code === 200) {
-        const result = res.data
-        window.location.href = 'tel://' + result.phone
+      // const res = await Api.placeResourceDetail(e)
+      // if (res.code === 200) {
+      //   const result = res.data
+      if (this.placeData.phone && this.placeData.phone.length > 0) {
+        window.location.href = 'tel://' + this.placeData.phone
+      } else {
+        this.$toast.fail('当前网点暂无负责人联系电话')
       }
+
+      // }
     },
     /**
      * 跳转页面

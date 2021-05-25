@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'Adaptive',
+  name: 'Adaptives',
   components: {
 
   },

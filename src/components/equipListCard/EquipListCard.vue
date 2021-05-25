@@ -138,7 +138,11 @@ export default {
       const res = await Api.placeResourceDetail(e)
       if (res.code === 200) {
         const result = res.data
-        window.location.href = 'tel://' + result.phone
+        if (result.phone && result.phone.length > 0) {
+          window.location.href = 'tel://' + result.phone
+        } else {
+          this.$toast.fail('当前网点暂无负责人联系电话')
+        }
       }
     },
     /**

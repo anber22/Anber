@@ -95,6 +95,8 @@ export default {
     async  callPhone(e) {
       if (e && typeof e !== undefined) {
         window.location.href = 'tel://' + e
+      } else {
+        this.$toast.fail('当前网点暂无负责人联系电话')
       }
     },
     /**

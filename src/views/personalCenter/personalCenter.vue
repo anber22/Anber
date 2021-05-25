@@ -8,7 +8,7 @@
           round
           width="46px"
           height="46px"
-          :src="personInfo.avatar"
+          :src="personInfo.avatar ? personInfo.avatar : require('/src/assets/images/personalCenter/avatar.png')"
         />
         <div class="info-display">
           <p class="username">
@@ -69,6 +69,7 @@
 import { getUserInfo } from '@/utils/auth.js'
 import MessagePush from 'cmp/messagePush/MessagePush'
 import { mapActions } from 'vuex'
+import Config from '/config.json'
 
 export default {
   name: 'PersonalCenter',
@@ -99,6 +100,10 @@ export default {
     getPersonInfo() {
       const res = getUserInfo()
       this.personInfo = res
+
+      if (this.personInfo && this.personInfo.avatar) {
+        this.personInfo.avatar = `${Config.figureBedAddress}${this.personInfo.avatar}`
+      }
     }
   }
 }

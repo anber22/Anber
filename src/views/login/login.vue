@@ -109,8 +109,8 @@ export default {
     return {
       activeTab: 1,
       isPasswordData: {
-        userName: '13825651111',
-        password: 'ctjt88888'
+        userName: '',
+        password: ''
       },
       isSMSData: {
         phone: '',
@@ -135,7 +135,6 @@ export default {
     // 获取手机号验证码
     async getPhoneCode() {
       var regular = new Regular()
-
       const param = this.isSMSData.phone
       if (!param) {
         this.$Toast('手机号不能为空')
@@ -171,7 +170,8 @@ export default {
       var regular = new Regular()
       const param = {
         phone: this.isSMSData.phone,
-        code: this.isSMSData.code
+        code: this.isSMSData.code,
+        loginType: 2
       }
       if (!param.phone) {
         this.$Toast('账号不能为空')
@@ -186,12 +186,14 @@ export default {
         return
       }
 
-      const res = await User.postUserLogin(param)
+      const res = await User.getUserLoginByCode(param)
       if (res.code === 200) {
         // 缓存token
         setToken(res.data.token)
+        this.getUserInfo()
+
         this.$Toast('登录成功')
-        this.$router.push('/home')
+        this.$router.push('/home').catch(() => {})
       } else {
         this.$Toast(res.message)
       }

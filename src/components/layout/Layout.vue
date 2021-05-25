@@ -15,7 +15,7 @@
               {{ hazardMessage.equipAddress }}
             </div>
             <div class="hazard-type">
-              {{ hazardMessage.onlineMsg }}
+              {{ hazardMessage.hazardTypeName }}
             </div>
             <div class="date">
               {{ changeDate(hazardMessage.createdTime/1000) }}
@@ -31,6 +31,7 @@
 <script>
 import Socket from '@/utils/socket'
 import DateTransformation from '@/utils/dateTransformation.js'
+import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 
 export default {
   components: {
@@ -106,9 +107,11 @@ export default {
     /**
      * 收到消息
      */
-    onMessage(msg) {
+    async  onMessage(msg) {
       if (this.$route.path !== '/login') {
         // 收到socket通知添加msg到事件队列
+        msg = await ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', msg)
+
         this.hazardList.push(msg)
         // 如果事件队列没有在执行 ，就开启事件队列
         if (!this.working) {
