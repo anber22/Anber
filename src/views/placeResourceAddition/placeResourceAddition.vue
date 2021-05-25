@@ -465,8 +465,24 @@ export default {
     async getPlaceTypeTree() {
       const res = await Api.getDepartTree()
       if (res.code === 200) {
-        this.departOptions = res.data
+        this.departOptions = this.deleteEmptyChildrenTree(res.data)
       }
+    },
+    deleteEmptyChildrenTree(departTree) {
+      if (!Array.isArray(departTree)) {
+        return departTree
+      }
+      departTree.forEach(depart => {
+        if (depart.children &&
+        Array.isArray(depart.children)) {
+          if (depart.children.length === 0) {
+            delete depart.children
+          } else {
+            this.deleteEmptyChildrenTree(depart.children)
+          }
+        }
+      })
+      return departTree
     },
     /**
      * 绑定设备

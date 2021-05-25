@@ -21,6 +21,7 @@
 import VideoPlayer from 'cmp/videoPlayer/VideoPlayer.vue'
 import Config from '/config.json'
 import VideoUUID from '@/utils/videoUUID'
+import videoApi from '@/api/video'
 export default {
   components: {
     VideoPlayer
@@ -49,22 +50,35 @@ export default {
   },
   mounted() {
     if (this.$route.query) {
-      let source, videoUrl
-      if (Reflect.has(Config, 'videoUrl')) {
-        videoUrl = Config.videoUrl
-      }
+      // let source, videoUrl
+      // if (Reflect.has(Config, 'videoUrl')) {
+      //   videoUrl = Config.videoUrl
+      // }
       this.title = this.$route.query.equipTypeName + '-' + this.$route.query.placeName + this.$route.query.equipAddress
       const imei = this.$route.query.imei
-      if (VideoUUID.match(imei)) {
-        source = videoUrl + '/mag/hls/' + VideoUUID.match(imei) + '/0/live.m3u8'
-      }
+      this.getVideoUrl(imei)
+      // if (VideoUUID.match(imei)) {
+      //   source = videoUrl + '/mag/hls/' + VideoUUID.match(imei) + '/0/live.m3u8'
+      // }
       // else {
       //   source = videoUrl + '/mag/hls/d52ef1c486394c7fa5159b4eb374d4fc/0/live.m3u8'
       // }
-      this.playVideo(source)
+      // this.playVideo(source)
     }
   },
   methods: {
+    /**
+     *  获取视频地址
+     */
+    async getVideoUrl(imei) {
+      const uuid = VideoUUID.match(imei)
+      const res = await videoApi.videoUrl(uuid)
+      let source = ''
+      if (res.code === '0') {
+        source = '/iscvideo' + res.data.url
+        this.playVideo(source)
+      }
+    },
     onPlayerPlay(player) {
       this.player.play()
     },
