@@ -8,12 +8,7 @@
       @click-left="onClickLeft"
     >
       <template v-if="showEdit" #right>
-<<<<<<< HEAD
-        <!-- v-permission:[type]="`NavBar-${$route.name}`" -->
-        <img src="@/assets/images/public/edit.png" alt="" class="nav-right-edit-icon" @click="changeToEdit()">
-=======
         <!-- <img v-permission:[type]="`NavBar-${$route.name}`" src="@/assets/images/public/edit.png" alt="" class="nav-right-edit-icon" @click="changeToEdit()"> -->
->>>>>>> dev
       </template>
     </van-nav-bar>
     <router-view ref="page" />
