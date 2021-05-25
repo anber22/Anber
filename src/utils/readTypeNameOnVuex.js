@@ -17,6 +17,7 @@ class ReadTypeNameOnVuex {
   */
   async conversion(typeName, propertyName, newPropertyName, info) {
     const typeList = await store.getters[typeName]
+    console.log("类型列表",typeList)
     let temp = []
     if (!Array.isArray(info)) {
       temp = typeList.filter(item => item.id === info[propertyName])

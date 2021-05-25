@@ -65,6 +65,19 @@ export default {
       systemList: []
     }
   },
+    watch:{
+    warningData(val){
+    this.ulList=val
+    clearInterval(this.timer)
+    this.systemList = this.system
+    if (this.ulList !== null && this.ulList.length > 0) {
+      this.currentSystemtypeImage = this.ulList[0].imgUrl
+      if (this.ulList.length > 1) {
+        this.timer = setInterval(this.startPlay, 3000)
+      }
+    }
+    }
+  },
   computed: {
     changeDate: function() {
       return function(val) {
