@@ -18,11 +18,11 @@
               <div class="colItem content width-30">
                 {{ rowItem.hazardTypeName }}
               </div>
-              <div class="colItem content width-27">
+              <div class="colItem content width-28">
                 {{ rowItem.placeName }}
               </div>
 
-              <div class="colItem content width-18">
+              <div class="colItem content width-16">
                 {{ changeDate(rowItem.createdTime) }}
               </div>
             </li>
@@ -65,23 +65,23 @@ export default {
       systemList: []
     }
   },
-    watch:{
-    warningData(val){
-    this.ulList=val
-    clearInterval(this.timer)
-    this.systemList = this.system
-    if (this.ulList !== null && this.ulList.length > 0) {
-      this.currentSystemtypeImage = this.ulList[0].imgUrl
-      if (this.ulList.length > 1) {
-        this.timer = setInterval(this.startPlay, 3000)
-      }
-    }
-    }
-  },
   computed: {
     changeDate: function() {
       return function(val) {
         return this.dateFormat(val)
+      }
+    }
+  },
+  watch: {
+    warningData(val) {
+      this.ulList = val
+      clearInterval(this.timer)
+      this.systemList = this.system
+      if (this.ulList !== null && this.ulList.length > 0) {
+        this.currentSystemtypeImage = this.ulList[0].imgUrl
+        if (this.ulList.length > 1) {
+          this.timer = setInterval(this.startPlay, 3000)
+        }
       }
     }
   },

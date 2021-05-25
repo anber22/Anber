@@ -41,12 +41,12 @@
 }
 .in-rect{
   width: 99%;
-  height: 99.9%;
-  /* line-height: 55px; */
+  height: 43px;
+  line-height: 43px;
   display: flex;
   padding: 0px  3%;
   margin-top: 0.03%;
-   background-image: url('@/assets/images/index/hidden-trouble-to-push-bg.png');
+  background-image: url('@/assets/images/index/hidden-trouble-to-push-bg.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
@@ -62,15 +62,15 @@
   width: 15%;
 
 }
-.width-25{
-  width: 25%;
+.width-28{
+  width: 28%;
 
 }
 .width-30{
   width: 30%;
 }
-.width-18{
-  width: 18%;
+.width-16{
+  width: 16%;
 }
 .width-27{
   width: 27%;
@@ -79,9 +79,10 @@
   /* width: auto; */
   display: inline-block;
   text-align: center;
-  height: 100%;
-  line-height: 400%;
+  height: 43px;
+  line-height: 43px;
   overflow: hidden;
+  white-space: nowrap
   /* margin-left: 2% */
 }
 .content{
@@ -116,7 +117,8 @@
   overflow: hidden;
 }
 li {
-  height: 100%;
+  height: 43px;
+  line-height: 43px;
   text-align: left;
 }
 .no-data{
