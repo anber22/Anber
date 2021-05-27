@@ -47,7 +47,6 @@
       <!-- 更多 -->
       <div class="screen-more">
         <van-popover
-          id="test"
           v-model="showMore"
           trigger="click"
           :offset="[5,6]"
@@ -72,7 +71,7 @@
       >
         <div v-for="(item, index) in hazardLists" :key="index" class="events-item">
           <Adaptive :size="['100%','20.27%']">
-            <div class="events-item-content">
+            <div class="events-item-content" @click="goJump(item.id)">
               <van-image
                 width="20.27%"
                 height="100%%"
@@ -119,7 +118,7 @@ export default {
       type: { text: '系统类型', id: 0 },
       showDate: false, // 选择日期弹窗
       showMore: false, // 更多弹窗
-      minDate: new Date(2021, 0, 1), // 最小日期
+      minDate: new Date(2000, 0, 1), // 最小日期
       maxDate: new Date(), // 最大日期
       defaultMark: new Date(), // 默认选中日期   null不选中
       screenDate: [], // 选中的日期
@@ -238,16 +237,27 @@ export default {
         day.bottomInfo = ''
       }
       return day
+    },
+    /**
+     * 跳转页面
+     */
+    goJump(id) {
+      this.$router.push({
+        path: '/hazardDetail',
+        query: {
+          hazardId: id
+        }
+      })
     }
 
   }
 }
 </script>
 
-<style>
+<style scoped>
 .unread-events {
-  position: fixed;
-  height: 100%;
+  /* position: fixed; */
+  height: calc(100% - 45px);
   width: 100%;
   background-color: #131B25;
 }
@@ -292,35 +302,11 @@ export default {
   -webkit-transform: rotate(135deg);
   transform: rotate(135deg);
 }
-.screen-date, .screen-more {
-  width: 33%;
-  text-align: center;
-}
-.screen-date .date-title {
-  color: #8BA3C2;
-  position: relative;
-  display: inline-block;
-  font-size: 15px;
-}
-.screen-type .van-button__text, .screen-more .van-button__text {
-  color: #8BA3C2;
-}
-.screen-date .van-calendar, .screen-date .van-popup {
-  background-color: #10161F;
-}
-.screen-date .van-calendar__day, .screen-date .van-calendar__header-subtitle, .screen-date .van-calendar__header-title, .screen-date .van-calendar__month-title, .screen-date .van-calendar__weekday {
-  color: #B9CEE9;
-}
-.screen-date .van-calendar__popup.van-popup--bottom {
-  height: 65%;
-}
-.screen-date .van-calendar__day--disabled {
-  color: #666;
-}
+
 .unread-events .content {
-  height: calc(100% - 100px);
+  height: calc(100% - 62px);
   overflow: auto;
-  position: fixed;
+  /* position: fixed; */
   width: 100%;
   background-color: #101720;
 
@@ -388,26 +374,51 @@ export default {
 }
 </style>
 <style>
-.unread-events .van-popover__action {
+.van-popover__action {
   padding: 0;
   width: 100px;
 }
-.unread-events .van-popover--dark .van-popover__content, .unread-events .van-popover--light .van-popover__content {
+.van-popover--dark .van-popover__content, .van-popover--light .van-popover__content {
   background-color: #101720;
   border: 1px solid #4D628F;
 }
-.unread-events .van-popover--light, .van-popover--dark {
+.van-popover--light, .van-popover--dark {
   color: #8BA3C2;
 }
-.unread-events .van-popover__arrow {
+.van-popover__arrow {
   display: none;
 }
-.unread-events .van-popover, .unread-events .van-popover--light .van-popover__action:active{
+.van-popover, .van-popover--light .van-popover__action:active{
   background-color: #101720;
 }
-.unread-events .van-popover--light {
+.van-popover--light {
   left: inherit !important;
   right: 10px !important;
+}
+.screen-date, .screen-more {
+  width: 33%;
+  text-align: center;
+}
+.screen-date .date-title {
+  color: #8BA3C2;
+  position: relative;
+  display: inline-block;
+  font-size: 15px;
+}
+.screen-type .van-button__text, .screen-more .van-button__text {
+  color: #8BA3C2;
+}
+.screen-date .van-calendar, .screen-date .van-popup {
+  background-color: #10161F;
+}
+.screen-date .van-calendar__day, .screen-date .van-calendar__header-subtitle, .screen-date .van-calendar__header-title, .screen-date .van-calendar__month-title, .screen-date .van-calendar__weekday {
+  color: #B9CEE9;
+}
+.screen-date .van-calendar__popup.van-popup--bottom {
+  height: 65%;
+}
+.screen-date .van-calendar__day--disabled {
+  color: #666;
 }
 
 </style>

@@ -2,13 +2,13 @@
   <div class="realtimeEventCard-box">
     <div v-for="(item,index) in hazardList" :key="index" class="events-item">
       <Adaptive :size="['100%','20.27%']">
-        <div class="events-item-content">
+        <div class="events-item-content" @click="goJump(item.id)">
           <van-image
             width="20.27%"
-            height="100%%"
+            height="100%"
             fit="cover"
             class="events-item-img"
-            :src="index%2===0?'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1423490917,2942550944&fm=26&gp=0.jpg': 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2559982960,2879475880&fm=26&gp=0.jpg'"
+            :src="item.pictureUrl?item.pictureUrl: require('@/assets/images/equip/warn.png')"
             :show-error="false"
 
             :show-loading="false"
@@ -65,6 +65,17 @@ export default {
   mounted() {
   },
   methods: {
+    /**
+     * 跳转页面
+     */
+    goJump(id) {
+      this.$router.push({
+        path: '/hazardDetail',
+        query: {
+          hazardId: id
+        }
+      })
+    },
     /**
      * 时间格式转换
      */
