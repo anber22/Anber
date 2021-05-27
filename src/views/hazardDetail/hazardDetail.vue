@@ -67,7 +67,7 @@
               联系人:
             </div>
             <div class="hazardDetail-submit-content-info-row-value">
-              {{ detailInfo.managerName+"-"+detailInfo.placePhone }}
+              {{ detailInfo.managerName&&detailInfo.managerName!==null?detailInfo.managerName+"-":''+detailInfo.placePhone&&detailInfo.placePhone!==null?detailInfo.placePhone:'' }}
             </div>
             <a @click.stop="callPhone(detailInfo.placePhone)">
               <img src="@/assets/images/equip/phone.png" alt="" class="hazardDetail-submit-content-info-row-icon">
@@ -368,6 +368,7 @@ height: 17px;
   font-family: PingFang SC;
   font-weight: 400;
   color: #6F85A2;
+  vertical-align: top;
 }
 .hazardDetail-deal-content-info-row-name{
   width: 20%;
