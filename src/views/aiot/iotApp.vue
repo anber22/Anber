@@ -8,7 +8,7 @@
         </van-dropdown-menu>
       </div>
       <div class="header-input">
-        <van-search v-model="queryCondition" placeholder="设备名称\IEMI码" :clearable="false" @search="onSearch" />
+        <van-search v-model="queryCondition" placeholder="设备名称\网点名称\IEMI码" :clearable="false" @search="onSearch" />
       </div>
       <div class="chang-list-type">
         <img v-show="!isCard" src="@/assets/images/public/list-type-table.png" alt="" class="list-type-img" @click="changeListType">
@@ -464,15 +464,14 @@ export default {
 }
 .iotApp .van-cell{
   color: rgba(139, 163, 194, 1);
-  padding: 10px 31px;
+  padding: 10px 11px;
+  background-color: rgba(16, 23, 32, 1);
 }
 .iotApp input::-webkit-input-placeholder{
   color: #373F4A !important;
   font-size: 12px
 }
-.iotApp .van-cell{
-  background-color: rgba(16, 23, 32, 1);
-}
+
 .iotApp .van-popup{
   background-color: rgba(16, 23, 32, 1);
 }

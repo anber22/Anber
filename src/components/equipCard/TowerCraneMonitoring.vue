@@ -56,7 +56,7 @@
           <div class="towerCraneMonitoring-content-row-name">
             所属网点:
           </div>
-          <div class="towerCraneMonitoring-content-row-value address-font" @click="showPlaceDetail(equipInfo.placeId)">
+          <div class="towerCraneMonitoring-content-row-value address-font" @click.stop="showPlaceDetail(equipInfo.placeId)">
             {{ equipInfo.placeName }}
             <img src="@/assets/images/equip/address.png" alt="" class="address-icon">
           </div>
