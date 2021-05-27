@@ -249,7 +249,7 @@ export default {
     this.initSockets()
   },
   destroyed() {
-    Socket.unsubscribe('PlateWarning')
+    this.$socket.unsubscribe('PlateWarning')
   },
   methods: {
     /**
@@ -280,7 +280,7 @@ export default {
         }
       ]
       setTimeout(() => {
-        Socket.initSocket(topicList)
+        this.$socket.initSocket(topicList)
       }, 1000)
     },
     /**

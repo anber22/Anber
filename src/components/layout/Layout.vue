@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import Socket from '@/utils/socket'
+// import Socket from '@/utils/socket'
 import DateTransformation from '@/utils/dateTransformation.js'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 
@@ -78,7 +78,7 @@ export default {
     }
   },
   destroyed() {
-    Socket.unsubscribe('layout')
+    this.$socket.unsubscribe('layout')
   },
   methods: {
     /**
@@ -134,7 +134,7 @@ export default {
         }
       ]
       // 初始化socket
-      Socket.initSocket(topicList)
+      this.$socket.initSocket(topicList)
     },
     /**
      * 时间格式转换

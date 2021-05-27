@@ -75,7 +75,7 @@ export default {
       hazardTypeList: [],
       show: false,
       status: 0,
-      loading: false,
+      loading: true,
       equipId: 0,
       page: 0,
       finished: false,

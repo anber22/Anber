@@ -23,7 +23,7 @@
 
       <!-- 消息中心 start -->
       <div class="message">
-        <van-cell is-link>
+        <van-cell is-link @click="goToUnread">
           <template #title>
             <div class="message-title">
               <van-image
@@ -43,17 +43,17 @@
     </div>
     <!-- 背景 end -->
 
-    <!-- 消息推送 start -->
+    <!-- 事件推送 start -->
     <div class="event-push">
-      <MessagePush :title="'事件推送'" />
+      <MessagePush v-if="eventSetting" :title="'事件推送'" :message-type="'event'" :push-setting="eventSetting" @setPushSetting="setEventPushSetting" />
     </div>
-    <!-- 消息推送 end -->
+    <!-- 事件推送 end -->
 
-    <!-- 消息推送 start -->
+    <!-- 故障推送 start -->
     <div class="error-push">
-      <MessagePush :title="'故障推送'" />
+      <MessagePush v-if="errorSetting" :title="'故障推送'" :message-type="'error'" :push-setting="errorSetting" @setPushSetting="setErrorPushSetting" />
     </div>
-    <!-- 消息推送 end -->
+    <!-- 故障推送 end -->
 
     <!-- 退出账号 start -->
     <div class="log-out">
@@ -66,10 +66,11 @@
 </template>
 
 <script>
-import { getUserInfo } from '@/utils/auth.js'
+import { getUserInfo, removeUserInfo } from '@/utils/auth.js'
 import MessagePush from 'cmp/messagePush/MessagePush'
 import { mapActions } from 'vuex'
 import Config from '/config.json'
+import UserApi from '@/api/user.js'
 
 export default {
   name: 'PersonalCenter',
@@ -78,31 +79,89 @@ export default {
   },
   data() {
     return {
-      personInfo: {}
+      personInfo: {},
+      eventSetting: null,
+      errorSetting: null
     }
   },
   created() {
     this.getPersonInfo()
+    this.getEventPushSetting()
+    this.getErrorPushSetting()
   },
   methods: {
     ...mapActions([
       'RemoveToken'
     ]),
+    goToUnread() {
+      this.$router.push({ path: '/unreadEvents' })
+    },
     logOut() {
       this.RemoveToken()
       this.$store.commit('SET_PERMISSIONS', [])
+      removeUserInfo()
       this.$router.push('/login')
     },
     goNext() {
       this.$router.push('/iotApp')
     },
-
     getPersonInfo() {
       const res = getUserInfo()
       this.personInfo = res
 
       if (this.personInfo && this.personInfo.avatar) {
         this.personInfo.avatar = `${Config.figureBedAddress}${this.personInfo.avatar}`
+      }
+    },
+    /**
+     * 获取用户事件推送设置信息
+     */
+    async getEventPushSetting() {
+      const param = {
+        userId: ''
+      }
+      const res = await UserApi.getEventSetting(param)
+      if (res.code === 200) {
+        this.eventSetting = res.data
+      }
+    },
+    /**
+     * 获取用户故障推送设置信息
+     */
+    async getErrorPushSetting() {
+      const param = {
+        userId: ''
+      }
+      const res = await UserApi.getErrorSetting(param)
+      if (res.code === 200) {
+        this.errorSetting = res.data
+      }
+    },
+    /**
+     * 设置事件推送方式
+     */
+    async setEventPushSetting(e) {
+      const param = {
+        userId: '',
+        conditions: e
+      }
+      const res = await UserApi.setEventSetting(param)
+      if (res.code === 200) {
+        // this.errorSetting = res.data
+      }
+    },
+    /**
+     * 设置故障推送方式
+     */
+    async setErrorPushSetting(e) {
+      const param = {
+        userId: '',
+        conditions: e
+      }
+
+      const res = await UserApi.setErrorSetting(param)
+      if (res.code === 200) {
+        // this.errorSetting = res.data
       }
     }
   }

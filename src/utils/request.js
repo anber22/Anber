@@ -66,11 +66,11 @@ class MessageTip extends Vue {
   }
 }
 
-// 响应拦截器
+// TODO: 完善响应拦截 响应拦截器
 
 request.interceptors.response.use(
   response => {
-    if (response.data.code === 401) {
+    if (response.status === 401) {
       const cur = window.document.location.href
 
       const localhostPath = cur.substring(0, cur.indexOf(window.document.location.pathname))
@@ -80,10 +80,9 @@ request.interceptors.response.use(
 
       window.location.replace(process.env.NODE_ENV === 'development' ? localhostPath + '/login' : Config.prodConfigUrl + '/login') // 重定向路由地址
     }
-    if (response.data.code !== 200) {
+    if (response.status !== 200) {
       MessageTip.instance(response.data.code)
     }
-
     return response.data
   },
   error => {

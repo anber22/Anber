@@ -204,7 +204,7 @@ const child = (routes) => {
 
 // 根据 config.json修改权限
 child(asyncRouterMap)
-console.log(asyncRouterMap)
+// console.log(asyncRouterMap)
 
 export default new VueRouter({
   mode: 'history', // 后端支持可开

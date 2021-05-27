@@ -55,7 +55,7 @@
         <div class="physicalUnionApplication-content-row-name">
           所属网点:
         </div>
-        <div class="physicalUnionApplication-content-row-value address-font" @click.stop="showDetail(data.placeId)">
+        <div class="physicalUnionApplication-content-row-value address-font" @click.stop="showDetail(equip.placeId)">
           {{ equip.placeName }}
           <img src="@/assets/images/equip/address.png" alt="" class="address-icon">
         </div>

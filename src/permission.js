@@ -1,7 +1,9 @@
+import Vue from 'vue'
 import router from '@/router'
-import { getToken } from '@/utils/auth'
+import { getToken, setUserInfo, getUserInfo } from '@/utils/auth'
 import UserApi from '@/api/user'
 import store from '@/store'
+import Socket from '@/utils/socket'
 
 // NProgress.configure({ showSpinner: false })// NProgress Configuration
 
@@ -11,8 +13,18 @@ const whiteList = ['/login']// no redirect whitelist
 router.beforeEach((to, from, next) => {
   // 检查是否存在 token
   if (getToken()) {
+    if (Vue.prototype.$socket === undefined) {
+      Vue.prototype.$socket = new Socket()
+    }
+    if (!getUserInfo()) {
+      UserApi.personInfo().then(res => {
+        if (res.code === 200) {
+          // 缓存userInfo
+          setUserInfo({ ...res.data })
+        }
+      })
+    }
     // 跳过登陆
-
     if (to.path === '/login') {
       next({ path: '/home' })
     } else {

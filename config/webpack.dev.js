@@ -15,7 +15,7 @@ module.exports = merge(base, {
     // },
     historyApiFallback: true,
     compress: true, // 启用压缩,
-    // host: "192.168.3.41", // 这里可以把ip改成自己电脑的ip，手机连上 ctjt-link 就可以在手机上预览项目
+    host: "192.168.3.41", // 这里可以把ip改成自己电脑的ip，手机连上 ctjt-link 就可以在手机上预览项目
     port: 1229, // 端口
     open: true, // 自动打开浏览器
     hot: true,
@@ -49,7 +49,19 @@ module.exports = merge(base, {
         pathRewrite: { "^/zjvideo": "" },
         changeOrigin: true,
         secure: false, // 目标服务器地址是否是安全协议1
-      }
+      },
+      "/isc": {
+        target: "https://beta.zhgtwx.ctjt.cn:8081",
+        // pathRewrite: {"^/isc": "" },
+        changeOrigin: true,
+        secure: false, // 目标服务器地址是否是安全协议
+      },
+      "/iscvideo": {
+        target: "https://beta.zhgtwx.ctjt.cn:8081",
+        // pathRewrite: {"^/iscvideo": "" },
+        changeOrigin: true,
+        secure: false, // 目标服务器地址是否是安全协议
+      },
     } 
   },
   plugins: [new webpack.HotModuleReplacementPlugin()],

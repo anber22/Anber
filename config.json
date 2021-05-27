@@ -228,6 +228,11 @@
       "fontSize": "29px"
     }
   },
+  "webSocketInfo":{
+    "url":"ws://server12.ctjt.cn:15654/ws",
+    "account":"webclient",
+    "password":"webclient"
+  },
   "title":"智慧高投物联网平台",
   "desc": "header字段说明：系统头部配置",
   "header": {

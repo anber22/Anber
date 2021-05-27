@@ -162,6 +162,7 @@ export default {
     if (this.$route.query) {
       if (this.$route.query.systemId) {
         this.thisSubsystemId = this.$route.query.systemId
+        this.delaySystemId = this.$route.query.systemId
       }
       // if (this.$route.query.fromPage === '/propertyPlate') {
       //   this.status = this.$route.query.onlineType === 'count' ? 0 : this.$route.query.onlineType === 'online' ? 1 : this.$route.query.onlineType === 'outline' ? 2 : 0
@@ -252,7 +253,7 @@ export default {
         if (params.page > total) {
           this.finished = true
           this.loading = false
-          this.equipInfoList = this.equipInfoList.concat(temp)
+          // this.equipInfoList = this.equipInfoList.concat(temp)
           return
         }
         if (temp.length === 0) {
