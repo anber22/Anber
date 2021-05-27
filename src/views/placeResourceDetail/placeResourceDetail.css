@@ -2,11 +2,13 @@
   width: 100%;
   height: calc(100% - 45px);
   background-color: #101720;
+  overflow: scroll;
 }
 .placeResourceDetail-box{
   width: 100%;
   height: auto;
   background-color: #101720;
+  
 }
 .placeResourceDetail-content{
   width: 92%;
@@ -35,7 +37,7 @@
 .text-box .text-item .name{
   min-width: 60px;
   display: inline-block;
-  margin-right: 20px;
+  margin-right: 10px;
   text-align: right
 }
 .text-box .text-item .placeType{
@@ -72,11 +74,12 @@
   margin-bottom: 4%
 }
 .phone-box{
-  float: left;
-  width: 78%;
+  /* float: left; */
+  width: 60%;
+  margin-left: 8px;
 }
 .phone-name{
-  float: left;
+  /* float: left; */
 }
 .PlaceDetailCard-bind-equip{
   

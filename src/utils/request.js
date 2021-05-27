@@ -66,7 +66,7 @@ class MessageTip extends Vue {
   }
 }
 
-// 响应拦截器
+// TODO: 完善响应拦截 响应拦截器
 
 request.interceptors.response.use(
   response => {

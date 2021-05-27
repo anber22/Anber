@@ -249,7 +249,7 @@ export default {
     this.initSockets()
   },
   destroyed() {
-    Socket.unsubscribe('PlateWarning')
+    this.$socket.unsubscribe('PlateWarning')
   },
   methods: {
     /**

@@ -41,5 +41,35 @@ class User {
       method: 'get'
     })
   }
+  // 设置用户的故障推送设置
+  async setErrorSetting(param) {
+    return await request({
+      url: `/apis/user/error/setting${param.userId}`,
+      method: 'put',
+      data: param.conditions
+    })
+  }
+  // 设置用户的事件推送设置
+  async setEventSetting(param) {
+    return await request({
+      url: `/apis/user/event/setting${param.userId}`,
+      method: 'put',
+      data: param.conditions
+    })
+  }
+  // 获取用户的故障推送设置
+  async getErrorSetting(param) {
+    return await request({
+      url: `/apis/user/error/setting${param.userId}`,
+      method: 'get'
+    })
+  }
+  // 获取用户的事件推送设置
+  async getEventSetting(param) {
+    return await request({
+      url: `/apis/user/event/setting${param.userId}`,
+      method: 'get'
+    })
+  }
 }
 export default new User()

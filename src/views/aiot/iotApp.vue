@@ -253,7 +253,7 @@ export default {
         if (params.page > total) {
           this.finished = true
           this.loading = false
-          this.equipInfoList = this.equipInfoList.concat(temp)
+          // this.equipInfoList = this.equipInfoList.concat(temp)
           return
         }
         if (temp.length === 0) {
@@ -309,7 +309,6 @@ export default {
         }
         , 1000)
       getRealDataAndHzardCount()
-      console.log('设备信息', this.equipInfoList)
     },
     async getRealData(equipList, system, interfaceName) {
       if (interfaceName === '') {

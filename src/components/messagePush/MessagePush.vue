@@ -10,6 +10,7 @@
             v-model="isPushed"
             active-color="#13E8FF"
             inactive-color="#8B96B5"
+            @change="changeAll"
           />
         </div>
       </template>
@@ -18,15 +19,14 @@
       <van-checkbox-group
         v-model="messageOptions"
         direction="horizontal"
-        :disabled="!isPushed"
       >
-        <van-checkbox name="1" shape="square">
+        <van-checkbox name="Public" shape="square" @click="changeSetting(messageType+'Public','Public' )">
           微信公众号
         </van-checkbox>
-        <van-checkbox name="2" shape="square">
+        <van-checkbox name="Call" shape="square" @click="changeSetting(messageType+'Call','Call' )">
           语音
         </van-checkbox>
-        <van-checkbox name="3" shape="square">
+        <van-checkbox name="Msg" shape="square" @click="changeSetting(messageType+'Msg','Msg' )">
           短信
         </van-checkbox>
       </van-checkbox-group>
@@ -49,12 +49,121 @@ export default {
       type: String,
       require: true,
       default: ''
+    },
+    pushSetting: {
+      type: Object,
+      require: true,
+      default: () => {}
+    },
+    messageType: {
+      type: String,
+      require: true,
+      default: () => {}
     }
   },
   data() {
     return {
       isPushed: true,
-      messageOptions: []
+      messageOptions: [],
+      settingInfo: {}
+    }
+  },
+  created() {
+    // TODO: 待优化
+    this.settingInfo = this.pushSetting
+    let count = 0
+    if (this.messageType === 'event') {
+      if (typeof this.pushSetting.eventPublic === 'number') {
+        if (this.pushSetting.eventPublic !== 0) {
+          this.messageOptions.push('Public')
+          count = count + 1
+        }
+      }
+      if (typeof this.pushSetting.eventCall === 'number') {
+        if (this.pushSetting.eventCall !== 0) {
+          this.messageOptions.push('Call')
+          count = count + 1
+        }
+      }
+      if (typeof this.pushSetting.eventMsg === 'number') {
+        if (this.pushSetting.eventMsg !== 0) {
+          this.messageOptions.push('Msg')
+          count = count + 1
+        }
+      }
+    } else if (this.messageType === 'error') {
+      if (typeof this.pushSetting.errorPublic === 'number') {
+        if (this.pushSetting.errorPublic !== 0) {
+          this.messageOptions.push('Public')
+          count = count + 1
+        }
+      }
+      if (typeof this.pushSetting.errorCall === 'number') {
+        if (this.pushSetting.errorCall !== 0) {
+          this.messageOptions.push('Call')
+          count = count + 1
+        }
+      }
+      if (typeof this.pushSetting.errorMsg === 'number') {
+        if (this.pushSetting.errorMsg !== 0) {
+          this.messageOptions.push('Msg')
+          count = count + 1
+        }
+      }
+    }
+    if (count > 0) {
+      this.isPushed = true
+    } else {
+      this.isPushed = false
+    }
+  },
+  methods: {
+    /**
+     * 多选框变化事件
+     */
+    changeSetting(type, name) {
+      this.settingInfo[type] = this.settingInfo[type] === 0 ? 1 : 0
+      if (this.messageType === 'event') {
+        if (this.settingInfo.eventCall === 0 && this.settingInfo.eventMsg === 0 && this.settingInfo.eventPublic === 0) {
+          this.isPushed = false
+        } else {
+          this.isPushed = true
+        }
+      } else if (this.messageType === 'error') {
+        if (this.settingInfo.errorCall === 0 && this.settingInfo.errorMsg === 0 && this.settingInfo.errorPublic === 0) {
+          this.isPushed = false
+        } else {
+          this.isPushed = true
+        }
+      }
+
+      this.$emit(`setPushSetting`, this.settingInfo)
+    },
+    /**
+     * 总开关事件
+     */
+    changeAll() {
+      if (this.isPushed) {
+        if (this.messageType === 'event') {
+          this.settingInfo = { eventCall: 1, eventMsg: 1, eventPublic: 1 }
+          this.messageOptions = ['Public', 'Call', 'Msg']
+          this.$emit(`setPushSetting`, this.settingInfo)
+        } else if (this.messageType === 'error') {
+          this.settingInfo = { errorCall: 1, errorMsg: 1, errorPublic: 1 }
+          this.messageOptions = ['Public', 'Call', 'Msg']
+          this.$emit(`setPushSetting`, this.settingInfo)
+        }
+      } else {
+        if (this.messageType === 'event') {
+          this.settingInfo = { eventCall: 0, eventMsg: 0, eventPublic: 0 }
+          this.messageOptions = []
+          this.$emit(`setPushSetting`, this.settingInfo)
+        } else if (this.messageType === 'error') {
+          this.messageOptions = []
+          this.settingInfo = { eerrorCall: 0, errorMsg: 0, errorPublic: 0 }
+          this.$emit(`setPushSetting`, this.settingInfo)
+        }
+      }
     }
   }
 }

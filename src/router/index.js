@@ -46,7 +46,7 @@ export const asyncRouterMap = [
       }, {
         path: '/personalCenter',
         name: 'PersonInfo',
-        component: () => import('@/views/personalCenter/PersonalCenter'),
+        component: () => import('@/views/personalCenter/personalCenter'),
         meta: { title: '我的', permissions: [], active: '@/assets/images/public/personalCenter-active.png', inactive: '@/assets/images/public/personalCenter.png' }
       }
     ]

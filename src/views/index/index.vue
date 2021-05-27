@@ -239,9 +239,9 @@ export default {
     })
   },
   destroyed() { // 页面销毁时清除定时器
-    Socket.unsubscribe('Warning')
-    Socket.unsubscribe('index')
-    Socket.unsubscribe('Gauge')
+    this.$socket.unsubscribe('Warning')
+    this.$socket.unsubscribe('index')
+    this.$socket.unsubscribe('Gauge')
   },
   methods: {
     /**

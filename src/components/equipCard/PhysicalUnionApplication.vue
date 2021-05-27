@@ -94,13 +94,10 @@ export default {
   },
   watch: {
     equipInfo: function(val, oldVal) {
-      console.log('组件监听接收信息', val)
-
       this.equip = val
     }
   },
   mounted() {
-    console.log('组件接收信息', this.equipInfo)
     this.equip = this.equipInfo
   },
   methods: {

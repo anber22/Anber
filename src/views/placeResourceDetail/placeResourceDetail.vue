@@ -53,7 +53,7 @@
           </div>
           <!-- 勿删：责任书照片和网点照片 -->
           <div class="text-item" style="display: flex;">
-            <span class="name phone-name">责任书：</span>
+            <span class="name">责任书：</span>
             <div v-if="placeResourceDetail.dutyPitcture" class="phone-box">
               <Adaptive
                 v-for="(iitem, index) in placeResourceDetail.dutyPitcture"
@@ -63,8 +63,12 @@
                 :size="['29%', '29%']"
               >
                 <van-image
+                  v-if="iitem.length>0"
                   fit="cover"
                   :src="imgPrefix+ iitem"
+                  :show-error="false"
+
+                  @click="showImg(0,index)"
                 />
               </Adaptive>
             </div>
@@ -73,7 +77,7 @@
             </div>
           </div>
           <div class="text-item" style="display: flex;">
-            <span class="name phone-name">网点照片：</span>
+            <span class="name">网点照片：</span>
             <div v-if="placeResourceDetail.placePicture" class="phone-box">
               <Adaptive
                 v-for="(iitem, index) in placeResourceDetail.placePicture"
@@ -83,8 +87,12 @@
                 :size="['29%', '29%']"
               >
                 <van-image
+                  v-if="iitem.length>0"
                   fit="cover"
                   :src="imgPrefix+ iitem"
+                  :show-error="false"
+
+                  @click="showImg(1,index)"
                 />
               </Adaptive>
             </div>
@@ -131,13 +139,14 @@ import Api from '@/api/placeResource/placeResource'
 import PlaceDetailCard from 'cmp/placeDetailCard/PlaceDetailCard'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 import Config from '/config.json'
+import { ImagePreview } from 'vant'
 
 export default {
   name: 'PlaceResourceDetail',
   components: {
-    PlaceDetailCard
+    PlaceDetailCard,
+    [ImagePreview.Component.name]: ImagePreview.Component
   },
-
   data() {
     return {
       placeResourceDetail: {},
@@ -205,6 +214,29 @@ export default {
     */
     toeEdit() {
       this.$router.push({ path: '/placeResourceEditorial', query: { placeResourceId: this.detailPlaceId }})
+    },
+    /**
+     * 点击放大图片
+     */
+    showImg(type, e) {
+      const imgList = []
+      if (type === 0) {
+        this.placeResourceDetail.dutyPitcture.map(item => {
+          if (item.length > 0) {
+            imgList.push(this.imgPrefix + item)
+          }
+        })
+      } else if (type === 1) {
+        this.placeResourceDetail.placePicture.map(item => {
+          if (item.length > 0) {
+            imgList.push(this.imgPrefix + item)
+          }
+        })
+      }
+      ImagePreview({
+        images: imgList,
+        startPosition: e
+      })
     }
   }
 }
