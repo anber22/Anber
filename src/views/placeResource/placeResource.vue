@@ -66,17 +66,14 @@ export default {
       let listData = []
       if (res.code === 200) {
         listData = [...res.data.rows]
-        if (params.page > total) {
+        if (params.page >= total) {
           this.finished = true
           this.loading = false
-          this.placeResourceList = this.placeResourceList.concat(listData)
-          // return
         }
         if (listData.length === 0) {
           this.loading = false
           // this.finished = true
           this.placeResourceList = listData
-          // return
         }
       }
       // 去vuex获取该网点的网点类型名称，放到数组集合里
@@ -88,10 +85,12 @@ export default {
           this.loading = true
           const listData = JSON.parse(JSON.stringify(this.placeResourceList))
           for (let i = 0; i < listData.length; i++) {
-            const params = '?networkId=' + listData[i].placeId
-            const res = await Api.placeResourceCount(params)
-            if (res.code === 200) {
-              listData[i]['count'] = res.data
+            if (listData[i].count === undefined) {
+              const params = '?networkId=' + listData[i].placeId
+              const res = await Api.placeResourceCount(params)
+              if (res.code === 200) {
+                listData[i]['count'] = res.data
+              }
             }
           }
 
