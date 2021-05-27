@@ -83,7 +83,6 @@ request.interceptors.response.use(
     if (response.status !== 200) {
       MessageTip.instance(response.data.code)
     }
-
     return response.data
   },
   error => {

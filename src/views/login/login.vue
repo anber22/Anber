@@ -190,7 +190,6 @@ export default {
       if (res.code === 200) {
         // 缓存token
         setToken(res.data.token)
-        this.getUserInfo()
 
         this.$Toast('登录成功')
         this.$router.push('/home').catch(() => {})
@@ -227,19 +226,12 @@ export default {
 
         this.$Toast('登录成功', res.data.token)
 
-        this.getUserInfo()
         this.$router.push('/home').catch(() => {})
       } else {
         this.$Toast(res.message)
       }
-    },
-    async getUserInfo() {
-      const res = await User.personInfo()
-      if (res.code === 200) {
-        // 缓存userInfo
-        setUserInfo({ ...res.data })
-      }
     }
+
   }
 }
 </script>

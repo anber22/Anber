@@ -24,7 +24,7 @@ export function setUserInfo(userInfo) {
 }
 
 export function getUserInfo() {
-  return JSON.parse(Cookies.get(UserInfo))
+  return Cookies.get(UserInfo) ? JSON.parse(Cookies.get(UserInfo)) : null
 }
 
 export function removeUserInfo() {

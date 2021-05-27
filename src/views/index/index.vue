@@ -288,7 +288,7 @@ export default {
             }
           ]
         }]
-      Socket.initSocket(topicList)
+      this.$socket.initSocket(topicList)
     },
     /**
      * 获取设备总数

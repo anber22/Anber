@@ -140,7 +140,7 @@ export default {
         }
       ]
       setTimeout(() => {
-        Socket.initSocket(topicList)
+        this.$socket.initSocket(topicList)
       }, 1000)
     },
     /**
@@ -169,7 +169,6 @@ export default {
         })
       })
       temp = await ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', temp)
-
 
       this.hazardList = temp
     }

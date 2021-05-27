@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { getUserInfo } from '@/utils/auth.js'
+import { getUserInfo, removeUserInfo } from '@/utils/auth.js'
 import MessagePush from 'cmp/messagePush/MessagePush'
 import { mapActions } from 'vuex'
 import Config from '/config.json'
@@ -91,6 +91,7 @@ export default {
     logOut() {
       this.RemoveToken()
       this.$store.commit('SET_PERMISSIONS', [])
+      removeUserInfo()
       this.$router.push('/login')
     },
     goNext() {

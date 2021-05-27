@@ -280,7 +280,7 @@ export default {
         }
       ]
       setTimeout(() => {
-        Socket.initSocket(topicList)
+        this.$socket.initSocket(topicList)
       }, 1000)
     },
     /**

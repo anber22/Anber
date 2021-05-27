@@ -12,10 +12,15 @@
 // const VConsole = require('vconsole')
 // new VConsole()
 import Layout from 'cmp/layout/Layout'
+import { removeUserInfo } from '@/utils/auth'
+
 export default {
   name: 'App',
   components: {
     Layout
+  },
+  destroyed() {
+    removeUserInfo()
   }
 }
 </script>

@@ -308,6 +308,7 @@ export default {
         }
         , 1000)
       getRealDataAndHzardCount()
+      console.log('设备信息', this.equipInfoList)
     },
     async getRealData(equipList, system, interfaceName) {
       if (interfaceName === '') {

@@ -28,9 +28,9 @@ Vue.directive('permission', {
       const _permissions = store.getters.permissions
 
       // TODO: 组件权限全匹配
-      console.log(`组件权限全匹配结果: ` + permissions.every(permission => [..._permissions].includes(permission)))
+      // console.log(`组件权限全匹配结果: ` + permissions.every(permission => [..._permissions].includes(permission)))
       // TODO: 组件权限部分匹配
-      console.log(`组件权限部分匹配结果: ` + permissions.some(permission => [..._permissions].includes(permission)))
+      // console.log(`组件权限部分匹配结果: ` + permissions.some(permission => [..._permissions].includes(permission)))
 
       // 当前版本取全匹配权限
       const res = permissions.every(permission => [..._permissions].includes(permission))

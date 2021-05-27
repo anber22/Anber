@@ -2,6 +2,7 @@
 import Stomp from 'stompjs'
 import DepartApi from '@/api/placeResource/placeResource'
 import { getToken } from '@/utils/auth'
+import Config from '/config.json'
 
 let socket = null
 // 频道列表
@@ -16,15 +17,9 @@ let requestPath = ''
  */
 class Socket {
   constructor() {
-    if (`${process.env.NODE_ENV}` === 'development') {
-      requestPath = 'ws://server12.ctjt.cn:15654/ws'
-      this.accountName = 'webclient'
-      this.passWord = 'webclient'
-    } else {
-      requestPath = 'wss://aiot.rabbitmq.ctjt.cn/ws'
-      this.accountName = 'webclient'
-      this.passWord = 'webclient'
-    }
+    requestPath = Config.webSocketInfo.url
+    this.accountName = Config.webSocketInfo.account
+    this.passWord = Config.webSocketInfo.password
   }
 
   /**
@@ -170,4 +165,4 @@ class Socket {
     })
   }
 }
-export default new Socket()
+export default Socket

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './views/App'
+import Config from '/config.json'
 import router from './router' // 引入路由
 import VueRouter from 'vue-router'
 import Vant from 'vant'
@@ -24,13 +25,14 @@ Vue.component('Adaptive', Adaptive)
 Vue.config.debug = true
 Vue.prototype.$echarts = echarts
 Vue.prototype.$Toast = Toast
+Vue.prototype.$config = Config
 
 // Vue.prototype.$video = video
 // const hls = require('videojs-contrib-hls')
 // Vue.use(hls)
 
 // 开发环境
-console.log(`${process.env.NODE_ENV}`, 'process')
+// console.log(`${process.env.NODE_ENV}`, 'process')
 
 new Vue({
   el: '#app',
