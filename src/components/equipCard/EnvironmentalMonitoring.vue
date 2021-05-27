@@ -55,7 +55,7 @@
         <div class="environmentalMonitoring-content-row-name">
           所属网点:
         </div>
-        <div class="environmentalMonitoring-content-row-value address-font" @click="showDetail(equipInfo.placeId)">
+        <div class="environmentalMonitoring-content-row-value address-font" @click.stop="showDetail(equipInfo.placeId)">
           {{ equipInfo.placeName }}
           <img src="@/assets/images/equip/address.png" alt="" class="address-icon">
         </div>
