@@ -70,7 +70,6 @@ class MessageTip extends Vue {
 
 request.interceptors.response.use(
   response => {
-    console.log('响应信息', response)
     if (response.data.code === 401) {
       const cur = window.document.location.href
 
@@ -78,7 +77,6 @@ request.interceptors.response.use(
       MessageTip.instance(response.data.code)
 
       removeToken() // 清除token
-      console.log('本地路径', localhostPath)
       window.location.replace(process.env.NODE_ENV === 'development' ? localhostPath + '/login' : Config.prodConfigUrl + '/login') // 重定向路由地址
     }
     if (response.status !== 200) {

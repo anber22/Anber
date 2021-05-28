@@ -78,7 +78,6 @@ export default {
         if (this.activeName === 0) {
           this.activeName = this.placeList[0].placeId
         }
-        console.log('默认打开', this.activeName)
         // 默认展开第一列（获取第一列数据）
         // this.getVideoPlaceEquipList(this.placeList[0].placeId, 5)
         this.placeList.forEach(item => {
@@ -120,7 +119,6 @@ export default {
             this.$set(item, 'equips', res.data)
             item.count = res.data.length
             if (item.placeId === this.activeName && item.count === 0) {
-              console.log('满足条件吗', item.count)
               this.activeName = 0
             }
             this.equipsFlag = true
@@ -133,8 +131,6 @@ export default {
               break
             }
           }
-
-          console.log('再赋值', this.activeName)
         }
       }
     },

@@ -42,8 +42,14 @@ router.beforeEach((to, from, next) => {
               store.getters.addRouters.forEach(item => {
                 router.addRoute(item)
               })
-              next({ ...to, replace: true })
+              if (store.getters.addRouters.length > 0) {
+                next({ ...to, replace: true })
+              } else {
+                next({ path: '/404' })
+              }
             })
+          } else {
+            next({ path: '/404' })
           }
         })
       } else {

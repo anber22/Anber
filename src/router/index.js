@@ -159,8 +159,12 @@ export const asyncRouterMap = [
     path: '/login',
     component: () => import('@/views/login/login'),
     meta: {}
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/404'),
+    meta: {}
   }
-
 ]
 // TODO: 使用 config.json影响动态路由的内容
 // 读取 config.json中动态路由的名字
@@ -173,9 +177,9 @@ const isInList = (route) => {
   // 加载 config.json中拥有的路由
 
   // 404页面默认添加 (特殊页面)
-  if (route.name === '404') {
-    return true
-  }
+  // if (route.name === '404') {
+  //   return true
+  // }
 
   // 判断是否在 config.json当中
   if (routesName.has(route.name)) {

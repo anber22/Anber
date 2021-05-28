@@ -249,7 +249,6 @@ export default {
         id: this.detailInfoId
       }
       const res = await Api.hazardDealInfo(params)
-      console.log('获取处理信息', res)
       if (res.code === 200) {
         this.dealInfo = { ...res.data }
       }
