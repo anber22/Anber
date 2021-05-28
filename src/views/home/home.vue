@@ -116,8 +116,7 @@ export default {
      */
     getMenuList() {
       let menus = this.$store.getters.menus
-      menus = menus[menus.length - 1].children
-
+      menus = menus[1].children
       menus.forEach((item, index) => {
         if (item.meta.menu) {
           this.menuList.push({ name: item.name, path: item.path, title: item.meta.title })
