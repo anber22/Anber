@@ -84,7 +84,7 @@
           </div>
           <div class="hazardDetail-submit-content-info-row">
             <div class="hazardDetail-deal-content-info-row-name">
-              处理照片:
+              隐患照片:
             </div>
             <div v-if="detailInfo.pictureUrl && detailInfo.pictureUrl.length>0" class="imgBox">
               <img v-for="(item,index) in detailInfo.pictureUrl" :key="index" :src="item" class="dealImg" @click="showImg(index, 1)">
@@ -328,6 +328,7 @@ height: 17px;
   font-family: PingFang SC;
   font-weight: 400;
   color: #29CF7B;
+  margin-left: 15px;
 }
 .hazardDetail-submit-content-undeal-status{
   width: 10%;
@@ -337,6 +338,7 @@ height: 17px;
   font-family: PingFang SC;
   font-weight: 400;
   color: #FF1743;
+  margin-left: 15px;
 }
 .hazardDetail-submit-content-equip-status{
   width: 40%;
