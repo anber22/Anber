@@ -205,9 +205,9 @@ export default {
     overflow: initial;
   }
   .message.max .message-number {
-    width: 23px !important;
-    height: 23px !important;
-    font-size: 8px !important;
+    width: 23px;
+    height: 23px;
+    font-size: 9px;
   }
 
 </style>

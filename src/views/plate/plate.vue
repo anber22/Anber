@@ -580,10 +580,10 @@ export default {
   width: 100%;
 }
 .nothing{
-  width: 100%;
   height: 80px;
   text-align: center;
   line-height: 80px;
+  /* clear: both; */
 }
 </style>
 <style >
