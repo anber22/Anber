@@ -2,7 +2,7 @@ import axios from 'axios'
 import { getToken, removeToken } from '@/utils/auth'
 import Vue from 'vue'
 import { Toast } from 'vant'
-import ErrorCode from '@/utils/ErrorCode'
+import ErrorCode from '@/utils/errorCode'
 import Config from '../../config.json'
 
 // create an request instance

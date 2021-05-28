@@ -224,7 +224,7 @@ export default {
       this.pickcolumns = await this.$store.getters.placeType
     },
     /**
-     * 获取本地网点信息
+     * 获取本地网点信息x
      */
     manageResourceInfo() {
       const placeResource = JSON.parse(window.localStorage.getItem('placeResource'))

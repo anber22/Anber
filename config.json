@@ -219,6 +219,7 @@
   },
   "developmentUrl": "",
   "prodConfigUrl":"",
+
   "indexTitle": {
     "desc" : "title：首页标题配置项、isShow：是否显示标题、lable：标题文本、css：标题样式",
     "isShow": true,
