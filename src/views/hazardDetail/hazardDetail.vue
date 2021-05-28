@@ -87,7 +87,7 @@
               处理照片:
             </div>
             <div v-if="detailInfo.pictureUrl && detailInfo.pictureUrl.length>0" class="imgBox">
-              <img v-for="(item,index) in detailInfo.pictureUrl" :key="index" :src="item" class="dealImg">
+              <img v-for="(item,index) in detailInfo.pictureUrl" :key="index" :src="item" class="dealImg" @click="showImg(index, 1)">
             </div>
             <div v-else class="hazardDetail-deal-content-info-row-auto-value">
               暂无图片
@@ -141,7 +141,7 @@
             处理照片:
           </div>
           <div v-if="dealInfo.resultPicture && dealInfo.resultPicture.length>0" class="imgBox">
-            <img v-for="(item,index) in dealInfo.resultPicture" :key="index" :src="item" class="dealImg">
+            <img v-for="(item,index) in dealInfo.resultPicture" :key="index" :src="item" class="dealImg" @click="showImg(index, 2)">
           </div>
           <div v-else class="hazardDetail-deal-content-info-row-auto-value">
             暂无图片
@@ -161,13 +161,14 @@
 import Api from '@/api/hazard/hazard.js'
 import Date from '@/utils/dateTransformation'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
-import Config from '/config.json'
+// import Config from '/config.json'
 
-import PlaceApi from '@/api/placeResource/placeResource'
+// import PlaceApi from '@/api/placeResource/placeResource'
+import { ImagePreview } from 'vant'
 
 export default {
   components: {
-
+    [ImagePreview.Component.name]: ImagePreview.Component
   },
 
   data() {
@@ -252,6 +253,21 @@ export default {
       if (res.code === 200) {
         this.dealInfo = { ...res.data }
       }
+    },
+    /**
+     * 放大图片
+     */
+    showImg(index, e) {
+      let imgList = []
+      if (e === 1) {
+        imgList = this.detailInfo.pictureUrl
+      } else if (e === 2) {
+        imgList = this.dealInfo.resultPicture
+      }
+      ImagePreview({
+        images: imgList,
+        startPosition: index
+      })
     }
   }
 }

@@ -71,5 +71,12 @@ class User {
       method: 'get'
     })
   }
+  //  获取隐患总数
+  async hazardList(param) {
+    return await request({
+      url: `/apis/heartbeat/equip/type/${param.type}/list/page/${param.page}/size/${param.size}${param.condition}`,
+      method: 'get'
+    })
+  }
 }
 export default new User()

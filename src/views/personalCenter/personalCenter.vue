@@ -22,7 +22,7 @@
       <!-- 用户头像 end -->
 
       <!-- 消息中心 start -->
-      <div class="message">
+      <div class="message" :class="number>99?'max':''">
         <van-cell is-link @click="goToUnread">
           <template #title>
             <div class="message-title">
@@ -35,7 +35,9 @@
             </div>
           </template>
           <template #default>
-          <!-- <div class="message-number" /> -->
+            <div v-if="number>0" class="message-number">
+              {{ number>99?'99+':number }}
+            </div>
           </template>
         </van-cell>
       </div>
@@ -81,13 +83,15 @@ export default {
     return {
       personInfo: {},
       eventSetting: null,
-      errorSetting: null
+      errorSetting: null,
+      number: -1
     }
   },
   created() {
     this.getPersonInfo()
     this.getEventPushSetting()
     this.getErrorPushSetting()
+    this.gethazardNumber()
   },
   methods: {
     ...mapActions([
@@ -111,6 +115,21 @@ export default {
 
       if (this.personInfo && this.personInfo.avatar) {
         this.personInfo.avatar = `${Config.figureBedAddress}${this.personInfo.avatar}`
+      }
+    },
+    /**
+     * 获取隐患总数
+     */
+    async gethazardNumber() {
+      const param = {
+        type: 0,
+        page: 1,
+        size: 1,
+        condition: ''
+      }
+      const res = await UserApi.hazardList(param)
+      if (res.code === 200) {
+        this.number = res.data.records
       }
     },
     /**
@@ -181,6 +200,14 @@ export default {
     background-color: #07101A;
     color: #4D628F;
     font-size: 16px;
+  }
+  .message.max .van-cell__value {
+    overflow: initial;
+  }
+  .message.max .message-number {
+    width: 23px !important;
+    height: 23px !important;
+    font-size: 8px !important;
   }
 
 </style>
