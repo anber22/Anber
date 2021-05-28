@@ -47,7 +47,7 @@
             <div class="hazardDetail-submit-content-info-row-name">
               网点名称:
             </div>
-            <a @click.stop="toPlaceDetail(detailInfo.placeId)">
+            <a @click.stop="toPlaceDetail(detailInfo.networkId)">
               <div class="hazardDetail-submit-content-info-row-value underLine">
                 {{ detailInfo.placeName }}
               </div>
@@ -82,6 +82,17 @@
               {{ changeDate(detailInfo.createdTime) }}
             </div>
           </div>
+          <div class="hazardDetail-submit-content-info-row">
+            <div class="hazardDetail-deal-content-info-row-name">
+              处理照片:
+            </div>
+            <div v-if="detailInfo.pictureUrl && detailInfo.pictureUrl.length>0" class="imgBox">
+              <img v-for="(item,index) in detailInfo.pictureUrl" :key="index" :src="item" class="dealImg">
+            </div>
+            <div v-else class="hazardDetail-deal-content-info-row-auto-value">
+              暂无图片
+            </div>
+          </div>
         </div>
         <!-- end -->
       </div>
@@ -94,19 +105,19 @@
         <img src="@/assets/images/home/title-icon.png" alt="" class="hazardDetail-submit-titil-icon">
         处理信息
       </div>
-      <!-- <div v-if="detailInfo.isDone===1" class="hazardDetail-submit-content">
+      <div v-if="detailInfo.isDone === 1 && dealInfo" class="hazardDetail-submit-content">
         <div class="hazardDetail-deal-content-info-row">
           <div class="hazardDetail-deal-content-info-row-name">
             隐患复核:
           </div>
           <div class="hazardDetail-deal-content-info-row-sort-value">
-            {{ dealInfo.recheck===0?"真实":dealInfo.recheck===1?"误报":dealInfo.recheck===2?"测试":"" }}
+            {{ dealInfo.recheck === 0?"真实":dealInfo.recheck === 1?"误报":dealInfo.recheck === 2?"测试":"" }}
           </div>
           <div class="hazardDetail-deal-content-info-row-name">
             复核方式:
           </div>
           <div class="hazardDetail-deal-content-info-row-sort-value">
-            {{ dealInfo.checkWay===0?"电话":dealInfo.checkWay===1?"图像":dealInfo.checkWay===2?"现场":dealInfo.checkWay===3?"其他":"" }}
+            {{ dealInfo.checkWay === 0 ? "电话" : dealInfo.checkWay === 1 ? "图像" : dealInfo.checkWay === 2 ? "现场" : dealInfo.checkWay === 3 ? "其他" : "" }}
           </div>
         </div>
         <div class="hazardDetail-deal-content-info-auto-row">
@@ -125,9 +136,20 @@
             {{ dealInfo.result }}
           </div>
         </div>
-      </div> -->
+        <div class="hazardDetail-deal-content-info-auto-row">
+          <div class="hazardDetail-deal-content-info-row-name float-left">
+            处理照片:
+          </div>
+          <div v-if="dealInfo.resultPicture && dealInfo.resultPicture.length>0" class="imgBox">
+            <img v-for="(item,index) in dealInfo.resultPicture" :key="index" :src="item" class="dealImg">
+          </div>
+          <div v-else class="hazardDetail-deal-content-info-row-auto-value">
+            暂无图片
+          </div>
+        </div>
+      </div>
 
-      <div class="hazardDetail-deal-content-none">
+      <div v-if="!dealInfo" class="hazardDetail-deal-content-none">
         暂无处理信息
       </div>
     </div>
@@ -139,6 +161,7 @@
 import Api from '@/api/hazard/hazard.js'
 import Date from '@/utils/dateTransformation'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
+import Config from '/config.json'
 
 import PlaceApi from '@/api/placeResource/placeResource'
 
@@ -151,7 +174,7 @@ export default {
     return {
       detailInfoId: 0,
       detailInfo: {},
-      dealInfo: {},
+      dealInfo: null,
       loading: true
     }
   },
@@ -173,11 +196,11 @@ export default {
     /**
      * 跳转网点详情
      */
-    async toPlaceDetail() {
+    async toPlaceDetail(e) {
       this.$router.push({
         path: '/placeResourceDetail',
         query: {
-          placeId: this.detailInfoId
+          placeId: e
         }
       })
     },
@@ -226,6 +249,7 @@ export default {
         id: this.detailInfoId
       }
       const res = await Api.hazardDealInfo(params)
+      console.log('获取处理信息', res)
       if (res.code === 200) {
         this.dealInfo = { ...res.data }
       }
@@ -247,6 +271,7 @@ export default {
 .hazardDetail-submit{
   width: 100%;
   height: auto;
+  clear: both;
 
 }
 .hazardDetail-submit-title{
@@ -271,8 +296,9 @@ height: 17px;
 .hazardDetail-deal-content{
   width: 100%;
   height: auto;
-  margin-top: 3%;
+  padding-top: 3%;
   padding-bottom: 30%;
+  clear: both;
 }
 
 .hazardDetail-submit-content-header{
@@ -355,8 +381,10 @@ height: 17px;
   height: 30px;
 }
 .hazardDetail-deal-content-info-auto-row{
-    width: 100%;
-    vertical-align: top
+  width: 100%;
+  vertical-align: top;
+  height: auto;
+  clear: both;
 }
 .hazardDetail-submit-content-info-row-name{
   width: 21%;
@@ -437,5 +465,16 @@ height: 17px;
   color:#fffeff;
   width: 100%;
   height: 35px;
+}
+.dealImg{
+  width: 79px;
+  height: 79px;
+  margin-left: 8px;
+  margin-top: 8px;
+}
+.imgBox{
+  width: 80%;
+  height: auto;
+  float: right;
 }
 </style>
