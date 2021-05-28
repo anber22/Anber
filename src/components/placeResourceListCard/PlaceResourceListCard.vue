@@ -14,8 +14,10 @@
     <div class="placeResourceListCard-content">
       <div class="placeResourceListCard-content-row">
         <div class="placeResourceListCard-content-row-name">
-          {{ placeData.managerName }}
-          <div class="placeResourceListCard-phone">
+          <div v-if="placeData.managerName!==''&&placeData.managerName" class="placeResourceListCard-name">
+            {{ placeData.managerName }}
+          </div>
+          <div v-if="placeData.phone!==''&&placeData.phone" class="placeResourceListCard-phone">
             {{ placeData.phone }}
           </div>
           <div class="placeResourceListCard-type">
@@ -42,7 +44,7 @@
 </template>
 
 <script>
-import Api from '@/api/placeResource/placeResource'
+// import Api from '@/api/placeResource/placeResource'
 
 export default {
   components: {
@@ -120,6 +122,7 @@ export default {
 }
 .placeResourceListCard-header{
   background: #131F3B;
+  height: 30%;
 }
 .placeResourceListCard-title{
   width: 35%;
@@ -195,7 +198,6 @@ export default {
   font-weight: 400;
   color: #55A4E7;
   padding: 0.5% 1% 0.5% 1%;
-  margin-left: 2%;
   display: inline-block;
   white-space: nowrap;
   overflow: hidden;
@@ -203,11 +205,18 @@ export default {
 .placeResourceListCard-phone{
   width: auto;
   padding: 0.5% 1% 0.5% 1%;
-  margin-left: 2%;
   color: #B9CEE9;
   display: inline-block;
   white-space: nowrap;
   overflow: hidden;
+  margin-right: 2%;
+}
+.placeResourceListCard-name {
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #B9CEE9;
+  margin-right: 2%;
 }
 .placeResourceListCard-content-row-icon{
   width: 19px;
