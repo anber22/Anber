@@ -6,7 +6,7 @@
         <van-loading v-if="!placeList" size="18px" vertical>
           <span style="color: #6F85A2">加载中...</span>
         </van-loading>
-        <van-collapse-item v-for="(item, index) in placeList" v-show="item.count" :key="index" :title="item.placeName + '('+item.count+')'" :name="index">
+        <van-collapse-item v-for="(item, index) in placeList" v-show="item.count" :key="index" :title="item.placeName + '('+item.count+')'" :name="item.placeId">
           <van-loading v-if="!equipsFlag" size="18px" vertical>
             <span style="color: #6F85A2">加载中...</span>
           </van-loading>
@@ -52,7 +52,7 @@ export default {
      * 获取网点列表，智慧视觉传对应的智慧视觉子系统的id:5
      */
     this.getVideoPlaceList(5, '')
-    this.activeName = this.activeCollapseName
+    // this.activeName = this.activeCollapseName
   },
   methods: {
     /**
@@ -75,7 +75,10 @@ export default {
         } else {
           this.emptyFlag = false
         }
-        // this.activeName = this.placeList[0].placeId
+        if (this.activeName === 0) {
+          this.activeName = this.placeList[0].placeId
+        }
+        console.log('默认打开', this.activeName)
         // 默认展开第一列（获取第一列数据）
         // this.getVideoPlaceEquipList(this.placeList[0].placeId, 5)
         this.placeList.forEach(item => {
@@ -112,12 +115,27 @@ export default {
       if (res.code === 200) {
         // 去vuex获取该网点的设备类型名称，放到数组集合里
         res.data = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', res.data)
-        this.placeList.map(item => {
+        this.placeList.map((item, index) => {
           if (param.id === item.placeId) {
             this.$set(item, 'equips', res.data)
+            item.count = res.data.length
+            if (item.placeId === this.activeName && item.count === 0) {
+              console.log('满足条件吗', item.count)
+              this.activeName = 0
+            }
             this.equipsFlag = true
           }
         })
+        if (this.activeName === 0) {
+          for (let i = 0; i < this.placeList.length; i++) {
+            if (this.placeList[i].count > 0) {
+              this.activeName = this.placeList[i].placeId
+              break
+            }
+          }
+
+          console.log('再赋值', this.activeName)
+        }
       }
     },
     onSearch(e) {
