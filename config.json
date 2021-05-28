@@ -229,7 +229,7 @@
     }
   },
   "webSocketInfo":{
-    "url":"ws://server12.ctjt.cn:15654/ws",
+    "url":"wss://beta.zhgt.ctjt.cn:8081/ws",
     "account":"webclient",
     "password":"webclient"
   },
