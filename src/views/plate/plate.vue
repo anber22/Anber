@@ -51,7 +51,10 @@
           </van-dropdown-menu>
         </div>
       </div>
-      <SimpleForm v-if="eventList.row.length!==0" :table-data="eventList" :network-type="pageType" table-type="0" :days="timeType===1?30:timeType===2?365:timeType===3?0:0" class="simpleForm" />
+      <SimpleForm v-if="eventList.row.length>0" :table-data="eventList" :network-type="pageType" table-type="0" :days="timeType===1?30:timeType===2?365:timeType===3?0:0" class="simpleForm" />
+      <div v-else class="nothing">
+        暂无数据
+      </div>
     </div>
     <!-- end -->
     <!-- 预警趋势 start -->
@@ -93,7 +96,6 @@ import PlateWarning from 'cmp/plateWarning/PlateWarning'
 import PlateApi from '@/api/gtPlate/gtPlate'
 import DateTransformation from '@/utils/dateTransformation.js'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
-import Socket from '@/utils/socket'
 
 export default {
   components: {
