@@ -218,7 +218,7 @@
     }]
   },
   "developmentUrl": "",
-  "prodConfigUrl":"https://beta.zhgt.ctjt.cn",
+  "prodConfigUrl":"https://beta.zhgtwx.ctjt.cn",
   "indexTitle": {
     "desc" : "title：首页标题配置项、isShow：是否显示标题、lable：标题文本、css：标题样式",
     "isShow": true,
@@ -229,11 +229,11 @@
     }
   },
   "webSocketInfo":{
-    "url":"ws://server12.ctjt.cn:15654/ws",
+    "url":"wss://beta.zhgt.ctjt.cn:8081/ws",
     "account":"webclient",
     "password":"webclient"
   },
-  "title":"智慧高投物联网平台",
+  "title":"智慧高投物联网管理平台",
   "desc": "header字段说明：系统头部配置",
   "header": {
     "desc": "logo：头部左边logo图片文件名、css：头部标题样式",

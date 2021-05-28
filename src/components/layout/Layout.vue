@@ -68,12 +68,15 @@ export default {
         return
       }
       if ((from.path === '/login' || (from.path === '/' && to.path !== '/login')) && this.$route.path !== '/login') {
+        console.log('当前路径', from.path, to.path)
         this.initSockets()
       }
     }
   },
   mounted() {
-    if (this.$route.path !== '/login') {
+    if (this.$route.path !== '/login' && this.$route.path !== '/') {
+      console.log('当前路径1', this.$route.path)
+
       this.initSockets()
     }
   },
