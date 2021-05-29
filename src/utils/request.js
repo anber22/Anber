@@ -85,7 +85,6 @@ request.interceptors.response.use(
         MessageTip.instance(response.data.code)
       }
     }
-
     return response.data
   },
   error => {
