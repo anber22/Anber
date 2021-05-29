@@ -384,7 +384,7 @@ export default {
      */
     async getHazardTrend() {
       const params = {
-        conditions: '?conditions=' + this.pageType
+        conditions: '?networkType=' + this.pageType
       }
       const res = await PlateApi.hazardTrend(params)
       if (res.code === 200) {

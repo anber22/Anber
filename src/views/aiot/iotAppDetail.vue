@@ -80,6 +80,7 @@ import { ImagePreview } from 'vant'
 // import DateFormat from '@/utils/dateTransformation'
 
 import Api from '@/api/aiot/iotApp.js'
+import videoApi from '@/api/video'
 export default {
   name: 'EquipDeail',
   components: {
@@ -220,6 +221,7 @@ export default {
         }
       ]
       this.equipInfo = equipDetailInfo
+      this.getVideoUrl(this.equipInfo.imei)
       // 查询日志列表，暂时不做， 不能删
       // const bindingRes = await Api.bindingLogList(this.equipInfo.imei)
       // if (bindingRes.code === 200) {
@@ -284,16 +286,29 @@ export default {
             }
           ]
         }
-        let source, videoUrl
-        if (Reflect.has(Config, 'videoUrl')) {
-          videoUrl = Config.videoUrl
-        }
-        if (VideoUUID.match(this.equipInfo.imei)) {
-          source = videoUrl + '/mag/hls/' + VideoUUID.match(this.equipInfo.imei) + '/0/live.m3u8'
-        }
-        this.playVideo(source)
+
+        // let source, videoUrl
+        // if (Reflect.has(Config, 'videoUrl')) {
+        //   videoUrl = Config.videoUrl
+        // }
+        // if (VideoUUID.match(this.equipInfo.imei)) {
+        //   source = videoUrl + '/mag/hls/' + VideoUUID.match(this.equipInfo.imei) + '/0/live.m3u8'
+        // }
+        // this.playVideo(source)
       } else if (this.systemId === '10') {
         this.getEnvironmentRealTime()
+      }
+    },
+    /**
+     *  获取视频地址
+     */
+    async getVideoUrl(imei) {
+      const uuid = VideoUUID.match(imei)
+      const res = await videoApi.videoUrl(uuid)
+      let source = ''
+      if (res.code === '0') {
+        source = '/iscvideo' + res.data.url
+        this.playVideo(source)
       }
     },
     onPlayerPlay(player) {

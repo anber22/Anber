@@ -258,7 +258,7 @@ export default {
         }
         if (temp.length === 0) {
           this.equipInfoList = temp
-          this.lodding = false
+          this.loading = false
           this.finished = true
           // return
         }
@@ -268,6 +268,7 @@ export default {
       temp = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', temp)
 
       this.equipInfoList = this.equipInfoList.concat(temp)
+      this.loading = false
 
       // 05-08 挖坑，立牌 如果有什么更好的解决方案请联系梁工
       // 所在方法是分页获取设备列表，后端更新后我们不能再批量获取实时数据和未处理隐患数，所以这里我们需要一条一条获取
@@ -285,7 +286,7 @@ export default {
         //
         async() => {
           // 打开loadding
-          this.loading = true
+          // this.loading = true
           const temp = JSON.parse(JSON.stringify(this.equipInfoList))
           // 如果是环境监测
           await this.getRealData(temp, system, system === '10' ? 'environmentRealTimeData' : system === '11' ? 'towerRealTimeInfo' : '')
@@ -304,7 +305,7 @@ export default {
           }
           if (this.dataLoadingStart === system) {
             this.equipInfoList = JSON.parse(JSON.stringify(temp))
-            this.loading = false
+            // this.loading = false
           }
         }
         , 1000)

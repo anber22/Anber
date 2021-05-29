@@ -72,17 +72,18 @@ export default {
         }
         if (listData.length === 0) {
           this.loading = false
-          // this.finished = true
+          this.finished = true
           this.placeResourceList = listData
         }
       }
       // 去vuex获取该网点的网点类型名称，放到数组集合里
       listData = await ReadTypeNameOnVuex.conversion('placeType', 'placeTypeId', 'placeTypeName', listData)
       this.placeResourceList = this.placeResourceList.concat(listData)
+      this.loading = false
       const getRealDataAndHzardCount = this.jsStabilization.stabilization(
         //
         async() => {
-          this.loading = true
+          // this.loading = true
           const listData = JSON.parse(JSON.stringify(this.placeResourceList))
           for (let i = 0; i < listData.length; i++) {
             if (listData[i].count === undefined) {
@@ -95,7 +96,7 @@ export default {
           }
 
           this.placeResourceList = JSON.parse(JSON.stringify(listData))
-          this.loading = false
+          // this.loading = false
         }, 1000)
       getRealDataAndHzardCount()
     },
