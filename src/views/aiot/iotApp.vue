@@ -8,7 +8,7 @@
         </van-dropdown-menu>
       </div>
       <div class="header-input">
-        <van-search v-model="queryCondition" placeholder="设备名称\网点名称\IEMI码" :clearable="false" @search="onSearch" />
+        <van-search v-model="queryCondition" placeholder="设备名称\网点名称\IMEI码" :clearable="false" @search="onSearch" />
       </div>
       <div class="chang-list-type">
         <img v-show="!isCard" src="@/assets/images/public/list-type-table.png" alt="" class="list-type-img" @click="changeListType">

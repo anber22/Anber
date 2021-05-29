@@ -70,18 +70,22 @@ class MessageTip extends Vue {
 
 request.interceptors.response.use(
   response => {
-    if (response.data.code === 401) {
-      const cur = window.document.location.href
+    console.log('返回', response)
+    if (response.config.url.indexOf('/apis') !== -1) {
+      if (response.data.code === 401) {
+        const cur = window.document.location.href
 
-      const localhostPath = cur.substring(0, cur.indexOf(window.document.location.pathname))
-      MessageTip.instance(response.data.code)
+        const localhostPath = cur.substring(0, cur.indexOf(window.document.location.pathname))
+        MessageTip.instance(response.data.code)
 
-      removeToken() // 清除token
-      window.location.replace(process.env.NODE_ENV === 'development' ? localhostPath + '/login' : Config.prodConfigUrl + '/login') // 重定向路由地址
+        removeToken() // 清除token
+        window.location.replace(process.env.NODE_ENV === 'development' ? localhostPath + '/login' : Config.prodConfigUrl + '/login') // 重定向路由地址
+      }
+      if (response.status !== 200) {
+        MessageTip.instance(response.data.code)
+      }
     }
-    if (response.status !== 200) {
-      MessageTip.instance(response.data.code)
-    }
+
     return response.data
   },
   error => {
