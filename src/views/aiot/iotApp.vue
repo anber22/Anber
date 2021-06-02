@@ -18,7 +18,8 @@
     <div class="blankArea" />
     <!-- end -->
     <!-- 内容 start -->
-    <div class="iot-content">
+
+    <div ref="wrapper" class="iot-content">
       <!-- 卡片展示列表 start -->
       <van-loading v-if="loading" size="24px" vertical>
         加载中...
@@ -63,6 +64,7 @@
         <!-- 塔机卡片 start -->
         <div v-if="thisSubsystemId==='11' && equipInfoList.length>0 && !loading" class="show-list">
           <van-list
+
             v-model="loading"
             :finished="finished"
             finished-text="没有更多了"
@@ -89,6 +91,7 @@
       <div v-if="!isCard">
         <div v-if=" equipInfoList.length>0" class="show-list">
           <van-list
+
             v-model="loading"
             :finished="finished"
             finished-text="没有更多了"
@@ -137,6 +140,16 @@ export default {
     // 塔机检测设备信息卡片
     TowerCraneMonitoring
   },
+  /**
+   * 从当前页面离开时触发
+   */
+  beforeRouteLeave(to, from, next) {
+    // 记录当前页面某个组件记录的高度
+    this.scrollTop = this.$refs.wrapper.scrollTop
+    console.log('上次保存的高度', this.$refs.wrapper.scrollTop)
+    // 执行路由管道的下一个
+    next()
+  },
   data() {
     return {
       loading: true, // 加载状态
@@ -153,12 +166,20 @@ export default {
       finished: false, // 是否加载全部
       dataLoadingStart: '5', // 数据开始加载的子系统id
       jsStabilization: null, // 函数防抖实例对象
-      delaySystemId: '5' // 延时系统id
+      delaySystemId: '5', // 延时系统id
+      scrollTop: 0
     }
+  },
+  /**
+   * 当前路由如果有keep-alive状态则不执行created，进入该生命周期
+   */
+  activated() {
+    console.log('上次浏览的高度', this.scrollTop)
+    // 将上次记录的滚动高度记录到当前页面
+    this.$refs.wrapper.scrollTop = this.scrollTop
   },
   created() {
     // 渲染页面查询卡片列表片数据
-
     if (this.$route.query) {
       if (this.$route.query.systemId) {
         this.thisSubsystemId = this.$route.query.systemId

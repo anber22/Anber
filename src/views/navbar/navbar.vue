@@ -11,7 +11,13 @@
         <!-- <img v-permission:[type]="`NavBar-${$route.name}`" src="@/assets/images/public/edit.png" alt="" class="nav-right-edit-icon" @click="changeToEdit()"> -->
       </template>
     </van-nav-bar>
-    <router-view ref="page" />
+    <keep-alive>
+      <!-- 这是会被缓存的页面 -->
+      <router-view v-if="$route.meta.keepAlive" />
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive">
+      <!-- 这里是不被缓存的组件 -->
+    </router-view>
   </div>
 </template>
 
@@ -66,16 +72,16 @@ export default {
 .navbar-box .van-nav-bar .van-icon {
   width: 19px;
   height: 19px;
-    color: white;
+  color: white;
 }
 .navbar-box .van-nav-bar {
-    position: relative;
-    z-index: 1;
-    line-height: 22px;
-    text-align: center;
-    background-color: rgba(35, 49, 67, 1);
-    -webkit-user-select: none;
-    user-select: none;
+  position: relative;
+  z-index: 1;
+  line-height: 22px;
+  text-align: center;
+  background-color: rgba(35, 49, 67, 1);
+  -webkit-user-select: none;
+  user-select: none;
 }
 .navbar-box .van-hairline--bottom::after {
     border: none;

@@ -11,7 +11,7 @@
 
     <!-- 详情列表 start -->
 
-    <div class="hazard-content">
+    <div ref="wrapper" class="hazard-content">
       <van-list
         v-model="loading"
         :finished="finished"
@@ -54,6 +54,16 @@ export default {
   components: {
     HazardListCard
   },
+  /**
+   * 从当前页面离开时触发
+   */
+  beforeRouteLeave(to, from, next) {
+    // 记录当前页面某个组件记录的高度
+    this.scrollTop = this.$refs.wrapper.scrollTop
+    console.log('上次保存的高度', this.$refs.wrapper.scrollTop)
+    // 执行路由管道的下一个
+    next()
+  },
   data() {
     return {
       hazardList: [],
@@ -81,7 +91,9 @@ export default {
       finished: false,
       networkType: 0,
       endDate: '',
-      startDate: ''
+      startDate: '',
+      scrollTop: 0
+
     }
   },
   mounted() {
@@ -106,6 +118,14 @@ export default {
     }
 
     this.getAnalysisList()
+  },
+  /**
+   * 当前路由如果有keep-alive状态则不执行created，进入该生命周期
+   */
+  activated() {
+    console.log('上次浏览的高度', this.scrollTop)
+    // 将上次记录的滚动高度记录到当前页面
+    this.$refs.wrapper.scrollTop = this.scrollTop
   },
   methods: {
     /**

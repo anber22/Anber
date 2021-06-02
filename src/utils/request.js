@@ -70,7 +70,6 @@ class MessageTip extends Vue {
 
 request.interceptors.response.use(
   response => {
-    console.log('返回', response)
     if (response.config.url.indexOf('/apis') !== -1) {
       if (response.data.code === 401) {
         const cur = window.document.location.href

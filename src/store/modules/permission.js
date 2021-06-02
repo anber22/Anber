@@ -64,7 +64,7 @@ const permission = {
         } else {
           // 赋予过滤后符合的权限
           accessedRouters = filterAsyncRouter(asyncRouterMap, permissions)
-          menus = filterAsyncRouter(accessedRouters, ['NetworkApplication', 'SmartView', 'NetworkPointResource', 'AnalysisCounting'])
+          menus = filterAsyncRouter(accessedRouters, ['Index', 'NetworkApplication', 'SmartView', 'NetworkPointResource', 'AnalysisCounting'])
         }
         // 注册最后的权限列表
         commit('SET_ROUTERS', accessedRouters)

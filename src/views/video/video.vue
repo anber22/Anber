@@ -75,9 +75,7 @@ export default {
         } else {
           this.emptyFlag = false
         }
-        if (this.activeName === 0) {
-          this.activeName = this.placeList[0].placeId
-        }
+
         // 默认展开第一列（获取第一列数据）
         // this.getVideoPlaceEquipList(this.placeList[0].placeId, 5)
         this.placeList.forEach(item => {
@@ -124,14 +122,6 @@ export default {
             this.equipsFlag = true
           }
         })
-        if (this.activeName === 0) {
-          for (let i = 0; i < this.placeList.length; i++) {
-            if (this.placeList[i].count > 0) {
-              this.activeName = this.placeList[i].placeId
-              break
-            }
-          }
-        }
       }
     },
     onSearch(e) {

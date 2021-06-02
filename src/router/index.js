@@ -42,7 +42,7 @@ export const asyncRouterMap = [
         path: '/index',
         name: 'HomepageScreen',
         component: () => import('@/views/index/index'),
-        meta: { title: '智慧高投', permissions: [], active: '@/assets/images/public/index-active.png', inactive: '@/assets/images/public/index.png' }
+        meta: { title: '智慧高投', permissions: [], active: '@/assets/images/public/index-active.png', inactive: '@/assets/images/public/index.png', menu: true }
       }, {
         path: '/personalCenter',
         name: 'PersonInfo',
@@ -59,16 +59,34 @@ export const asyncRouterMap = [
     redirect: '/iotApp',
     children: [
       {
+        path: '/propertyPlate',
+        name: 'PropertyPlate',
+        component: () => import('@/views/plate/plate'),
+        meta: { showFooter: true, title: '物业看板', permissions: [], edit: false, menu: true }
+      },
+      {
+        path: '/safetyCommitteePlate',
+        name: 'SafetyCommitteePlate',
+        component: () => import('@/views/plate/plate'),
+        meta: { showFooter: true, title: '安委看板', permissions: [], edit: false, menu: true }
+      },
+      {
+        path: '/video',
+        name: 'WisdomVisual',
+        component: () => import('@/views/video/video'),
+        meta: { title: '智慧视觉', permissions: [], edit: false, menu: true }
+      },
+      {
+        path: '/hazard',
+        name: 'Statistics',
+        component: () => import('@/views/hazard/hazard'),
+        meta: { title: '隐患管理', permissions: [], edit: false, menu: true, keepAlive: true }
+      },
+      {
         path: '/iotApp',
         name: 'IotApp',
         component: () => import('@/views/aiot/iotApp'),
-        meta: { title: '物联应用', permissions: [], edit: false, menu: true }
-      },
-      {
-        path: '/iotAppDetail',
-        name: 'IotAppDetail',
-        component: () => import('@/views/aiot/iotAppDetail'),
-        meta: { title: '设备详情', permissions: [], edit: true }
+        meta: { title: '物联应用', permissions: [], edit: false, menu: true, keepAlive: true }
       },
       {
         path: '/placeResource',
@@ -77,17 +95,12 @@ export const asyncRouterMap = [
         meta: { title: '网点管理', permissions: [], edit: false, menu: true }
       },
       {
-        path: '/hazard',
-        name: 'Statistics',
-        component: () => import('@/views/hazard/hazard'),
-        meta: { title: '隐患管理', permissions: [], edit: false, menu: true }
+        path: '/iotAppDetail',
+        name: 'IotAppDetail',
+        component: () => import('@/views/aiot/iotAppDetail'),
+        meta: { title: '设备详情', permissions: [], edit: true }
       },
-      {
-        path: '/video',
-        name: 'WisdomVisual',
-        component: () => import('@/views/video/video'),
-        meta: { title: '智慧视觉', permissions: [], edit: false, menu: true }
-      },
+
       {
         path: '/videoPlayer',
         name: 'VideoPlayer',
@@ -105,18 +118,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/hazardDetail/hazardDetail'),
         meta: { showFooter: true, title: '隐患详情', permissions: [], edit: true }
       },
-      {
-        path: '/propertyPlate',
-        name: 'PropertyPlate',
-        component: () => import('@/views/plate/plate'),
-        meta: { showFooter: true, title: '物业看板', permissions: [], edit: false, menu: true }
-      },
-      {
-        path: '/safetyCommitteePlate',
-        name: 'SafetyCommitteePlate',
-        component: () => import('@/views/plate/plate'),
-        meta: { showFooter: true, title: '安委看板', permissions: [], edit: false, menu: true }
-      },
+
       {
         path: '/editEquip',
         name: 'EditEquip',
@@ -216,4 +218,3 @@ export default new VueRouter({
   // scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
 })
-

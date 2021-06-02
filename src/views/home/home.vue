@@ -77,7 +77,6 @@
 <script>
 import Api from '@/api/index'
 import RealtimeEventCard from 'cmp/realtimeEventCard/RealtimeEventCard'
-import Socket from '@/utils/socket'
 import Config from '/config.json'
 import ReadTypeNameOnVuex from '@/utils/readTypeNameOnVuex'
 
@@ -97,16 +96,15 @@ export default {
         Statistics: require('@/assets/images/home/manage.png'),
         WisdomVisual: require('@/assets/images/home/video.png'),
         PropertyPlate: require('@/assets/images/home/property-plate.png'),
-        SafetyCommitteePlate: require('@/assets/images/home/safety-committee-plate.png')
+        SafetyCommitteePlate: require('@/assets/images/home/safety-committee-plate.png'),
+        HomepageScreen: require('@/assets/images/home/zhgt.png')
       },
-
       menuList: []
     }
   },
   created() {
     this.subsystemList = Config.subsystemList
     this.getHiddenDangerList()
-
     this.getMenuList()
     this.initSockets()
   },
@@ -115,19 +113,34 @@ export default {
      * 根据权限获取菜单列表
      */
     getMenuList() {
-      let menus = this.$store.getters.menus
-      menus = menus[1].children
-      menus.forEach((item, index) => {
+      const menus = this.$store.getters.menus
+      console.log('菜单列表', menus)
+      let temp = []
+      temp = menus[0].children
+      temp.forEach((item, index) => {
         if (item.meta.menu) {
           this.menuList.push({ name: item.name, path: item.path, title: item.meta.title })
         }
       })
+      temp = menus[1].children
+      temp.forEach((item, index) => {
+        if (item.meta.menu) {
+          this.menuList.push({ name: item.name, path: item.path, title: item.meta.title })
+        }
+      })
+      console.log(this.menuList)
     },
+    /**
+     * 监听socket消息
+     */
     onMessage(msg) {
       this.hazardList.splice(2, 1)
       this.hazardList.splice(0, 0, msg)
       this.$forceUpdate()
     },
+    /**
+     * 初始化socket
+     */
     initSockets() {
       const topicList = [
         {
@@ -179,7 +192,8 @@ export default {
 .home-container{
   background-color: #101720;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 50px) ;
+  overflow: auto;
 }
 .home-bg{
   width: 100%;
