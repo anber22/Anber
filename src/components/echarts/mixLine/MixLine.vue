@@ -29,12 +29,16 @@ export default {
     init() {
       let interval = 2 // 日期间隔
       const _xAxisData = this.lineData.xAxis.data
-      if (_xAxisData.length < 7) {
-        interval = 0
-      } else if (_xAxisData.length > 6 && _xAxisData.length < 12) {
+      if (this.lineData.name === '隐患数') {
         interval = 2
       } else {
-        interval = 5
+        if (_xAxisData.length < 7) {
+          interval = 0
+        } else if (_xAxisData.length > 6 && _xAxisData.length < 12) {
+          interval = 2
+        } else {
+          interval = 5
+        }
       }
       const dotHtml = '<span style="display:inline-block;margin-right:5px;margin-bottom: 4px;width:13px;height:2px;background-color:rgba(24, 237, 250, 1)"></span>'
       const plateHtml = '<span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:#f6fd7e;margin-right:5px;margin-top:-2px;"></span>'

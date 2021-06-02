@@ -125,7 +125,7 @@ export default {
         type: 0,
         page: 1,
         size: 1,
-        condition: ''
+        condition: '?isRead=0'
       }
       const res = await UserApi.hazardList(param)
       if (res.code === 200) {
