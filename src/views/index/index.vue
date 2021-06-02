@@ -347,7 +347,7 @@ export default {
 
       // this.equipList = this.applicationEquipList
       this.equipList = await this.$store.dispatch('GetApplicationlist')
-      const combined = this.subsystemList.reduce((acc, cur) => {
+      let combined = this.subsystemList.reduce((acc, cur) => {
         const target = acc.find(e => e.id === cur.id)
         if (target) {
           Object.assign(target, cur)
@@ -355,6 +355,8 @@ export default {
         }
         return acc
       }, this.equipList)
+      combined = combined.filter(v => v.name !== undefined)
+      console.log('系统名称', combined, this.subsystemList, this.equipList)
       this.equipList = combined
       combined.forEach(item => {
         this.monitorAnalysisData.equipType.push({

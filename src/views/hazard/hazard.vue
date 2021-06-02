@@ -60,6 +60,7 @@ export default {
   beforeRouteLeave(to, from, next) {
     // 记录当前页面某个组件记录的高度
     this.scrollTop = this.$refs.wrapper.scrollTop
+    this.$route.meta.keepAlive = true
     console.log('上次保存的高度', this.$refs.wrapper.scrollTop)
     // 执行路由管道的下一个
     next()
@@ -93,26 +94,24 @@ export default {
       endDate: '',
       startDate: '',
       scrollTop: 0
-
     }
   },
   mounted() {
+    console.log('进入mounted')
     this.getHazardTypeList()
     if (this.$route.query) {
       this.equipId = this.$route.query.equipId ? this.$route.query.equipId : 0
-      if (this.$route.query.fromPage === '/propertyPlate') {
-        const dateTransformation = new DateTransformation()
-        const dd = new Date()
-        this.endDate = dateTransformation.dataFormat(JSON.parse(JSON.stringify(dd)))
-        dd.setDate(dd.getDate() - this.$route.query.days)// 获取AddDayCount天后的日期
-        this.startDate = dateTransformation.dataFormat(dd)
-        this.startDate = this.startDate.slice(0, 10) + ' 00:00:00'
-        this.status = this.$route.query.dealType === 'count' ? 0 : this.$route.query.dealType === 'undone' ? 1 : this.$route.query.dealType === 'done' ? 2 : 0
+      const dateTransformation = new DateTransformation()
+      const dd = new Date()
+      this.endDate = dateTransformation.dataFormat(JSON.parse(JSON.stringify(dd)))
+      dd.setDate(dd.getDate() - this.$route.query.days)// 获取AddDayCount天后的日期
+      this.startDate = dateTransformation.dataFormat(dd)
+      this.startDate = this.startDate.slice(0, 10) + ' 00:00:00'
+      this.status = this.$route.query.dealType === 'count' ? 0 : this.$route.query.dealType === 'undone' ? 1 : this.$route.query.dealType === 'done' ? 2 : 0
 
-        this.hazardTypeId = this.$route.query.hazardType
+      this.hazardTypeId = Number(this.$route.query.hazardType)
 
-        this.networkType = this.$route.query.networkType
-      }
+      this.networkType = this.$route.query.networkType
       // else if (this.$route.query.fromPage === '/safetyCommitteePlate') {
       // }
     }
@@ -173,11 +172,19 @@ export default {
         size: 10,
         condition: this.formattingCondition()
       }
-
+      console.log('发送获取隐患列表请求')
       const res = await Api.hazardList(params)
       let temp = []
+      const total = res.data.total
+
       if (res.code === 200) {
         temp = res.data.rows
+        if (params.page > total) {
+          this.finished = true
+          this.loading = false
+          // this.equipInfoList = this.equipInfoList.concat(temp)
+          return
+        }
         if (temp.length === 0) {
           this.loading = false
           this.finished = true
@@ -189,11 +196,16 @@ export default {
       temp = await ReadTypeNameOnVuex.conversion('hazardType', 'hazardType', 'hazardTypeName', temp)
       temp = await ReadTypeNameOnVuex.conversion('equipType', 'equipType', 'equipTypeName', temp)
 
-      this.hazardList = this.hazardList.concat(temp)
-      this.loading = false
-      if (params.page === 3) {
-        this.finished = true
+      if (this.hazardList.length < 10) {
+        this.hazardList = temp
+      } else {
+        this.hazardList = this.hazardList.concat(temp)
       }
+
+      this.loading = false
+      // if (params.page === 3) {
+      //   this.finished = true
+      // }
     },
     /**
      * 获取隐患类型列表

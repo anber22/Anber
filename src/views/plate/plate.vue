@@ -14,8 +14,8 @@
       </div>
 
       <div class="equipList-detail">
-        <div v-for="(item , index) in hazardCountList" :key="index" class="equipList-detail-item" :style=" 'color:'+item.color" @click="1===index?check():uncheck()">
-          <p>
+        <div v-for="(item , index) in hazardCountList" :key="index" class="equipList-detail-item" :style=" 'color:'+item.color" @click="toHazardPage(index)">
+          <p ca>
             {{ item.value }}
           </p>
           <p class="equipList-detail-item-title">
@@ -211,7 +211,6 @@ export default {
           data: [],
           smooth: false
         }
-
       },
       lineDataFlag: false, // 预警趋势图表是否显示
       hazardCountList: [ // 预警数据数组
@@ -395,6 +394,18 @@ export default {
         })
         this.lineDataFlag = true
       }
+    },
+    toHazardPage(e) {
+      this.$router.push({
+        path: '/hazard',
+        query: {
+          hazardType: 0,
+          dealType: 0,
+          fromPage: this.$route.path,
+          networkType: this.pageType,
+          days: e === 0 ? 1 : e === 1 ? 7 : 30
+        }
+      })
     }
   }
 }
@@ -500,6 +511,7 @@ export default {
   display: inline-block;
   padding: 5px 14px;
   text-align: center;
+  font-size: 19px;
 }
 .equipList-detail-item-title{
   height: 9px;

@@ -16,6 +16,9 @@ router.beforeEach((to, from, next) => {
     if (Vue.prototype.$socket === undefined) {
       Vue.prototype.$socket = new Socket()
     }
+    if ((from.path === '/propertyPlate' || from.path === '/safetyCommitteePlate') && to.path === '/hazard') {
+      to.meta.keepAlive = false
+    }
     if (!getUserInfo()) {
       UserApi.personInfo().then(res => {
         if (res.code === 200) {
