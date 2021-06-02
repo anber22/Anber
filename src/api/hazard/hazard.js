@@ -43,5 +43,13 @@ class Analysis {
       method: 'post'
     })
   }
+  // 未读隐患清除
+  async hazardIsRead(param) {
+    return await request({
+      url: `/apis/heartbeat/unread/msg`,
+      method: 'delete',
+      data: param
+    })
+  }
 }
 export default new Analysis()
