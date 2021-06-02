@@ -33,6 +33,7 @@
 
 <script>
 import DateTransformation from '@/utils/dateTransformation.js'
+import Api from '@/api/hazard/hazard'
 
 export default {
   components: {
@@ -69,12 +70,25 @@ export default {
      * 跳转页面
      */
     goJump(id) {
+      this.deleteHazardIsRead(id)
       this.$router.push({
         path: '/hazardDetail',
         query: {
           hazardId: id
         }
       })
+    },
+    /**
+     * 未读隐患清除
+     */
+    async deleteHazardIsRead(id) {
+      const params = {
+        id: id
+      }
+      const res = await Api.hazardIsRead(params)
+      if (res.code === 200) {
+        return
+      }
     },
     /**
      * 时间格式转换

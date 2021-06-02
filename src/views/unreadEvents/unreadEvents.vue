@@ -150,17 +150,9 @@ export default {
         condition: ''
       }
       const pDate = this.screenDate.length > 0 ? 'startDate=' + new DateFormat().dataFormatNo(this.screenDate[0]) + ' 00:00:00' + '&endDate=' + new DateFormat().dataFormatNo(this.screenDate[1]) + ' 23:59:59' : ''
-      const pMore = this.more.value !== 0 ? 'isRead=' + this.more.value : ''
+      // const pMore = this.more.value !== 0 ? 'isRead=' + this.more.value : ''
       if (this.screenDate.length > 0) {
-        if (this.more.value !== 0) {
-          params.condition = '?' + pDate + '&' + pMore
-        } else {
-          params.condition = '?' + pDate
-        }
-      } else {
-        if (this.more.value !== 0) {
-          params.condition = '?' + pMore
-        }
+        params.condition = '?' + pDate
       }
       const res = await Api.hazardList(params)
       if (res.code === 200) {
@@ -224,8 +216,20 @@ export default {
       this.more = actions
       this.hazardLists = []
       this.page = 0
-      this.finished = false
-      this.getHazardList()
+      this.finished = true
+      this.deleteHazardIsRead('')
+    },
+    /**
+     * 未读隐患清除
+     */
+    async deleteHazardIsRead(id) {
+      const params = {
+        id: id
+      }
+      const res = await Api.hazardIsRead(params)
+      if (res.code === 200) {
+        return
+      }
     },
     /**
      * 日期选择字体修改
@@ -242,6 +246,7 @@ export default {
      * 跳转页面
      */
     goJump(id) {
+      this.deleteHazardIsRead(id)
       this.$router.push({
         path: '/hazardDetail',
         query: {
